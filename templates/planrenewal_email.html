@@ -1,0 +1,78 @@
+{% extends 'emailer/base/base.html' %}
+
+
+ {% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+                            <p><strong style=" font-weight: 600; font-size: 16px;">Dear {{user}},</strong></p>
+                            <p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">
+                                                         
+                                <br/>
+                                This email is to notify you that you have successfully Renewed your Docully subscription for {{projectname}}<br/><br/>
+                                Here is the summary:<br/><br/>
+                                <table border="2">
+                                  <tr>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Project Name</th>
+                                    <th>Plan Details</th>
+                                    <th>Action</th>
+
+                                  </tr>
+                                  <tr>
+                                    <td>{{startdate}}</td>
+                                    <td>{{enddate}}</td>
+                                    <td>{{projectname}}</td>
+                                    <td>Plan Name : {{data.plan.name}},<br>Package Period : {{data.plan.term}}, from {{startdate}} to {{enddate}}<br>Storage : {{data.plan.storage}} GB,<br>Users : {{data.plan.users}},<br>Cost : {{data.plan.cost}},<br>
+                                     {% if isaddon %}
+                                     Additional Storage Addon : 1 GB,<br>
+                                     Quantity : {{addondata.quantity}}<br>
+                                     Cost per Addon : 50 USD<br>
+                                     Total Addon Cost : {{addondata.total_cost}} USD,<br>
+                                     
+                                     {% endif %}
+                                     Grand Total : {{data.grand_total}} USD. <br>
+
+
+
+                                    </td>
+                                    
+                                    <td><a href="https://services.docullyvdr.com/#/manage-subscription/{{data.id}}"> Manage Subscription </a></td>
+                                  </tr>
+                                </table><br><br><b><u>
+                                Please note:</u></b><br>
+                                <ul>
+                                  <li>Your subscription will continue to auto renew as per your selected plan. You may click on My Subscriptions tab from your Docully dashboard to manage your existing subscriptions.</li>
+                                  <li>There will be no refund under any circumstances except for Docully not being able to provide its services as per the terms of use.</li>
+                                </ul><br><br>
+                                <b><u>Login to Docully</u> - </b><a href="https://services.docullyvdr.com/">Click Here</a><br><br>
+
+                                <b>Your user id -</b> {{email}}<br/><br/>
+                                <b>Password -</b> Use your existing password. If you have forgotten your password, click here to <a href="https://services.docullyvdr.com/#/forget">Reset Password</a><br/><br/>                  
+                        <p>                            
+                            If you need any help, please feel free to visit our  <a href="mailto:support@axatcloud.com" style="color:#0cd3f1;">HelpDesk</a> or write to us at support@docullyvdr.com 
+                        </p>
+                    
+            <p>Thanks,</p>
+            <p><span class="context">Team Docully</span></p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(251, 220, 0)">Docully Innovation Limited</h4>
+              <p style="color:rgb(0, 89, 251)">Office #9, Level 4, Gate District 5,<br>Dubai International Financial Center,<br>PO Box - Dubai, UAE.<br>Phone: +971561429001<br><a href="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a></p>
+
+            </div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock %}

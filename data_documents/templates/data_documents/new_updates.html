@@ -1,0 +1,78 @@
+{% extends 'emailer/base/base.html' %}
+
+<!-- {% include 'emailer/base/base.html' %} -->
+
+  <!-- <body>
+
+<table cellpadding="0" cellspacing="0" align="center" border="0"
+width="100%" style="color: #484848; font-weight: 400; font-size: 14px; font-family: Arial, Helvetica; margin: 0; padding: 50px 0; background: #fafafa;">
+	<tr>
+		<td>
+			<table cellspacing="0" cellpadding="0" style="width: 600px; margin: 0 auto; background: white" align="center">
+			<tr>
+				<th>
+					<img  src="{{site_setting.domain_name}}static/images/cdr-logo.png" alt="Welcome to ConfiexDataroom" align="center">
+				</th>
+			</tr>
+
+			<tr>
+				<td style="padding-left: 20px; padding-right: 20px;">
+					<p>{{messages}}
+					</p>
+
+					{% if link %}
+					<p>This above update is on <b>{{ update.file.name}}</b> file in the dataroom <b>{{ update.dataroom.dataroom_name }}</b>. Access it from the site <a href="http://104.211.160.53">www.confeixdataroom.com</a></p>
+					{{site_setting.domain_name}}static/images/cdr-logo.png
+					{% endif %}
+				</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+	
+  </body>
+</html>
+ -->
+{% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+            <h2 style="color:rgb(38,45,51)">Dear, {{name}}</h2>
+            <p><span class="context">There has been an update posted on Project {{dataroom}} data room hosted on Docully by
+the project administrator.</span></p>
+            <p><span class="context">Here are the details:</span></p>
+
+            <p >Subject - {{subject}}</p>
+			<p>Description - {{messages}}</p>
+			<!-- <p>Attachment - Name of the file (hyperlink to file on data room)</p> -->
+            
+            <p>Your user id - {{email}}
+			<p>Password - Use your existing password. </p>
+			<p>If you have forgotten your password, click <a href="http://52.172.204.103/#/forget">here</a> to
+				Reset Password </p>
+				<br>
+
+
+			<p>Thanks,</p>
+            <p><span class="context">Team Docully</span></p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(251, 220, 0)">Docully Innovation Limited</h4>
+              <p style="color:rgb(0, 89, 251)">Office #9, Level 4, Gate District 5,<br>Dubai International Financial Center,<br>PO Box - Dubai, UAE.<br>Phone: +971504127097<br><a ref="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a ref="support@docully.com">support@docully.com</a></p>
+
+            </div>
+
+
+
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+{% endblock %}

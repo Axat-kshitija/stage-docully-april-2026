@@ -1,0 +1,108 @@
+{% extends 'emailer/base/base.html' %}
+
+
+ {% block context %}
+<style>
+
+ .button {
+  background-color: #008CBA; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+ /* Black */
+</style>
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+                            <p><strong style=" font-weight: 600; font-size: 16px;">Dear {{user}},</strong></p>
+                            <p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">
+                            	                           
+                                <br/>
+                                This is to bring to your attention that the auto payment has failed to be charged on your credit/debit card for your Docully Subscription for Project {{projectname}}. We request you to kindly look into this matter on priority because this overdue amount will result in access being revoked for all users if the payment remains unpaid for 03 days.i.e., till 05 PM GST on {{expiry_date}}<br/><br/>
+                                Here are your subscription details:<br/><br/>
+<!--                                 <table border="2">
+                                  <tr>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Project Name</th>
+                                    <th>Plan Details</th>
+                                    <th>Action</th>
+
+                                  </tr>
+                                  <tr>
+                                    <td>{{data.start_date}}</td>
+                                    <td>{{data.end_date}}</td>
+                                    <td>{{projectname}}</td>
+                                    <td>Plan Name : {{data.plan.name}},<br>Package Period : {{data.plan.term}},<br>Storage : {{data.plan.storage}} GB,<br>Users : {{data.plan.users}},<br>Cost : {{data.plan.cost}},</td>
+                                    <td><a href="https://services.docully.com/#/manage-subscription/{{data.id}}"> Manage Subscription </a></td>
+
+                                  </tr> -->
+                                <!-- </table><br><br><b><u> -->
+                                <!-- Please note:</u></b><br> -->
+                                <ul>
+                                  <li>Data Room ID – {{dataroomid}}</li>
+                                  <li>Data Room Name – {{projectname}}</li>
+                                  <li>Total Due Amount – USD {{grandtotal}}</li>
+                                  <li>Due Date – {{duedate}}</li>
+                                 
+                                 
+                                </ul><br><br>
+<a href="https://services.docullyvdr.com/#/manage-subscription/{{dataid}}"><button class="button">Pay Now</button></a><br><br>                  
+                                For details on the billing on your subscription account, you may visit the Docully platform: 
+                                <ul>
+                                  <li>Go to <a href="https://services.docullyvdr.com">https://services.docullyvdr.com</a> & Sign in.</li>
+                                  <li>On the Dashboard, Click on Subscription.</li>
+                                  <li>Select the Subscription Plan & click on View/Manage link.</li>
+                                  <li>Click on the Pay Now button to clear your outstanding.</li>
+                                </ul><br><br>
+
+
+                            You will receive a payment confirmation & invoice once the payment is successfully processed. <br>
+
+                                Thank for your attention. For any queries, write to us at<a href="mailto:billing@docully.com"> billing@docully.com </a><br><br>
+
+
+
+<!-- 
+
+
+
+
+
+                                <b><u>Login to Docully</u> - </b><a href="https://services.docully.com/">Click Here</a><br><br>
+
+                                <b>Your user id -</b> {{email}}<br/><br/>
+                                <b>Password -</b> Use your existing password. If you have forgotten your password, click here to <a href="https://services.docully.com/#/forget">Reset Password</a><br/><br/>                  
+                        <p>                            
+                            If you need any help, please feel free to visit our  <a href="mailto:support@axatcloud.com" style="color:#0cd3f1;">HelpDesk</a> or write to us at support@docullyvdr.com 
+                        </p>
+                     -->
+            <p>Thanks,</p>
+            <p>Accounts Receivable Team</p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(251, 220, 0)">Docully SaaS Technologies Co. LLC</h4>
+              <p style="color:rgb(0, 89, 251)"><a href="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a></p>
+
+            </div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock %}

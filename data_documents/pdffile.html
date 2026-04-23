@@ -1,0 +1,21 @@
+<html>
+    <head>
+<body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.3.200/pdf.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script language="JavaScript">
+    document.onmousedown=disableclick;
+    status="Right Click Disabled";
+    function disableclick(e) {
+    if (event.button==2)
+    {
+        alert(status);
+        return false;}
+    }
+</script>
+
+    <iframe id="encoder_iframe" style="overflow: scroll;" height=800px width="700px" src="{% url 'azureview'}">
+</iframe>
+        </body>
+    </head>
+</html>

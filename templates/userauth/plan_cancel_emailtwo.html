@@ -1,0 +1,68 @@
+{% extends 'emailer/base/base.html' %}
+
+
+ {% block context %}
+<style>
+
+ .button {
+  background-color: #008CBA; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+ /* Black */
+</style>
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+                            <p><strong style=" font-weight: 600; font-size: 16px;">Hello {{user}},</strong></p>
+                            <p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">
+                            	                           
+                                <br/>
+                                This email is to confirm that you have successfully cancelled your subscription plan for Project {{projectname}} data room on Docully. Here are the details:  <br/><br/>
+                                <ul>
+                                  <li>Data Room ID – {{data.dataroom.id}}</li>
+                                  <li>Data Room Name – {{projectname}}</li>
+                                  <li>Plan - {{data.plan.name}}</li>
+                                  <li>Cancelled on – {{canceltime}}</li><br>
+                                </ul><br><br>
+The data room has been marked for permanent deletion from our servers and should be deleted on {{deletedatee}}. If at all you wish to reactivate your subscription before the deletion date, you can do it by  <br>
+                                  <ul>
+                                  <li>Go to <a href="https://services.docullyvdr.com">https://services.docullyvdr.com</a> & login.</li>
+                                  <li>Click on the Subscriptions Tab.</li>
+                                  <li>Choose the Data Room Name & ID and click on View/Manage</li>
+                                  <li>Click on Reactivate button.</li>
+                                </ul><br><br>
+To reactivate, you will be required to purchase a new subscription plan.<br>
+
+                                Please note that the data room once deleted from our servers cannot be reinstate under any circumstances. For any queries, write to <a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a><br><br>
+
+
+            <p>Thanks,</p>
+            <p>Support Team</p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(251, 220, 0)">Docully SaaS Technologies Co. LLC</h4>
+              <p style="color:rgb(0, 89, 251)"><a href="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a></p>
+
+            </div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock %}

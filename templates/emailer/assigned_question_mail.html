@@ -1,0 +1,32 @@
+{% extends 'emailer/base/base.html' %}
+
+ {% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+
+Hii <b>{{category_obj.user.first_name}} {{category_obj.user.last_name}}</b>,
+
+<p>You have assigned a question i.e. <b>{{qna_obj.question}}</b> from <b>{{qna_obj.user.first_name}} {{qna_obj.user.last_name}}</b> with the category <b>{{ category_obj.categories_name}}</b> in the Dataroom <b>{{ category_obj.dataroom.dataroom_nameFront}}</b>.</p>
+<br>
+<br>
+				  <p>Thanks,</p>
+            <p><span class="context">Team Docully</span></p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(251, 220, 0)">Docully SaaS Technologies Co. LLC</h4>
+              <p style="color:rgb(0, 89, 251)"><a href="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a href="smailto:upport@docully.com">support@docullyvdr.com</a></p>
+
+            </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock context %}

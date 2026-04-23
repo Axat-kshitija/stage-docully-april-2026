@@ -1,0 +1,64 @@
+{% extends 'emailer/base/base.html' %}
+ <style>
+    
+    p{
+        font-family:'arial';
+        font-size: 14px;
+    }    
+</style>
+ {% block context %}
+
+
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+                            <p style="font-family:arial;font-size: 14px;">Dear {{ user.first_name }},</p>
+                            <p style="font-family:arial;margin-top: 5px; margin-bottom: 15px; font-size: 14px;">
+                            	                           
+                                <br/>
+                                You have been added to Dataroom {{dataroom.dataroom_nameFront}} by  {{sender.first_name}} {{sender.last_name}} to review &amp; collaborate on project documents.
+                                <!-- You have been added to Project  by  to review & collaborate on project documents. -->
+                                <!-- Click on the link below to login & access Project {{dataroom.dataroom_nameFront}}.  -->
+                                <br/>
+                                <br/>
+                                Message from : {{sender.first_name}} {{sender.last_name}}
+                                <br>
+                                <br>
+                                {{custom_msg}}
+                                <br>
+                                <br>
+                                <a style="display:block;font-family:arial;font-size:14px;align-content:center;" href="{{new_data.invitation_link}}">Accept Invitation</a>
+                            </p>
+                        <p style="font-family:arial;font-size: 14px;"><strong>Your user id</strong> - {{ user.email }}</p>
+                        <p style="font-family:arial;font-size: 14px;"><strong>Password</strong> - If you are a first time user, you will receive your account activation link separately to verify your account and setup your secure password. If you are an existing user then use your existing password. 
+                        </p>
+                         <p style="font-family:arial;font-size: 14px;">If you have forgotten your password, click here to <a href="https://services.docullyvdr.com/#/forget"> Reset Password</a></p>
+                
+                   
+                        <p style="font-family:arial;font-size: 14px;">                            
+                            If you need any help, please feel free to visit our  <a href="https://docullyvdr.zohodesk.com/portal/en/home" >HelpDesk</a> or write to us at support@docullyvdr.com 
+                        </p>
+                    <br>
+            <p style="font-family:arial;font-size: 14px;">Thanks,</p>
+            <p style="font-family:arial;font-size: 14px;" class="context">
+            Team DocullyVDR</p>
+
+            <div class="" style="text-align: center;">
+              <h4 >Docully SaaS Technologies Co. LLC</h4>
+              <p style="color:rgb(0, 89, 251)"><a href="https://www.docully.com">www.docullyvdr.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a href="mailto:support@docullyvdr.com ">support@docullyvdr.com</a></p>
+
+            </div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock %}

@@ -1,0 +1,16 @@
+*.zip
+*.json
+*.pdf
+*.txt
+*.docx
+*.pptx
+*.jpg
+*.png
+*.doc
+*.xlsx
+*.xls
+
+log_file/
+.vs/
+*.log
+__pycache__/

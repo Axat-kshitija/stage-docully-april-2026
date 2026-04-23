@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title>CMS</title>
+	<!-- Add css file here -->
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href='{% static "css/emailer.css" %}'>
+</head>
+  <body>
+	<table width="600" cellspacing="0" cellpadding="0" border="0" align="center">
+			<tr class="topstrip">
+				<td><img src='{% static "images/axatcloud.png" %}' alt="AXAT Logo" class="logo"></td>
+			</tr>
+			<tr class="mainHead">
+			  <td>
+				<h2>The future of <span class="emphas"></span></h2>
+				<p>Your entire sales workflow from
+					<strong>lead to payment,</strong>
+					<span style="display: inline-block;">now automated. Under of root.</span>
+				</p>
+			  </td>
+			</tr>
+			<tr class="banner">
+				<td>
+					<img src='{% static "images/cloud-services.png" %}' alt="">
+				</td>
+			</tr>
+			<tr class="userName">
+				<td>Hi <b>{{ first_name }} </b>,<br/><br/></td>
+			</tr>
+
+			<tr class="cldDesc">
+				<td><p>
+					You have successfully created a <b>www.dms.com </b>account.<br/>
+					Please click on the link below to verify your email address and complete 
+					<br/> 
+					your registration.
+					<br/>
+					<br/>
+	{{link}}
+					<br/>
+					<br/>
+				</p></td>
+			</tr>
+			<tr>
+				<td class="log">
+					<p><a href="">Login</a> and click on the Dashboards tab to see just some of the possible dashboards that can help you analyse your business.</p>
+					<br/>
+
+				</td>
+			</tr>
+			<tr class="cldDesc">
+				<td><p>You can always call us at <strong>(022) 4011 6762</strong> if you have any questions.</p></td>
+				<br/>
+			</tr>
+			<tr class="regDesc">
+				<td>
+				<br/>
+				<p>Best regards,<br>
+				Your DMS Team</p></td>
+			</tr>
+			<tr class="border-botm">
+				<td></td>
+			</tr>
+			<tr>
+				<td><p class="tagln">"Axat Cloud gives a highly scalable business model we can take anywhere"</p></td>
+			</tr>
+			<tr class="border-botm">
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<p class="btmText">(C) 2017 axatcloud.com, All rights reserved. Various trademarks held by their respective owners.</p>
+					<p class="btmText">
+						You can unsubscribe from Marketing emails at any time. Please note that opting-out of Marketing communications does not affect your receipt of business communications that are important to your interaction with Axatcloud, such as support/service communications, security updates, event registration updates or account management communications. 
+					</p>
+					<p class="btmText">
+						Axatcloud.com, AXAT TECHNOLOGIES PVT LTD. 101 X5/3 Technocity, Near Sarovar Hotel, Opposite Millennium Business Park, Mahape, Navi Mumbai - 400 701<br>
+						General Enquiries: (022) 4011 6762 | Sales: 000 000 000
+					</p>
+					<p class="subScriber">
+						This email was sent to test@axat-tech.com<br>
+						<span><a href="">Unsubscribe</a> | <a href="">Privacy Statement</a></span>
+					</p>
+				</td>
+			</tr>
+	</table>
+  </body>
+</html>

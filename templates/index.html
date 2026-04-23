@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Docully</title>
+    <base href="#" />
+
+    <!--     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ -->
+    <link rel="icon " type="image/x-icon " href="favicon.ico " />
+
+    <!--main stylesheet-->
+    <link href="assets/css/cdr-style.css " rel="stylesheet " />
+    <link href="assets/css/animate.css " rel="stylesheet " />
+    <link href="assets/css/toastr.css" rel="stylesheet " />
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+    />
+    <link href="assets/css/angular-tree-component.css" rel="stylesheet " />
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+      integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+      crossorigin="anonymous"
+    ></script>
+
+    <!--custom js for cdr-->
+    <script src="assets/js/cdr-custom.js"></script>
+
+    <!-- accussoft libraries  -->
+    <!-- Libraries -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"
+    />
+
+    <!-- <link rel="manifest" href="/manifest.json"> -->
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+    <!-- Inline Stylesheet -->
+    <style>
+      html,
+      body,
+      #main {
+        height: 100%;
+        width: 100%;
+      }
+      .zsiq_float1 {
+        display: none !important;
+      }
+    </style>
+    <script>
+      // function createFcn(nm){(window.freshsales)[nm]=function(){(window.freshsales).push([nm].concat(Array.prototype.slice.call(arguments,0)))}; } (function(url,appToken,formCapture){window.freshsales=window.freshsales||[];if(window.freshsales.length==0){list='init identify trackPageView trackEvent set'.split(' ');for(var i=0;i<list.length;i++){var nm=list[i];createFcn(nm);}var t=document.createElement('script');t.async=1;t.src='https://d952cmcgwqsjf.cloudfront.net/assets/analytics.js';var ft=document.getElementsByTagName('script')[0];ft.parentNode.insertBefore(t,ft);freshsales.init('https://docullya.freshsales.io','880dbb7ae30a8a6f059b8fb51bd88bf5b09ceb00ba91c2932ddd05e3cabdce27',true);}})();
+    </script>
+
+    <script>
+      function initFreshChat() {
+        window.fcWidget.init({
+          token: "3fa87bee-edff-4dcf-8721-b1fbf4a65b26",
+          host: "https://wchat.freshchat.com",
+          headerProperty: {
+            //If you have multiple sites you can use the appName and appLogo to overwrite the values.
+            appName: "Gadget God",
+            appLogo:
+              "https://d1qb2nb5cznatu.cloudfront.net/startups/i/2473-2c38490d8e4c91660d86ff54ba5391ea-medium_jpg.jpg?buster=1518574527",
+            backgroundColor: "#FFFF00",
+            foregroundColor: "#333333",
+            backgroundImage:
+              "https://wchat.freshchat.com/assets/images/texture_background_1-bdc7191884a15871ed640bcb0635e7e7.png",
+          },
+        });
+      }
+      function initialize(i, t) {
+        var e;
+        i.getElementById(t)
+          ? initFreshChat()
+          : (((e = i.createElement("script")).id = t),
+            (e.async = !0),
+            (e.src = "https://wchat.freshchat.com/js/widget.js"),
+            (e.onload = initFreshChat),
+            i.head.appendChild(e));
+      }
+      function initiateCall() {
+        initialize(document, "freshchat-js-sdk");
+      }
+      window.addEventListener
+        ? window.addEventListener("load", initiateCall, !1)
+        : window.attachEvent("load", initiateCall, !1);
+    </script>
+  </head>
+
+  <body>
+    <app-root>
+      <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+    </app-root>
+    <!-- 
+<script type="text/javascript">
+
+    var $zoho=$zoho || {};
+    $zoho.salesiq = $zoho.salesiq || {widgetcode:"565a7e5dd2c719783b5acbc6471ccf6bba395059257537114b50b9dba9a3765c14293123908716512adda98514935382", values:{},ready:function(){}};
+    var d=document;
+    s=d.createElement("script");
+    s.type="text/javascript";
+    s.id="zsiqscript";
+    s.defer=true;
+    s.src="https://salesiq.zoho.com/widget";
+    t=d.getElementsByTagName("script")[0];
+    t.parentNode.insertBefore(s,t);
+    d.write("<div id='zsiqwidget'></div>");
+
+
+
+</script> -->
+  <script type="text/javascript" src="runtime.js"></script><script type="text/javascript" src="polyfills.js"></script><script type="text/javascript" src="styles.js"></script><script type="text/javascript" src="scripts.js"></script><script type="text/javascript" src="vendor.js"></script><script type="text/javascript" src="main.js"></script></body>
+</html>

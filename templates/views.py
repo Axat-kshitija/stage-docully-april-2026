@@ -1,0 +1,9875 @@
+#1) python imports packages include here Vs@03#htkLw&78r
+import os
+import json
+from datetime import datetime, timedelta
+from random import randint
+from zipfile import ZipFile 
+import operator
+import requests
+import subprocess as sp
+from docx import Document
+# import docx2txt
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+from zipfile import ZipFile
+from io import BytesIO
+import shutil
+import urllib, mimetypes
+import re
+import pandas as pd
+from PyPDF2 import PdfFileReader, PdfFileWriter
+import glob
+from PIL import Image
+# from pptx import Presentation
+import urllib.parse
+import urllib.request
+from django.template.loader import render_to_string, get_template
+from dataroom import utils as dataroom_utils
+try:
+    from functools import reduce
+except ImportError:  # Python < 3
+    pass
+from decimal import Decimal
+from dms.settings import *
+from decimal import Decimal
+from myteams.models import *
+#2) all django imports
+from django.conf import settings
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, Http404, JsonResponse, StreamingHttpResponse
+from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.utils import timezone 
+from django.shortcuts import get_list_or_404, get_object_or_404
+from django.utils.crypto import get_random_string
+from django.core.files.storage import FileSystemStorage
+from django.db.models.signals import post_delete,post_save
+from wsgiref.util import FileWrapper
+from django.http import FileResponse
+from django.db.models import Max, F, Min, Q, Sum
+from django.core import serializers as sez
+from users_and_permission.models import DataroomGroupFolderSpecificPermissions, DataroomGroups
+from users_and_permission.serializers import DataroomGroupFolderSpecificPermissionsSerializer,DataroomMembersSerializerone
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.template import Context
+
+from django.template.loader import render_to_string, get_template
+from azure.storage.blob import (BlockBlobService,ContainerPermissions,ContentSettings,BlobPermissions,PublicAccess,)
+
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
+
+#3) all rest framework packages include here
+from rest_framework.generics import (
+    UpdateAPIView,
+    ListAPIView,
+    ListCreateAPIView)
+from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.parsers import JSONParser, FileUploadParser
+from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
+from rest_framework import permissions, routers, serializers, viewsets
+from rest_framework.decorators import api_view, renderer_classes, permission_classes
+
+#4) all common app imports
+from userauth.serializers import UserSerializer, AccessHistorySerializer
+from userauth import constants, utils
+from userauth.models import Profile, AccessHistory, User, addon_plan_invoiceuserwise,planinvoiceuserwise,addon_plans,addon_plan_tempforsameday
+
+#5) include all apps packages here
+from Vote.models import Vote
+
+# import all required modules here sss
+from .models import *
+# import all required serializers here 
+from .serializers import *
+from dataroom.models import Dataroom, DataroomOverview, DataroomView, Watermarking,DataroomDisclaimer
+from dataroom.serializers import DataroomViewSerializer,DataroomSerializer
+from users_and_permission.models import DataroomMembers, RcentUpdate
+from users_and_permission.serializers import *
+# add debugger here
+import pdb
+from itertools import chain
+from qna.models import *
+from qna.serializers import * 
+import time
+from rest_framework import pagination, serializers
+from .utils import *
+from django.utils import timezone
+from rest_framework.generics import GenericAPIView
+from dms.pagination import CustomPagination
+# from rest_framework.pagination import LimitOffsetPagination
+from django.core.paginator import Paginator
+from azure.storage.blob import BlockBlobService,PublicAccess
+paginator = pagination.PageNumberPagination()
+
+def change_all_indexes(delete_folder):
+    #pdb.set_trace()
+    if delete_folder.is_folder == True:
+        if delete_folder.is_root_folder:
+            dataroom_folder = DataroomFolder.objects.filter(is_root_folder=True, is_deleted=False, index__gt = delete_folder.index, is_folder=True).update(index = F('index')-1)
+            dataroom_folder = DataroomFolder.objects.filter(is_root_folder=True, is_deleted=False, is_folder=True).order_by('index')
+            return dataroom_folder
+        else:
+            dataroom_folder = DataroomFolder.objects.filter(parent_folder_id=delete_folder.parent_folder_id, is_deleted=False, index__gt = delete_folder.index, is_folder=True, is_root_folder=False).update(index = F('index')-1)  
+            dataroom_folder = DataroomFolder.objects.filter(parent_folder_id=delete_folder.parent_folder_id, is_deleted=False,  is_root_folder=False).order_by('index')
+            return dataroom_folder
+    else:
+        dataroom_folder = DataroomFolder.objects.filter(parent_folder_id=delete_folder.parent_folder_id, is_deleted=False, index__gt = delete_folder.index, is_folder=False, is_root_folder=False).update(index = F('index')-1)  
+        dataroom_folder = DataroomFolder.objects.filter(parent_folder_id=delete_folder.parent_folder_id, is_deleted=False,  is_root_folder=False).order_by('index')
+        return dataroom_folder
+       
+
+class DeleteDataroomFolder(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def delete(self, request, uuid, format=None):
+        user = request.user
+        current_date = timezone.now()
+
+        try:
+            #current_date = datetime.now()
+            # print("in the try function")
+            bulk_activity_tracker = BulkActivityTracker()
+            bulk_activity_tracker.user_id = user.id
+            bulk_activity_tracker.save()
+            delete_folder = DataroomFolder.objects.get(dataroom_folder_uuid=uuid)
+            FolderDeleteDownload.objects.create(user_id=delete_folder.user_id,folder_id=delete_folder.id,dataroom_id=delete_folder.dataroom_id,bulk_event_id=bulk_activity_tracker.id)
+            delete_folder.is_deleted = True
+
+            delete_folder.deleted_by = user
+            delete_folder.deleted_by_date = current_date#add current date
+            delete_folder.save()
+            dataroom_delete_folders = change_all_indexes(delete_folder)
+            dataroom_folder_serializer = DataroomFolderSerializer(dataroom_delete_folders, many=True)
+
+            #data = {"msg":"Folder/File successfully deleted", 'data': dataroom_folder_serializer.data}
+            # print ("all data is", dataroom_folder_serializer.data)
+            
+            return Response(dataroom_folder_serializer.data, status=status.HTTP_201_CREATED)
+        except DataroomFolder.DoesNotExist:
+            # print("else in except error")
+            data = {"msg":"Folder/File does not exist"}
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
+
+class getAllSubfolderList(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        from_date = request.GET.get('from_date')
+        # print(from_date,"from_date")
+
+        to_date = request.GET.get('to_date')
+        # print(to_date,"to_date")
+
+        name = request.GET.get('name')
+        # print(name,"name")
+
+        file_type = request.GET.get('type')
+        # file_type(file_type,"file_type")
+
+        uploaded_by = request.GET.get('uploaded_by')
+
+        # print("name", name, "uploaded_by", uploaded_by, "from_date", from_date, "to_date", to_date)
+        import datetime
+        if to_date == '':
+            # print("1")
+            todays_date = ''
+        else:
+            # print("2")
+            todays_date = datetime.datetime.strftime(datetime.datetime.strptime( to_date, '%Y-%m-%d'),'%Y-%m-%d 23:59:59+05:30')
+        if from_date == '':
+            # print("3")
+            first_date = ''
+        else:
+            # print("4")
+            first_date = datetime.datetime.strftime(datetime.datetime.strptime( from_date, '%Y-%m-%d'),'%Y-%m-%d 00:00:00+05:30')
+        q_list = [Q(uploaded_by__last_name__icontains=uploaded_by), Q(uploaded_by__first_name__icontains=uploaded_by), Q(name__icontains=name), Q(name__icontains=file_type)]
+        if from_date == '' and to_date == '':
+            dataroom_folders = DataroomFolder.objects.filter(parent_folder_id = pk, is_root_folder=False, is_deleted=False).filter(reduce(operator.or_, q_list)).order_by('index')
+        elif from_date == '' and to_date != '':
+            dataroom_folders = DataroomFolder.objects.filter(parent_folder_id = pk, is_root_folder=False, is_deleted=False,  created_date__lte=todays_date).filter(reduce(operator.or_, q_list)).order_by('index')
+        elif from_date != '' and to_date == '':
+            dataroom_folders = DataroomFolder.objects.filter(parent_folder_id = pk, is_root_folder=False, is_deleted=False,  created_date__gte=first_date).filter(reduce(operator.or_, q_list)).order_by('index')
+        else:
+            dataroom_folders = DataroomFolder.objects.filter(parent_folder_id = pk, is_root_folder=False, is_deleted=False,  created_date__gte=first_date, created_date__lte=todays_date).filter(reduce(operator.or_, q_list)).order_by('index')
+        dataroom_folder_serializer = DataroomFolderSerializer(dataroom_folders, many=True)
+        data = dataroom_folder_serializer.data
+        # #print("daaaaaaaaaaaaaaaaa", data)
+        indexcheckfolder=1
+        indexcheckfile=1
+
+        for da in data:
+            da['perm'] = {}
+            da['names'] = da['name']
+            if da['is_folder']==True:
+                tempvar1=da['number'].split(".")
+                if int(da['index'])!=indexcheckfolder:
+                    DataroomFolder.objects.filter(id=int(da['id'])).update(index=indexcheckfolder)                  
+                    tempvar1[-1]=str(strindexcheckfolder)
+                    da['number']='.'.join(tempvar1)
+                indexcheckfolder=indexcheckfolder+1
+            else:
+                tempvar2=da['number'].split(".")
+                if int(da['index'])!=indexcheckfile:
+                    DataroomFolder.objects.filter(id=int(da['id'])).update(index=indexcheckfile)                  
+                    tempvar2[-1]=str(indexcheckfile)
+                    da['number']='.'.join(tempvar2)
+                indexcheckfile=indexcheckfile+1      
+            try:
+                member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=da['dataroom'], is_deleted=False).first()
+                #print("10_april_today====>",member.is_la_user, member.is_dataroom_admin)
+                if member.is_la_user == True or member.is_dataroom_admin == True:
+                    da['perm']['is_view_only'] = True
+                    da['perm']['is_no_access'] = False
+                    da['perm']['is_access'] = True
+                    da['perm']['is_view_and_print'] = True
+                    da['perm']['is_view_and_print_and_download'] = True
+                    da['perm']['is_upload'] = True
+                    da['perm']['is_watermarking'] = True
+                    da['perm']['is_drm'] = True
+                    da['perm']['is_editor'] = True  
+                    da['perm']['is_shortcut'] = True  
+                else:
+                    # #print("member--------", member.end_user_group.first().id, user.id, da['dataroom'])
+                    perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=da['id'],dataroom_id=da['dataroom'], dataroom_groups_id=member.end_user_group.first().id)
+                    # print(da['name'],"ravishankar")
+                    grp_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.first().id, dataroom_id=da['dataroom']).first()
+                    # #print(grp_perm.id)
+                    if grp_perm.is_watermarking:
+                        if grp_perm.is_doc_as_pdf or grp_perm.is_excel_as_pdf :
+                            if perm_obj.watermarking_file:
+                                da['names'] = perm_obj.watermarking_file.url.split("/")[-1]
+                    da['perm']['is_view_only'] = perm_obj.is_view_only
+                    da['perm']['is_no_access'] = perm_obj.is_no_access
+                    da['perm']['is_view_and_print'] = perm_obj.is_view_and_print
+                    da['perm']['is_view_and_print_and_download'] = perm_obj.is_view_and_print_and_download
+                    da['perm']['is_upload'] = perm_obj.is_upload
+                    da['perm']['is_watermarking'] = perm_obj.is_watermarking
+                    da['perm']['is_drm'] = perm_obj.is_drm
+                    da['perm']['is_editor'] = perm_obj.is_editor
+                    da['perm']['is_access'] = perm_obj.is_access
+                    # print(perm_obj.is_access,"perm_obj.is_access")
+                    da['perm']['is_shortcut'] = perm_obj.is_shortcut
+            except:
+                da['perm']['is_view_only'] = False
+                da['perm']['is_no_access'] = True
+                da['perm']['is_access'] = False
+                da['perm']['is_view_and_print'] = False
+                da['perm']['is_view_and_print_and_download'] = False
+                da['perm']['is_upload'] = False
+                da['perm']['is_watermarking'] = False
+                da['perm']['is_drm'] = False
+                da['perm']['is_editor'] = False
+                da['perm']['is_shortcut'] = False
+            # else:
+            #     da['perm']['is_view_only'] = True
+            #     da['perm']['is_no_access'] = False
+            #     da['perm']['is_access'] = True
+            #     da['perm']['is_view_and_print'] = True
+            #     da['perm']['is_view_and_print_and_download'] = True
+            #     da['perm']['is_upload'] = True
+            #     da['perm']['is_watermarking'] = True
+            #     da['perm']['is_drm'] = True
+            #     da['perm']['is_editor'] = True
+            # print(data,'777777777888888888888')
+        return Response(sorted(data, key = lambda i: ~i['is_folder']) , status=status.HTTP_201_CREATED)
+
+class GetAllRootFolders(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        import datetime
+        user = request.user
+        dataroompermission=dataroom_utils.checkdataroomaccess(user.id,int(pk))
+        # print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTRRRRRRRRRRRRRRR',dataroompermission,user.id,pk)
+        if dataroompermission==False:
+
+            # #print("userrrrrr", user.is_admin, user)
+            from_date = request.GET.get('from_date')
+            to_date = request.GET.get('to_date')
+            import datetime
+            dataroom_folders = DataroomFolder.objects.filter(dataroom_id=pk, is_root_folder=True, is_deleted=False).order_by('index')
+            dataroom_folder_serializer = DataroomFolderSerializer(dataroom_folders, many=True)
+            data = dataroom_folder_serializer.data
+            # for i in data:
+            #     date_object = datetime.datetime.strptime(str(i['created_date']).replace('T',' ',1),'%Y-%m-%d %H:%M:%S.%f')
+            #     dateobject = datetime.datetime.strptime(str(i['updated_date']).replace('T',' ',1),'%Y-%m-%d %H:%M:%S.%f')
+            #     i["created_date"] = date_object.strftime('%d/%m/%Y %H:%M:%S')
+            #     i['updated_date'] = dateobject.strftime('%d/%m/%Y %H:%M:%S')
+            indexcheck=1
+            for da in data:
+                if int(da['index'])!=indexcheck:
+                    DataroomFolder.objects.filter(id=int(da['id'])).update(index=indexcheck)                  
+                    da['index']=indexcheck                                                                     
+                # print(da['index'],'3333333333333333')
+                indexcheck=indexcheck+1                 
+                try:
+                    member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=da['dataroom'], is_deleted=False,memberactivestatus=True).first()
+                    if member.is_la_user == True or member.is_dataroom_admin == True: 
+                        da['is_view_only'] = True
+                        da['is_no_access'] = False
+                        da['is_access'] = True
+                        da['is_view_and_print'] = True
+                        da['is_view_and_print_and_download'] = True
+                        da['is_upload'] = True
+                        da['is_watermarking'] = True
+                        da['is_drm'] = True
+                        da['is_editor'] = True
+                        da['is_shortcut'] = True
+                    else:
+                        perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=da['id'],dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id)
+                        # print("member--------",perm_obj.folder.name,perm_obj.is_no_access, member.end_user_group.first().id, user.id, da['dataroom'])
+
+                        da['is_no_access'] = perm_obj.is_no_access
+                        da['is_access'] = perm_obj.is_access
+                        da['is_view_only'] = perm_obj.is_view_only
+                        da['is_view_and_print'] = perm_obj.is_view_and_print
+                        da['is_view_and_print_and_download'] = perm_obj.is_view_and_print_and_download
+                        da['is_upload'] = perm_obj.is_upload
+                        da['is_watermarking'] = perm_obj.is_watermarking
+                        da['is_drm'] = perm_obj.is_drm
+                        da['is_editor'] = perm_obj.is_editor
+                        da['is_shortcut'] = perm_obj.is_shortcut
+                except:
+                    da['is_view_only'] = False
+                    da['is_no_access'] = True
+                    da['is_access'] = False
+                    da['is_view_and_print'] = False
+                    da['is_view_and_print_and_download'] = False
+                    da['is_upload'] = False
+                    da['is_watermarking'] = False
+                    da['is_drm'] = False
+                    da['is_editor'] = False
+                    da['is_shortcut'] = False
+            return Response(data , status=status.HTTP_201_CREATED)
+        else:
+            return Response(None)
+
+class searchFoldersFiles(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        test = request.GET.get('test','')
+        from_date = request.GET.get('from_date', '')
+        to_date = request.GET.get('to_date', '')
+        name = request.GET.get('name', '')
+        file_type = request.GET.get('type', '')
+        uploaded_by = request.GET.get('uploaded_by', '')
+        hideindexingflag=True
+        # member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=pk).last()
+        # if member.is_admin==True or member.is_la_user:
+        #     if DataroomOverview.objects.filter(user_id=user.id,dataroom_id=pk).exists():
+        #         hideindexingflag=DataroomOverview.objects.filter(user_id=user.id,dataroom_id=pk).first().hide_file_indexing
+        # else:
+        if DataroomOverview.objects.filter(dataroom_id=pk).exists():
+            hideindexingflag=DataroomOverview.objects.filter(dataroom_id=pk).order_by().last().hide_file_indexing            
+
+        import datetime
+        if to_date == '':
+            todays_date = ''
+        else:
+            todays_date = datetime.datetime.strftime(datetime.datetime.strptime( to_date, '%Y-%m-%d'),'%Y-%m-%d 23:59:59+05:30')
+        if from_date == '':
+            first_date = ''
+        else:
+            first_date = datetime.datetime.strftime(datetime.datetime.strptime( from_date, '%Y-%m-%d'),'%Y-%m-%d 00:00:00+05:30')
+        if test != '':
+            q_list = [Q(uploaded_by__last_name__icontains=uploaded_by), Q(uploaded_by__first_name__icontains=uploaded_by), Q(name__icontains=test)]
+        elif name != '':
+            q_list = [Q(uploaded_by__last_name__icontains=uploaded_by), Q(uploaded_by__first_name__icontains=uploaded_by), Q(name__icontains=name)]
+        elif file_type != '':
+            q_list = [Q(uploaded_by__last_name__icontains=uploaded_by), Q(uploaded_by__first_name__icontains=uploaded_by), Q(name__icontains=file_type)] 
+        else:
+            q_list = [Q(uploaded_by__last_name__icontains=uploaded_by), Q(uploaded_by__first_name__icontains=uploaded_by), Q(name__icontains=test), Q(name__icontains=name), Q(name__icontains=file_type)]
+        if from_date == '' and to_date == '':
+            dataroom_folders = DataroomFolder.objects.filter(dataroom_id = pk, is_folder=True, is_deleted=False).filter(reduce(operator.or_, q_list)).order_by('index')
+        elif from_date == '' and to_date != '':
+            dataroom_folders = DataroomFolder.objects.filter(dataroom_id = pk, is_folder=True, is_deleted=False,  created_date__lte=todays_date).filter(reduce(operator.or_, q_list)).order_by('index')
+        elif from_date != '' and to_date == '':
+            dataroom_folders = DataroomFolder.objects.filter(dataroom_id = pk, is_folder=True, is_deleted=False,  created_date__gte=first_date).filter(reduce(operator.or_, q_list)).order_by('index')
+        else:
+            dataroom_folders = DataroomFolder.objects.filter(dataroom_id = pk, is_folder=True, is_deleted=False,  created_date__gte=first_date, created_date__lte=todays_date).filter(reduce(operator.or_, q_list)).order_by('index')
+        # dataroom_folders = DataroomFolder.objects.filter(dataroom_id=pk,name__icontains=test, is_folder=True, is_deleted=False).order_by('index')
+        dataroom_folder_serializer = DataroomFolderSerializer(dataroom_folders, many=True)
+        folders_data =  dataroom_folder_serializer.data
+        from . import utils
+        for da in folders_data:
+            da['index'] = utils.getIndexes(da)
+            da['hideindexingflag']=hideindexingflag                
+
+            da['names'] = da['name']
+            parent_list = []
+            folder_id =da['parent_folder']
+            get_root_folder = da['is_root_folder']
+            while (get_root_folder == False):
+               if da['is_root_folder'] == False:
+                   # #print("folderrrrr", folder_id)
+                   folder_obj = DataroomFolder.objects.get(id = int(folder_id))
+                   folder_serializer = DataroomFolderSerializer(folder_obj, many=False)
+                   parent_list.append(folder_serializer.data)
+                   if folder_obj.parent_folder_id != None:
+                       folder_id = folder_obj.parent_folder_id 
+                   else:
+                       get_root_folder = True
+                   dataroom_folder = folder_obj
+               else:
+                   get_root_folder = True
+            parent_list.reverse()
+            da['parent_folders'] = parent_list
+            try:
+                member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=da['dataroom'], is_deleted=False).first()
+                if member.is_la_user == True or member.is_dataroom_admin == True: 
+                    da['is_view_only'] = True
+                    da['is_no_access'] = False
+                    da['is_access'] = True
+                    da['is_view_and_print'] = True
+                    da['is_view_and_print_and_download'] = True
+                    da['is_upload'] = True
+                    da['is_watermarking'] = True
+                    da['is_drm'] = True
+                    da['is_editor'] = True
+                    da['is_shortcut'] = True
+                else:
+                    # #print("member--------", member.end_user_group.first().id, user.id, da['dataroom'])
+                    perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=da['id'],dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id)
+                    da['is_no_access'] = perm_obj.is_no_access
+                    da['is_access'] = perm_obj.is_access
+                    da['is_view_only'] = perm_obj.is_view_only
+                    da['is_view_and_print'] = perm_obj.is_view_and_print
+                    da['is_view_and_print_and_download'] = perm_obj.is_view_and_print_and_download
+                    da['is_upload'] = perm_obj.is_upload
+                    da['is_watermarking'] = perm_obj.is_watermarking
+                    da['is_drm'] = perm_obj.is_drm
+                    da['is_editor'] = perm_obj.is_editor
+                    da['is_shortcut'] = perm_obj.is_shortcut
+            except:
+                da['is_view_only'] = False
+                da['is_no_access'] = True
+                da['is_access'] = False
+                da['is_view_and_print'] = False
+                da['is_view_and_print_and_download'] = False
+                da['is_upload'] = False
+                da['is_watermarking'] = False
+                da['is_drm'] = False
+                da['is_editor'] = False
+                da['is_shortcut'] = False
+        if from_date == '' and to_date == '':
+            dataroom_files = DataroomFolder.objects.filter(dataroom_id = pk, is_folder=False, is_deleted=False).filter(reduce(operator.or_, q_list)).order_by('index')
+        elif from_date == '' and to_date != '':
+            dataroom_files = DataroomFolder.objects.filter(dataroom_id = pk, is_folder=False, is_deleted=False,  created_date__lte=todays_date).filter(reduce(operator.or_, q_list)).order_by('index')
+        elif from_date != '' and to_date == '':
+            dataroom_files = DataroomFolder.objects.filter(dataroom_id = pk, is_folder=False, is_deleted=False,  created_date__gte=first_date).filter(reduce(operator.or_, q_list)).order_by('index')
+        else:
+            dataroom_files = DataroomFolder.objects.filter(dataroom_id = pk, is_folder=False, is_deleted=False,  created_date__gte=first_date, created_date__lte=todays_date).filter(reduce(operator.or_, q_list)).order_by('index')
+        
+        # dataroom_files = DataroomFolder.objects.filter(dataroom_id=pk,name__icontains=test, is_folder=False, is_deleted=False).order_by('index')
+        dataroom_files_serializer = DataroomFolderSerializer(dataroom_files, many=True)
+        files_data =  dataroom_files_serializer.data
+        for da in files_data:
+            da['index'] = utils.getIndexes(da)
+            da['hideindexingflag']=hideindexingflag                            
+            da['names'] = da['name']
+            parent_list = []
+            folder_id =da['parent_folder']
+            get_root_folder = da['is_root_folder']
+            # #print("folderrrrr", folder_id)
+            while (get_root_folder == False):
+               if da['is_root_folder'] == False:
+                   folder_obj = DataroomFolder.objects.get(id = folder_id)
+                   folder_serializer = DataroomFolderSerializer(folder_obj, many=False)
+                   parent_list.append(folder_serializer.data)
+                   if folder_obj.parent_folder_id != None:
+                       folder_id = folder_obj.parent_folder_id 
+                   else:
+                       get_root_folder = True
+                   dataroom_folder = folder_obj
+               else:
+                   get_root_folder = True
+            parent_list.reverse()
+            da['parent_folders'] = parent_list
+            try:
+                member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=da['dataroom'], is_deleted=False).first()
+                if member.is_la_user == True or member.is_dataroom_admin == True: 
+                    da['is_view_only'] = True
+                    da['is_no_access'] = False
+                    da['is_access'] = True
+                    da['is_view_and_print'] = True
+                    da['is_view_and_print_and_download'] = True
+                    da['is_upload'] = True
+                    da['is_watermarking'] = True
+                    da['is_drm'] = True
+                    da['is_editor'] = True
+                    da['is_shortcut'] = True
+                else:
+                    # #print("member--------", member.end_user_group.first().id, user.id, da['dataroom'])
+                    perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=da['id'],dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id)
+                    grp_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.first().id, dataroom_id=da['dataroom']).first()
+                    # #print(grp_perm.id)
+                    if grp_perm.is_watermarking:
+                        if grp_perm.is_doc_as_pdf or grp_perm.is_excel_as_pdf :
+                            if perm_obj.watermarking_file:
+                                da['names'] = perm_obj.watermarking_file.url.split("/")[-1]
+                    da['is_no_access'] = perm_obj.is_no_access
+                    da['is_access'] = perm_obj.is_access
+                    da['is_view_only'] = perm_obj.is_view_only
+                    da['is_view_and_print'] = perm_obj.is_view_and_print
+                    da['is_view_and_print_and_download'] = perm_obj.is_view_and_print_and_download
+                    da['is_upload'] = perm_obj.is_upload
+                    da['is_watermarking'] = perm_obj.is_watermarking
+                    da['is_drm'] = perm_obj.is_drm
+                    da['is_editor'] = perm_obj.is_editor
+                    da['is_shortcut'] = perm_obj.is_shortcut
+            except:
+                da['is_view_only'] = False
+                da['is_no_access'] = True
+                da['is_access'] = False
+                da['is_view_and_print'] = False
+                da['is_view_and_print_and_download'] = False
+                da['is_upload'] = False
+                da['is_watermarking'] = False
+                da['is_drm'] = False
+                da['is_editor'] = False
+                da['is_shortcut'] = False
+        # #print("filessssssssssssssss", files_data)
+        return Response({'folders':folders_data, 'files':files_data}, status=status.HTTP_201_CREATED)
+
+# get all root folders for users and permission
+
+#GetAllRootFoldersForUsersAndPermission
+class GetAllRootFoldersForUsersAndPermission(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        dataroom_folders = DataroomFolder.objects.filter(dataroom_id=pk, is_root_folder=True, is_deleted=False).order_by('index')
+        dataroom_folder_serializer = DataroomFolderSerializer(dataroom_folders, many=True)
+        dataroom_folders = dataroom_folder_serializer.data[:]
+        # print ("dataroom folders data", dataroom_folders)
+        for folder in dataroom_folders:
+            folder['is_no_access'] = False
+            folder['is_view_only'] = False
+            folder['is_view_and_print'] = False
+            folder['is_upload'] = False
+            folder['is_watermarking'] = False
+            folder['is_drm'] = False
+            folder['is_editor'] = False
+            folder['is_shortcut'] = False
+
+        # print ("folder data", dataroom_folders)
+        
+        return Response(dataroom_folders , status=status.HTTP_201_CREATED)
+
+class GetFileInfo(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, pk, format=None):
+        user = request.user
+        data = request.data
+        # print ("data is ", data)
+        dataroom_folders = DataroomFolder.objects.get(dataroom_id=pk, dataroom_folder_uuid=data.get('file_id'))
+        dataroom_folder_serializer = DataroomFolderSerializer(dataroom_folders, many=False)
+        data = dataroom_folder_serializer.data
+        from . import utils
+        data['index'] = utils.getIndexes(data)
+        return Response(data, status=status.HTTP_201_CREATED)
+
+class GetSingleFolderDetail(APIView):
+    authentication_classes = ( TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user_obj = request.user
+        dataroom_folder = DataroomFolder.objects.get(pk=pk)
+        dataroom_folder_serializer = DataroomFolderSerializer(dataroom_folder, many=False)
+        data = dataroom_folder_serializer.data
+        user = User.objects.get(id=data['user'])
+        serializer = UserSerializer(user, many=False)
+        data['user'] = serializer.data
+        from . import utils
+        data['index'] = utils.getIndexes(data)
+        data['viewed_count'] = FolderView.objects.filter(dataroom_id = dataroom_folder.dataroom_id,folder_id =dataroom_folder.id).count()
+        data['download_count'] = FolderDownload.objects.filter(dataroom_id = dataroom_folder.dataroom_id,folder_id =dataroom_folder.id).count()
+        data['print_count'] = FolderPrint.objects.filter(dataroom_id = dataroom_folder.dataroom_id,folder_id =dataroom_folder.id).count()
+        data['Move_activity_count'] = FolderOrFileMove.objects.filter(dataroom_id = dataroom_folder.dataroom_id,folder_id =dataroom_folder.id).count()
+        data['Copy_activity_count'] = FolderOrFileCopy.objects.filter(dataroom_id = dataroom_folder.dataroom_id,folder_id =dataroom_folder.id).count()
+        data['Drm_activity_count'] = FolderDrmDownload.objects.filter(dataroom_id = dataroom_folder.dataroom_id,folder_id =dataroom_folder.id).count()
+        #### earlier delete count now changed to time at deleted file - 17-11-2020
+        if FolderDeleteDownload.objects.filter(dataroom_id = dataroom_folder.dataroom_id,folder_id =dataroom_folder.id).exists():
+            data['Delete_activity_count'] = FolderDeleteDownload.objects.filter(dataroom_id = dataroom_folder.dataroom_id,folder_id =dataroom_folder.id).values('created_date').last().get('created_date')
+        else:
+            data['Delete_activity_count'] = "None"
+        parent_list = []
+        data['parent_folders'] = []
+        get_root_folder = False
+        folder_id =dataroom_folder.parent_folder_id
+        while (get_root_folder == False):
+           if dataroom_folder.is_root_folder == False:
+               folder_obj = DataroomFolder.objects.get(id = folder_id)
+               folder_serializer = DataroomFolderSerializer(folder_obj, many=False)
+               parent_list.append(folder_serializer.data)
+               folder_id = folder_obj.parent_folder_id
+               dataroom_folder = folder_obj
+           else:
+               get_root_folder = True
+        data['parent_folders'] = parent_list
+
+        try:
+            member = DataroomMembers.objects.filter(member_id=user_obj.id, dataroom_id=dataroom_folder.dataroom_id, is_deleted=False).first()
+            if member.is_la_user == True or member.is_dataroom_admin == True: 
+                data['perm'] = {}
+                data['perm']['is_view_only'] = True
+                data['perm']['is_no_access'] = False
+                data['perm']['is_access'] = True
+                data['perm']['is_view_and_print'] = True
+                data['perm']['is_view_and_print_and_download'] = True
+                data['perm']['is_upload'] = True
+                data['perm']['is_watermarking'] = True
+                data['perm']['is_drm'] = True
+                data['perm']['is_editor'] = True
+                data['perm']['is_shortcut'] = True
+            else:
+                perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=pk,dataroom_id=dataroom_folder.dataroom_id, dataroom_groups_id=member.end_user_group.first().id)
+                perm_serializer = DataroomGroupFolderSpecificPermissionsSerializer(perm_obj, many=False)
+                data['perm'] = perm_serializer.data
+        except:
+           data['perm'] = {}
+        return Response(data, status=status.HTTP_201_CREATED)
+
+
+
+class CreateNewSubfolder(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def assign_index(self, data , user):
+        index = 0
+        try :
+            # print ("inside create new folder", data)
+            max_index = DataroomFolder.objects.filter(dataroom_id=data.get('dataroom_id'), parent_folder_id=data.get('folder_id'), is_root_folder=False, is_folder=True, is_deleted=False).aggregate(Max('index'))
+            index = max_index.get('index__max')
+            # print ('max index now is', index)
+            if index is None:
+                index = 0
+        except :
+            pass
+        # print ("index after +1 is", index+1)
+        return index+1
+
+    def get_single_folder(self, pk):
+        dataroom_folder = DataroomFolder.objects.get(pk=pk)
+        return dataroom_folder
+
+    def post(self, request, format=None):
+        data = request.data
+        user = request.user
+        folder_obj = DataroomFolder.objects.filter(name=data.get('name'),parent_folder_id=int(data.get('folder_id')),is_folder=True, is_deleted =False).first()
+        if folder_obj == None:
+            data["user"] = user.id
+            data["dataroom"] = data.get('dataroom_id')
+            data["index"] = self.assign_index(data, user)
+            data["last_updated_user"] = user.id
+            data["is_root_folder"] = False
+            data["is_folder"] = True
+            data["parent_folder"] = int(data.get('folder_id'))#self.get_single_folder(int(data.get('folder_id')))
+            data["deleted_by"] = user.id
+            dataroom_folder_serializer = DataroomFolderSerializer(data = data)
+            # print ("datarooom folder serializer ", dataroom_folder_serializer.is_valid())
+            # print ("datarooom folder serializer ", dataroom_folder_serializer.errors)
+            if dataroom_folder_serializer.is_valid():
+                dataroom_folder_serializer.save()
+                Folderupload.objects.create(folder_id=dataroom_folder_serializer.data.get("id"),user_id=user.id,dataroom_id=data.get('dataroom_id'),file_name=dataroom_folder_serializer.data.get("name"))
+                if DataroomMembers.objects.filter(member_id=user.id,dataroom_id = data.get('dataroom_id'), is_deleted=False,memberactivestatus=True).exists():                    
+                    member = DataroomMembers.objects.filter(member_id=user.id,dataroom_id = data.get('dataroom_id'), is_deleted=False,memberactivestatus=True).first()
+                    if member.is_la_user==False and member.is_dataroom_admin==False:
+                        DataroomGroupFolderSpecificPermissions.objects.create(is_upload=True,is_no_access=False,is_access=True,is_view_only=True,folder_id=dataroom_folder_serializer.data['id'],dataroom_id=data.get('dataroom_id'),dataroom_groups_id=member.end_user_group.first().id,permission_given_by_id=user.id)
+
+
+                return Response(dataroom_folder_serializer.data, status=status.HTTP_201_CREATED)
+            return Response(dataroom_folder_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'msg':'Given Name folder Already Exist in this folder'}, status=status.HTTP_201_CREATED)
+        
+
+
+class CreateNewRootFolder(APIView):
+    """docstring for DataroomOverviewAll"""
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    
+    def assign_index(self, data , user):
+        index = 0
+        try :
+            # print ("create new root folder data", data)
+            max_index = DataroomFolder.objects.filter(dataroom_id=data.get('dataroom_id'), is_root_folder=True, is_folder=True, is_deleted=False).aggregate(Max('index'))
+            index = max_index.get('index__max')
+            # print ("max index is", index)
+            if index is None:
+                index = 0
+        except :
+            pass
+        # print ("index +1 is", index)
+        return index+1
+
+    def post(self, request, format=None):
+        data = request.data
+        user = request.user
+        # #print("data", data)
+        folder_obj = DataroomFolder.objects.filter(name=data.get('name'),is_root_folder=True, dataroom_id=int(data.get('dataroom_id')), is_deleted =False).first()
+        if folder_obj == None:
+            data["user"] = user.id
+            data["dataroom"] = data.get('dataroom_id')
+            data["index"] = self.assign_index(data, user)
+            data["is_folder"] = True
+            data["last_updated_user"] = user.id
+            data["is_root_folder"] = True
+            data["is_root_folder"] = True
+            dataroom_folder_serializer = DataroomFolderSerializer(data = data)
+            if dataroom_folder_serializer.is_valid():
+                dataroom_folder_serializer.save()
+                Folderupload.objects.create(folder_id=dataroom_folder_serializer.data.get("id"),user_id=user.id,dataroom_id=data.get('dataroom_id'),file_name=dataroom_folder_serializer.data.get("name"))
+
+                return Response(dataroom_folder_serializer.data, status=status.HTTP_201_CREATED)
+            return Response(dataroom_folder_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'msg':'Folder Already Exist'}, status=status.HTTP_201_CREATED)
+
+
+class UpdateFolderDetails(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    
+    def get_object(self, pk, request):
+        try:
+            user = request.user
+            return DataroomFolder.objects.get( pk=pk)
+        except DataroomFolder.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        folder = self.get_object(pk, request)
+        serializer = DataroomFolderSerializer(folder)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        folder = self.get_object(pk, request)
+        data = request.data
+        serializer = DataroomFolderSerializer(folder, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        folder = self.get_object(pk, request)
+        folder.is_deleted = True
+        folder.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UpdateFileDetails(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+ 
+
+    def get_object(self, pk, request):
+        try:
+            user = request.user
+            return Dataroom.objects.get(pk=pk)
+        except Dataroom.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        dataroom = self.get_object(pk, request)
+        serializer = DataroomFilesSerializer(dataroom)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        dataroom = self.get_object(pk, request)
+        data = request.data
+        serializer = DataroomFilesSerializer(dataroom, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        dataroom = self.get_object(pk, request)
+        dataroom.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+import sys
+import subprocess
+import re
+
+
+def convert_to(folder, source):
+    args = [libreoffice_exec(), '--headless', '--convert-to', 'pdf', '--outdir', folder, source]
+
+    process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    filename = re.search('-> (.*?) using filter', process.stdout.decode())
+    tt=1
+    if filename:
+        return filename.group(1)
+    else:
+        return tt
+
+
+
+
+def libreoffice_exec():
+    # TODO: Provide support for more platforms
+    if sys.platform == 'darwin':
+        return '/usr/bin/soffice'
+    return 'libreoffice'
+
+
+
+class uploadstatusid(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, pk, format=None):
+        user= request.user
+        obj=Bulkuploadstatus(user_id=user.id,dataroom_id=pk)
+        obj.save()
+        return Response(data = obj.id, status=status.HTTP_201_CREATED)
+
+class bulkuploadresponse(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, pk, format=None):
+        user= request.user
+        data=Bulkuploadstatus.objects.filter(id=pk,user_id=user.id).first()
+        sdata=BulkuploadstatusSerializer(data,many=False).data
+
+        return Response(data = sdata, status=status.HTTP_201_CREATED)
+
+class uploadFileInsideFolder(APIView):
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    #parser_classes = (FileUploadParser,)
+
+    def assign_index(self, data , user, pk):
+        index = 0
+        try :
+            # print ("data under assign_index is:", data)
+            # print ("priamry key is", pk)
+            max_index = DataroomFolder.objects.filter(parent_folder_id=pk, dataroom_id=data, is_root_folder=False, is_folder=False, is_deleted=False).aggregate(Max('index'))
+            # print ("max indx is", max_index)
+            index = max_index.get('index__max')
+            # print ("index is", index)
+            if index is None or index<0:
+                index = 0
+        except :
+            pass
+        # print ("new index is", index+1)
+        return index+1
+
+    def assign_index_folder(self, data , user, pk):
+        index = 0
+        try :
+            # print ("inside create new folder", data)
+            if int(pk) == 0:
+                max_index = DataroomFolder.objects.filter(dataroom_id=data, is_root_folder=True, is_folder=True, is_deleted=False).aggregate(Max('index'))
+            else:
+                max_index = DataroomFolder.objects.filter(dataroom_id=data, parent_folder_id=pk, is_root_folder=False, is_folder=True, is_deleted=False).aggregate(Max('index'))
+            index = max_index.get('index__max')
+            if index is None or index<0:
+                index = 0
+        except :
+            pass
+        # print ("index after +1 is", index+1)
+        return index+1
+
+    def create_folder(self, name, pk, dataroomId, user,filecount,bulkstatusdataid,is_notify,isenduser):
+        data = {}
+        # #print("pllllllllll", type(pk))
+        if int(pk) == 0:
+            data['is_root_folder'] = True
+            data["parent_folder"] = None
+        else:
+            data['is_root_folder'] = False
+            data["parent_folder"] = pk
+        data["user"] = user.id
+        data["dataroom"] = dataroomId
+        data["index"] =  self.assign_index_folder(dataroomId, user, pk)
+        data["is_folder"] = True
+        data["last_updated_user"] = user.id
+        data["name"] = name
+        if filecount > 1:
+            data["uploadedin_batch"] = True
+        if is_notify == "Yes":
+            data['notifymember']=True
+
+
+
+        dataroom_folder_serializer = DataroomFolderSerializer(data = data)
+        # #print("dataroom_folder_serializer", dataroom_folder_serializer.is_valid())
+        # #print("dataroom_folder_serializer", dataroom_folder_serializer.errors)
+        if dataroom_folder_serializer.is_valid():
+            dataroom_folder_serializer.save()
+            from . import utils
+            utils.assign_view_permission(dataroom_folder_serializer.data,dataroomId)
+            if filecount > 1:
+                Folderuploadinbulk.objects.create(folder_id=dataroom_folder_serializer.data.get("id"),user_id=user.id,dataroom_id=dataroomId,file_name=dataroom_folder_serializer.data.get("name"),is_folder=True,bulkupload_id=bulkstatusdataid)
+                # Folderfailinbulk.objects.filter(user_id=user.id,dataroom_id=dataroomId,file_name=dataroom_folder_serializer.data.get("name"),is_folder=True,bulkupload_id=bulkstatusdataid).delete()
+            else:
+                Folderupload.objects.create(folder_id=dataroom_folder_serializer.data.get("id"),user_id=user.id,dataroom_id=dataroomId,file_name=dataroom_folder_serializer.data.get("name"))
+        # folder = DataroomFolder()
+        # folder.name = name
+        # folder.is_folder = True
+        # folder.parent_folder_id = pk
+        # folder.dataroom_id = dataroomId
+        # folder.index = self.assign_index_folder(dataroomId, user, pk)
+        # folder.last_updated_user_id = user.id
+        # folder.user_id = user.id
+        # folder.is_root_folder = False
+        # folder.save()
+        folder = DataroomFolder.objects.get(id=dataroom_folder_serializer.data.get("id"))
+        return folder
+
+    def post(self, request, pk, format=None):
+        user = request.user
+        data = {}
+        print('SSSSSSSSSSSSSSSSTTTTTTTTTTTTAAAAAAAAAAAAAAARRRRRRRRRRRRRRRRRRTTTTTTTTTTTTTTTing')
+        print(request.data,'oooooooooo')
+        datas = request.data
+        is_notify = request.GET.get("notify")
+        dataroom_filess = request.FILES.getlist('file')
+        dataroomId = datas.get('dataroomId')
+        dataroommem=DataroomMembers.objects.filter(member_id=user.id,dataroom_id=dataroomId,is_deleted=False,memberactivestatus=True).first()
+        isenduser=0
+        # print(dataroommem,dataroomId,user.id,datas)
+        if dataroommem.is_dataroom_admin==False and dataroommem.is_la_user==False:
+            isenduser=1
+
+
+        # print(request.data,len(dataroom_filess),datas.get('filedata'),'7878787878787')
+        single_file_uploaded = False
+        try:
+            print('11111111111111111111111111RRRRRRRRRRRRRRRRRRRRR')
+            allfiledata = json.loads(str(datas.get('filedata')))
+        except:
+            print('22222222222222222222222222222222RRRRRRRRRRRRRRRRRRRRR')
+
+            data = { 'message':"File Not uploaded !"}
+
+            return Response(data = data, status=status.HTTP_400_BAD_REQUEST)
+
+        bulkstatusdataid=0
+
+        dataroom_file=''
+        if len(dataroom_filess) > 1:
+            if int(pk)==0:
+                Bulkuploadstatus.objects.filter(id=datas.get('uploadstatusid'),dataroom_id=dataroomId,user_id=user.id).update(is_root_folder=True)
+            else:
+                Bulkuploadstatus.objects.filter(id=datas.get('uploadstatusid'),dataroom_id=dataroomId,user_id=user.id).update(parentfolder_id=int(pk))
+            bulkstatusdata=Bulkuploadstatus.objects.filter(id=datas.get('uploadstatusid'),dataroom_id=dataroomId,user_id=user.id).first()
+            bulkstatusdataid=bulkstatusdata.id
+            # print("upper one",bulkstatusdata.id)
+            checkpath=[]
+            # for j, dataroom_files in enumerate(dataroom_filess):
+            for k in allfiledata['data']:
+                    # if datas.getlist('folder')[j] == 'Yes':
+                    # path = k['filepath'].split("/")
+                    # del path[-1]
+                    # for pa in path:
+                        # if 
+                        # Folderfailinbulk.objects.create(user_id=user.id,dataroom_id=dataroomId,file_name=str(pa),is_folder=True,bulkupload_id=bulkstatusdata.id)
+                    # print(k,'check this data ')
+                    Folderfailinbulk.objects.create(is_folder=False,user_id=user.id,dataroom_id=dataroomId,file_name=k['filename'],file_pathh=k['filepath'],bulkupload_id=bulkstatusdata.id)
+        try:
+            if len(dataroom_filess) > 0:
+                permailflag=0
+                permailflag2=0
+                addonaddflag=0
+                for i, dataroom_files in enumerate(dataroom_filess):
+                    try:
+
+                        if datas.getlist('folder')[i] == 'Yes':
+                            path = datas.getlist('path')[i].split("/")
+                            #print("path ======>",path)
+                            del path[-1]
+                            parent_id = pk
+                            # #print("parent_id", parent_id)
+                            for pa in path:
+                                # #print("paaaaaaaa", pa, dataroomId, parent_id)
+
+                                if int(parent_id) == 0:
+                                    da = DataroomFolder.objects.filter(name = pa, dataroom_id = dataroomId, is_deleted=False, is_root_folder=True)
+                                else:
+                                    da = DataroomFolder.objects.filter(name = pa,dataroom_id = dataroomId, parent_folder_id=parent_id, is_deleted= False, is_folder=True)
+                                # #print("daaaaaaaa", da, len(da))
+                                if len(da) > 0:
+                                    parent_id = da.first().id
+                                    # print('rushikkkkkkkkkkkkkkkkkkkkkkkkkkkdjddhdhddhhdh')
+                                else:
+                                    folder = self.create_folder(pa, parent_id, dataroomId, user,len(dataroom_filess),bulkstatusdataid,is_notify,isenduser)
+                                    parent_id = folder.id
+                        else:
+                            # print("m in else now")
+                            parent_id = pk
+                            # print(parent_id,"parent_id")
+                        folder_obj = DataroomFolder.objects.filter(name = dataroom_files.name,parent_folder_id=parent_id,is_deleted=False,is_deleted_permanent=False).first()
+                        # print(folder_obj,"folder_obj")
+                        if folder_obj == None:
+                            data['name'] = dataroom_files.name
+                            data['parent_path'] = dataroom_files.name
+                            data['is_root_folder'] = False
+                            data['is_folder'] = False
+                            data['is_infected'] = False
+                            data['file_content_type'] = dataroom_files.content_type
+                            data['file_size'] = dataroom_files._size
+                            #print("size ====>",dataroom_files._size)
+                            data['parent_folder'] = parent_id
+
+                            data['pages'] = 1
+                            data['index'] = self.assign_index(dataroomId, user, parent_id)
+                            data['version'] = 0
+                            data['path'] = dataroom_files
+                            # print(data['path'])
+                            data['user'] = user.id
+                            data['last_updated_user'] = user.id
+                            data['dataroom'] = dataroomId
+                            if len(dataroom_filess) > 1:                        
+                                data['uploadedin_batch'] = True
+                            if is_notify == "Yes":
+                                data['notifymember']=True
+
+                            # print ("dataroom_folder_errors", dataroom_folder_serializer)
+
+                            # print ("dataroom_folder_serializer", dataroom_folder_serializer.is_valid())
+                            dataroom_obj = Dataroom.objects.filter(id=dataroomId).first()
+                            # #all_folders_size = DataroomFolder.objects.filter(dataroom_id=dataroomId,is_deleted_permanent=False,is_folder=False).aggregate(Sum('file_size')).get('file_size__sum')
+                            vote_consumed = round((Vote.objects.filter(dataroom_id=dataroomId,is_deleted=False).aggregate(Sum('file_size_mb')).get('file_size_mb__sum')) if Vote.objects.filter(dataroom_id=dataroomId,is_deleted=False).aggregate(Sum('file_size_mb')).get('file_size_mb__sum') else 0,3)
+                            disclaimer_consumed =round((DataroomDisclaimer.objects.filter(dataroom_id=dataroomId).aggregate(Sum('file_size_mb')).get('file_size_mb__sum')) if DataroomDisclaimer.objects.filter(dataroom_id=dataroomId).aggregate(Sum('file_size_mb')).get('file_size_mb__sum') else 0,3)
+                            print('till here',(DataroomFolder.objects.filter(dataroom_id=dataroomId, is_deleted=False, is_folder=False).aggregate(Sum('file_size_mb')).get('file_size_mb__sum')))
+                            dataroom_consumed = round((DataroomFolder.objects.filter(dataroom_id=dataroomId, is_deleted_permanent=False, is_folder=False).aggregate(Sum('file_size_mb')).get('file_size_mb__sum')) if DataroomFolder.objects.filter(dataroom_id=dataroomId, is_deleted=False, is_folder=False).aggregate(Sum('file_size_mb')).get('file_size_mb__sum') else 0,3)
+
+                            #print("dataroom filesss Size", dataroom_files._size/1000, all_folders_size/1000, dataroom_obj.dataroom_storage_allocated*1000000)
+                            dataroom_storage = dataroom_obj.dataroom_storage_allocated*1024
+                            dataroom_total_size=dataroom_consumed + disclaimer_consumed + vote_consumed + (dataroom_files._size/1024/1024)
+                            # #file_size = (dataroom_files._size) + (all_folders_size if all_folders_size !=None else 0)
+                            # #file_size = file_size/1024/1024
+                            #print("updated file size ===>",file_size)
+                            # time.sleep(10)
+                            #print("Test")
+                            #print("Print", dataroom_files._size,all_folders_size)
+                            # file_size = 100
+                            #print("dataroom filesss Size", dataroom_storage,Decimal(file_size))
+                            #print(dataroom_storage)
+                            #print(dataroom_files._size/1024)
+                            #print(all_folders_size)
+                            #print(file_size)
+                            percent=0
+                            if dataroom_storage>0:
+                                percent  = (Decimal(dataroom_total_size)/dataroom_storage)*100
+                            from emailer import utils as ut
+                            if percent >= Decimal(80) and percent < Decimal(100):
+                                if permailflag2==0:
+                                    adminto=[]
+                                    dataroommem=DataroomMembers.objects.filter(is_dataroom_admin=True,dataroom_id=dataroomId,is_deleted=False,memberactivestatus=True)
+                                    for p in dataroommem:
+                                        adminto.append(p.member.email)
+                                    if dataroom_obj.offlinedataroom==True:
+                                        myteamdataaa=MyTeams.objects.filter(id=dataroom_obj.my_team.id).last()
+                                        if myteamdataaa:    
+                                            if myteamdataaa.usage_alertemail!=None or myteamdataaa.usage_alertemail!='':
+                                                adminto.append(myteamdataaa.usage_alertemail)
+                                            if myteamdataaa.usage_alertemailtwo!=None or myteamdataaa.usage_alertemailtwo!='':
+                                                adminto.append(myteamdataaa.usage_alertemailtwo)
+                                            chaneldataa=Mychanels.objects.filter(id=myteamdataaa.id).last()
+                                            if chaneldataa:
+                                                if chaneldataa.usage_alertemail!=None or chaneldataa.usage_alertemail!='':
+                                                    adminto.append(chaneldataa.usage_alertemail)
+                                                if chaneldataa.usage_alertemailtwo!=None or chaneldataa.usage_alertemailtwo!='':
+                                                    adminto.append(chaneldataa.usage_alertemailtwo)
+
+                                    ut.send_80_percent_mail(data,adminto , dataroom_obj,user)
+                                    permailflag2=1
+                            elif percent >= Decimal(100):
+                                if permailflag==0:
+                                    adminto=[]
+                                    dataroommem=DataroomMembers.objects.filter(is_dataroom_admin=True,dataroom_id=dataroomId,is_deleted=False,memberactivestatus=True)
+                                    for p in dataroommem:
+                                        adminto.append(p.member.email)
+                                    if dataroom_obj.offlinedataroom==True:
+                                        myteamdataaa=MyTeams.objects.filter(id=dataroom_obj.my_team.id).last()
+                                        if myteamdataaa:    
+                                            if myteamdataaa.usage_alertemail!=None or myteamdataaa.usage_alertemail!='':
+                                                adminto.append(myteamdataaa.usage_alertemail)
+                                            if myteamdataaa.usage_alertemailtwo!=None or myteamdataaa.usage_alertemailtwo!='':
+                                                adminto.append(myteamdataaa.usage_alertemailtwo)
+                                            chaneldataa=Mychanels.objects.filter(id=myteamdataaa.id).last()
+                                            if chaneldataa:
+                                                if chaneldataa.usage_alertemail!=None or chaneldataa.usage_alertemail!='':
+                                                    adminto.append(chaneldataa.usage_alertemail)
+                                                if chaneldataa.usage_alertemailtwo!=None or chaneldataa.usage_alertemailtwo!='':
+                                                    adminto.append(chaneldataa.usage_alertemailtwo)    
+                                    ut.send_100_percent_mail(data, adminto, dataroom_obj,user)
+                                    permailflag=1
+                                    print('coming heree r1',percent,user.paid_subscription)
+                                if percent > Decimal(100): 
+                                    if dataroom_obj.offlinedataroom==False or dataroom_obj.is_paid==False:
+                                        if planinvoiceuserwise.objects.filter(dataroom_id=dataroomId,is_latest_invoice=True).exists():
+                                            plandata=planinvoiceuserwise.objects.filter(dataroom_id=dataroomId,is_latest_invoice=True).last()
+                                            if (dataroom_obj.is_paid==False) or 'trial' in str(plandata.plan.name).lower():
+                                                data = { 'message':"Dataroom Limit exceed. Upgrade Your Plan To Upload More Files."}
+                                                return Response(data = data, status=status.HTTP_400_BAD_REQUEST)
+                                    else:
+                                        if dataroom_obj.storage_exceed_block==False:
+                                            myteamdata=MyTeams.objects.filter(id=dataroom_obj.my_team.id).last()
+                                            if myteamdata.storage_exceed==False:
+                                                totaldataconsume=Dataroom.objects.filter(my_team_id= myteamdata.id).aggregate(Sum('dataroom_storage_allocated')).get('dataroom_storage_allocated__sum') if Dataroom.objects.filter(my_team_id= myteamdata.id).aggregate(Sum('dataroom_storage_allocated')).get('dataroom_storage_allocated__sum') else Decimal(0.00)
+                                                totaldataconsume=Decimal(totaldataconsume)+Decimal(1)
+                                                if Decimal(totaldataconsume)>Decimal(myteamdata.dataroom_storage_allowed):
+                                                    data = { 'message':"Storage Limit exceed. Contact your TeamAdmin."}
+                                                    return Response(data = data, status=status.HTTP_400_BAD_REQUEST)
+                                                else:
+                                                    pass
+                                            else:
+                                                pass
+                                        else:
+                                                data = { 'message':"Dataroom Limit exceed. Contact your TeamAdmin."}
+                                                return Response(data = data, status=status.HTTP_400_BAD_REQUEST)
+
+
+                                if percent > Decimal(100) and addonaddflag==0 and dataroom_obj.is_paid==True:
+                                        print('coming heree r1',percent,user.paid_subscription)
+                                        fromdatee=datetime.now().replace(minute=00, hour=00, second=00)
+                                        todatee=datetime.now().replace(minute=59, hour=23, second=59)
+                                        print(fromdatee,' jfkfjfkfjf ',todatee)
+
+                                        if addon_plan_tempforsameday.objects.filter(user_id=user.id,dataroom_id=dataroomId,start_date__gt=fromdatee,start_date__lt=todatee).exists():
+                                            pass
+                                        else:
+                                            print('coming in addon section')
+                                            addonplandata=addon_plans.objects.filter(planstatus=True).first()
+                                            addondata1=addon_plan_tempforsameday()
+                                            addondata1.user_id=user.id
+                                            addondata1.dataroom_id=dataroomId
+                                            addondata1.addon_plan_id=addonplandata.id
+                                            addondata1.start_date=datetime.now()
+                                            addondata1.is_plan_active=True   
+                                            addondata1.save()
+
+                                            # plandata1=planinvoiceuserwise.objects.filter(dataroom_id=dataroomId).first()  
+                                            # plandata1.addon_plans.add(addondata1)
+                                            # plandata1.save()
+
+                                            send_addon_email('addon email',user.email,user.first_name)
+                                        addonaddflag=1
+
+
+
+                            else:
+                                pass 
+                            # #print("Percent",percent)
+                            dataroom_folder_serializer = DataroomFolderSerializer(data = data)
+                            if dataroom_folder_serializer.is_valid():
+                                dataroom_folder_serializer.save()
+                                from . import utils
+                                # print('hiiiii coming here rushi 454')
+
+                                utils.assign_view_permission(dataroom_folder_serializer.data,dataroomId)
+
+
+
+                                
+                                dataroom_file = DataroomFolder.objects.get(id=dataroom_folder_serializer.data.get('id'))
+                                print(dataroom_folder_serializer.data.get('id'),dataroom_folder_serializer.data.get('name'))
+                                pn=1
+                                if str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='xlsx' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='csv' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='xls' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='txt':
+                                    # print("in xlsx")
+                                    import os
+                                    filepath=dataroom_folder_serializer.data['path']
+                                    # print(filepath,"filepath")
+                                    pathsplit=filepath.split('/')
+                                    # print(pathsplit,"pathsplit")
+                                    from azure.storage.blob import BlockBlobService, PublicAccess,ContentSettings
+                                    pathu=pathsplit[-2].replace("%20", " ")+"/"+pathsplit[-1].replace("%20", " ")
+                                    # print(pathu,"pathu")
+
+                                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                    container_name='docullycontainer'
+                                    block_blob_service.get_blob_to_path(container_name, pathu, pathsplit[-1])
+                                    dataroom_file.pages = int()
+                                    dataroom_file.save()
+                                    with open(pathsplit[-1], 'rb') as ifh:
+                                        read_data=ifh.read()
+                                        with open("/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1], 'wb') as fileee:
+                                            fileee.write(read_data)
+                                            # print("yes done pptx 8888888888888888888888888888888888888888888888899999999999999999999999999999999")
+
+                                    convert_to('/home/cdms_backend/cdms2/server_DocFile/',  "/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1])
+                                    fileext=pathsplit[-1].split('.')
+                                    fileext[-1]='pdf'
+                                    fileext='.'.join(fileext)
+
+                                    blob_na=pathsplit[4]+"/"+fileext
+                                    # print(blob_na,"blob_na")
+                                    block_blob_service.create_blob_from_path(
+                                    container_name,
+                                    blob_na,
+                                    "/home/cdms_backend/cdms2/server_DocFile/"+fileext,content_settings=ContentSettings(content_type='application/pdf'))
+                                    # print("file uploaded in server pptx")
+                                    # print("/home/cdms_backend/cdms2/server_DocFile/"+fileext[0]+".pdf")
+                                    os.remove('/home/cdms_backend/cdms2/DocFile_server/'+pathsplit[-1])
+                                    os.remove('/home/cdms_backend/cdms2/server_DocFile/'+fileext)
+                                    # print("file removed in folder pptx")
+                                #print(str(dataroom_folder_serializer.data.get('name')).split('.')[1])
+                                if str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='pptx' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='ppt':
+                                    # print("in pptx")
+                                    # print(dataroom_folder_serializer.data.get('name'),'ytyyyyyyyyyyyyytttttttttttttyrrrrrrrrrrrrrrr',str(dataroom_folder_serializer.data.get('name')).split('.')[-1])
+                                    import os
+                                    filepath=dataroom_folder_serializer.data['path']
+                                    # print(filepath,"filepath")
+                                    pathsplit=filepath.split('/')
+                                    # print(pathsplit,"pathsplit")
+                                    from azure.storage.blob import BlockBlobService, PublicAccess,ContentSettings
+                                    pathu=pathsplit[-2].replace("%20", " ")+"/"+pathsplit[-1].replace("%20", " ")
+                                    print(pathu,pathsplit[-1],"pathu")
+
+                                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                    container_name='docullycontainer'
+                                    block_blob_service.get_blob_to_path(container_name, pathu, pathsplit[-1])
+                                    dataroom_file.pages = int()
+                                    dataroom_file.save()
+                                    print(pathu,pathsplit[-1],"pathu")
+                                    with open(pathsplit[-1], 'rb') as ifh:
+                                        read_data=ifh.read()
+                                        with open("/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1], 'wb') as fileee:
+                                            fileee.write(read_data)
+                                            print("yes done pptx")
+                                    convert_to('/home/cdms_backend/cdms2/server_DocFile/',  "/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1])
+                                    fileext=pathsplit[-1].split('.')
+                                    # fileext.pop(-1)
+                                    fileext[-1]='pdf'
+                                    fileext='.'.join(fileext)
+                                    # print(fileext,'ytyyyyyyyyyyyyytttttttttttttyrrrrrrrrrrrrrrr')
+
+                                    blob_na=pathsplit[4]+"/"+fileext
+                                    # print(blob_na,"blob_na")
+                                    block_blob_service.create_blob_from_path(
+                                    container_name,
+                                    blob_na,
+                                    "/home/cdms_backend/cdms2/server_DocFile/"+fileext,content_settings=ContentSettings(content_type='application/pdf'))
+                                    # print("file uploaded in server pptx")
+                                    # print("/home/cdms_backend/cdms2/server_DocFile/"+fileext[0]+".pdf")
+                                    os.remove('/home/cdms_backend/cdms2/DocFile_server/'+pathsplit[-1])
+                                    os.remove('/home/cdms_backend/cdms2/server_DocFile/'+fileext)
+                                    # print("file removed in folder pptx")
+                                if str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='docx' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='doc' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='odt':
+                                    #print(123)
+                                    # print("if1")
+                                    from docx import Document
+                                    import os
+                                    from azure.storage.blob import BlockBlobService, PublicAccess
+                                    from docx import Document
+                                    
+                                    fn='./'+str(dataroom_folder_serializer.data.get('path')).replace('%20',' ').replace(' ','\ ')
+                                    #print(fn)
+                                    filepath=dataroom_folder_serializer.data['path']
+                                    # print(filepath,"filepath")
+                                    pathsplit=filepath.split('/')
+                                    # print(pathsplit,"pathsplit")
+                                    from azure.storage.blob import BlockBlobService, PublicAccess,ContentSettings
+                                    pathu=pathsplit[-2].replace("%20", " ")+"/"+pathsplit[-1].replace("%20", " ")
+                                    # print(pathu,"pathu")
+
+                                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                    container_name='docullycontainer'
+                                    # print(container_name,pathu,pathsplit[-1],'thiddddddddd')
+                                    block_blob_service.get_blob_to_path(container_name, pathu, pathsplit[-1])
+                                    dataroom_file.pages = int()
+                                    dataroom_file.save()
+                                    # print(pathu,"pathu")
+                                    with open(pathsplit[-1], 'rb') as ifh:
+                                        read_data=ifh.read()
+                                        with open("/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1], 'wb') as fileee:
+                                            fileee.write(read_data)
+                                            # print("yes done")
+                                    convert_to('/home/cdms_backend/cdms2/server_DocFile/',  "/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1])
+                                    fileext=pathsplit[-1].split('.')
+                                    fileext[-1]='pdf'
+                                    fileext='.'.join(fileext)
+
+                                    blob_na=pathsplit[4]+"/"+fileext
+                                    # print(blob_na,"blob_na")
+                                    block_blob_service.create_blob_from_path(
+                                    container_name,
+                                    blob_na,
+                                    "/home/cdms_backend/cdms2/server_DocFile/"+fileext,content_settings=ContentSettings(content_type='application/pdf'))
+                                    # print("file uploaded in server")
+                                    # print("/home/cdms_backend/cdms2/server_DocFile/"+fileext[0]+".pdf")
+                                    os.remove('/home/cdms_backend/cdms2/DocFile_server/'+pathsplit[-1])
+                                    os.remove('/home/cdms_backend/cdms2/server_DocFile/'+fileext)
+                                    # print("file removed in folder")
+                                    # import PyPDF2
+
+                                    # # fn='./'+str(dataroom_folder_serializer.data.get('path')).replace('%20',' ')
+                                    # # fn = str(fn).split('.')[0]+'.pdf'
+                                    # fn = './'+str(dataroom_folder_serializer.data.get('name')).replace(' ','_').split('.')[0]+'.pdf'
+                                    # # #print(fn,3434)
+                                    # # fn = str(fn).split('.')[0]+'.pdf'
+                                    # #print("value of fn_docx ====>",fn)
+                                    # import PyPDF2
+                                    # filepath=dataroom_folder_serializer.data['path']
+                                    # print(filepath,"filepath")
+                                    # pathsplit=filepath.split('/')
+                                    # print(pathsplit,"pathsplit")
+                                    # from azure.storage.blob import BlockBlobService, PublicAccess
+                                    # pathu=pathsplit[-2]+"/"+pathsplit[-1]
+                                    # block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                    # container_name='docullycontainer'
+                                    # block_blob_service.get_blob_to_path(container_name, pathu, pathsplit[-1])
+                                    # dataroom_file.pages = int()
+                                    # dataroom_file.save()
+                                    # unzip -p pathsplit[-1] docProps/app.xml | grep -oP '(?<=\<Pages\>).*(?=\</Pages\>)'
+                                #   with open(pathsplit[-1], 'rb') as fileee:
+                                #       pdfReader = PyPDF2.PdfFileReader(fileee)
+                                #       pn = pdfReader.numPages
+                                # dataroom_file.pages = pn
+                                # dataroom_file.save()
+                                    # os.system('rm -r '+fn)
+
+                                    # wordFileObj = open(fn, 'rb')
+                                    # document = Document(wordFileObj)
+                                    
+                                    # import re
+                                    # for p in document.paragraphs:
+                                    #     r = re.match('Chapter \d+',p.text)
+                                    #     if r:
+                                    #         #print(r.group(),pn)
+                                    #     for run in p.runs:
+                                    #         if 'w:br' in run._element.xml and 'type="page"' in run._element.xml:
+                                    #             pn+=1
+                                    #             #print(pn)
+                                if str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='pdf' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='PDF':
+                                    # print("if2")
+                                    import PyPDF2
+                                    filepath=dataroom_folder_serializer.data['path']
+                                    # print(filepath,"filepath")
+                                    pathsplit=filepath.split('/')
+                                    # print(pathsplit,"pathsplit")
+                                    from azure.storage.blob import BlockBlobService, PublicAccess
+                                    pathu=pathsplit[-2].replace("%20", " ")+"/"+pathsplit[-1].replace("%20", " ")
+                                    # print(pathu,"pathu")
+
+                                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                    container_name='docullycontainer'
+                                    block_blob_service.get_blob_to_path(container_name, pathu, pathsplit[-1])
+                                    with open(pathsplit[-1], 'rb') as fileee:
+                                        pdfReader = PyPDF2.PdfFileReader(fileee,strict=False)
+                                        pn = pdfReader.numPages
+                                dataroom_file.pages = pn
+                                dataroom_file.save()
+
+                                # dataroom_file.path = dataroom_files
+                                # #print("printtttttt", dataroom_file.path)
+                                # dataroom_file.save()
+                                # file is successfully saved
+
+                                if len(dataroom_filess) > 1:
+                                    Folderuploadinbulk.objects.create(folder_id=dataroom_folder_serializer.data.get("id"),user_id=user.id,dataroom_id=dataroomId,file_name=dataroom_folder_serializer.data.get("name"),bulkupload_id=bulkstatusdata.id)
+                                    Folderfailinbulk.objects.filter(user_id=user.id,dataroom_id=dataroomId,file_name=dataroom_folder_serializer.data.get("name"),file_pathh=datas.getlist('path')[i],is_folder=False,bulkupload_id=bulkstatusdata.id).delete()
+                                else:
+                                    single_file_log = Folderupload.objects.create(folder_id=dataroom_folder_serializer.data.get("id"),user_id=user.id,dataroom_id=dataroomId,file_name=dataroom_folder_serializer.data.get("name"))
+                                    single_file_uploaded = True
+
+
+
+                        else:
+                            print("else")
+                            print(dataroom_files)
+                            data['path'] = dataroom_files
+                            data['version'] = folder_obj.version + 1
+                            data['user'] = folder_obj.user.id
+                            data['dataroom'] = dataroomId
+                            data['last_updated_user'] = user.id
+                            data['file_size'] = dataroom_files._size
+                            if len(dataroom_filess) > 1:
+                                data['uploadedin_batch'] = True
+                            if is_notify == "Yes":
+                                data['notifymember']=True
+                            print('9999999999',data,folder_obj.id)
+                            serializer = DataroomFolderSerializer(folder_obj, data = data)
+                            # #print("serializer", serializer.is_valid())
+                            # #print("serializer", serializer.errors)
+                            if serializer.is_valid():
+                                serializer.save()
+                                dataroom_folder_serializer=serializer
+
+                                dataroom_file = DataroomFolder.objects.get(id=dataroom_folder_serializer.data.get('id'))
+
+                                from . import utils
+                                if str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='xlsx' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='csv' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='xls' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='txt':
+                                    # print("in xlsx")
+                                    import os
+                                    filepath=dataroom_folder_serializer.data['path']
+                                    # print(filepath,"filepath")
+                                    pathsplit=filepath.split('/')
+                                    # print(pathsplit,"pathsplit")
+                                    from azure.storage.blob import BlockBlobService, PublicAccess,ContentSettings
+                                    pathu=pathsplit[-2].replace("%20", " ")+"/"+pathsplit[-1].replace("%20", " ")
+                                    # print(pathu,"pathu")
+
+                                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                    container_name='docullycontainer'
+                                    block_blob_service.get_blob_to_path(container_name, pathu, pathsplit[-1])
+                                    dataroom_file.pages = int()
+                                    dataroom_file.save()
+                                    with open(pathsplit[-1], 'rb') as ifh:
+                                        read_data=ifh.read()
+                                        with open("/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1], 'wb') as fileee:
+                                            fileee.write(read_data)
+                                            # print("yes done pptx 8888888888888888888888888888888888888888888888899999999999999999999999999999999")
+
+                                    convert_to('/home/cdms_backend/cdms2/server_DocFile/',  "/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1])
+                                    fileext=pathsplit[-1].split('.')
+                                    fileext[-1]='pdf'
+                                    fileext='.'.join(fileext)
+
+                                    blob_na=pathsplit[4]+"/"+fileext
+                                    # print(blob_na,"blob_na")
+                                    block_blob_service.create_blob_from_path(
+                                    container_name,
+                                    blob_na,
+                                    "/home/cdms_backend/cdms2/server_DocFile/"+fileext,content_settings=ContentSettings(content_type='application/pdf'))
+                                    # print("file uploaded in server pptx")
+                                    # print("/home/cdms_backend/cdms2/server_DocFile/"+fileext[0]+".pdf")
+                                    os.remove('/home/cdms_backend/cdms2/DocFile_server/'+pathsplit[-1])
+                                    os.remove('/home/cdms_backend/cdms2/server_DocFile/'+fileext)
+                                    # print("file removed in folder pptx")
+                                #print(str(dataroom_folder_serializer.data.get('name')).split('.')[1])
+                                if str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='pptx' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='ppt':
+                                    # print("in pptx")
+                                    # print(dataroom_folder_serializer.data.get('name'),'ytyyyyyyyyyyyyytttttttttttttyrrrrrrrrrrrrrrr',str(dataroom_folder_serializer.data.get('name')).split('.')[-1])
+                                    import os
+                                    filepath=dataroom_folder_serializer.data['path']
+                                    # print(filepath,"filepath")
+                                    pathsplit=filepath.split('/')
+                                    # print(pathsplit,"pathsplit")
+                                    from azure.storage.blob import BlockBlobService, PublicAccess,ContentSettings
+                                    pathu=pathsplit[-2].replace("%20", " ").replace("%26","&")+"/"+pathsplit[-1].replace("%20", " ").replace("%26","&")
+                                    print(pathu,"pathu",pathsplit[-1])
+
+                                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                    container_name='docullycontainer'
+
+                                    block_blob_service.get_blob_to_path(container_name, pathu, pathsplit[-1])
+                                    dataroom_file.pages = int()
+                                    dataroom_file.save()
+                                    # print(pathu,"pathu")
+                                    with open(pathsplit[-1], 'rb') as ifh:
+                                        read_data=ifh.read()
+                                        with open("/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1], 'wb') as fileee:
+                                            fileee.write(read_data)
+                                            # print("yes done pptx")
+                                    convert_to('/home/cdms_backend/cdms2/server_DocFile/',  "/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1])
+                                    fileext=pathsplit[-1].split('.')
+                                    # fileext.pop(-1)
+                                    fileext[-1]='pdf'
+                                    fileext='.'.join(fileext)
+                                    # print(fileext,'ytyyyyyyyyyyyyytttttttttttttyrrrrrrrrrrrrrrr')
+
+                                    blob_na=pathsplit[4]+"/"+fileext
+                                    # print(blob_na,"blob_na")
+                                    block_blob_service.create_blob_from_path(
+                                    container_name,
+                                    blob_na,
+                                    "/home/cdms_backend/cdms2/server_DocFile/"+fileext,content_settings=ContentSettings(content_type='application/pdf'))
+                                    # print("file uploaded in server pptx")
+                                    # print("/home/cdms_backend/cdms2/server_DocFile/"+fileext[0]+".pdf")
+                                    os.remove('/home/cdms_backend/cdms2/DocFile_server/'+pathsplit[-1])
+                                    os.remove('/home/cdms_backend/cdms2/server_DocFile/'+fileext)
+                                    # print("file removed in folder pptx")
+                                if str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='docx' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='doc' or str(dataroom_folder_serializer.data.get('name')).split('.')[-1]=='odt':
+                                    #print(123)
+                                    # print("if1")
+                                    from docx import Document
+                                    import os
+                                    from azure.storage.blob import BlockBlobService, PublicAccess
+                                    from docx import Document
+                                    
+                                    fn='./'+str(dataroom_folder_serializer.data.get('path')).replace('%20',' ').replace(' ','\ ')
+                                    #print(fn)
+                                    filepath=dataroom_folder_serializer.data['path']
+                                    # print(filepath,"filepath")
+                                    pathsplit=filepath.split('/')
+                                    # print(pathsplit,"pathsplit")
+                                    from azure.storage.blob import BlockBlobService, PublicAccess,ContentSettings
+                                    pathu=pathsplit[-2].replace("%20", " ")+"/"+pathsplit[-1].replace("%20", " ")
+                                    # print(pathu,"pathu")
+
+                                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                    container_name='docullycontainer'
+                                    # print(container_name,pathu,pathsplit[-1],'thiddddddddd')
+                                    block_blob_service.get_blob_to_path(container_name, pathu, pathsplit[-1])
+                                    dataroom_file.pages = int()
+                                    dataroom_file.save()
+                                    # print(pathu,"pathu")
+                                    with open(pathsplit[-1], 'rb') as ifh:
+                                        read_data=ifh.read()
+                                        with open("/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1], 'wb') as fileee:
+                                            fileee.write(read_data)
+                                            # print("yes done")
+                                    convert_to('/home/cdms_backend/cdms2/server_DocFile/',  "/home/cdms_backend/cdms2/DocFile_server/"+pathsplit[-1])
+                                    fileext=pathsplit[-1].split('.')
+                                    fileext[-1]='pdf'
+                                    fileext='.'.join(fileext)
+
+                                    blob_na=pathsplit[4]+"/"+fileext
+                                    # print(blob_na,"blob_na")
+                                    block_blob_service.create_blob_from_path(
+                                    container_name,
+                                    blob_na,
+                                    "/home/cdms_backend/cdms2/server_DocFile/"+fileext,content_settings=ContentSettings(content_type='application/pdf'))
+                                    # print("file uploaded in server")
+                                    # print("/home/cdms_backend/cdms2/server_DocFile/"+fileext[0]+".pdf")
+                                    os.remove('/home/cdms_backend/cdms2/DocFile_server/'+pathsplit[-1])
+                                    os.remove('/home/cdms_backend/cdms2/server_DocFile/'+fileext)
+                                    # print("file removed in folder")
+                                    # import PyPDF2
+
+                                    # # fn='./'+str(dataroom_folder_serializer.data.get('path')).replace('%20',' ')
+                                    # # fn = str(fn).split('.')[0]+'.pdf'
+                                    # fn = './'+str(dataroom_folder_serializer.data.get('name')).replace(' ','_').split('.')[0]+'.pdf'
+                                    # # #print(fn,3434)
+                                    # # fn = str(fn).split('.')[0]+'.pdf'
+                                    # #print("value of fn_docx ====>",fn)
+                                    # import PyPDF2
+                                    # filepath=dataroom_folder_serializer.data['path']
+                                    # print(filepath,"filepath")
+                                    # pathsplit=filepath.split('/')
+                                    # print(pathsplit,"pathsplit")
+                                    # from azure.storage.blob import BlockBlobService, PublicAccess
+                                    # pathu=pathsplit[-2]+"/"+pathsplit[-1]
+                                    # block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                    # container_name='docullycontainer'
+                                    # block_blob_service.get_blob_to_path(container_name, pathu, pathsplit[-1])
+                                    # dataroom_file.pages = int()
+                                    # dataroom_file.save()
+                                    # unzip -p pathsplit[-1] docProps/app.xml | grep -oP '(?<=\<Pages\>).*(?=\</Pages\>)'
+                                #   with open(pathsplit[-1], 'rb') as fileee:
+                                #       pdfReader = PyPDF2.PdfFileReader(fileee)
+                                #       pn = pdfReader.numPages
+                                # dataroom_file.pages = pn
+                                # dataroom_file.save()
+                                    # os.system('rm -r '+fn)
+
+                                    # wordFileObj = open(fn, 'rb')
+                                    # document = Document(wordFileObj)
+                                    
+                                    # import re
+                                    # for p in document.paragraphs:
+                                    #     r = re.match('Chapter \d+',p.text)
+                                    #     if r:
+                                    #         #print(r.group(),pn)
+                                    #     for run in p.runs:
+                                    #         if 'w:br' in run._element.xml and 'type="page"' in run._element.xml:
+                                    #             pn+=1
+                                    #             #print(pn)
+
+
+
+                                utils.assign_view_permission(serializer.data,dataroomId)
+
+                                if len(dataroom_filess) > 1:
+                                    Folderuploadinbulk.objects.create(folder_id=serializer.data.get("id"),user_id=user.id,dataroom_id=dataroomId,file_name=serializer.data.get("name"),bulkupload_id=bulkstatusdata.id)
+                                    # Folderfailinbulk.objects.filter(user_id=user.id,dataroom_id=dataroomId,file_name=serializer.data.get("name"),bulkupload_id=bulkstatusdata.id).delete()
+                                    Folderfailinbulk.objects.filter(user_id=user.id,dataroom_id=dataroomId,file_name=dataroom_files.name,file_pathh=datas.getlist('path')[i],bulkupload_id=bulkstatusdata.id).delete()
+                                else:                
+                                    single_file_log = Folderupload.objects.create(folder_id=serializer.data.get("id"),user_id=user.id,dataroom_id=dataroomId,file_name=serializer.data.get("name"))
+                                    # print("else single_file_log",single_file_log.id)
+                                    single_file_uploaded = True
+
+                        
+                        if len(dataroom_filess) > 1:
+
+                            successfiles=Folderuploadinbulk.objects.filter(user_id=user.id,dataroom_id=dataroomId,is_folder=False,bulkupload_id=bulkstatusdata.id).count()
+                            failfiles=Folderfailinbulk.objects.filter(user_id=user.id,dataroom_id=dataroomId,is_folder=False,bulkupload_id=bulkstatusdata.id).count()
+                            # successfolders=Folderuploadinbulk.objects.filter(user_id=user.id,dataroom_id=dataroomId,is_folder=True,bulkupload_id=bulkstatusdata.id).count()
+                            # failfolders=Folderfailinbulk.objects.filter(user_id=user.id,dataroom_id=dataroomId,is_folder=True,bulkupload_id=bulkstatusdata.id).count()
+                            totalfiles=allfiledata['data'][0]['totalfilecount']
+                            print(successfiles,failfiles,totalfiles,'tttttttt')
+                            # totalfolders=successfolders+failfolders
+                            Bulkuploadstatus.objects.filter(id=bulkstatusdata.id).update(totalnumberoffiles=totalfiles,totaluploadedfiles=successfiles,totalfailedfiles=failfiles)
+                    except:
+                        pass
+            else:
+                # print("else2")
+                for path in datas.getlist('path'):
+                    # #print("pathhhhhh", path)
+                    pa = path.split("/")
+                    del pa[-1]
+                    # #print("paaaaaaaa", pa, path)
+                    parent_id = pk
+                    # #print("parent_id", parent_id)
+                    for p in pa:
+                        if int(parent_id) == 0:
+                            da = DataroomFolder.objects.filter(name = p, dataroom_id =dataroomId, is_deleted=False, is_root_folder=True)
+                        else:
+                            da = DataroomFolder.objects.filter(name = p,dataroom_id = dataroomId, parent_folder_id=parent_id, is_deleted= False, is_folder=True)
+                        # #print("daaaaa", len(da))
+                        if len(da) > 0:
+                            parent_id = da.first().id
+                        else:
+                            folder = self.create_folder(p, parent_id, dataroomId, user,len(dataroom_filess),bulkstatusdataid,is_notify,isenduser)
+                            parent_id = folder.id        
+
+            if len(dataroom_filess) > 1:
+                Bulkuploadstatus.objects.filter(id=bulkstatusdata.id).update(processcomplete=True)
+                if successfiles==totalfiles:
+                    Bulkuploadstatus.objects.filter(id=bulkstatusdata.id).update(isuploadfail=False)
+            if is_notify == "Yes":
+                from . import utils
+                if len(dataroom_filess) > 1:
+                    Bulkuploadstatus.objects.filter(id=bulkstatusdata.id).update(notifymember=True)
+                    bulkstatusdata=Bulkuploadstatus.objects.get(id=bulkstatusdata.id)
+                    member = DataroomMembers.objects.filter(dataroom_id = dataroomId, is_deleted=False,memberactivestatus=True)
+                    if bulkstatusdata.is_root_folder==False:                
+                        for mem in member:
+                            if mem.is_la_user == True or mem.is_dataroom_admin == True:
+                                allnot=AllNotifications.objects.filter(dataroom_id=dataroomId, user_id=mem.member.id,bulkuploadd_id=bulkstatusdata.id).exists()
+                                if allnot==False:
+                                    AllNotifications.objects.create(dataroom_id=dataroomId, user_id=mem.member.id,bulkuploadd_id=bulkstatusdata.id)
+                            else:
+                                if mem.end_user_group.first():
+                                        if DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=bulkstatusdata.parentfolder,dataroom_id=dataroomId, dataroom_groups_id=mem.end_user_group.first().id).exists():
+                                            perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=bulkstatusdata.parentfolder,dataroom_id=dataroomId, dataroom_groups_id=mem.end_user_group.first().id)
+                                            if perm_obj.is_no_access==False: 
+                                                allnot=AllNotifications.objects.filter(dataroom_id=dataroomId, user_id=mem.member.id,bulkuploadd_id=bulkstatusdata.id).exists()
+                                                if allnot==False:                               
+                                                    AllNotifications.objects.create(dataroom_id=dataroomId, user_id=mem.member.id,bulkuploadd_id=bulkstatusdata.id)
+                    else:
+                        for mem in member:
+                            if mem.is_la_user == True or mem.is_dataroom_admin == True:
+                                allnot=AllNotifications.objects.filter(dataroom_id=dataroomId, user_id=mem.member.id,bulkuploadd_id=bulkstatusdata.id).exists()
+                                if allnot==False:
+                                    AllNotifications.objects.create(dataroom_id=dataroomId, user_id=mem.member.id,bulkuploadd_id=bulkstatusdata.id)
+                # print("==== dataroomId",dataroomId)
+                dr_overview = DataroomOverview.objects.filter(dataroom_id=dataroomId).first()
+                if dr_overview.send_daily_email_updates:
+                    if dataroom_file!='':
+                        upload_type = False
+                        # print("all the data for mail dataroom_file",dataroom_file)
+                        # if single_file_log.id is not None:
+                        #     print("single file")
+                        #     utils.send_notify_to_all_members_regarding_uploaded_file(dataroom_file,single_file_log.id)
+                        if len(dataroom_filess) > 1:
+                            upload_type = True
+                            # print("bulk upload id email",bulkstatusdata.id)
+                            utils.send_notify_to_all_members_regarding_uploaded_file(dataroom_file,bulkstatusdata.id,upload_type)
+                        else:
+                            utils.send_notify_to_all_members_regarding_uploaded_file(dataroom_file,single_file_log.id,upload_type)
+            print('hello rushi coming till here lllllllllllllllllll')
+            data = { 'message':"File successfully uploaded !"}
+
+        except:
+            if len(dataroom_filess) > 1:
+                    Bulkuploadstatus.objects.filter(id=bulkstatusdata.id).update(processcomplete=True)
+            data = { 'message':"Sorry Some Technical issue occured. Please Try Again."}
+
+
+        return Response(data = data, status=status.HTTP_201_CREATED)
+
+
+
+class UpdateFolderOrFileName(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, format=None):
+        data = request.data
+        user = request.user
+        folder = data.get('folder')
+        try:
+            dataroom_folder = DataroomFolder.objects.get(id=folder.get('id'))
+            dataroom_folder.name = folder.get('name')
+            dataroom_folder.save()
+            return Response({'msg':'Folder/File successfully updated !'}, status=status.HTTP_201_CREATED)
+        except:
+            # print ("model dows not exist")
+            return Response({'msg':'Folder/File does not exist !'}, status=status.HTTP_400_BAD_REQUEST)
+
+def folderdeletionmethod(request,id,bulk_activity_trackerid,flagg,current_date):
+    DataroomFolder.objects.filter(parent_folder_id=id).update(is_deleted=True,deleted_by_id=request.user.id,deleted_by_date=current_date)
+    dataroom_folder = DataroomFolder.objects.filter(parent_folder_id=id)
+    new_data=''
+    # for j in DataroomFolder.objects.filter(parent_folder_id=id).values():
+    #     print("value of j -->",j)
+    # print("get the delete value ===>",dataroom_folder)
+    for i in  dataroom_folder:
+        # print("the value of i in delete folder-->",i)
+        if dataroom_folder.count() > 1 or flagg==1:
+            # print("first flagg here ---->",flagg)
+            if flagg==0:    
+                # print(dataroom_folder[0].dataroom_id,"if flagg is zero now -->",flagg)
+                bulk_activity_tracker = BulkActivityTracker()
+                bulk_activity_tracker.user_id = request.user.id
+                bulk_activity_tracker.dataroom_id = dataroom_folder[0].dataroom_id
+                bulk_activity_tracker.save()
+                bulk_activity_trackerid=bulk_activity_tracker.id
+                flagg=1
+                # print("flag changed here now -->")
+            FolderDeleteDownload.objects.create(user_id=request.user.id,folder_id=i.id,dataroom_id=i.dataroom_id,bulk_event_id=bulk_activity_trackerid)
+        else:
+            # FolderDeleteDownload.objects.create(user_id=request.user.id,folder_id=i.id,dataroom_id=dataroom_folder.dataroom_id)
+            FolderDeleteDownload.objects.create(user_id=request.user.id,folder_id=i.id,dataroom_id=i.dataroom_id)
+
+        new_data = change_all_indexes(i)
+        if i.is_folder:
+            folderdeletionmethod(request,i.id,bulk_activity_trackerid,flagg,current_date)
+    return new_data
+
+class DeleteAllSelectedFiles(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, format=None):
+        data = request.data
+        user = request.user
+        # print("check the delete data value",data)
+        folders = data.get('folder')
+        folders_id = [folder.get('id') for folder in folders if folder.get('selected') == True]
+        current_date = timezone.now()
+        flagg=0
+        bulk_activity_trackerid=0
+        ttt=1
+        # try:
+        if ttt==1:
+            # print("check the dataroom-->",data['folder'][0]['dataroom'])
+            new_data = []
+            if len(folders_id) > 1:
+                bulk_activity_tracker = BulkActivityTracker()
+                bulk_activity_tracker.user_id = user.id
+                bulk_activity_tracker.dataroom_id = data['folder'][0]['dataroom']
+                bulk_activity_tracker.save()
+                bulk_activity_trackerid = bulk_activity_tracker.id
+                # print("id of bulk delete -->",bulk_activity_trackerid)
+
+
+            for _id in folders_id:
+                dataroom_folder = DataroomFolder.objects.get(id=_id)
+                if len(folders_id) > 1:
+                    # print("if > 1")
+                    FolderDeleteDownload.objects.create(user_id=request.user.id,folder_id=dataroom_folder.id,dataroom_id=dataroom_folder.dataroom_id,bulk_event_id=bulk_activity_trackerid)
+                    flagg=1
+                else:
+                    # print("else ")
+                    if dataroom_folder.is_folder==False:
+                        FolderDeleteDownload.objects.create(user_id=request.user.id,folder_id=dataroom_folder.id,dataroom_id=dataroom_folder.dataroom_id)
+                dataroom_folder.is_deleted =  True
+                dataroom_folder.deleted_by = user
+                dataroom_folder.deleted_by_date = current_date#add current date
+                dataroom_folder.save()
+                new_data = change_all_indexes(dataroom_folder)
+                if dataroom_folder.is_folder:
+                    new_data =folderdeletionmethod(request,_id,bulk_activity_trackerid,flagg,current_date)
+
+            dataroom_folder_serializer = DataroomFolderSerializer(new_data, many=True)    
+            return Response(dataroom_folder_serializer.data, status=status.HTTP_201_CREATED)
+        # except Exception as e:
+        #     print("here in except",e)
+        #     # print ("model does not exist")
+        #     return Response({'msg':'Folder/File successfully deleted !'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ShowDeletedFiles(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+
+    def get(self, request, pk):
+        dataroom_folder = DataroomFolder.objects.filter(parent_folder_id=pk)
+        if dataroom_folder.exists():
+            if dataroom_folder.count() > 0:
+                dataroom_folder_serializer = DataroomFolderSerializer(dataroom_folder, many=True)
+                data = dataroom_folder_serializer.data
+                return Response({'data':data},status=status.HTTP_201_CREATED)
+            else:
+                return Response({'data':"","msg":"This folder does not contain any files"},status=status.HTTP_201_CREATED)
+        else:
+            return Response({'data':"","msg":"This folder does not contain any files"},status=status.HTTP_201_CREATED)
+
+
+
+class GetAllTrashedFilesAndFolders(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        import datetime
+        user = request.user
+        dataroompermission=dataroom_utils.checkdataroomaccess(user.id,int(pk))
+        if dataroompermission==False:
+                data = request.data
+                # todaysdatee = str(datetime.date.today())
+
+                # todaysdatee = str(todaysdatee+'T23:59:50')
+
+                # todaysdatee=datetime.datetime.strptime( todaysdatee, '%Y-%m-%dT%H:%M:%S')
+
+
+                count = 0
+                deleted_bys = request.GET.get('deleted_by')
+
+                q_list = [Q(deleted_by__last_name__icontains=deleted_bys), Q(deleted_by__first_name__icontains=deleted_bys)]
+
+                from_date = request.GET.get('from_date')
+                to_date = request.GET.get('to_date')
+
+                import datetime
+
+                if (from_date == '' or from_date is None) and (to_date == '' or to_date is None):   
+                    dataroom_folder = DataroomFolder.objects.filter(dataroom__id=pk, is_deleted=True).filter(reduce(operator.or_, q_list)).order_by('-deleted_by_date')
+                    exclude_file_list = [i for i in dataroom_folder.values('parent_folder_id','id')]
+                    exclude_id = []
+                    for i in exclude_file_list:
+                        if i['parent_folder_id'] is not None:
+                          qs = DataroomFolder.objects.filter(id=i['parent_folder_id'],is_deleted=True)
+                          if qs.exists():
+                            exclude_id.append(i['id'])
+                    # print("dataroom_folder_if",dataroom_folder)
+
+                    dataroom_folder = dataroom_folder.exclude(id__in=exclude_id)
+                elif from_date == '' or from_date is None: 
+                    todays_date = datetime.datetime.strftime(datetime.datetime.strptime( to_date, '%Y-%m-%d'),'%Y-%m-%d 23:59:59+05:30')
+                    dataroom_folder = DataroomFolder.objects.filter(dataroom__id=pk, is_deleted=True,deleted_by_date__lte=todays_date).filter(reduce(operator.or_, q_list)).order_by('-deleted_by_date')
+                    exclude_file_list = [i for i in dataroom_folder.values('parent_folder_id','id')]
+                    exclude_id = []
+                    for i in exclude_file_list:
+                        if i['parent_folder_id'] is not None:
+                          qs = DataroomFolder.objects.filter(id=i['parent_folder_id'],is_deleted=True)
+                          if qs.exists():
+                            exclude_id.append(i['id'])
+                    # print("elif second",dataroom_folder)
+
+                    dataroom_folder = dataroom_folder.exclude(id__in=exclude_id)
+                    count=dataroom_folder.count()
+
+                elif to_date=='' or to_date is None:
+                    first_date = datetime.datetime.strftime(datetime.datetime.strptime( from_date, '%Y-%m-%d'),'%Y-%m-%d 00:00:00+05:30')
+                    dataroom_folder = DataroomFolder.objects.filter(dataroom__id=pk, is_deleted=True,deleted_by_date__gte=first_date).filter(reduce(operator.or_, q_list)).order_by('-deleted_by_date')
+                    exclude_file_list = [i for i in dataroom_folder.values('parent_folder_id','id')]
+                    exclude_id = []
+                    for i in exclude_file_list:
+                        if i['parent_folder_id'] is not None:
+                          qs = DataroomFolder.objects.filter(id=i['parent_folder_id'],is_deleted=True)
+                          if qs.exists():
+                            exclude_id.append(i['id'])
+                    # print("elif third",dataroom_folder)
+
+                    dataroom_folder = dataroom_folder.exclude(id__in=exclude_id)
+                    count=dataroom_folder.count()
+                else:
+                    todays_date = datetime.datetime.strftime(datetime.datetime.strptime( to_date, '%Y-%m-%d'),'%Y-%m-%d 23:59:59+05:30')
+
+                    first_date = datetime.datetime.strftime(datetime.datetime.strptime( from_date, '%Y-%m-%d'),'%Y-%m-%d 00:00:00+05:30')
+
+                    dataroom_folder = DataroomFolder.objects.filter(dataroom__id=pk, is_deleted=True,deleted_by_date__gte=first_date, deleted_by_date__lte=todays_date).filter(reduce(operator.or_, q_list)).order_by('-deleted_by_date')
+                    exclude_file_list = [i for i in dataroom_folder.values('parent_folder_id','id')]
+                    exclude_id = []
+                    for i in exclude_file_list:
+                        if i['parent_folder_id'] is not None:
+                          qs = DataroomFolder.objects.filter(id=i['parent_folder_id'],is_deleted=True)
+                          if qs.exists():
+                            exclude_id.append(i['id'])
+                    # print("else condition check",dataroom_folder.values())
+
+                    dataroom_folder = dataroom_folder.exclude(id__in=exclude_id)
+                    count=dataroom_folder.count()
+
+                dataroom_folder_serializer = DataroomFolderSerializer(dataroom_folder, many=True)
+                data = dataroom_folder_serializer.data
+                # for i in data:
+                #     date_object = datetime.datetime.strptime(str(i['deleted_by_date']).replace('T',' ',1),'%Y-%m-%d %H:%M:%S.%f')
+                #     i['deleted_by_date'] = date_object.strftime('%d/%m/%Y %H:%M:%S')
+
+                page = paginator.paginate_queryset(data, request)
+
+                for da in data:
+                    deleted_by = User.objects.get(id=da['deleted_by'])
+                    da['deleted_by'] = (UserSerializer(deleted_by, many=False)).data
+                data.sort(key=lambda item:item['deleted_by_date'], reverse=True)
+
+                return Response({'data':data, 'size':count})
+        else:
+            return Response(None)
+
+class GetAllRecentDocument(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        # print ("get all recent document data")        
+        data = request.data
+        user = request.user
+        from_date = request.GET.get('from_date')
+        to_date = request.GET.get('to_date')
+        if from_date == '' and to_date == '':
+            dataroom_folder = DataroomFolder.objects.filter(dataroom_id=pk, is_deleted=False, is_folder=False).order_by('-created_date')
+        else:   
+            import datetime
+            todays_date = datetime.datetime.strftime(datetime.datetime.strptime( to_date, '%Y-%m-%d'),'%Y-%m-%d 23:59:59+05:30')
+            first_date = datetime.datetime.strftime(datetime.datetime.strptime( from_date, '%Y-%m-%d'),'%Y-%m-%d 00:00:00+05:30')
+
+            #date_from = datetime.now() - datetime.timedelta(days=30)
+            dataroom_folder = DataroomFolder.objects.filter(dataroom_id=pk, is_deleted=False, is_folder=False, created_date__gte=first_date, created_date__lte=todays_date).order_by('-created_date')
+        dataroom_folder_serializer = DataroomFolderSerializer(dataroom_folder, many=True)
+        data = dataroom_folder_serializer.data
+        from . import utils
+        for da in data:
+            da['index'] = utils.getIndexes(da)
+            da['parent_folders'] = DataroomFolder.objects.get(id = da['parent_folder']).name
+            try:
+               perm = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=pk)
+               perm_serializer = DataroomGroupFolderSpecificPermissionsSerializer(perm, many=False)
+               da['perm'] = perm_serializer.data
+            except:
+               da['perm'] = {}
+            if user.is_superadmin == True or user.is_admin == True:
+                da['perm']['is_view_only'] = True
+                da['perm']['is_no_access'] = False
+                da['perm']['is_access'] = True
+                da['perm']['is_view_and_print'] = True
+                da['perm']['is_view_and_print_and_download'] = True
+                da['perm']['is_upload'] = True
+                da['perm']['is_watermarking'] = True
+                da['perm']['is_drm'] = True
+                da['perm']['is_editor'] = True
+        return Response(data)
+
+class EditIndexOfRootFolder(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def update_indexing_logic(self, objects, old_index, index_to_be_updated):
+        # print ("update indexing logic")
+        for obj in objects:
+            # print ("obj id", obj.index)
+            if obj.index == old_index:
+                try:
+                    obj.index = int(index_to_be_updated)
+                    obj.save()
+                    # print ("index is successfully updated")
+                except:
+                    print ("error in saving index")
+            else:
+                    obj.index += 1
+                    obj.save()
+                    # print ("reindexed all indexes")
+
+    def post(self, request, format=None):
+        #pdb.set_trace()
+        # print ("inside edit index of root folder")
+        data  = request.data
+        user = request.user
+        dataroomId = data.get('dataroomId')
+        folder_data = data.get('folder')
+        # print ("folder data is", folder_data)
+        index_to_be_updated = folder_data.get('index')
+        id = folder_data.get('id')
+        old_index = DataroomFolder.objects.get(id=folder_data.get('id'))
+        old_index = old_index.index
+        # print ("new index is", index_to_be_updated)
+        # print ("old index is", old_index)
+
+        
+        if index_to_be_updated>0:
+            if folder_data.get('is_folder') :
+                if folder_data.get('is_root_folder'):
+                    #print(90)
+                    min_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=True, is_folder=True, is_deleted=False).aggregate(Min('index'))
+                    max_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=True, is_folder=True, is_deleted=False).aggregate(Max('index'))
+                    # print('min_data_index',min_data_index,'max_data_index',max_data_index,'  yy1')
+                    min_data_index = min_data_index.get('index__min')
+                    max_data_index = max_data_index.get('index__max')
+                    # print('min_data_index',min_data_index,'max_data_index',max_data_index,'   yy2')
+
+                    dataroom_folder = DataroomFolder.objects.get(id=id, is_deleted=False, is_root_folder=True, is_folder=True)
+                    try:
+                        dataroom_folder_new = DataroomFolder.objects.get(dataroom_id = dataroomId, index=index_to_be_updated, is_deleted=False, is_root_folder=True, is_folder=True)
+                    except:
+                        get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_deleted=False, is_root_folder=True).order_by('index')
+                        dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+
+                        return Response({'msg':'Max '+''+str(max_data_index)+''+' is Allowed!', 'data': dataroom_folder_serializer.data}, status=status.HTTP_400_BAD_REQUEST)
+
+                    if (index_to_be_updated >= min_data_index) and (index_to_be_updated <=max_data_index):
+                        temp_idx = dataroom_folder.index
+                        dataroom_folder.index = index_to_be_updated
+                        # print('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR',dataroom_folder.index,'this updating')
+                        dataroom_folder_new.index = temp_idx
+                        dataroom_folder.save()
+                        dataroom_folder_new.save()
+
+                        get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_deleted=False, is_root_folder=True).order_by('index')
+                        dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+
+                        return Response({'msg':'Index is successfully updated !', 'data': dataroom_folder_serializer.data}, status=status.HTTP_201_CREATED)
+                    else:
+                        get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_deleted=False, is_root_folder=True).order_by('index')
+                        dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+
+                        return Response({'msg':'Index is successfully updated !', 'data': dataroom_folder_serializer.data}, status=status.HTTP_400_BAD_REQUEST)
+                else:
+
+                    min_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=False, is_folder=True, is_deleted=False, parent_folder_id= folder_data.get('parent_folder')).aggregate(Min('index'))
+                    max_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=False, is_folder=True, is_deleted=False, parent_folder_id= folder_data.get('parent_folder')).aggregate(Max('index'))
+                    #print(max_data_index)
+                    min_data_index = min_data_index.get('index__min')
+                    max_data_index = max_data_index.get('index__max')
+
+                    dataroom_folder = DataroomFolder.objects.get(id=id, is_deleted=False, is_root_folder=False, is_folder=True, parent_folder_id= folder_data.get('parent_folder'))
+                    try:
+                        dataroom_folder_new = DataroomFolder.objects.get(dataroom_id = dataroomId, index=index_to_be_updated, is_deleted=False, is_root_folder=False, is_folder=True, parent_folder_id= folder_data.get('parent_folder'))
+                    except:
+                        get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, parent_folder_id=folder_data.get('parent_folder'), is_deleted=False, is_root_folder=False).order_by('index')
+                        dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+
+                        return Response({'msg':'Max '+''+str(max_data_index)+''+' is Allowed!', 'data': dataroom_folder_serializer.data}, status=status.HTTP_400_BAD_REQUEST)
+
+                    if (index_to_be_updated >=  min_data_index) and (index_to_be_updated <=max_data_index):
+                        temp_idx = dataroom_folder.index
+                        dataroom_folder.index = index_to_be_updated
+                        dataroom_folder_new.index = temp_idx
+                        dataroom_folder.save()
+                        dataroom_folder_new.save()
+
+                        get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, parent_folder_id=folder_data.get('parent_folder'), is_deleted=False, is_root_folder=False).order_by('index')
+                        dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+
+                        return Response({'msg':'Index is successfully updated !', 'data': dataroom_folder_serializer.data}, status=status.HTTP_201_CREATED)
+                    else:
+                        get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, parent_folder_id=folder_data.get('parent_folder'), is_deleted=False, is_root_folder=False).order_by('index') 
+                        dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+
+                        return Response({'msg':'Index is Not updated!', 'data': dataroom_folder_serializer.data}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+
+                if folder_data.get('parent_folder'):
+                    min_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=False, is_folder=False, is_deleted=False, parent_folder_id= folder_data.get('parent_folder')).aggregate(Min('index'))
+                    max_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=False, is_folder=False, is_deleted=False, parent_folder_id= folder_data.get('parent_folder')).aggregate(Max('index'))
+                    #print(max_data_index)
+                    min_data_index = min_data_index.get('index__min')
+                    max_data_index = max_data_index.get('index__max')
+
+                    dataroom_file = DataroomFolder.objects.get(id=id, is_deleted=False, is_root_folder=False, is_folder=False, parent_folder_id= folder_data.get('parent_folder'))
+                    try:
+                        dataroom_file_new = DataroomFolder.objects.get(dataroom_id = dataroomId, index=index_to_be_updated, is_deleted=False, is_root_folder=False, is_folder=False, parent_folder_id= folder_data.get('parent_folder'))
+                    except:
+                        get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, parent_folder_id=folder_data.get('parent_folder'), is_deleted=False, is_root_folder=False).order_by('index')
+                        dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+
+                        return Response({'msg':'Max '+''+str(max_data_index)+''+' is Allowed!', 'data': dataroom_folder_serializer.data}, status=status.HTTP_400_BAD_REQUEST)
+
+                    if (index_to_be_updated >=  min_data_index) and (index_to_be_updated <=max_data_index):
+                        temp_idx = dataroom_file.index
+                        dataroom_file.index = index_to_be_updated
+                        dataroom_file_new.index = temp_idx
+                        dataroom_file.save()
+                        dataroom_file_new.save()
+
+                        get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, parent_folder_id=folder_data.get('parent_folder'), is_deleted=False, is_root_folder=False).order_by('index')
+                        dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+                        return Response({'msg':'Index is successfully updated !', 'data': dataroom_folder_serializer.data}, status=status.HTTP_201_CREATED)
+                    else:
+                        get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, parent_folder_id=folder_data.get('parent_folder'), is_deleted=False, is_root_folder=False).order_by('index')
+                        dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+
+                        return Response({'msg':'Index is Not updated!', 'data': dataroom_folder_serializer.data}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            if folder_data.get('parent_folder'):
+
+                get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, parent_folder_id=folder_data.get('parent_folder'), is_deleted=False, is_root_folder=False).order_by('index')
+                dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+            else:
+                get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_deleted=False, is_root_folder=True).order_by('index')
+                dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+
+            return Response({'msg':'Index should be greater than Zero!', 'data': dataroom_folder_serializer.data}, status=status.HTTP_400_BAD_REQUEST)
+                    # for i in dataroom_folder:
+                        # #print(i)
+                        # if i.path=='/media/f383d620-6f05-4f61-b6a6-8d6d8ebc074a':
+                        #     #print(1)
+                            # object.save()
+                    # dataroom_folder.path='/media/f383d620-6f05-4f61-b6a6-8d6d8ebc074a'
+                    # dataroom_folder.save()
+
+                    # #print(dataroom_folder.get('index'))
+                    # data = json.loads(dataroom_folder_serializer.data)
+                    # data_1 = json.loads(dataroom_folder_serializer_new.data)
+
+                    # try:
+                    #     obj.index = int(index_to_be_updated)
+                    #     obj.save()
+                    #     #print("Sucess")
+                    # except:
+                    #     print ("error in saving index")
+                    # #print(dataroom_folder_serializer.data)
+                    # #print(data)
+                    # if data:
+                    #     for obj in data:
+                    #         #print(obj)
+
+
+        # if index_to_be_updated > 0:
+        #     if folder_data.get('is_folder') :
+        #         if folder_data.get('is_root_folder'):
+        #             # print ("folder is root folder")
+        #             min_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=True, is_folder=True, is_deleted=False).aggregate(Min('index'))
+        #             max_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=True, is_folder=True, is_deleted=False).aggregate(Max('index'))
+        #             min_data_index = min_data_index.get('index__min')
+        #             max_data_index = max_data_index.get('index__max')
+        #             # print ("min_data_index", min_data_index)
+        #             # print ("max_data_index", max_data_index)
+        #             # index should be greater than minimum amount and less than maximum amount.
+        #             if (index_to_be_updated >=  min_data_index) and (index_to_be_updated <=max_data_index):
+        #                 """ update index here """
+        #                 get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=True, is_folder=True, is_deleted=False, index__lte=old_index, index__gte=index_to_be_updated)
+        #                 """ iterate all objects here """
+                        
+        #                 # update all indexes here
+        #                 self.update_indexing_logic(get_all_objects, old_index, index_to_be_updated)
+        #                 # edit expected index 
+        #                 get_all_objects = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=True, is_folder=True, is_deleted=False).order_by('index')
+            
+        #                 dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+        #                # print ("dataroom folder serializer data", dataroom_folder_serializer.data)
+        #                 return Response({'msg':'Index is successfully updated !', 'data': dataroom_folder_serializer.data}, status=status.HTTP_201_CREATED)
+        #             else:
+        #                 return Response({'msg':'Index should be less than maximum index. '}, status=status.HTTP_400_BAD_REQUEST)
+        #         else:
+        #                 # check expected index should be  greater than min index and less than max index.  
+        #                 min_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=False, is_folder=True, is_deleted=False, parent_folder_id= folder_data.get('parent_folder')).aggregate(Min('index'))
+        #                 max_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=False, is_folder=True, is_deleted=False, parent_folder_id= folder_data.get('parent_folder')).aggregate(Max('index'))
+        #                 min_data_index = min_data_index.get('index__min')
+        #                 max_data_index = max_data_index.get('index__max')
+        #                 # print ("min_data_index", min_data_index)
+        #                 # print ("max_data_index", max_data_index)
+        #                 # index should be greater than minimum amount and less than maximum amount. 
+        #                 if (index_to_be_updated >=  min_data_index) and (index_to_be_updated <= max_data_index):
+        #                     # update index here
+        #                     get_all_objects = DataroomFolder.objects.filter(parent_folder_id=folder_data.get('parent_folder'), is_deleted=False, is_folder=True, is_root_folder=False, index__lte=old_index, index__gte=index_to_be_updated)#.update(index = F('index')-1)  
+        #                     # update indexing logic
+        #                     self.update_indexing_logic(get_all_objects, old_index, index_to_be_updated)
+        #                     # get all objects
+        #                     get_all_objects = DataroomFolder.objects.filter(parent_folder_id=folder_data.get('parent_folder'), is_deleted=False, is_folder=True, is_root_folder=False)  
+        #                     dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+        #                     return Response({'msg':'Index is successfully updated !', 'data': dataroom_folder_serializer.data}, status=status.HTTP_201_CREATED)
+        #                 else:
+        #                     return Response({'msg':'Index should be less than maximum index. '}, status=status.HTTP_400_BAD_REQUEST)
+        #     else :
+        #         # print ("folder data is file")
+        #         min_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=False, is_folder=False, is_deleted=False, parent_folder_id= folder_data.get('parent_folder')).aggregate(Min('index'))
+        #         max_data_index = DataroomFolder.objects.filter(dataroom_id = dataroomId, is_root_folder=False, is_folder=False, is_deleted=False, parent_folder_id= folder_data.get('parent_folder')).aggregate(Max('index'))
+        #         min_data_index = min_data_index.get('index__min')
+        #         max_data_index = max_data_index.get('index__max')
+        #         # print ("min_data_index", min_data_index)
+        #         # print ("max_data_index", max_data_index)
+        #         # index should be greater than minimum amount and less than maximum amount. 
+        #         if (index_to_be_updated >=  min_data_index) and (index_to_be_updated <= max_data_index):
+        #             # update index here
+        #             get_all_objects = DataroomFolder.objects.filter(parent_folder_id=folder_data.get('parent_folder'), is_deleted=False, is_folder=False, is_root_folder=False, index__lte=old_index, index__gte=index_to_be_updated)#.update(index = F('index')-1)  
+        #             self.update_indexing_logic(get_all_objects, old_index, index_to_be_updated)
+        #             get_all_objects = DataroomFolder.objects.filter(parent_folder_id=folder_data.get('parent_folder'), is_deleted=False, is_folder=False, is_root_folder=False)  
+        #             dataroom_folder_serializer = DataroomFolderSerializer(get_all_objects, many=True)
+        #             return Response({'msg':'Index is successfully updated !', 'data': dataroom_folder_serializer.data}, status=status.HTTP_201_CREATED)
+        #         else:
+        #             return Response({'msg':'Index should be less than maximum index. '}, status=status.HTTP_400_BAD_REQUEST)
+        # else:   
+        #     return Response({'msg':'Index should be less than maximum index. '}, status=status.HTTP_400_BAD_REQUEST)
+
+def deletefolderpermanant(folder,request):
+    DataroomFolder.objects.filter(parent_folder_id=folder).update(is_deleted_permanent=True,permanent_deleted_by_id=request.user.id)    
+    temp=DataroomFolder.objects.filter(parent_folder_id=folder)
+    for i in temp:
+        if i.is_folder:
+            deletefolderpermanant(i.id,request)
+        else:
+            file_name = str(i.path).split("/")[-2].replace("%20", " ")+"/"+str(i.path).split("/")[-1].replace("%20", " ")
+            container_name ='docullycontainer'
+            block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==',sas_token = sas_url)
+            block_blob_service.delete_blob(container_name, file_name, snapshot=None)
+            pathsort2=file_name.split(".")
+            if pathsort2[-1]=='pptx' or pathsort2[-1]=='docx' or pathsort2[-1]=='ppt' or pathsort2[-1]=='doc' or pathsort2[-1]=='xlsx' or pathsort2[-1]=='xls' or pathsort2[-1]=='csv':
+                    pathsort2[-1]='pdf'
+                    file_name='.'.join(pathsort2)
+                    block_blob_service.delete_blob(container_name, file_name, snapshot=None)
+
+
+
+
+class PermanantDeleteFolder(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def delete(self, request, pk, format=None):
+        # print ("dataroom folder pk is ", pk)
+        DataroomFolder.objects.filter(id=pk).update(is_deleted_permanent=True,permanent_deleted_by_id=request.user.id)
+        temp1=DataroomFolder.objects.filter(id=pk).first()
+        if temp1.is_folder:
+            deletefolderpermanant(pk,request)
+        else:            
+            file_name = str(temp1.path).split("/")[-2].replace("%20", " ")+"/"+str(temp1.path).split("/")[-1].replace("%20", " ")
+            container_name ='docullycontainer'
+            block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==',sas_token = sas_url)
+            block_blob_service.delete_blob(container_name, file_name, snapshot=None)
+            pathsort2=file_name.split(".")
+            if pathsort2[-1]=='pptx' or pathsort2[-1]=='docx' or pathsort2[-1]=='ppt' or pathsort2[-1]=='doc' or pathsort2[-1]=='xlsx' or pathsort2[-1]=='xls' or pathsort2[-1]=='csv':
+                    pathsort2[-1]='pdf'
+                    file_name='.'.join(pathsort2)
+                    block_blob_service.delete_blob(container_name, file_name, snapshot=None)
+        return Response({'msg':'Folder / File successfully deleted !'}, status=status.HTTP_201_CREATED)
+
+
+def update_restore_files(pk,sub_folder_selected,request):
+    import datetime
+    if sub_folder_selected:
+        # print("sub_folder_selected",pk)
+        qs = DataroomFolder.objects.filter(parent_folder_id=pk,is_root_folder=False,is_deleted=True,is_folder=False)
+        if qs.exists():
+            qs.update(is_deleted=False,updated_date=datetime.datetime.now())
+        else:
+            qs = DataroomFolder.objects.filter(id=pk,is_root_folder=True,is_deleted=True)
+            if qs.exists():
+                qs.update(is_deleted=False,updated_date=datetime.datetime.now())
+        return True
+    else:
+        qs = DataroomFolder.objects.filter(parent_folder_id=pk,is_deleted=True,is_folder=False)
+        if qs.exists():
+            qs.update(is_deleted=False,updated_date=datetime.datetime.now())
+        else:
+            qs = DataroomFolder.objects.filter(id=pk,is_deleted=True)
+            if qs.exists():
+                qs.update(is_deleted=False,updated_date=datetime.datetime.now())
+        return True
+
+
+def restore_file_id(pk,restore_result_list,sub_folder_selected,request):
+    if sub_folder_selected:
+        # print("sub_folder_selected enter",pk)
+        check_qs = DataroomFolder.objects.filter(id=pk,is_deleted=True)
+        if check_qs.exists():
+            qs = DataroomFolder.objects.get(id=pk,is_deleted=True)
+            # print(qs.is_root_folder,"check here")
+            if qs.is_root_folder:
+                print("exit")
+                # restore_result_list.append(qs.id)
+            else: 
+                if qs.is_folder and qs.is_root_folder is False: 
+                    # print("is folder restore",qs.parent_folder_id)
+                    restore_result_list.append(qs.parent_folder_id)
+                    restore_file_id(qs.parent_folder_id,restore_result_list,sub_folder_selected,request)
+                else:
+                    # print("else not folder restore",qs.parent_folder_id)
+                    restore_result_list.append(qs.parent_folder_id)
+                    restore_file_id(qs.parent_folder_id,restore_result_list,sub_folder_selected,request)
+                ################## - changed 16-11-2020
+                # if qs.is_folder and qs.is_root_folder is False: 
+                #     restore_result_list.append(qs.parent_folder_id)
+                #     restore_file_id(qs.parent_folder_id,restore_result_list,sub_folder_selected,request)
+                # else:
+                #     restore_result_list.append(qs.parent_folder_id)
+                #     restore_file_id(qs.parent_folder_id,restore_result_list,sub_folder_selected,request)
+        else:
+            pass
+        return restore_result_list
+    else:
+        qs = DataroomFolder.objects.get(id=pk,is_deleted=True)
+
+        if qs.is_root_folder: 
+            qs = DataroomFolder.objects.filter(parent_folder_id=qs.id,is_folder=True,is_deleted=True).values('id') 
+            for i in qs:
+                restore_result_list.append(i["id"])
+                restore_file_id(i["id"],restore_result_list,sub_folder_selected,request)
+        else: 
+            if qs.is_folder:
+                qs = DataroomFolder.objects.filter(parent_folder_id=qs.id,is_folder=True,is_deleted=True).values('id') 
+                for i in qs:
+                    restore_result_list.append(i["id"])
+                    restore_file_id(i["id"],restore_result_list,sub_folder_selected,request)
+        return restore_result_list
+
+
+class RestoreFolderFiles(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+
+    def get(self, request, pk, format=None):
+        # print ("dataroom folder pk is ", pk)
+        delete_folder = DataroomFolder.objects.get(id=pk)
+        delete_folder.is_deleted = False
+        if delete_folder.is_root_folder == True:
+            # #print("It is root folder")
+            max_index = DataroomFolder.objects.filter(dataroom_id=delete_folder.dataroom_id, is_root_folder=True, is_folder=True, is_deleted=False).aggregate(Max('index'))
+        else:
+            # #print("It is not root folder")
+            if delete_folder.is_folder == True:
+                # #print("But it is a folder")
+                max_index = DataroomFolder.objects.filter(parent_folder_id=delete_folder.parent_folder_id, dataroom_id=delete_folder.dataroom_id, is_root_folder=False, is_folder=True, is_deleted=False).aggregate(Max('index'))
+            else:
+                # #print("But it is a file")
+                max_index = DataroomFolder.objects.filter(parent_folder_id=delete_folder.parent_folder_id, dataroom_id=delete_folder.dataroom_id, is_root_folder=False, is_folder=False, is_deleted=False).aggregate(Max('index'))
+        # print ("max indx is", max_index)
+        index = max_index.get('index__max')
+        # print ("index is", index)
+        if index is None:
+            index = 0
+        delete_folder.index = index + 1
+        delete_folder.save()
+        return Response({'msg':'Folder / File successfully restored !'}, status=status.HTTP_201_CREATED)
+
+
+    def post(self, request, pk, format=None):
+        # print ("dataroom folder pk is ", pk)
+        # data = json.dumps(request.data)
+        # #print(request.data)
+        # data = json.loads(request.data)
+        import datetime
+        user=request.user
+        data = request.data
+        restore_result_list = []
+        sub_folder_selected = False
+
+        if len(data) > 1:
+            bulk_activity_tracker = BulkActivityTracker()
+            bulk_activity_tracker.user_id = user.id
+            bulk_activity_tracker.dataroom_id = data[0]['dataroom']
+            bulk_activity_tracker.save()
+            bulkid = bulk_activity_tracker.id
+        else:
+            bulkid = None
+
+
+        if request.data:
+            for i in request.data:
+                delete_folder = DataroomFolder.objects.get(id=i['id'])
+                delete_folder.updated_date = datetime.datetime.now()
+                if delete_folder.is_root_folder == True:
+                    restore_result_list.append(i['id'])
+                    restore_len = restore_file_id(i['id'],restore_result_list,sub_folder_selected,request)
+                    if len(restore_len) > 1:
+                        for i in restore_len:
+                            update_restore_files(i,sub_folder_selected,request)
+                else:
+                    sub_folder_selected = True
+                    restore_result_list.append(i['id'])
+                    restore_len = restore_file_id(i['id'],restore_result_list,sub_folder_selected,request)
+                    if len(restore_len) > 1:
+                        for i in restore_len:
+                            update_restore_files(i,sub_folder_selected,request)
+
+
+                delete_folder.is_deleted = False
+                if delete_folder.is_root_folder == True:
+                    # #print("It is root folder")
+                    # RestoreFiles.objects.create(folder_id=delete_folder.id,dataroom_id=delete_folder.dataroom_id,user_id=user.id,event="Restore Folder",bulk_event_id=bulkid)
+                    max_index = DataroomFolder.objects.filter(dataroom_id=delete_folder.dataroom_id, is_root_folder=True, is_folder=True, is_deleted=False).aggregate(Max('index'))
+                else:
+                    # #print("It is not root folder")
+                    if delete_folder.is_folder == True:
+                        # #print("But it is a folder")
+                        RestoreFiles.objects.create(folder_id=delete_folder.id,dataroom_id=delete_folder.dataroom_id,user_id=user.id,event="Restore Folder",bulk_event_id=bulkid)
+                        max_index = DataroomFolder.objects.filter(parent_folder_id=delete_folder.parent_folder_id, dataroom_id=delete_folder.dataroom_id, is_root_folder=False, is_folder=True, is_deleted=False).aggregate(Max('index'))
+                    else:
+                        # #print("But it is a file")
+                        RestoreFiles.objects.create(folder_id=delete_folder.id,dataroom_id=delete_folder.dataroom_id,user_id=user.id,event="Restore File",bulk_event_id=bulkid)
+                        max_index = DataroomFolder.objects.filter(parent_folder_id=delete_folder.parent_folder_id, dataroom_id=delete_folder.dataroom_id, is_root_folder=False, is_folder=False, is_deleted=False).aggregate(Max('index'))
+                # print ("max indx is", max_index)
+                index = max_index.get('index__max')
+                # #print(pk, delete_folder.parent_folder_id, index)
+                # print ("index is", index)
+                if index is None:
+                    index = 0
+                delete_folder.index = index + 1
+                delete_folder.save()
+            return Response({'msg':'Folder / File successfully restored !'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'msg':'Something Went Wrong!'}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetAllFilesandFolders(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=True, is_deleted=False)
+        group_id = request.GET.get('group_id')
+        # #print("Group Id", group_id)
+        data = []
+        from . import utils
+        for doc in document:
+            docu = DataroomFolder.objects.get(id = doc.id)
+            docu_serializer = DataroomFolderSerializer(docu)
+            datas = utils.getIndexofFolder(docu_serializer.data)
+            data.append(datas)
+            docu1 = DataroomFolder.objects.filter(parent_folder = doc.id, is_deleted=False)
+            if len(docu1) > 0:
+                datas = []
+                data.extend(utils.get_under_file(docu1,datas))
+        for da in data:
+            da['perm'] = {}
+            # if user.is_superadmin == False or user.is_admin or False:
+            try:
+                if group_id == '':
+                    member = DataroomMembers.objects.get(member_id=user.id, dataroom_id=pk,is_deleted=False)
+                    # #print("member--------", member.end_user_group.first().id, user.id, pk)
+                    perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=da['id'],dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id)
+                else:
+                    perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=da['id'],dataroom_id=pk, dataroom_groups_id=int(group_id))
+                da['perm']['is_view_only'] = perm_obj.is_view_only
+                da['perm']['is_no_access'] = perm_obj.is_no_access
+                da['perm']['is_view_and_print'] = perm_obj.is_view_and_print
+                da['perm']['is_view_and_print_and_download'] = perm_obj.is_view_and_print_and_download
+                da['perm']['is_upload'] = perm_obj.is_upload
+                da['perm']['is_watermarking'] = perm_obj.is_watermarking
+                da['perm']['is_drm'] = perm_obj.is_drm
+                da['perm']['is_editor'] = perm_obj.is_editor
+                da['perm']['is_access'] = perm_obj.is_access
+                da['perm']['is_shortcut'] = perm_obj.is_shortcut
+            except:
+                da['perm']['is_view_only'] = False
+                da['perm']['is_no_access'] = True
+                da['perm']['is_access'] = False
+                da['perm']['is_view_and_print'] = False
+                da['perm']['is_view_and_print_and_download'] = False
+                da['perm']['is_upload'] = False
+                da['perm']['is_watermarking'] = False
+                da['perm']['is_drm'] = False
+                da['perm']['is_editor'] = False
+                da['perm']['is_shortcut'] = False
+            # else:
+            #     da['perm']['is_view_only'] = True
+            #     da['perm']['is_no_access'] = False
+            #     da['perm']['is_access'] = True
+            #     da['perm']['is_view_and_print'] = True
+            #     da['perm']['is_view_and_print_and_download'] = True
+            #     da['perm']['is_upload'] = True
+            #     da['perm']['is_watermarking'] = True
+            #     da['perm']['is_drm'] = True
+            #     da['perm']['is_editor'] = True
+        return Response(data,status=status.HTTP_201_CREATED)
+
+
+class GetAllFoldersAPI(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        name = request.GET.get("name")
+
+        document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=True, is_deleted=False)
+        group_id = request.GET.get('group_id')
+        # #print("Group Id", group_id)
+
+        data = []
+        from . import utils
+        for doc in document:
+            docu = DataroomFolder.objects.get(id = doc.id)
+            docu_serializer = DataroomFolderSerializer(docu)
+            datas = utils.getIndexofFolder(docu_serializer.data)
+            data.append(datas)
+            docu1 = DataroomFolder.objects.filter(parent_folder = doc.id, is_deleted=False)
+            if len(docu1) > 0:
+                datas = []
+                data.extend(utils.get_under_file(docu1,datas))
+        for da in data:
+            da['perm'] = {}
+            if user.is_superadmin == False or user.is_admin or False:
+                try:
+                    if group_id == '' :
+                        member = DataroomMembers.objects.get(member_id=user.id, dataroom_id=pk,is_deleted=False)
+                        # #print("member--------", member.end_user_group.first().id, user.id, pk)
+                        perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=da['id'],dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id)
+                    else:
+                        perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=da['id'],dataroom_id=pk, dataroom_groups_id=int(group_id))
+                    da['perm']['is_view_only'] = perm_obj.is_view_only
+                    da['perm']['is_no_access'] = perm_obj.is_no_access
+                    da['perm']['is_view_and_print'] = perm_obj.is_view_and_print
+                    da['perm']['is_view_and_print_and_download'] = perm_obj.is_view_and_print_and_download
+                    da['perm']['is_upload'] = perm_obj.is_upload
+                    da['perm']['is_watermarking'] = perm_obj.is_watermarking
+                    da['perm']['is_drm'] = perm_obj.is_drm
+                    da['perm']['is_editor'] = perm_obj.is_editor
+                    da['perm']['is_access'] = perm_obj.is_access
+                    da['perm']['is_shortcut'] = perm_obj.is_shortcut
+                except:
+                    da['perm']['is_view_only'] = False
+                    da['perm']['is_no_access'] = True
+                    da['perm']['is_access'] = False
+                    da['perm']['is_view_and_print'] = False
+                    da['perm']['is_view_and_print_and_download'] = False
+                    da['perm']['is_upload'] = False
+                    da['perm']['is_watermarking'] = False
+                    da['perm']['is_drm'] = False
+                    da['perm']['is_editor'] = False
+                    da['perm']['is_shortcut'] = False
+            else:
+                da['perm']['is_view_only'] = True
+                da['perm']['is_no_access'] = False
+                da['perm']['is_access'] = True
+                da['perm']['is_view_and_print'] = True
+                da['perm']['is_view_and_print_and_download'] = True
+                da['perm']['is_upload'] = True
+                da['perm']['is_watermarking'] = True
+                da['perm']['is_drm'] = True
+                da['perm']['is_editor'] = True
+                da['perm']['is_shortcut'] = True
+        return Response(data,status=status.HTTP_201_CREATED)
+
+
+class GetGroupAllFilesandFolders(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        da = []
+        data = []
+        perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_groups_id=int(pk))
+        #print("pk", pk, "perm_obj", perm_obj)
+        if perm_obj:
+            for each in perm_obj:
+                docu = DataroomFolder.objects.get(id = each.folder.id)
+                docu_serializer = DataroomFolderSerializer(docu)
+                docu_serializer = docu_serializer.data
+                docu_serializer['perm'] = {}
+                docu_serializer['perm']['is_view_only'] = each.is_view_only
+                docu_serializer['perm']['is_no_access'] = each.is_no_access
+                docu_serializer['perm']['is_view_and_print'] = each.is_view_and_print
+                docu_serializer['perm']['is_view_and_print_and_download'] = each.is_view_and_print_and_download
+                docu_serializer['perm']['is_upload'] = each.is_upload
+                docu_serializer['perm']['is_watermarking'] = each.is_watermarking
+                docu_serializer['perm']['is_drm'] = each.is_drm
+                docu_serializer['perm']['is_editor'] = each.is_editor
+                docu_serializer['perm']['is_access'] = each.is_access
+                docu_serializer['perm']['is_shortcut'] = each.is_shortcut
+                da.append(docu_serializer)
+            return Response(da, status=status.HTTP_201_CREATED)
+        else:
+            return Response(da, status=status.HTTP_201_CREATED)
+
+
+class GetUpdateGroupAllFilesandFolders(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, pk, format=None):
+        user = request.user
+        data = request.data
+        files = data['file']
+        for da in files:
+            folder_permission = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=da['id'],dataroom_id=int(pk),dataroom_groups_id=data['group_id']).first()
+            if not folder_permission:
+                serializer = DataroomGroupFolderSpecificPermissionsSerializer(data=da['perm'], context={'folder': da['id'], 'permission_given_by': user, 'dataroom': int(pk), 'dataroom_groups': request.data['group_id']})
+                if serializer.is_valid():
+                    serializer.save()
+            else:
+                serializer = DataroomGroupFolderSpecificPermissionsSerializer(folder_permission,data = da['perm'])
+                if serializer.is_valid():
+                    serializer.save()
+            folder_obj = DataroomFolder.objects.get(id=da['id'])
+            flag = True
+            while flag:
+                perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=da['id'],dataroom_id=int(pk),dataroom_groups_id=data['group_id'])
+                if perm_obj.is_no_access == False:
+                    perm_obj.is_access = True
+                    perm_obj.save()
+                    if folder_obj.parent_folder_id == None or folder_obj.is_root_folder == True:
+                        flag = False
+                    else:
+                        folder1_obj = DataroomFolder.objects.get(id=folder_obj.parent_folder_id)
+                        try:
+                            perm1_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=folder1_obj.id,dataroom_id=int(pk),dataroom_groups_id=data['group_id'])
+                        except:
+                            perm1_obj = DataroomGroupFolderSpecificPermissions.objects.create(folder_id=folder1_obj.id,dataroom_id=int(pk),dataroom_groups_id=data['group_id'])
+                        # perm1_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=folder1_obj.id,dataroom_id=int(pk),dataroom_groups_id=data['group_id'])
+                        if perm_obj.is_no_access == False:
+                            perm1_obj.is_access = True
+                            perm1_obj.is_no_access = False
+                        else:
+                            perm1_obj.is_access = False
+                        perm1_obj.save()
+                        folder_obj = folder1_obj
+                        flag = False
+                else:
+                    flag = False
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class GetAllFolders(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        # user = request.user
+        #print("All Folder")
+        folder = DataroomFolder.objects.filter(dataroom_id = int(pk), is_deleted=False, is_folder=True)
+        #print( "All Folder Queryset", folder)
+        docu_serializer = DataroomFolderSerializer(folder, many=True)
+        # #print("All FOlderss",docu_serializer.errors)
+        data = docu_serializer.data
+        #print( "All Folder Data", data)
+        count=len(data)
+        return Response({'data':data,'size':count},status=status.HTTP_201_CREATED)
+
+class CountPdfPages(APIView):
+    def get(self, request, pk, format=None):
+        data = request.data
+        user = request.user
+        page = 0
+        document = 0
+        mydata = []
+        new_page_count = []
+        #date_from = datetime.now() - datetime.timedelta(days=30)
+        # #print("pk=====>",pk)
+        dataroom_folder_list = DataroomFolder.objects.filter(dataroom_id=pk, is_deleted=False, is_folder=False).aggregate(Sum('pages'))
+        Document_list = DataroomFolder.objects.filter(dataroom_id=pk).values_list('path')
+        from azure.storage.blob import BlockBlobService, PublicAccess
+        block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+        container_name ='docullycontainer'
+        # block_blob_service.get_blob_to_path(container_name, filename, file_name[-1])
+        for i in Document_list:
+            try:
+                matchobj = re.match( r'\(\'(.*)\'\,\)', str(i), re.M|re.I)
+                if matchobj.group(1).endswith('xlsx'):
+                    match_blob = matchobj.group(1).split("/")
+                    match_blob[-1]=str(match_blob[-1]).replace('.xlsx','xls')
+                    isExist = block_blob_service.exists(container_name, match_blob[-2]+'/'+ match_blob[-1])
+                    if isExist:
+                        block_blob_service.get_blob_to_path(container_name, match_blob[-2]+'/'+match_blob[-1], match_blob[-1])
+                        if os.path.exists(match_blob[-1]):
+                            print(match_blob[-1],'#############################&&&&&&&&&&')
+                            # try:
+                            xl = pd.ExcelFile(match_blob[-1])
+                            # except:
+                            #     match_blob[-1]=str(match_blob[-1]).replace('.xlsx','xls')
+                            #     xl = pd.ExcelFile(match_blob[-1])                                              
+                            res = len(xl.sheet_names)
+                            print(res,'1')
+                            new_page_count.append(res)
+                            os.remove(match_blob[-1])
+                elif matchobj.group(1).endswith('pdf') or matchobj.group(1).endswith('pptx') or matchobj.group(1).endswith('ppt') or matchobj.group(1).endswith('docx') or matchobj.group(1).endswith('doc'):
+                    # #print("pdf method is called ===>")
+                    match_blob = matchobj.group(1).split("/")
+
+                    if matchobj.group(1).endswith('pptx'):
+                        temp=match_blob[-1].split('.')
+                        temp[-1]='pdf'
+                        match_blob[-1]='.'.join(temp)
+                    if matchobj.group(1).endswith('ppt'):
+                        temp=match_blob[-1].split('.')
+                        temp[-1]='pdf'
+                        match_blob[-1]='.'.join(temp)
+                    if matchobj.group(1).endswith('docx'):
+                        temp=match_blob[-1].split('.')
+                        temp[-1]='pdf'
+                        match_blob[-1]='.'.join(temp)
+                    if matchobj.group(1).endswith('doc'):
+                        temp=match_blob[-1].split('.')
+                        temp[-1]='pdf'
+                        match_blob[-1]='.'.join(temp)
+                    # #print(match_blob[-2]+'/'+match_blob[-1])
+                    isExist = block_blob_service.exists(container_name, match_blob[-2]+'/'+ match_blob[-1])
+                    if isExist:
+                        block_blob_service.get_blob_to_path(container_name, match_blob[-2]+'/'+match_blob[-1], match_blob[-1])
+                        if os.path.exists(match_blob[-1]):
+                            pdf = PdfFileReader(open(match_blob[-1],'rb'),strict=False)
+                            a = pdf.getNumPages()
+                            # #print("value of pdf_pages ==>",a)
+                            new_page_count.append(a)
+                            # print(a,'11')
+
+                            os.remove(match_blob[-1])
+                # elif matchobj.group(1).endswith('pptx'):
+                #     # #print("pdf method is called ===>")
+                #     match_blob = matchobj.group(1).split("/")
+                #     # #print(match_blob[-2]+'/'+match_blob[-1])
+                #     isExist = block_blob_service.exists(container_name, match_blob[-2]+'/'+ match_blob[-1])
+                #     if isExist:
+                #         block_blob_service.get_blob_to_path(container_name, match_blob[-2]+'/'+match_blob[-1], match_blob[-1])
+                #         if os.path.exists(match_blob[-1]):
+                #             os.remove(match_blob[-1])
+                # elif matchobj.group(1).endswith('docx'):
+                #     # #print("pdf method is called ===>")
+                #     match_blob = matchobj.group(1).split("/")
+                #     # #print(match_blob[-2]+'/'+match_blob[-1])
+                #     isExist = block_blob_service.exists(container_name, match_blob[-2]+'/'+ match_blob[-1])
+                #     if isExist:
+                #         # print("docx exist here")
+                #         block_blob_service.get_blob_to_path(container_name, match_blob[-2]+'/'+match_blob[-1], match_blob[-1])
+                #         if os.path.exists(match_blob[-1]):
+                #             os.remove(match_blob[-1])
+                elif matchobj.group(1).endswith('csv'):
+                    # #print("csv method is called ===>")
+                    match_blob = matchobj.group(1).split("/")
+                    # #print(match_blob[-2]+'/'+match_blob[-1])
+                    isExist = block_blob_service.exists(container_name, match_blob[-2]+'/'+ match_blob[-1])
+                    if isExist:
+                        block_blob_service.get_blob_to_path(container_name, match_blob[-2]+'/'+match_blob[-1], match_blob[-1])
+                        if os.path.exists(match_blob[-1]):
+                            # #print("len ====>",match_blob[-1])
+                            # xl = pd.read_csv(match_blob[-1])
+                            # res = len(xl.sheet_names)
+                            # #print("len of csv =================>",xl)
+                            new_xlsx_file = match_blob[-1].split(".")
+                            filepath_out =  new_xlsx_file[0] +".xls"
+                            pd.read_csv(match_blob[-1], delimiter=",",error_bad_lines=False).to_excel(filepath_out)
+                            xl = pd.ExcelFile(filepath_out)
+                            res_csv = len(xl.sheet_names)
+                            # #print("res_csv_file =====>",res_csv)
+                            new_page_count.append(res_csv)
+                            os.remove(match_blob[-1])
+                            os.remove(filepath_out)
+            except:
+                pass
+
+        # #print("sum==>",sum(new_page_count))
+        document = DataroomFolder.objects.filter(dataroom_id=pk, is_deleted=False, is_folder=False).count()
+        # print(new_page_count)
+        return Response({'page_count': sum(new_page_count), 'document_count': document})
+
+class GetAllNotViewedDocument(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        # print ("get all recent document data")        
+        user = request.user
+        dataroompermission=dataroom_utils.checkdataroomaccess(user.id,int(pk))
+        # print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTRRRRRRRRRRRRRRR',dataroompermission,user.id,pk)
+        if dataroompermission==False:
+            data = request.data
+
+            count = 0
+            is_type =  int(request.GET.get('type'))
+            view_list = FolderView.objects.filter(dataroom_id=pk, user_id=user.id).values('folder_id')
+            member = DataroomMembers.objects.filter(dataroom_id=pk,member_id=user.id,is_deleted=False).first()
+            # perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id).values('folder_id')
+            permission_member_group = DataroomMembers.objects.filter(member_id=user.id,dataroom_id=pk).values('end_user_group')
+            
+            try:
+                perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id).values('folder_id')
+                exclude_no_access_file = [i.folder_id for i in DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk,dataroom_groups_id=member.end_user_group.first().id,is_view_only=False,is_no_access=True)]
+            except:
+                perm_obj = None
+                exclude_no_access_file = []
+            if is_type == 2:
+                dataroom_folder = DataroomFolder.objects.filter(id__in=view_list, dataroom_id=pk,is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file)
+                count = DataroomFolder.objects.filter(id__in=view_list, dataroom_id=pk,is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file).count()
+            else:
+                if member.is_dataroom_admin or member.is_la_user:
+                    dataroom_folder = DataroomFolder.objects.exclude(id__in=view_list).filter(dataroom_id=pk, is_deleted=False, is_folder=False)                
+                    count = DataroomFolder.objects.exclude(id__in=view_list).filter(dataroom_id=pk, is_deleted=False, is_folder=False).count()                
+                else:
+                    dataroom_folder = DataroomFolder.objects.exclude(id__in=view_list).filter(id__in=perm_obj,dataroom_id=pk, is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file)
+                    count = DataroomFolder.objects.exclude(id__in=view_list).filter(id__in=perm_obj,dataroom_id=pk, is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file).count()
+
+            # count = dataroom_folder
+            # #print(count)
+            page = paginator.paginate_queryset(dataroom_folder, request)
+
+                
+                # dataroom_folder = DataroomFolder.objects.exclude(id__in=view_list).filter(dataroom_id=pk, id__in=perm_obj,is_deleted=False, is_folder=False)
+            dataroom_folder_serializer = DataroomFolderSerializer(page, many=True)
+            data = dataroom_folder_serializer.data
+            from . import utils
+            for da in data:
+                da['index'] = utils.getIndexes(da)
+                da['parent_folders'] = DataroomFolder.objects.get(id = da['parent_folder']).name
+                if member.is_end_user:
+                    perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id).first()
+                    perm_serializer = DataroomGroupFolderSpecificPermissionsSerializer(perm_obj, many=False)
+                    da['perm'] = perm_serializer.data
+                else:
+                    da['perm'] = {}
+                    da['perm']['is_view_only'] = True
+                    da['perm']['is_no_access'] = False
+                    da['perm']['is_access'] = True
+                    da['perm']['is_view_and_print'] = True
+                    da['perm']['is_view_and_print_and_download'] = True
+                    da['perm']['is_upload'] = True
+                    da['perm']['is_watermarking'] = True
+                    da['perm']['is_drm'] = True
+                    da['perm']['is_editor'] = True
+                    da['perm']['is_shortcut'] = True
+            data = sorted(data,key=lambda x : x['created_date'], reverse=True)
+            return Response({'data':data, 'size':count})
+        else:
+            return Response(None)
+
+class GetAllNotPrintedDocument(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        # print ("get all recent document data")        
+        user = request.user
+        dataroompermission=dataroom_utils.checkdataroomaccess(user.id,int(pk))
+        # print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTRRRRRRRRRRRRRRR',dataroompermission,user.id,pk)
+        if dataroompermission==False:
+            data = request.data
+            # print("inside -->",data)
+
+
+            is_type =  int(request.GET.get('type'))
+            # print("check the type --->",is_type)
+            member = DataroomMembers.objects.filter(dataroom_id=pk,member_id=user.id,is_deleted=False).first()
+            # perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id).values('folder_id')
+            try:
+                perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id).values('folder_id')
+                exclude_no_access_file = [i.folder_id for i in DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk,dataroom_groups_id=member.end_user_group.first().id,is_view_only=False,is_no_access=True)]
+            except:
+                perm_obj = None
+                exclude_no_access_file = []
+            print_list = FolderPrint.objects.filter(dataroom_id=pk, user_id=user.id).values('folder_id')
+            # print("check print_list -->",print_list)
+            if is_type == 2:
+                dataroom_folder = DataroomFolder.objects.filter(id__in=print_list,dataroom_id=pk, is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file)
+                count = DataroomFolder.objects.filter(id__in=print_list,dataroom_id=pk, is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file).count()
+                # print("if condition",count,"------",dataroom_folder)
+            else:
+                # print("else condition")
+                if member.is_dataroom_admin or member.is_la_user:
+                    dataroom_folder = DataroomFolder.objects.exclude(id__in=print_list).filter(dataroom_id=pk, is_deleted=False, is_folder=False)                
+                    count = DataroomFolder.objects.exclude(id__in=print_list).filter(dataroom_id=pk, is_deleted=False, is_folder=False).count()
+                    # print(dataroom_folder,"<----if------>",count)
+                else:
+                    # print("else else condition")
+                    dataroom_folder = DataroomFolder.objects.exclude(id__in=print_list).filter(id__in=perm_obj,dataroom_id=pk, is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file)
+                    count = DataroomFolder.objects.exclude(id__in=print_list).filter(id__in=perm_obj,dataroom_id=pk, is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file).count()
+                # dataroom_folder = DataroomFolder.objects.exclude(id__in=print_list).filter(id__in=perm_obj,dataroom_id=pk, is_deleted=False, is_folder=False)
+            # print("see the folder -->",dataroom_folder)
+            page = paginator.paginate_queryset(dataroom_folder, request)
+            dataroom_folder_serializer = DataroomFolderSerializer(page, many=True)
+            data = dataroom_folder_serializer.data
+            from . import utils
+            for da in data:
+                da['index'] = utils.getIndexes(da)
+                da['parent_folders'] = DataroomFolder.objects.get(id = da['parent_folder']).name
+                if member.is_end_user:
+                    perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id).first()
+                    perm_serializer = DataroomGroupFolderSpecificPermissionsSerializer(perm_obj, many=False)
+                    da['perm'] = perm_serializer.data
+                else:
+                    da['perm'] = {}
+                    da['perm']['is_view_only'] = True
+                    da['perm']['is_no_access'] = False
+                    da['perm']['is_access'] = True
+                    da['perm']['is_view_and_print'] = True
+                    da['perm']['is_view_and_print_and_download'] = True
+                    da['perm']['is_upload'] = True
+                    da['perm']['is_watermarking'] = True
+                    da['perm']['is_drm'] = True
+                    da['perm']['is_editor'] = True
+                    da['perm']['is_shortcut'] = True
+            data = sorted(data,key=lambda x : x['created_date'], reverse=True)
+            return Response({'data':data, 'size':count})
+        else:
+            return Response(None)
+
+class GetAllNotDownloadDocument(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        # print ("get all recent document data")        
+        user = request.user
+        dataroompermission=dataroom_utils.checkdataroomaccess(user.id,int(pk))
+        # print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTRRRRRRRRRRRRRRR',dataroompermission,user.id,pk)
+        if dataroompermission==False:
+            data = request.data
+
+            count = 0
+            is_type =  int(request.GET.get('type'))
+            member = DataroomMembers.objects.filter(dataroom_id=pk,member_id=user.id,is_deleted=False).first()
+            # if member.is_dataroom_admin or member.is_la_user:
+            try:
+                perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id).values('folder_id')
+                exclude_no_access_file = [i.folder_id for i in DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk,dataroom_groups_id=member.end_user_group.first().id,is_view_only=False,is_no_access=True)]
+            except:
+                perm_obj = None
+                exclude_no_access_file = []
+            download_list = FolderDownload.objects.filter(dataroom_id=pk, user_id=user.id).values('folder_id')
+            if is_type == 2:
+                dataroom_folder = DataroomFolder.objects.filter(id__in=download_list, dataroom_id = pk, is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file)
+                count = DataroomFolder.objects.filter(id__in=download_list, dataroom_id = pk, is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file).count()
+            else:
+                if member.is_dataroom_admin or member.is_la_user:
+                    dataroom_folder = DataroomFolder.objects.exclude(id__in=download_list).filter(dataroom_id=pk, is_deleted=False, is_folder=False)                
+                    count = DataroomFolder.objects.exclude(id__in=download_list).filter(dataroom_id=pk, is_deleted=False, is_folder=False).count()                
+                else:
+                    dataroom_folder = DataroomFolder.objects.exclude(id__in=download_list).filter(id__in=perm_obj,dataroom_id=pk, is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file)
+                    count = DataroomFolder.objects.exclude(id__in=download_list).filter(id__in=perm_obj,dataroom_id=pk, is_deleted=False, is_folder=False).exclude(id__in=exclude_no_access_file).count()
+
+            page = paginator.paginate_queryset(dataroom_folder, request)
+            dataroom_folder_serializer = DataroomFolderSerializer(page, many=True)
+            data = dataroom_folder_serializer.data
+            from . import utils
+            for da in data:
+                da['index'] = utils.getIndexes(da)
+                da['parent_folders'] = DataroomFolder.objects.get(id = da['parent_folder']).name
+                # #print("Permmmmmmm", perm_obj)
+                if member.is_end_user:
+                    perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id).first()
+                    perm_serializer = DataroomGroupFolderSpecificPermissionsSerializer(perm_obj, many=False)
+                    da['perm'] = perm_serializer.data
+                else:
+                    da['perm'] = {}
+                    da['perm']['is_view_only'] = True
+                    da['perm']['is_no_access'] = False
+                    da['perm']['is_access'] = True
+                    da['perm']['is_view_and_print'] = True
+                    da['perm']['is_view_and_print_and_download'] = True
+                    da['perm']['is_upload'] = True
+                    da['perm']['is_watermarking'] = True
+                    da['perm']['is_drm'] = True
+                    da['perm']['is_editor'] = True
+                    da['perm']['is_shortcut'] = True
+            data = sorted(data,key=lambda x : x['created_date'], reverse=True)
+            return Response({'data':data, 'size':count})
+        else:
+            return Response(None)
+
+class GetAllUploadStatusDocument(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        # print ("get all recent document data")        
+        data = request.data
+        user = request.user
+        try:
+            dataroommemberdata=DataroomMembers.objects.filter(member_id=user.id,dataroom_id=pk,is_deleted=False).first()
+            # print(dataroommemberdata.is_dataroom_admin,dataroommemberdata.is_la_user,dataroommemberdata.is_primary_user,'CCCCCCCCCCCCCCCCCCCCCCCCCCCRRRRRRRRRRRRRRRRRRRRRRR')
+            if dataroommemberdata.is_dataroom_admin or dataroommemberdata.is_la_user:
+                dataroom_folder = Folderupload.objects.filter(dataroom_id=pk).order_by('-created_date')
+                count = dataroom_folder.count()
+                updatedata=Bulkuploadstatus.objects.filter(dataroom_id=pk,processcomplete=True).order_by('-created_date')
+                count= count+int(updatedata.count())
+            else:
+                exclude_no_access_file = [i.folder_id for i in DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk,dataroom_groups_id=dataroommemberdata.end_user_group.first().id,is_view_only=False,is_no_access=True)]
+                dataroom_folder = Folderupload.objects.filter(dataroom_id=pk,user_id=user.id).exclude(folder_id__in=exclude_no_access_file).exclude(Q(folder_id=None) | Q(folder__is_deleted=True)).order_by('-created_date')
+                count = dataroom_folder.count()
+                updatedata=Bulkuploadstatus.objects.filter(user_id=user.id, dataroom_id=pk,processcomplete=True).exclude(parentfolder_id__in=exclude_no_access_file).exclude(Q(parentfolder_id=None) | Q(parentfolder_id__is_deleted=True)).order_by('-created_date')
+                count= count+int(updatedata.count())
+        except:
+            dataroom_folder = Folderupload.objects.filter(dataroom_id=pk,user_id=user.id).order_by('-created_date')
+            count = dataroom_folder.count()   
+            updatedata=Bulkuploadstatus.objects.filter(user_id=user.id, dataroom_id=pk,processcomplete=True).order_by('-created_date')
+            count= count+int(updatedata.count())
+
+        # page = paginator.paginate_queryset(dataroom_folder, request)
+        dataroom_folder_serializer = Folderupload1Serializer(dataroom_folder, many=True)
+        data = dataroom_folder_serializer.data
+
+        data1 = Bulkuploadstatus1Serializer(updatedata, many=True).data
+        # from . import utils
+        # for da in data1:
+        #     da['parent_folders'] = DataroomFolder.objects.get(id = data['parentfolder']).name
+
+
+        # for da in data:
+        #     user_obj = User.objects.get(id=int(da['user']))
+        #     da['user'] = (UserSerializer(user_obj, many=False)).data
+            # print(da['folder'])
+            # da['parent_folders'] = DataroomFolder.objects.get(id = data['folder']).parent_folder.name
+         
+            # try:
+            #    perm = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=pk)
+            #    perm_serializer = DataroomGroupFolderSpecificPermissionsSerializer(perm, many=False)
+            #    da['perm'] = perm_serializer.data
+            # except:
+            #    da['perm'] = {}
+            # if user.is_superadmin == True or user.is_admin == True:
+            #     da['perm']['is_view_only'] = True
+            #     da['perm']['is_no_access'] = False
+            #     da['perm']['is_access'] = True
+            #     da['perm']['is_view_and_print'] = True
+            #     da['perm']['is_view_and_print_and_download'] = True
+            #     da['perm']['is_upload'] = True
+            #     da['perm']['is_watermarking'] = True
+            #     da['perm']['is_drm'] = True
+            #     da['perm']['is_editor'] = True
+        data.extend(data1)
+        from datetime import datetime
+        data = sorted(data,key=lambda x :x['created_date'], reverse=True)
+        for i in data:
+            # print(i['created_date'],'888888888888888888000000000000000')
+            dateobject=datetime.strptime(str(i['created_date']).replace('T',' ',1),'%Y-%m-%d %H:%M:%S.%f')
+            i['created_date']=dateobject.strftime("%d/%m/%Y %H:%M:%S")
+            # temppp=i['created_date'].strftime("%Y-%d-%m %H:%M:%S")
+            # d_date =dateobject.strftime("%Y-%m-%d")
+        return Response({'data':data,'size':count})
+
+
+
+class GetFilesUpdated(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        # print (pk,"get all recent document data")    
+        update_view = request.GET.get("type")
+        user = request.user
+        folder = DataroomFolder.objects.get(id=pk)
+        # print("folder pk", pk)
+        # print("folder pathhhh", folder.id)
+
+        current=datetime.now()
+        # print(current,"current")
+        if update_view == 'view':
+            #print("m in view")
+            folder.is_view = True
+            folder.save()
+            view = FolderView()
+            #print(view,"finding folder view")
+            view.folder_id = folder.id
+            view.user_id = user.id
+            view.dataroom_id = folder.dataroom_id
+            view.save()
+        elif update_view == 'print':
+            folder.is_print = True
+            folder.save()
+            print_obj = FolderPrint()
+            print_obj.folder_id = folder.id
+            print_obj.user_id = user.id
+            print_obj.dataroom_id = folder.dataroom_id
+            print_obj.save()
+        elif update_view == 'download':
+            folder.is_download = True
+            folder.save()
+            download = FolderDownload()
+            download.folder_id = folder.id
+            download.user_id = user.id
+            download.dataroom_id = folder.dataroom_id
+            download.save()
+        else:
+            pass
+        #response = Response(status=status.HTTP_204_NO_CONTENT)
+        #response["Access-Control-Allow-Origin"] = "*"
+        #response["Access-Control-Allow-Methods"] = "*"
+        #response["Access-Control-Allow-Headers"] = "*"
+        #return response
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class DownloadFiles(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+    def get(self, request, pk, format=None):
+        user = request.user
+        # print(user,"user of download")
+        # print(pk,"pkkkkk")
+        update_view = request.GET.get("type")
+        # laadminadminpdf=False
+        laadminadminpdf = request.GET.get("laadminadminpdf")
+        # print("========>",laadminadminpdf)
+        # print("update_view=======>",update_view)
+        from dataroom.models import Watermarking
+        # print(request.data)
+        # #print("watermark_data ========>",Watermarking.objects.filter().values())
+        # #print(DataroomFolder.objects.filter(id=pk).values())
+        # #print("new_data==>",DataroomFolder.objects.filter(id=pk).values_list('dataroom_id'))
+        # new_dataroom_id = list(DataroomFolder.objects.filter(id=pk).values_list('dataroom_id'))
+        # #print(new_dataroom_id[0],len(new_dataroom_id),"new_dataroom_id ====>",type(new_dataroom_id))
+        # #print("new_data==>",DataroomFolder.objects.get(id=pk))
+        # data_new = re.match(r'', new_dataroom_id, re.M|re.I)
+        # new_dataroom_id = str(new_dataroom_id).replace('\(\)\,','')
+        # #print("data=>",new_dataroom_id)
+
+        # #print("watermark_data ========>",Watermarking.objects.filter(dataroom_id=new_dataroom_id[0]).values())
+        # #print("datroom_id===>",DataroomFolder.objects.filter(id=pk).only('dataroom_id').values())
+        # #print('###########################################')
+
+        # #print(request.data)
+        # #print('###########################################')
+        # #print(update_view)
+        # #print('###########################################')
+
+        from wsgiref.util import FileWrapper
+        from django.http import FileResponse
+        # print("this download pk ",pk)
+        folder = DataroomFolder.objects.get(id=pk)
+        # print("Dataroom --->",DataroomFolder.objects.filter(id=pk).values())
+        # print("id===>",folder.dataroom_id)
+        room_id=folder.dataroom_id
+        # print(room_id,"room_id")
+        # print("folder.id",folder.id)
+        folder_path = str(folder.path)
+        # print("folder_path",folder_path)
+        filename=str(folder.path)
+        # print(filename,'Rushikesh++++++++++++')
+        # #print(folder_path,"<==========Filenameeeeeee=========>", filename)
+        # try: 
+        #print("watermark_data===>",Watermarking.objects.filter(dataroom_id=folder.dataroom_id).values())
+        member_idd = DataroomMembers.objects.filter(dataroom_id=room_id,is_dataroom_admin=True,is_deleted=False).values('member_id')
+        # print(member_idd,"member_idd")
+        member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=folder.dataroom_id,is_deleted=False).first()
+        # print(member.is_la_user,"<====== memeber ====>",member.is_dataroom_admin)
+        # print("member is up ",member)
+        flagg=0
+        watermarkingcheck=True
+        if member.is_dataroom_admin or member.is_la_user:
+            # print("yes its la")
+            is_download = True
+            is_print = True
+            flagg=1
+            # if member.is_la_user:
+            #     group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.first().id,dataroom=folder.dataroom.id).first()
+            #     watermarkingcheck=group_perm.is_watermarking
+            # else:
+            watermarkingcheck=True
+
+
+        else:
+            # print("yes its not la")
+            perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=folder.id,dataroom_id=folder.dataroom_id, dataroom_groups_id=member.end_user_group.first().id).first()
+            is_download = perm_obj.is_view_and_print_and_download
+            is_print = perm_obj.is_view_and_print
+            group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.first().id,dataroom=folder.dataroom.id).first()
+            # #print('################%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%###########################')
+            watermarkingcheck=group_perm.is_watermarking
+            #print("Permm", group_perm.id, group_perm.is_watermarking, group_perm.is_doc_as_pdf, group_perm.is_excel_as_pdf)
+            if is_download==True:
+                flagg=1
+            if group_perm.is_watermarking == True:
+                if group_perm.is_doc_as_pdf == True or group_perm.is_excel_as_pdf==True:
+                    if perm_obj.watermarking_file:
+                        folder_path = str(perm_obj.watermarking_file)
+                        filename = str(perm_obj.watermarking_file)
+                        # print(filename,"filename in perm")
+
+        # except:
+        #     is_download = False
+        #     is_print = False
+        if flagg==1:
+                if folder:  
+                    if update_view == 'view':
+                        folder.is_view = True
+                        folder.save()
+                        view = FolderView()
+                        view.folder_id = folder.id
+                        view.user_id = user.id
+                        view.dataroom_id = folder.dataroom_id
+                        view.save()
+                    elif update_view == 'print':
+                        folder.is_print = True
+                        folder.save()
+                        print_obj = FolderPrint()
+                        print_obj.folder_id = folder.id
+                        print_obj.user_id = user.id
+                        print_obj.dataroom_id = folder.dataroom_id
+                        print_obj.save()
+                    elif update_view == 'download' and (is_download==True or user.is_superadmin==True or user.is_admin==True):
+                        # print('########download details###############')
+
+                        folder.is_download = True
+                        folder.save()
+                        download = FolderDownload()
+                        download.folder_id = folder.id
+                        download.user_id = user.id
+                        download.dataroom_id = folder.dataroom_id
+                        download.save()
+                    else:
+                        pass 
+                #print(filename,"---print ----", is_download, user.is_admin, user.is_superadmin) 
+                # group_perm = DataroomGroupPermission.objects.filter(dataroom_id=data.dataroom_id, dataroom_groups_id=member.end_user_group.first().id).first()
+                # #print("Download_function ======>",group_perm.is_watermarking)
+                from dataroom import watermarking
+                #print("mail_31_march===>",watermarking.getmail(user))
+                # test_dataroom_17_March&yaberig541@mailimail.com.png
+                import os
+                new_pdf_list = []
+                if (is_download == True or is_print==True) or user.is_superadmin == True or user.is_admin == True:
+                    #print("Filenameeeeeee", filename)
+                    from constants import constants
+                    extensions = constants.extensions
+                #     print ("download method called")        
+                    for key , value in extensions.items():
+                #         #print("key", key, "value", value)
+                #         #print('--------------------------------------------')
+                #         path_list = filename.split("/")
+                #         #print("key", filename)
+                #         #print('////////////////////////////////////////////////')
+                #         path = settings.MEDIA_ROOT+"/"
+                #         #print()
+                #         print ("inside for loop")
+                        # if filename.endswith('.pdf'):
+                        #     # #print("watermarking_user",watermarking.getmail(user))
+                        #     from azure.storage.blob import BlockBlobService, PublicAccess
+                        #     block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                        #     container_name ='docullycontainer'
+                        #     global b
+                        #     b = watermarking.getmail(user)
+                        #     file_name = filename.split("/")
+                        #     #print("Downloadf---",type(file_name[-1]),"<======= file_name==>",filename)
+                        #     block_blob_service.get_blob_to_path(container_name, filename, file_name[-1])
+                        #     #print("watermark_data===>",Watermarking.objects.filter(dataroom_id=folder.dataroom_id).values())
+                        #     from pdf2image import convert_from_path
+
+                            # #print("set ====>",set(new_pdf_list))
+                        if filename.endswith(key):
+                #             #print('<<<<<<<<<<<<<<<<<<<<<<<<<<found')
+                #             path += filename
+                #             name = str(path_list[-1])
+                            # #print("filename===>",filename.split("/"))
+
+                            import os, uuid, sys
+                            from azure.storage.blob import BlockBlobService, PublicAccess
+                            block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                            container_name ='docullycontainer'
+                            file_name = filename.split("/")
+                            # print(filename,"filename check")
+                            # print(file_name[-1],"file_name[-1] check")
+                            block_blob_service.get_blob_to_path(container_name, filename, file_name[-1])
+                            path = settings.MEDIA_ROOT
+                            # print(path,"settings.path")
+                            # print(file_name[-1],"filename")
+                            extension=os.path.splitext(file_name[-1])[-1]
+                            import PyPDF2
+                            # print(member.end_user_group,"extension")
+
+                            if member.is_dataroom_admin or member.is_la_user :
+                                data_of_per=list(DataroomGroupPermission.objects.filter(dataroom=room_id).values("is_doc_as_pdf","is_watermarking","is_excel_as_pdf"))
+                            else:
+                                data_of_per=list(DataroomGroupPermission.objects.filter(dataroom=room_id,dataroom_groups=member.end_user_group.first().id).values("is_doc_as_pdf","is_watermarking","is_excel_as_pdf"))
+
+                            # print(data_of_per)
+                            
+                            # data_of_per2=DataroomGroupPermission.objects.filter(dataroom=room_id).first()
+                            # print(data_of_per2,"data_of_per2")
+                            # print(data_of_per,"data_of_per")
+                            # print(data_of_per[-1],"data_of_per[0]")
+
+                            # print(data_of_per)
+                            # print(extension,'--',member.is_la_user,'--',member.is_dataroom_admin,'--',data_of_per2['is_excel_as_pdf'])
+                            if(extension=='.pdf'):
+                                # print("it is coming here now")
+                                import os, uuid, sys
+                                from azure.storage.blob import BlockBlobService, PublicAccess
+                                block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                container_name ='docullycontainer'
+                                file_name = filename.split("/")
+                                # print(filename,"filename check")
+                                # print(file_name[-1],"file_name[-1] check")
+                                block_blob_service.get_blob_to_path(container_name, filename, file_name[-1])
+                                path = settings.MEDIA_ROOT
+                                # print(path,"settings.path")
+                                # print(file_name[-1],"filename")
+                                extension=os.path.splitext(file_name[-1])[-1]
+                                import PyPDF2
+                                # print(extension,"extension")
+                                data_of_per=DataroomGroupPermission.objects.filter(dataroom=room_id).values("is_doc_as_pdf","is_watermarking","is_excel_as_pdf")
+                                # print(data_of_per,"data_of_per")
+                                # print(data_of_per[0],"data_of_per[0]")
+                                # print(type(data_of_per))
+                                # admin_name=User.objects.filter()
+                                # '/home/cdms_backend/cdms2/media/'+filename
+                                from dataroom.serializers import WatermarkingSerializer
+                                from dataroom.pdf_watermarking import GeneratePDF
+                                userid=user.id
+                                watermarking = Watermarking.objects.filter(dataroom_id=int(room_id)).order_by('id')
+                                for i in watermarking:
+                                    i.user_id=userid
+                                # print("value of watermarking =====>",Watermarking.objects.all().values())
+                                # print("watermarking =====>",watermarking)
+                                serializer = WatermarkingSerializer(watermarking,many=True)
+                                data = serializer.data
+                                # print(data,"in download")
+                                from userauth import utils
+                                ip = utils.get_client_ip(request)
+                                # print(pk,"pkk")
+                                if data and watermarkingcheck:
+                                    # print("here pdf in if")
+                                    GeneratePDF(data,ip,user,pk)
+                                    watermarkfile="/home/cdms_backend/cdms2/Admin_Watermark/"+str(room_id)+".pdf"
+                                    outputfile="/home/cdms_backend/cdms2/dataroom/success.pdf"
+                                    pdf_writer=PyPDF2.PdfFileWriter()
+                                    if (os.path.exists(file_name[-1])):
+                                        with open(file_name[-1], 'rb') as fh:
+                                            pdf=PyPDF2.PdfFileReader(fh,strict=False)
+                                            with open(watermarkfile,'rb') as watermarkfile:
+                                                watermarkfile_pdf=PyPDF2.PdfFileReader(watermarkfile,strict=False)
+                                                for i in range(pdf.getNumPages()):
+                                                    p=pdf.getPage(i)
+                                                    p.mergePage(watermarkfile_pdf.getPage(0))
+                                                    pdf_writer.addPage(p)
+                                                with open(outputfile,'wb') as outputfileeee:
+                                                    pdf_writer.write(outputfileeee)
+                                                with open(outputfile, 'rb') as output:
+                                                    # FolderDownload.objects.create(folder_id=folder.id,user_id=user.id,dataroom_id=folder.dataroom_id)
+                                                    response = HttpResponse(output.read(), content_type=value)
+                                                    response['Content-Disposition'] = 'inline; filename=' + filename
+                                                    os.remove(file_name[-1])
+                                                return response
+                                            raise Http404 
+                                else:
+                                    # print("here pdf in else")
+                                    if (os.path.exists(file_name[-1])):
+
+                                        with open(file_name[-1], 'rb') as output:
+                                            # FolderDownload.objects.create(folder_id=folder.id,user_id=user.id,dataroom_id=folder.dataroom_id)
+                                            response = HttpResponse(output.read(), content_type=value)
+                                            response['Content-Disposition'] = 'inline; filename=' + filename
+                                            os.remove(file_name[-1])
+                                            return response  
+                                        raise Http404 
+
+                            # elif (extension=='.png' or '.jpeg' '.docx' or ".doc" or ".ppt" or ".pptx" or '.xlsx' or '.xls' or '.csv')  and  (member.is_la_user== True or member.is_dataroom_admin == True):
+                            #   print("second elif")
+                            #   objj=User.objects.filter(id=user.id)
+                            #   print(objj,"objj")
+                            #   print(member.is_la_user,user.is_superadmin,user.is_admin)
+                            #   import os, uuid, sys
+                            #   from azure.storage.blob import BlockBlobService, PublicAccess
+                            #   block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                            #   container_name ='docullycontainer'
+                            #   file_name = filename.split("/")
+                            #   print(filename,"filename check")
+                            #   print(file_name[-1],"file_name[-1] check")
+                            #   block_blob_service.get_blob_to_path(container_name, filename, file_name[-1])
+                            #   path = settings.MEDIA_ROOT
+                            #   print(path,"settings.path")
+                            #   print(file_name[-1],"filename")
+                            #   with open(file_name[-1], 'rb') as output:
+                            #       response = HttpResponse(output.read(), content_type=value)
+                            #       response['Content-Disposition'] = 'inline; filename=' + filename
+                            #       os.remove(file_name[-1])
+                            #       return response
+                            #   raise Http404
+                                # ,data_of_per["is_excel_as_pdf"]==False or True
+
+                            elif ((member.is_la_user== False) and (member.is_dataroom_admin == False)) or laadminadminpdf=='true':
+                                # print(member.is_la_user,"here is la user")
+                                # print(member.is_dataroom_admin,"member.is_dataroom_admin")
+                                # and ( or (data_of_per2['is_doc_as_pdf']==True))
+                                data_of_per2=data_of_per[-1]
+                                if ((extension=='.xlsx') or (extension==".xls") or (extension==".csv")) and ((data_of_per2['is_excel_as_pdf']==True) or laadminadminpdf=='true'):
+
+                                    import os, uuid, sys
+                                    from azure.storage.blob import BlockBlobService, PublicAccess
+                                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                    container_name ='docullycontainer'
+                                    from pathlib import Path
+                                    filename1 = Path(file_name[-1])
+                                    filename_wo_ext = filename1.with_suffix('')
+                                    # print('coming here rushikesh',filename1)
+                                    # print(filename_wo_ext,"filename_wo_ext")
+                                    # if (data_of_per[0]['is_excel_as_pdf']==True and data_of_per[0]['is_doc_as_pdf']==False): 
+                                    # print("inh if if excel")
+                                    # if 
+                                    # print(extension,data_of_per[0]['is_excel_as_pdf'],extension=='.xlsx' or '.xls')
+                                    pdf_filename=str(filename_wo_ext)+".pdf"
+                                    #################################################################
+                                    blobname=file_name[0]+"/"+pdf_filename
+                                    # print(blobname,'@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
+                                    block_blob_service.get_blob_to_path(container_name, blobname,pdf_filename)
+
+
+                                    import PyPDF2
+
+                                    from dataroom.serializers import WatermarkingSerializer
+
+                                    from dataroom.pdf_watermarking import GeneratePDF
+                                    
+
+                                    userid=user.id
+                                    watermarking = Watermarking.objects.filter(dataroom_id=int(room_id)).order_by('id')
+                                    for i in watermarking:
+                                        i.user_id=userid
+                                    # print("value of watermarking =====>",Watermarking.objects.all().values())
+                                    # print("watermarking =====>",watermarking)
+                                    serializer = WatermarkingSerializer(watermarking,many=True)
+                                    data = serializer.data
+                                    # print(data,"in download")
+                                    from userauth import utils
+                                    ip = utils.get_client_ip(request)
+                                    # print(pk,"pkk")
+                                    if data and watermarkingcheck:
+                                        GeneratePDF(data,ip,user,pk)
+                                        watermarkfile="/home/cdms_backend/cdms2/Admin_Watermark/"+str(room_id)+".pdf"
+                                        outputfile="/home/cdms_backend/cdms2/dataroom/success.pdf"
+                                        pdf_writer=PyPDF2.PdfFileWriter()
+                                        if (os.path.exists(pdf_filename)):
+                                            with open(pdf_filename, 'rb') as fh:
+                                                pdf=PyPDF2.PdfFileReader(fh)
+                                                with open(watermarkfile,'rb') as watermarkfile:
+                                                    watermarkfile_pdf=PyPDF2.PdfFileReader(watermarkfile)
+                                                    for i in range(pdf.getNumPages()):
+                                                        p=pdf.getPage(i)
+                                                        p.mergePage(watermarkfile_pdf.getPage(0))
+                                                        pdf_writer.addPage(p)
+                                                    with open(outputfile,'wb') as outputfileeee:
+                                                        pdf_writer.write(outputfileeee)
+                                                    with open(outputfile, 'rb') as output:
+                                                        # FolderDownload.objects.create(folder_id=folder.id,user_id=user.id,dataroom_id=folder.dataroom_id)
+                                                        response = HttpResponse(output.read(), content_type="application/pdf")
+                                                        response['Content-Disposition'] = 'inline; filename=' + pdf_filename
+                                                        os.remove(pdf_filename)
+                                                    return response
+                                    else:
+                                        with open(pdf_filename, 'rb') as output:
+                                            # FolderDownload.objects.create(folder_id=folder.id,user_id=user.id,dataroom_id=folder.dataroom_id)
+                                            response = HttpResponse(output.read(), content_type="application/pdf")
+                                            response['Content-Disposition'] = 'inline; filename=' + pdf_filename
+                                            # os.remove(file_name[-1])
+                                            return response
+
+
+                                        ##############################################################
+                                    # print(pdf_filename,"pdf_filename")
+                                    # print(blobname,"blobname")
+                                    # print(container_name, blobname,pdf_filename,"details download")
+
+                                elif ((extension=='.docx') or (extension==".doc") or (extension=='.pptx') or (extension==".ppt")) and ((data_of_per2['is_doc_as_pdf']==True) or laadminadminpdf=='true'):
+                                    import os, uuid, sys
+                                    from azure.storage.blob import BlockBlobService, PublicAccess
+                                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                                    container_name ='docullycontainer'
+                                    from pathlib import Path
+                                    filename1 = Path(file_name[-1])
+                                    filename_wo_ext = filename1.with_suffix('')
+                                    # print(filename_wo_ext,"filename_wo_ext")
+                                    # if (data_of_per[0]['is_excel_as_pdf']==True and data_of_per[0]['is_doc_as_pdf']==False): 
+                                    # print("inh elif if ppt")
+                                    # if 
+                                    # print(extension,data_of_per[0]['is_excel_as_pdf'],extension=='.xlsx' or '.xls')
+                                    pdf_filename=str(filename_wo_ext)+".pdf"
+                                    # print(pdf_filename,"pdf_filename")
+                                    blobname=file_name[0]+"/"+pdf_filename
+                                    # print(blobname,"blobname")
+                                    # print(container_name, blobname,pdf_filename,"details download")
+                                    block_blob_service.get_blob_to_path(container_name, blobname,pdf_filename)
+                                    
+                                    import PyPDF2
+
+                                    from dataroom.serializers import WatermarkingSerializer
+
+                                    from dataroom.pdf_watermarking import GeneratePDF
+                                    
+
+                                    userid=user.id
+                                    watermarking = Watermarking.objects.filter(dataroom_id=int(room_id)).order_by('id')
+                                    for i in watermarking:
+                                        i.user_id=userid
+                                    # print("value of watermarking =====>",Watermarking.objects.all().values())
+                                    # print("watermarking =====>",watermarking)
+                                    serializer = WatermarkingSerializer(watermarking,many=True)
+                                    data = serializer.data
+                                    # print(data,"in download")
+                                    from userauth import utils
+                                    ip = utils.get_client_ip(request)
+                                    # print(pk,"pkk")
+                                    if data and watermarkingcheck:
+                                        GeneratePDF(data,ip,user,pk)
+                                        watermarkfile="/home/cdms_backend/cdms2/Admin_Watermark/"+str(room_id)+".pdf"
+                                        outputfile="/home/cdms_backend/cdms2/dataroom/success.pdf"
+                                        pdf_writer=PyPDF2.PdfFileWriter()
+                                        if (os.path.exists(pdf_filename)):
+                                            with open(pdf_filename, 'rb') as fh:
+                                                pdf=PyPDF2.PdfFileReader(fh)
+                                                with open(watermarkfile,'rb') as watermarkfile:
+                                                    watermarkfile_pdf=PyPDF2.PdfFileReader(watermarkfile)
+                                                    for i in range(pdf.getNumPages()):
+                                                        p=pdf.getPage(i)
+                                                        p.mergePage(watermarkfile_pdf.getPage(0))
+                                                        pdf_writer.addPage(p)
+                                                    with open(outputfile,'wb') as outputfileeee:
+                                                        pdf_writer.write(outputfileeee)
+                                                    with open(outputfile, 'rb') as output:
+                                                        # FolderDownload.objects.create(folder_id=folder.id,user_id=user.id,dataroom_id=folder.dataroom_id)
+                                                        response = HttpResponse(output.read(), content_type="application/pdf")
+                                                        response['Content-Disposition'] = 'inline; filename=' + pdf_filename
+                                                        os.remove(pdf_filename)
+                                                    return response
+                                    else:
+                                        with open(pdf_filename, 'rb') as output:
+                                            # FolderDownload.objects.create(folder_id=folder.id,user_id=user.id,dataroom_id=folder.dataroom_id)
+                                            response = HttpResponse(output.read(), content_type="application/pdf")
+                                            response['Content-Disposition'] = 'inline; filename=' + pdf_filename
+                                            # os.remove(file_name[-1])
+                                            return response
+
+
+                                else:
+                                    # print("in else in in")
+                                    # print(data_of_per2['is_doc_as_pdf'],extension)
+                                    # print(data_of_per2,"else")
+                                    block_blob_service.get_blob_to_path(container_name, filename, file_name[-1])
+                                    with open(file_name[-1], 'rb') as output:
+                                        # FolderDownload.objects.create(folder_id=folder.id,user_id=user.id,dataroom_id=folder.dataroom_id)
+                                        response = HttpResponse(output.read(), content_type=value)
+                                        response['Content-Disposition'] = 'inline; filename=' + file_name[-1]
+                                        os.remove(file_name[-1])
+                                        return response
+                                    raise Http404
+                            # elif (member.is_la_user== False or member.is_dataroom_admin == False) and (data_of_per2['is_doc_as_pdf']==True):
+                            #   # elif (extension=='.docx' or ".doc" or ".ppt" or ".pptx") and (data_of_per[0]['is_doc_as_pdf']==True) and (data_of_per[0]['is_excel_as_pdf']==False):
+                            #   print("inh elif if")
+                            #   if (extension=='.docx' or ".doc" or ".ppt" or ".pptx"):
+                            #       import os, uuid, sys
+                            #       from azure.storage.blob import BlockBlobService, PublicAccess
+                            #       block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                            #       container_name ='docullycontainer'
+                            #       from pathlib import Path
+                            #       filename1 = Path(file_name[-1])
+                            #       filename_wo_ext = filename1.with_suffix('')
+                            #       print(filename_wo_ext,"filename_wo_ext")
+                            #       pdf_filename=str(filename_wo_ext)+".pdf"
+                            #       print(pdf_filename,"pdf_filename")
+                            #       blobname=file_name[0]+"/"+pdf_filename
+                            #       print(blobname,"blobname")
+                            #       print(container_name, blobname,pdf_filename,"details download")
+                            #       block_blob_service.get_blob_to_path(container_name, blobname,pdf_filename)
+                            #       with open(pdf_filename, 'rb') as output:
+                            #           response = HttpResponse(output.read(), content_type="application/pdf")
+                            #           response['Content-Disposition'] = 'inline; filename=' + pdf_filename
+                            #           # os.remove(file_name[-1])
+                            #           return response
+                            else:
+                                # print("coming in else condition")
+                                block_blob_service.get_blob_to_path(container_name, filename, file_name[-1])
+                                with open(file_name[-1], 'rb') as output:
+                                    # FolderDownload.objects.create(folder_id=folder.id,user_id=user.id,dataroom_id=folder.dataroom_id)
+                                    response = HttpResponse(output.read(), content_type=value)
+                                    response['Content-Disposition'] = 'inline; filename=' + file_name[-1]
+                                    os.remove(file_name[-1])
+                                    return response
+                                raise Http404
+                                # raise Http404
+                            # #print("path =====>",path)
+                            # storage_path = "https://docullystorage.blob.core.windows.net/docullycontainer/"
+                            # file_path = os.path.join(storage_path, filename)
+                            # r = requests.get(file_path)
+                            # response = HttpResponse(r.content,content_type=value)
+                            # response['Content-Disposition'] = 'attachment; filename='+ filename
+                            # return response
+
+                            # download_file_path = os.path.join(local_path, str.replace(file_path ,'.txt', 'DOWNLOAD.txt'))
+                            # with open(download_file_path, "wb") as download_file:
+                            #     download_file.write(blob_client.download_blob().readall())
+
+                            # #print("file_path ====>",file_path)
+                            # r = requests.get(file_path)
+                            # #print("value of r=====>",r)
+                            
+                            # #print(r.content,"value of r ====>",len(r.text),r.text)
+                            # with open(r.text,"rb") as fh:
+                            #   #print("readlines==========>",fh.readlines())
+                            # text_file = r.text
+                            # s#print("value of response =====>",response)
+                            # #print("content =====>",r.content)
+                            # with open(file_name[-1],'rb') as fh:
+                            #   #print("===========>",fh.read())
+                            # response = HttpResponse(content_type=value)
+                            # response['Content-Disposition'] = 'attachment; filename='+ file_name[-1]
+                            # return response
+                            # with open(file_path + filename,"rb") as fh:
+                            #   response = HttpResponse(fh.read(),content_type=value)
+                            #   response['Content-Disposition'] = 'inline; filename=' + file_name[-1]
+                            #   #print("response=====>",response)
+                            #   return response
+
+                            # return HttpResponse(file_path + filename,content_type=value)
+                            # #print("file_path =======>",file_path)
+                            # #print("file_path =======>",os.path.exists(file_path))
+                            # #print(os.path.basename(file_path),"value==>",value,"content-type==>",folder.file_content_type,"file_path =======>",type(os.path.basename(file_path)))
+                            # if os.path.exists(file_path.rstrip()):
+                            #     #print("entered in the if condition")
+                            #     with open(file_path.rstrip(), 'rb') as fh:
+                            #         response = HttpResponse(fh.read(), content_type=folder.file_content_type)
+                            #         response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+                            #         # response['Content-Type'] = value
+                            #         response['name'] = os.path.basename(file_path)
+                            #         return response
+                            # raise Http404
+
+                        else:
+                            pass
+                #             print ("no extension found")
+                #             path += filename
+                #             name = str(path_list[-1])
+                #             if os.path.exists(path):
+                #                 with open(path, 'rb') as fh:
+                #                     response = HttpResponse(fh.read(), content_type=folder.file_content_type)
+                #                     response['Content-Disposition'] = 'inline; filename=' + str(name) 
+                #                     response['name'] = str(name) 
+                #                     return response
+                # else:
+                return Response(None, status=status.HTTP_201_CREATED)
+                # return Http404
+        else:
+            return Response(None, status=status.HTTP_201_CREATED)
+
+                    
+def build_tree_recursive(tree, parent, nodes):
+    children  = [n for n in nodes if n['parent_folder'] == parent]
+    for child in children:
+        # #print("Childdddddddd-------", child)
+        data = {}
+        data['name'] = child['names']
+        data['id'] = child['id']
+        data['children'] = []
+        tree.append(data)
+        build_tree_recursive(data['children'], child['id'], nodes)
+
+class FoldersHierarchy(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        perm_obj = None
+        # document = DataroomFolder.objects.filter(id__in = perm_obj,dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+        # if user.is_superadmin == True:
+        #     document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+        #     perm_obj = None
+        # else:
+        member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=pk, is_deleted=False).first()
+        # #print("memberrrrrr", member.is_la_user, user.id, pk)
+        if member.is_la_user == True or member.is_dataroom_admin == True:
+            document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+            perm_obj = None
+        else:
+            perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id, is_view_only=True).values('folder_id')
+            document = DataroomFolder.objects.filter(id__in = perm_obj,dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+
+        data = []
+        from . import utils
+        for doc in document:
+            docu = DataroomFolder.objects.get(id = doc.id)
+            docu_serializer = DataroomFolderSerializer(docu)
+            datas = docu_serializer.data
+            utils.getIndexofFolder(datas)
+            data.append(datas)
+
+            # if user.is_superadmin == True:
+            #     docu1 = DataroomFolder.objects.filter(parent_folder = doc.id, is_folder=True, is_deleted=False).order_by('index')
+            # else:
+            member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=pk, is_deleted=False).first()
+            if member.is_la_user == True or member.is_dataroom_admin == True:
+                docu1 = DataroomFolder.objects.filter(parent_folder = doc.id, is_folder=True, is_deleted=False).order_by('index')
+            else:
+                docu1 = DataroomFolder.objects.filter(parent_folder = doc.id, is_folder=True, is_deleted=False, id__in = perm_obj).order_by('index')
+            if len(docu1) > 0:
+                datas = []
+                data.extend(utils.get_under_folder(docu1, datas, user, perm_obj, pk))
+                # #print("dataaa", data)
+        # #print("dataaaaa", data)
+        tree = []
+        # fill in tree starting with roots (those with no parent)
+        build_tree_recursive(tree, None, data)
+        # #print("treee", tree)
+        return Response(tree, status=status.HTTP_201_CREATED)
+
+
+class FoldersTree(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, parent_id, format=None):
+        user = request.user
+        dataroompermission=dataroom_utils.checkdataroomaccess(user.id,int(pk))
+        if dataroompermission==False:
+
+            perm_obj = None
+            # document = DataroomFolder.objects.filter(id__in = perm_obj,dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+            # if user.is_superadmin == True:
+            #     document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+            #     perm_obj = None
+            # else:
+            # print(user.id,"user id")
+            # print(pk,"pk")
+            member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=pk, is_deleted=False).last()
+            # print("memberrrrrr", member)
+            dataindex=True
+            if member is not None:
+                if member.is_la_user == True or member.is_dataroom_admin == True:
+                    if int(parent_id)==0:
+                        document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+                        #print(parent_id, pk,1958)
+                    else:
+                        document = DataroomFolder.objects.filter(dataroom_id = pk, parent_folder=parent_id, is_root_folder=False, is_deleted=False, is_folder=True).order_by('index')
+                        #print(parent_id, pk,1961)
+                    if DataroomOverview.objects.filter(user_id=user.id,dataroom_id=pk).exists():
+                        dataroom_overview = DataroomOverview.objects.filter(user_id=user.id,dataroom_id=pk).first()
+                        dataindex=dataroom_overview.hide_file_indexing              
+                    perm_obj = None
+                else:
+                    perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id, is_view_only=True).values('folder_id')
+                    if int(parent_id)==0:
+                        document = DataroomFolder.objects.filter(id__in = perm_obj,dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+                        #print(parent_id, pk,1967)
+                    else:
+                        document = DataroomFolder.objects.filter(dataroom_id = pk, parent_folder=parent_id, is_root_folder=False, is_deleted=False, is_folder=True).order_by('index')
+                        #print(parent_id, pk,1970)
+                    indexdata = member.member_added_by
+                    if DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=pk).exists():
+                        dataroom_overview = DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=pk).first()
+                        dataindex=dataroom_overview.hide_file_indexing
+
+                data = []
+                from . import utils
+                indexcheck=1
+
+                for doc in document:
+                    # if int(doc.index)<=0:
+                    #     DataroomFolder.objects.filter(id=doc.id).update(index = 1)
+
+                    if int(doc.index)!=indexcheck:
+                            DataroomFolder.objects.filter(id=int(doc.id)).update(index=indexcheck)                                                                                       
+                    indexcheck=indexcheck+1   
+                    docu = DataroomFolder.objects.get(id = doc.id)
+                    docu_serializer = DataroomFolderSerializer(docu)
+                    datas = docu_serializer.data
+                    utils.getIndexofFolder(datas)
+
+
+                    if dataindex== False:                   
+                        datas['number']=''
+                    # if user.is_superadmin == True:
+                    #     docu1 = DataroomFolder.objects.filter(parent_folder = doc.id, is_folder=True, is_deleted=False).order_by('index')
+                    # else:
+                    member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=pk, is_deleted=False).first()
+                    if member.is_la_user == True or member.is_dataroom_admin == True:
+                        docu1 = DataroomFolder.objects.filter(parent_folder = doc.id, is_folder=True, is_deleted=False).order_by('index')
+                    else:
+                        docu1 = DataroomFolder.objects.filter(parent_folder = doc.id, is_folder=True, is_deleted=False, id__in = perm_obj).order_by('index')
+                    if len(docu1) > 0:
+                        # if(utils.check_subfolder(docu1, datas, user, perm_obj, pk)):
+                        #     datas['hasChildren']=True
+                        # else:
+                        datas['hasChildren']=True
+                    else:
+                        datas['hasChildren']=False
+                    data.append(datas)
+                        # #print("dataaa", data)
+                # #print("dataaaaa", data)
+                # tree = []
+                # fill in tree starting with roots (those with no parent)
+                # build_tree_recursive(tree, None, data)
+                # #print("treee", tree)
+                # print("specific folder --->",DataroomFolder.objects.filter(id=14898).values())
+
+                # print(data,"pk folder--->",pk,parent_id)
+                return Response(data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(None)
+
+
+        else:
+            return Response(None)
+
+class FileActivitybyDateReport(APIView):
+    """docstring for ActivitybyDateReport"""
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        import datetime
+        datas=[]
+        from_date = request.GET.get("from_date")
+        to_date = request.GET.get("to_date")
+        deleted = False if request.GET.get("deleted") == 'false' else True
+        # #print("deleted",deleted)
+        todays_date = datetime.datetime.strftime(datetime.datetime.strptime( to_date, '%Y-%m-%d'),'%Y-%m-%d 23:59:59+05:30')
+        first_date = datetime.datetime.strftime(datetime.datetime.strptime( from_date, '%Y-%m-%d'),'%Y-%m-%d 00:00:00+05:30')
+        #print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+        #print("request get", first_date, todays_date)
+        # document = Folderupload.objects.filter(dataroom_id = pk, is_folder=False, created_date__gte=first_date, created_date__lte=todays_date, is_deleted=deleted)
+        # for fold in document:
+        #   datas.append({'created_date':fold.created_date,'event':'Uploaded', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+        # print(datas,'11111111111')
+
+        folder_view = FolderView.objects.filter(dataroom_id = pk,created_date__gte=first_date, created_date__lte=todays_date,folder__is_folder=False, folder__is_deleted=deleted)
+        for fold in folder_view:
+            datas.append({'created_date':fold.created_date,'event':'Viewed', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+        # print(datas,'22222222')
+
+        folder_print = FolderPrint.objects.filter(dataroom_id = pk,created_date__gte=first_date, created_date__lte=todays_date,folder__is_folder=False,folder__is_deleted=deleted)
+        for fold in folder_print:
+            datas.append({'created_date':fold.created_date,'event':'Printed', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+        # print(datas,'33333333')
+
+        folder_download = FolderDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder__is_folder=False,folder__is_deleted=deleted)
+        for fold in folder_download:
+            # print("new data",fold)
+            datas.append({'created_date':fold.created_date,'event':'Downloaded', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+
+
+        Folder_Drm_Download = FolderDrmDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder__is_deleted=deleted)
+        for fold in Folder_Drm_Download:
+            datas.append({'created_date':fold.created_date,'event':'drm download', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+
+        Folder_Delete_Download = FolderDeleteDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder_id__parent_folder_id__isnull=False)
+        for fold in Folder_Delete_Download:
+            datas.append({'created_date':fold.created_date,'event':'delete', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+
+        Folder_only_delete_record = FolderDeleteDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder_id__parent_folder_id__isnull=True)
+        for fold in Folder_only_delete_record:
+            datas.append({'created_date':fold.created_date,'event':'deleted Folder', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+
+        Folder_Copy = FolderOrFileCopy.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Copy Folder',folder__is_deleted=deleted)
+        for fold in Folder_Copy:
+            datas.append({'created_date':fold.created_date,'event':'Copy Folder', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+        File_Copy = FolderOrFileCopy.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Copy File',folder__is_deleted=deleted)
+        for fold in File_Copy:
+            datas.append({'created_date':fold.created_date,'event':'Copy File', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+
+        Folder_Move = FolderOrFileMove.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Move Folder',folder__is_deleted=deleted)
+        for fold in Folder_Move:
+            datas.append({'created_date':fold.created_date,'event':'Move Folder', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+        File_Move = FolderOrFileMove.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Move File',folder__is_deleted=deleted)
+        for fold in File_Move:
+            datas.append({'created_date':fold.created_date,'event':'Move File', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+
+
+        Bulk_Download_Files = BulkDownloadFiles.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder__is_deleted=deleted)
+        for fold in Bulk_Download_Files:
+            datas.append({'created_date':fold.created_date,'event':'bulk download', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+
+        # print(datas,'444444444')
+
+        # folder = DataroomFolder.objects.filter(dataroom_id = pk, is_deleted=False,created_date__gte=first_date, created_date__lte=todays_date)
+        # folder_data = DataroomFolderSerializer(folder, many=True).data
+        
+        datas.sort(key=lambda item:item['created_date'], reverse=True)
+        print(len(datas),'6666666666')
+
+        count = len(datas)
+        datas = paginator.paginate_queryset(datas, request)
+        print(len(datas),'77777777777')
+
+        # serializer = DataroomFolderSerializer(page, many=True)
+        # data = serializer.data
+        # for da in datas:
+            # da['user'] = UserSerializer(User.objects.get(id=int(da['user'])),many=False).data
+        return Response({'data':datas,'size':count}, status=status.HTTP_201_CREATED)
+
+class ActivitybyDateReport(APIView):
+    """docstring for ActivitybyDateReport"""
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        import datetime
+        from_date = request.GET.get("from_date")
+        to_date = request.GET.get("to_date")
+        todays_date = datetime.datetime.strptime( to_date, '%Y-%m-%d')
+        first_date = datetime.datetime.strptime( from_date, '%Y-%m-%d')
+        days = ((todays_date-first_date).days)+1
+        #lines addded by harish 
+        datarooms_date = Dataroom.objects.get(id=pk).created_date
+        dateobject=datetime.datetime.strptime(str(datarooms_date),'%Y-%m-%d %H:%M:%S.%f')
+        d_date =dateobject.strftime("%Y-%m-%d")
+        #print(d_date)
+        days2 = ((todays_date-datarooms_date).days)+2
+        # #print("date-------------2",days2)
+        # #print("this method is called ")
+        # #print(str(todays_date)+"   date "+str(first_date) +"days "+str(days))
+        if days >=days2:
+            days3 = days2
+        else:
+            days3= days
+        # end lines 
+
+        data = []
+        for i in reversed(range(0,days3)):
+            da = {}
+            dates = todays_date - timedelta(days=i)
+            da['dataroom_views'] = DataroomView.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            da['documents_view'] = FolderView.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            da['documents_print'] = FolderPrint.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            da['documents_download'] = FolderDownload.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            da['Move_activity_count'] = FolderOrFileMove.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            da['Copy_activity_count'] = FolderOrFileCopy.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            da['Drm_activity_count'] = FolderDrmDownload.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            da['Delete_activity_count'] = FolderDeleteDownload.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            # #print("End-----", todays_date, dates, dates.day, dates.month, dates.year)
+            da['date'] = dates.strftime('%d/%m/%Y')
+            data.append(da)
+        # #print("data", data) 
+        data.reverse()
+        count=len(data)
+        return Response({'data':data,'size':count}, status=status.HTTP_201_CREATED)
+
+
+
+class ExportActivityByFile(APIView):
+    """docstring for ActivitybyDateReport"""
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        import datetime
+        from_date = request.GET.get("from_date")
+        to_date = request.GET.get("to_date")
+        deleted = False if request.GET.get("deleted") == 'false' else True
+        # #print("deleted",deleted)
+        todays_date = datetime.datetime.strftime(datetime.datetime.strptime( to_date, '%Y-%m-%d'),'%Y-%m-%d 23:59:59+05:30')
+        first_date = datetime.datetime.strftime(datetime.datetime.strptime( from_date, '%Y-%m-%d'),'%Y-%m-%d 00:00:00+05:30')
+        # #print("request get", first_date, todays_date)
+        data = []
+
+        document = Folderupload.objects.filter(dataroom_id = pk,created_date__gte=first_date, created_date__lte=todays_date,folder__is_folder=False, folder__is_deleted=deleted)
+        for fold in document:
+            data.append({'created_date':fold.created_date,'event':'Uploaded', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+        folder_view = FolderView.objects.filter(dataroom_id = pk,created_date__gte=first_date, created_date__lte=todays_date,folder__is_folder=False, folder__is_deleted=deleted)
+        for fold in folder_view:
+            data.append({'created_date':fold.created_date,'event':'Viewed', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        folder_print = FolderPrint.objects.filter(dataroom_id = pk,created_date__gte=first_date, created_date__lte=todays_date,folder__is_folder=False,folder__is_deleted=deleted)
+        # print(folder_print,"folder_print")
+        for fold in folder_print:
+            data.append({'created_date':fold.created_date,'event':'Printed', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        folder_download = FolderDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder__is_folder=False,folder__is_deleted=deleted)
+        # print(folder_download,"folder_download")
+        for fold in folder_download:
+            data.append({'created_date':fold.created_date,'event':'Downloaded', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+        Folder_Drm_Download = FolderDrmDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder__is_deleted=deleted)
+        for fold in Folder_Drm_Download:
+            data.append({'created_date':fold.created_date,'event':'drm download', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+        # Folder_Delete_Download = FolderDeleteDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # for fold in Folder_Delete_Download:
+        #   data.append({'created_date':fold.created_date,'event':'delete', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+        Folder_Delete_Download = FolderDeleteDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder_id__parent_folder_id__isnull=False)
+        for fold in Folder_Delete_Download:
+            data.append({'created_date':fold.created_date,'event':'delete', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+
+        Folder_only_delete_record = FolderDeleteDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder_id__parent_folder_id__isnull=True)
+        for fold in Folder_only_delete_record:
+            data.append({'created_date':fold.created_date,'event':'deleted Folder', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+
+        Folder_Copy = FolderOrFileCopy.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Copy Folder',folder__is_deleted=deleted)
+        for fold in Folder_Copy:
+            data.append({'created_date':fold.created_date,'event':'Copy Folder', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        File_Copy = FolderOrFileCopy.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Copy File',folder__is_deleted=deleted)
+        for fold in File_Copy:
+            data.append({'created_date':fold.created_date,'event':'Copy File', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+        Folder_Move = FolderOrFileMove.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Move Folder',folder__is_deleted=deleted)
+        for fold in Folder_Move:
+            data.append({'created_date':fold.created_date,'event':'Move Folder', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        File_Move = FolderOrFileMove.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Move File',folder__is_deleted=deleted)
+        for fold in File_Move:
+            data.append({'created_date':fold.created_date,'event':'Move File', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+
+        Bulk_Download_Files = BulkDownloadFiles.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder__is_deleted=deleted)
+        for fold in Bulk_Download_Files:
+            data.append({'created_date':fold.created_date,'event':'bulk download', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+        data.sort(key=lambda item:item['created_date'], reverse=True)
+        datarooms = Dataroom.objects.filter(id=pk)
+        serializer = DataroomSerializer(datarooms, many=True)
+        file_name = str(serializer.data[0].get('dataroom_nameFront'))+' - Overview Report - '+str(time.strftime("%d-%m-%Y_%H:%M:%S"))+'.csv'
+        from . import utils
+        import csv
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename='+str(file_name)+''
+        writer = csv.writer(response)
+        
+        header_data, datas = utils.getExcelOverviewData(data)
+        
+        writer.writerow(header_data)
+        writer.writerows(datas)
+        return response
+
+        # return Response(data, status=status.HTTP_201_CREATED)
+
+class ExportActivitybyDateReport(APIView):
+    """docstring for ActivitybyDateReport"""
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        import datetime
+        from_date = request.GET.get("from_date")
+        to_date = request.GET.get("to_date")
+        todays_date = datetime.datetime.strptime( to_date, '%Y-%m-%d')
+        first_date = datetime.datetime.strptime( from_date, '%Y-%m-%d')
+        days = ((todays_date-first_date).days)+1
+         #lines addded by harish 
+        datarooms_date = Dataroom.objects.get(id=pk).created_date
+        dateobject=datetime.datetime.strptime(str(datarooms_date),'%Y-%m-%d %H:%M:%S.%f')
+        d_date =dateobject.strftime("%Y-%m-%d")
+        #print(d_date)
+        days2 = ((todays_date-datarooms_date).days)+2
+        # #print("date-------------2",days2)
+        # #print("this method is called ")
+        # #print(str(todays_date)+"   date "+str(first_date) +"days "+str(days))
+        if days >=days2:
+            days3 = days2
+        else:
+            days3= days
+        # end lines 
+        data = []
+        for i in reversed(range(0,days3)):
+            da = {}
+            dates = todays_date - timedelta(days=i)
+            da['dataroom_views'] = DataroomView.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            da['documents_view'] = FolderView.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            da['documents_print'] = FolderPrint.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            da['documents_download'] = FolderDownload.objects.filter(dataroom_id=pk,created_date__day=dates.day, created_date__month=dates.month, created_date__year = dates.year).count()
+            # #print("End-----", todays_date, dates, dates.day, dates.month, dates.year)
+            da['date'] = dates.strftime('%d/%m/%Y')
+            data.append(da)
+        # #print("data", data)
+        data.reverse
+        from . import utils
+        import csv
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="Activity.csv"'
+        writer = csv.writer(response)
+        
+        header_data, datas = utils.getActivityByDateExport(data)
+        
+        writer.writerow(header_data)
+        writer.writerows(datas)
+        return response
+        
+class GetIndexReports(APIView):
+    authentication_classes = ( TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        index_list = IndexDownload.objects.filter(dataroom_id=pk)
+        serializer = IndexDownloadSerializer(index_list, many=True)
+        data = serializer.data
+        data.sort(key=lambda item:item['created_date'], reverse=True)
+        return Response(data, status=status.HTTP_201_CREATED)
+
+    def delete(self, request, pk, format=None):
+        index = IndexDownload.objects.get(id=pk)
+        index.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class RecentDocument(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk, format=None):
+        folder_data = DataroomFolder.objects.filter(dataroom_id=pk).order_by('-created_date') #('updated_date')
+        folder_data = folder_data.order_by('-updated_date')
+        journal = User.objects.all().order_by('-date_joined')
+        # Rajendra code, Combine two queryset from diff model
+        report = chain(folder_data, journal)
+        # report = report.order_by('-updated_date', '-date_joined', '-created_date')
+        qs_json = sez.serialize('json', report)  
+        # #print("Tango:----------------------", qs_json)
+        d = json.loads(qs_json)
+        for each in d:
+            # #print("Tango:----------------------", each, "\n")
+            try:
+                if each['fields']['name']:
+                    user = User.objects.get(id=each['fields']['user'])
+                    each['fields']['username'] = user.username
+            except:
+                each['fields']['name'] = ''
+        cat_list = Categories.objects.all()
+        return Response({"folder_data": d})
+
+class GetAllFilesViewed(APIView):
+    authentication_classes = ( TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        file_list = FolderView.objects.filter(dataroom_id=pk, folder__is_folder=False)
+        serializer = FolderViewSerializer(file_list, many=True)
+        data = serializer.data
+        data.sort(key=lambda item:item['created_date'], reverse=True)
+        return Response(data, status=status.HTTP_201_CREATED)
+
+class GetAllFilesPrinted(APIView):
+    authentication_classes = ( TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        print_list = FolderPrint.objects.filter(dataroom_id=pk, folder__is_folder=False)
+        serializer = FolderPrintSerializer(print_list, many=True)
+        data = serializer.data
+        data.sort(key=lambda item:item['created_date'], reverse=True)
+        return Response(data, status=status.HTTP_201_CREATED)
+
+class GetAllFilesDownloaded(APIView):
+    authentication_classes = ( TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        import datetime
+        user = request.user
+        data = []
+
+        from_date = request.GET.get("from_date")
+        to_date = request.GET.get("to_date")
+        todays_date = datetime.datetime.strftime(datetime.datetime.strptime( to_date, '%Y-%m-%d'),'%Y-%m-%d 23:59:59+05:30')
+        first_date = datetime.datetime.strftime(datetime.datetime.strptime( from_date, '%Y-%m-%d'),'%Y-%m-%d 00:00:00+05:30')
+        download_list = FolderDownload.objects.filter(dataroom_id=pk, folder__is_folder=False, created_date__gte=first_date, created_date__lte=todays_date)
+        for fold in download_list:
+            data.append({'created_date':fold.created_date,'event':'Downloaded', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        Bulk_Download_Files = BulkDownloadFiles.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        for fold in Bulk_Download_Files:
+            data.append({'created_date':fold.created_date,'event':'bulk_download', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})       
+        data.sort(key=lambda item:item['created_date'], reverse=True)
+        count=len(data)
+        return Response({'data':data,'size':count}, status=status.HTTP_201_CREATED)
+
+class ExportFilesDownloaded(APIView):
+    authentication_classes = ( TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        import datetime
+        user = request.user
+        data = []
+        from_date = request.GET.get("from_date")
+        to_date = request.GET.get("to_date")
+        todays_date = datetime.datetime.strftime(datetime.datetime.strptime( to_date, '%Y-%m-%d'),'%Y-%m-%d 23:59:59+05:30')
+        first_date = datetime.datetime.strftime(datetime.datetime.strptime( from_date, '%Y-%m-%d'),'%Y-%m-%d 00:00:00+05:30')
+        download_list = FolderDownload.objects.filter(dataroom_id=pk, folder__is_folder=False, created_date__gte=first_date, created_date__lte=todays_date)
+        for fold in download_list:
+            data.append({'created_date':fold.created_date,'event':'Downloaded', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        Bulk_Download_Files = BulkDownloadFiles.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        for fold in Bulk_Download_Files:
+            data.append({'created_date':fold.created_date,'event':'bulk_download', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+        from . import utils
+        import csv  
+        data.sort(key=lambda item:item['created_date'], reverse=True)
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="Activity.csv"'
+        writer = csv.writer(response)
+        
+        header_data, datas = utils.getExcelDataDownloadedFiles(data)
+        
+        writer.writerow(header_data)
+        writer.writerows(datas)
+        return response
+
+
+class RecentDocument(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk, format=None):
+        is_uploaded = 0
+        is_updated = 0
+        is_deleted = 0
+        folder_data = DataroomFolder.objects.filter(dataroom_id=pk).order_by('-created_date') #('updated_date')
+        folder_data = folder_data.order_by('-updated_date')
+        journal = User.objects.all().order_by('-date_joined')
+        from itertools import chain
+        report = chain(folder_data, journal)
+        qs_json = sez.serialize('json', report)        
+        d = json.loads(qs_json)
+        # #print("dataa", d)
+        for each in d:
+            # #print("Tango:----------------------", each, "\n")
+            try:
+                if each['fields']['name']:
+                    user = User.objects.get(id=each['fields']['user'])
+                    each['fields']['username'] = user.username
+            except:
+                each['fields']['name'] = ''
+            try:
+                if each['fields']['is_deleted']:
+                    is_deleted += 1 
+            except:
+                pass
+            try:
+                if each['fields']['is_uploaded']:
+                    is_uploaded += 1 
+            except:
+                pass
+            try:
+                if not each['fields']['is_uploaded']:
+                    is_updated += 1 
+            except:
+                pass
+
+        recent_update = RcentUpdate.objects.filter(dataroom_id=pk).order_by('-created_at')
+        recent_update = recent_update.order_by('-modified_at')
+        recent = chain(recent_update,)
+        # #print("dataa", recent)
+        recent_json = sez.serialize('json', recent)
+        # #print("dataa", recent_json)        
+        recent_data = json.loads(recent_json)
+        
+        # #print("Else part here.", d)
+        # print ("is_uploaded", is_uploaded)
+        # print ("is_updated", is_updated)
+        # print ("is_deleted", is_deleted)
+        return Response({"folder_data": d, "is_deleted": is_deleted, 'is_uploaded': is_uploaded, 'is_updated': is_updated, 'recent_data': recent_data})
+
+class FoldersList(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        key = request.GET.get('key')
+        if key:
+            q_list = [Q(name__icontains=key)]
+            folder = DataroomFolder.objects.filter(dataroom_id=pk, is_deleted=False, is_folder=False).filter(reduce(operator.or_, q_list))
+        else:
+            folder = DataroomFolder.objects.filter(dataroom_id=pk, is_deleted=False, is_folder=False)
+
+        serializer = DataroomFolderSerializer(folder, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class UpdateList(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        dataroompermission=dataroom_utils.checkdataroomaccess(user.id,int(pk))
+        # print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTRRRRRRRRRRRRRRR',dataroompermission,user.id,pk)
+        if dataroompermission==False:
+            # request.session['email'] = user.email
+            # request.session['id'] = user.id
+            update=[]
+            # if user.is_superadmin == True:
+            #   update = RcentUpdate.objects.filter(dataroom_id=pk).order_by('-id')
+            #   serializer = RecentUpdateSerializer(update, many=True)
+            #   data = serializer.data
+            #   print('tttttttttttttttttttttttttttttttt',user.is_superadmin,user.is_admin)
+            if DataroomMembers.objects.filter(member_id=user.id, dataroom_id=pk,is_deleted=False).exists():
+                dataaa= DataroomMembers.objects.filter(member_id=user.id, dataroom_id=pk,is_deleted=False).last()
+                if dataaa.is_la_user==True or dataaa.is_dataroom_admin:
+                    update = RcentUpdate.objects.filter(dataroom_id=pk).order_by('-id')
+                    serializer = RecentUpdateSerializer(update, many=True)
+                    data = serializer.data
+                    # print('22222222222222222222')
+
+                else:
+                    # q_list = [Q(member__in=[user.id]), Q(user_id=user.id)]
+                    update = RcentUpdate.objects.filter(dataroom_id=pk ,member__in=[user.id]).order_by('-id')
+                    serializer = RecentUpdateSerializer(update, many=True)
+                    data = serializer.data
+                    for i in data:
+                        i['member']=[user.id]
+                    # print(update,'RERRRRRERERERRRRRRRRRRRRR')
+
+                for da in data:
+                    da['member_details'] = []
+                    if da.get('file'):
+                        folder = DataroomFolder.objects.get(id = da.get('file'))
+                        da['file'] = DataroomFolderSerializer(folder, many=False).data
+                        if user.is_superadmin == True or user.is_admin == True:
+                            da['file']['file_view'] = True
+                        else:
+                            try:
+                                member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=pk,is_deleted=False).first()
+                                perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=da.get('file').get('id'),dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id).first()
+                                da['file']['file_view'] = file_list.is_view_only
+                            except:
+                                da['file']['file_view'] = False
+                    if da.get('member'):
+                        # #print(da.get('member'))
+                        member_array = []
+                        for member_id in da.get('member'):
+                            # #print(member_id)
+                            members = DataroomMembers.objects.filter(member_id=member_id, dataroom_id=pk,is_deleted=False).first()
+                            serializer = DataroomMembersSerializer(members, many=False)
+                            # #print(serializer.data)
+                            if serializer.data and 'member' in serializer.data:
+                                # #print(1)
+                                member_array.append(str(serializer.data.get('member').get('first_name')))
+                        # #print(member_array)
+                        da['member_details'] = member_array
+
+                return Response(data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(None)
+
+        else:
+            return Response(None)
+
+
+class NewUpdate(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        update = RcentUpdate.objects.get(id=pk)
+        serializer = RcentUpdateSerializer(update, many=False)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def post(self, request, pk, format=None):
+        user = request.user
+        # #print('#####################################################################################')
+        # print ("user:-----", user)
+        # #print('#####################################################################################')
+
+        data = request.data
+
+        # #print('#####################################################################################')
+        # print ("data:-----", data)
+        # #print('#####################################################################################')
+
+        myfile = request.FILES.getlist('file')
+        # print ("data:------", data)
+        member_list = []
+        group_list = []
+        categorie_list = []
+        try:
+            for cat in data['categories']:
+                categories = Categories.objects.filter(categories_name=cat).first()
+                categorie_list.append(categories.id)
+        except:
+            for cat in data['categories']:
+                categories = Categories.objects.filter(id=cat).first()
+                categorie_list.append(categories.id)
+        try:
+            for each in data['member']:
+                member = User.objects.filter(email=each).first()
+                member_list.append(member.id)
+        except:
+            for each in data['member']:
+                member = DataroomGroups.objects.filter(id=each).first()
+                group_list.append(member.id)
+       
+        # import ast
+        # data = ast.literal_eval(json.dumps(data))
+        # #print("member_list", member_list, "group_list", group_list)
+        data['categories'] = []
+        # data['member'] = []
+        data['user'] = user.id
+        data['dataroom'] = int(pk)
+        dataroomsdata=Dataroom.objects.filter(id=pk).last()
+
+        # print ("data is ", data)
+        # message = get_template('data_documents/new_updates.html').render(ctx)
+        # send_email_to_members(data['groups',])
+        to=[]
+        if data['send_update_email'] == True:
+            # #print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+            subject = "Update in Project "+str(dataroomsdata.dataroom_nameFront)+" on Docully - "+str(data['subject'])
+            from_email = settings.DEFAULT_FROM_EMAIL
+            to =data['member']
+            # #print(to[0])
+            text="@" in str(to[0])
+            # #print(text)
+            # if to[0]__icontains < 5 :
+                # #print('9876')
+            if text:
+                to = to
+            else :
+                userss = DataroomMembers.objects.filter(end_user_group__in=to,dataroom_id =pk, is_deleted=False,memberactivestatus=True)
+                # print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                # #print(group_list)
+                # #print(userss)
+                to = []
+                for user in userss:
+                    to.append(user.member.email)
+                    # print()
+                    # print("to------------",to,user.id,user.memberactivestatus,'66666666666666666')
+            # #print(to)
+            dataroomname = Dataroom.objects.get(id=pk)
+            message=data['message']
+            # ctx = {
+            #     'email': to,
+            #     'subject': subject,
+            #     'messages':message,
+
+            #     # 'link': link,
+
+            #     # 'update':update
+            #         }
+
+            # message = get_template('data_documents/new_updates.html').render(ctx)
+
+            # msg = EmailMessage(subject, message, to=to, from_email=from_email)
+            # msg.content_subtype = 'html'
+            # msg.send()
+
+        for i in to:
+            name =User.objects.get(email=i)
+
+            ctx = {
+                    'email': i,
+                    'subject': subject,
+                    'messages':message,
+                    'name':name.first_name,
+                    'dataroom':dataroomname.dataroom_nameFront,
+                    # 'update':update
+                        }
+            # #print("******************************************************")
+            # #print(i)
+            # #print('name -----------------------')
+            # #print('666666666666666666666666666666666666666666666666666')
+            ne = [i]
+            # print(ne)
+
+            # print(message,'RIIIIIIIIIIIIFJFJFJFJFJ))))$$$$ 56')
+            message1 = get_template('data_documents/new_updates.html').render(ctx)
+
+            msg = EmailMessage(subject, message1, to=ne, from_email=from_email)
+            msg.content_subtype = 'html'
+            msg.send()
+
+        data.pop('member', None)
+        data.pop('categories', None)
+        serializer = RecentUpdateSerializer(data=data, context={'member': member_list, 'groups': group_list, 'categories': categorie_list})
+        if serializer.is_valid():
+           # print('______Rushi______') 
+            serializer.save()
+           # print(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)        
+        # print ("error:---", serializer.errors)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
+
+
+class CategoriesListApi(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        cate_list = Categories.objects.filter(dataroom_id=pk)
+        cat_serializer = CategoriesSerializer(cate_list, many=True)
+        data = cat_serializer.data
+        # print(data,"cat data")
+        for da in data:
+            try:
+                da['user'] = ManageDataroomCategories.objects.filter(category_id=da['id'], dataroom_id=da['dataroom']).values_list('user_id', flat=True)
+            except:
+                da['user'] = []
+        return Response(data, status=status.HTTP_201_CREATED)
+
+class ManageCategoryApi(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self,request,pk,format=None):
+        cate_list = Categories.objects.filter(id=pk).first()
+        if cate_list:
+            cat_serializer = CategoriesSerializer(cate_list, many=False)
+            data = cat_serializer.data
+            return Response(data, status=200)
+        else:
+            return Response(status=HTTP_400_BAD_REQUEST)
+
+
+    def delete(self,request,pk,format=None):
+        cate_list = Categories.objects.filter(id=pk).delete()
+        return Response({'msg':"Category Deleted"},status=200)
+
+
+class UpdateCategoryApi(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+
+    def put(self,request):
+        data = request.data['categorydata']
+        category_data = Categories.objects.filter(id=data.get('id'),dataroom_id=data.get('dataroom_id'))
+        try:
+            if category_data:
+                cat_id = category_data.update(categories_name=data.get('category_name'))
+                if data.get('user_id'):
+                    for cat_user_id in data.get('user_id'):                        
+                        manage_cat = ManageDataroomCategories.objects.filter(user_id=cat_user_id,dataroom_id=data.get('dataroom_id'),category_id=data.get('id'))
+                        if manage_cat.exists():
+                            manage_cat.update(user_id=cat_user_id,dataroom_id=data.get('dataroom_id'),category_id=data.get('id'))
+                        else:
+                            ManageDataroomCategories.objects.create(user_id=cat_user_id,dataroom_id=data.get('dataroom_id'),category_id=data.get('id'))
+                return Response({'msg': 'category Updated'}, status=201)
+            else:
+                return Response({'msg' :'not found'}, status=HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'msg' :'not found'}, status=HTTP_400_BAD_REQUEST)
+
+
+class DataroomUserList(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    ### sending empty data everytime
+    # def get(self, request, pk, format=None):
+    #     user_id = []
+    #     dataroom_list = Dataroom.objects.filter(id=pk).first()
+    #     dataroom_user_list = DataroomMembers.objects.filter(dataroom_id=pk,memberactivestatus=True,is_deleted=False)
+    #     for dataroom_user in dataroom_user_list:
+    #         if (dataroom_user.is_la_user or dataroom_user.is_dataroom_admin) and dataroom_user.is_q_a_user:
+    #             serializer = DataroomMembersSerializerone(dataroom_user, many=False)
+    #             user_id.append(serializer.data)
+        # #print("user_id_10_april ===>",user_list)
+        # print(user_id,'888888888888888899999999999990000000000000')
+        # return Response(user_id, status=status.HTTP_201_CREATED)
+
+    def get(self,request,pk,format=None):
+        member_filter = DataroomMembers.objects.filter(dataroom_id=pk,memberactivestatus=True,is_deleted=False,is_q_a_user=True).filter(Q(is_dataroom_admin=True)| Q(is_la_user=True))
+        serializer = DataroomMembersSerializer(member_filter, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class DataroomMemList(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    # def get(self, request, pk, format=None):
+    #     import pdb;pdb.set_trace();
+    #     user_id = []
+    #     dataroom_user_list = DataroomMembers.objects.filter(dataroom_id=pk)
+    #     serializer = DataroomMembersSerializer(dataroom_user_list, many=True)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def post(self, request, pk, format=None):
+        # #print("Request Data", request.data, request.user.id)
+        user_id = []
+        dataroom_user_list = DataroomMembers.objects.filter(dataroom_id=pk, member_id=request.user.id)
+        serializer = DataroomMembersSerializer(dataroom_user_list, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class GetRecentUpdates(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+    
+    def post(self, request, pk, format=None):
+        cat_id = []
+        categories_obj = request.data['cat_list']
+        for cat in categories_obj:
+            cat_id.append(cat['id'])
+        recent_update = RcentUpdate.objects.filter(dataroom_id=pk, categories__in=cat_id).order_by('-created_at').distinct()
+        recent_update = recent_update.order_by('-modified_at')
+        recent = chain(recent_update,)
+        recent_json = sez.serialize('json', recent)        
+        recent_data = json.loads(recent_json)
+        return Response({'recent_data': recent_data})
+
+
+class CopyFiles(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def assign_index(self, data , user, pk):
+        index = 0
+        try :
+            # print ("data under assign_index is:", data)
+            # print ("priamry key is", pk)
+            max_index = DataroomFolder.objects.filter(parent_folder_id=pk, dataroom_id=data.get('dataroomId'), is_root_folder=False, is_folder=False, is_deleted=False).aggregate(Max('index'))
+            # print ("max indx is", max_index)
+            index = max_index.get('index__max')
+            # print ("index is", index)
+            if index is None:
+                index = 0
+        except :
+            pass
+        # print ("new index is", index+1)
+        return index+1
+
+    def assign_index_folder(self, data , user, pk):
+        index = 0
+        try :
+            # print ("inside create new folder", data)
+            max_index = DataroomFolder.objects.filter(dataroom_id=data.get('dataroomId'), parent_folder_id=pk, is_root_folder=False, is_folder=True, is_deleted=False).aggregate(Max('index'))
+            index = max_index.get('index__max')
+            # print ('max index now is', index)
+            if index is None:
+                index = 0
+        except :
+            pass
+        # print ("index after +1 is", index+1)
+        return index+1
+
+    def copy_folder(self, files, filed, user):
+        data = {}
+        # print(user,"copy folder here --->",files)
+        # print("filed --->",filed)
+        for file in files:
+            copy_file = DataroomFolder()
+            copy_file.user_id = user.id
+            copy_file.dataroom_id = file.dataroom_id
+            copy_file.name = file.name
+            copy_file.last_updated_user_id = user.id
+            copy_file.parent_path = file.parent_path
+            copy_file.file_content_type = file.file_content_type
+            copy_file.file_size = file.file_size
+            copy_file.parent_folder_id = filed.id
+            copy_file.pages = file.pages
+            copy_file.version = file.version
+            copy_file.path = file.path
+            copy_file.is_folder = file.is_folder
+            data['dataroomId'] = file.dataroom_id
+            if file.is_folder == True:
+                copy_file.index = self.assign_index_folder(data, user, filed.id)
+
+            else:
+                copy_file.index = self.assign_index(data, user, filed.id)
+            copy_file.save()
+            if file.is_folder == True:
+                files = DataroomFolder.objects.filter(parent_folder_id=file.id)
+                self.copy_folder(files, copy_file, user)
+        return True
+
+    def post(self, request, format=None):
+        data = {}
+        user = request.user
+        # #print("requesttttttt", request.data)
+        # print("today copy file api -->",request.data)
+        file_obj = DataroomFolder.objects.filter(id=request.data['file_id']).first()
+        folder_obj = DataroomFolder.objects.filter(id=request.data['folder_id']).first()
+
+        # print("this is data room id now in copy api -->",file_obj.dataroom_id)
+        # print("see data -->",Dataroom.objects.filter(id=file_obj.dataroom_id).values())
+        
+        copy_file = DataroomFolder()
+        copy_file.user_id = user.id
+        copy_file.dataroom_id = file_obj.dataroom_id
+        copy_file.name = file_obj.name
+        copy_file.last_updated_user_id = request.user.id
+        copy_file.parent_path = file_obj.parent_path
+        copy_file.file_content_type = file_obj.file_content_type
+        copy_file.file_size = file_obj.file_size
+        copy_file.parent_folder_id = folder_obj.id
+        copy_file.pages = file_obj.pages
+        copy_file.version = file_obj.version
+        copy_file.is_folder = file_obj.is_folder
+        if file_obj.is_root_folder == True:
+            copy_file.is_root_folder = False 
+        copy_file.path = file_obj.path
+        data['dataroomId'] = file_obj.dataroom_id 
+        if file_obj.is_folder == True:
+            copy_file.index = self.assign_index_folder(data, user, folder_obj.id)
+        else:
+            copy_file.index = self.assign_index(data, user, folder_obj.id)
+        copy_file.save()
+
+        qs = Dataroom.objects.get(id=file_obj.dataroom_id)
+        import datetime
+        if file_obj.is_folder == False:
+            # qs.event = 1
+            # print("in copy folder event -->",timezone.now)
+            # qs.event_timestamp = datetime.datetime.now()
+            # qs.save()
+            FolderOrFileCopy.objects.create(user_id=user.id,folder_id=file_obj.id,dataroom_id=file_obj.dataroom_id,event='Copy File')
+
+        if file_obj.is_folder == True:
+            # qs.event = 1
+            # qs.event_timestamp = datetime.datetime.now()
+            # qs.save()
+            files = DataroomFolder.objects.filter(parent_folder_id=file_obj.id)
+            FolderOrFileCopy.objects.create(user_id=user.id,folder_id=file_obj.id,dataroom_id=file_obj.dataroom_id,event='Copy Folder')
+            self.copy_folder(files, copy_file, user)
+        data = request.data
+        return Response({'recent_data': True}, status=status.HTTP_201_CREATED)
+
+class MoveFolderFiles(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, format=None):
+        user = request.user
+        # print(user)
+        # print("new_move_files --->",request.data)
+        return Response({'test_purpose': True}, status=status.HTTP_201_CREATED)
+
+
+class MoveFiles(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def assign_index(self, data , user, pk):
+        index = 0
+        try :
+            # print ("data under assign_index is:", data)
+            # print ("priamry key is", pk)
+            max_index = DataroomFolder.objects.filter(parent_folder_id=pk, dataroom_id=data.get('dataroomId'), is_root_folder=False, is_folder=False, is_deleted=False).aggregate(Max('index'))
+            # print ("max indx is", max_index)
+            index = max_index.get('index__max')
+            # print ("index is", index)
+            if index is None:
+                index = 0
+        except :
+            pass
+        # print ("new index is", index+1)
+        return index+1
+
+    def assign_index_folder(self, data , user, pk):
+        index = 0
+        try :
+            # print ("inside create new folder", data)
+            max_index = DataroomFolder.objects.filter(dataroom_id=data.get('dataroomId'), parent_folder_id=pk, is_root_folder=False, is_folder=True, is_deleted=False).aggregate(Max('index'))
+            index = max_index.get('index__max')
+            # print ('max index now is', index)
+            if index is None:
+                index = 0
+        except :
+            pass
+        # print ("index after +1 is", index+1)
+        return index+1
+
+    def post(self, request, format=None):
+        data = {}
+        user = request.user
+        file_obj = DataroomFolder.objects.filter(id=request.data['file_id']).first()
+        folder_obj = DataroomFolder.objects.filter(id=request.data['folder_id']).first()
+        
+        copy_file = DataroomFolder()
+        copy_file.user_id = user.id
+        copy_file.dataroom_id = file_obj.dataroom_id
+        copy_file.name = file_obj.name
+        copy_file.last_updated_user_id = request.user.id
+        copy_file.parent_path = file_obj.parent_path
+        copy_file.file_content_type = file_obj.file_content_type
+        copy_file.file_size = file_obj.file_size
+        copy_file.parent_folder_id = folder_obj.id
+        copy_file.pages = file_obj.pages
+        copy_file.version = file_obj.version
+        copy_file.path = file_obj.path
+        data['dataroomId'] = file_obj.dataroom_id 
+        copy_file.is_folder = file_obj.is_folder
+        if file_obj.is_root_folder == True:
+            copy_file.is_root_folder = False 
+        if file_obj.is_folder == True:
+            copy_file.index = self.assign_index_folder(data, user, folder_obj.id)
+        else:
+            copy_file.index = self.assign_index(data, user, folder_obj.id)
+        copy_file.dataroom_folder_uuid = file_obj.dataroom_folder_uuid
+        change_all_indexes(file_obj)
+        copy_file.save()
+
+        # print("")
+        if file_obj.is_folder == False:
+            FolderOrFileMove.objects.create(user_id=user.id,folder_id=copy_file.id,dataroom_id=file_obj.dataroom_id,event='Move File')
+
+        if file_obj.is_folder == True:
+            # print("folder is true now -->")
+            FolderOrFileMove.objects.create(user_id=user.id,folder_id=copy_file.id,dataroom_id=file_obj.dataroom_id,event='Move Folder')
+            DataroomFolder.objects.filter(parent_folder_id=file_obj.id).update(parent_folder_id=copy_file.id)
+
+        file_obj.delete()
+        return Response({'recent_data': True}, status=status.HTTP_201_CREATED)
+
+class ChangeRootIndex(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+
+        temp = 0
+        data = []
+        dataroomModel = Dataroom.objects.filter()
+        datroomseralizer = DataroomSerializer(dataroomModel, many=True)
+
+        if datroomseralizer.data:
+
+            for k in datroomseralizer.data:
+
+                #print(k.get('id'))
+                pk = k.get('id')
+                temp +=1
+
+                folder_obj = DataroomFolder.objects.filter(dataroom_id=pk, is_root_folder=True, is_folder=True, is_deleted=False).order_by('index')
+                serializer = DataroomFolderSerializer(folder_obj, many=True)
+                # #print(serializer.data)
+                j=0
+                if serializer.data:
+                    for i in serializer.data:
+                        # #print(i.id)
+                        j+=1
+                        #print(i.get('id'))
+                        DataroomFolder.objects.filter(id=i.get('id')).update(index=j)
+
+        return Response({'recent_data': temp, 'data':datroomseralizer.data}, status=status.HTTP_201_CREATED)
+     
+class NotifyotherMembers(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, format=None):
+        return Response({'recent_data': True}, status=status.HTTP_201_CREATED)
+
+
+class bulkdownloadReportcsv(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        from . import utils
+        user = request.user
+        data=[]
+        filesdata=BulkDownloadFiles.objects.filter(batch_id=pk).order_by('-id')
+        failfiledata=BulkDownloadfailFiles.objects.filter(batch_id=pk).order_by('-id')
+        if filesdata!=None: 
+            dataroom = Dataroom.objects.get(id=filesdata[0].dataroom.id)
+            for doc in filesdata:
+                        docu = DataroomFolder.objects.get(id = doc.folder.id,is_deleted=False)
+                        docu_serializer = DataroomFolderSerializer(docu)
+                        datas = docu_serializer.data
+                        datas['index'] = utils.getIndexes(datas)
+                        datas['date']=doc.created_date
+                        datas['statuss']='Success'
+                        data.append(datas)
+            for doc in failfiledata:
+                        docu = DataroomFolder.objects.get(id = doc.folder.id,is_deleted=False)
+                        docu_serializer = DataroomFolderSerializer(docu)
+                        datas = docu_serializer.data
+                        datas['index'] = utils.getIndexes(datas)
+                        datas['date']=doc.created_date
+                        datas['statuss']='Fail'
+                        data.append(datas)
+            for i in data:
+                i['path']=str(dataroom.dataroom_nameFront)+'/'+str(pathgeneratortoprint(i))
+            import csv
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="index.csv"'
+            writer = csv.writer(response)
+            users = User.objects.get(id=user.id)
+            if DataroomOverview.objects.filter(dataroom_id=pk).exists():
+                DataroomOverviewdata=DataroomOverview.objects.filter(dataroom_id=pk).last()
+                indexpermission=DataroomOverviewdata.hide_file_indexing
+            else:
+                indexpermission=True
+
+            header_data, datas = utils.getExcelbulkdownloadReport(data,[],indexpermission)
+            writer.writerow(["This Bulk Download report is of "+user.first_name+" "+user.last_name+" ("+user.email+") from _______Dataroom "+dataroom.dataroom_nameFront])
+            writer.writerow(header_data)
+        # new_list = []
+        # for value in datas:
+        #     # #print(type(value),"<===== new_data_for_csv====>",value)
+        #     new_list.append(list(value))
+        # # #print("new_list==========>",new_list)
+        # i=0
+        # for new_value in new_list:
+        #     # #print("new_value=====>",new_value)
+        #     if new_list[i][-1] is not None:
+        #         new_list[i][-1] = dataroom.dataroom_nameFront +'/'+ new_list[i][1] + '/' + new_list[i][-1]
+        #         # new_path = new_list[1][-1].split('/')
+        #     i=i+1
+        # print(new_list,'list________')
+        # # #print("set===>",str(new_list[1][-1]).split('/'))
+        # print("new_path=====>",new_path[-1],new_path[-2],new_path[-3])
+        # new_list[1][-1] = new_path[-3] +'/'+ new_path[-2]+'/'+new_path[-1]
+        # print("updated_list===>",new_list)        
+        writer.writerows(datas)
+        # #print(datas[0][1],"2323=========>",type(datas),datas[1])
+        return response
+
+class ManageCategory(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, pk, format=None):
+        print("manage data",request.data)
+        data = request.data['update']
+        print('ManageCategory data',data)
+        for each in data:
+            if each['category']:
+                data = {}
+                user = request.user
+                categ_list = ManageDataroomCategories.objects.filter(dataroom_id=pk, category_id=each['categories']).values_list('user_id', flat=True)
+                for usr in each['user']:
+                    if usr not in categ_list:
+                        ManageDataroomCategories.objects.create(user_id=usr, dataroom_id=pk, category_id=each['categories'])
+                    else:
+                        pass
+                for categ in categ_list:
+                    if categ not in each['user']:
+                        ManageDataroomCategories.objects.filter(dataroom_id=pk, category_id=each['categories'], user_id=categ).delete()
+                    
+            else:
+                if each['user']:
+                    cat = Categories.objects.create(categories_name=each['category_name'], dataroom_id=pk)
+                    for usr in each['user']:
+                        ManageDataroomCategories.objects.create(user_id=usr, dataroom_id=pk, category_id=cat.id)
+                else:
+                    return Response({"result": "Select User!"}, status=status.HTTP_400_BAD_REQUEST)
+                    
+        return Response({"result": "Added category successfully!"}, status=status.HTTP_201_CREATED)
+
+from django.contrib.auth import authenticate, login, logout
+
+def get_login_drm_access(request):
+    email = request.POST['email']
+    password = request.POST['password']
+    folder_id = request.POST['folder_id']
+    user_id = request.POST['user_id']
+    user_count = User.objects.filter(email__iexact=email)
+    if user_count.count() > 0:
+        user = User.objects.get(email__iexact=email)
+        user.is_active = True
+        if user is not None:
+            is_user = user.check_password(password)
+            if is_user:
+                user.save()
+                if user.is_active:
+                    login(request, user)
+                    authenticate(email=email, password=password)
+                    return JsonResponse({"data":"successfully"},status=200)
+    #                 return redirect('https://services.docullyvdr.com/projectName/file-view/'+folder_id+"/"+user_id+"/")
+    else:
+        return redirect('https://services.docullyvdr.com/projectName/')
+
+# @permission_classes((AllowAny, ))
+# def check_drm_access(request,pk,pk1):
+#     return render(request,'data_documents/drm-access.html',{"folderid":pk,"userid":pk1})
+
+@api_view(('GET',))
+@renderer_classes((TemplateHTMLRenderer, ))
+# @authentication_classes((TokenAuthentication,))
+@permission_classes((AllowAny, ))
+def file_view(request, pk, pk1):
+    # useremail = request.session.get('email')
+    from dms.settings import sas_url
+    
+
+    userid = request.session.get('id')
+    print("check user id here",userid)
+    data = DataroomFolder.objects.filter(id=pk,is_deleted=False,is_deleted_permanent=False).first()
+    if data:   
+        fl=False   
+        context_data = {}
+        data0909=Dataroom.objects.filter(id=data.dataroom.id).first()
+        member=DataroomMembers.objects.filter(dataroom_id=data.dataroom.id,member_id=userid,is_deleted=False).first()
+        print("check",DataroomMembers.objects.filter(dataroom_id=data.dataroom.id,member_id=userid,is_deleted=False).values().first())
+        try:
+            if member.is_dataroom_admin == True or member.is_la_user==True:
+                fl=True
+            else:    
+                group_folder = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=pk,dataroom_id=data.dataroom.id, dataroom_groups_id=member.end_user_group.first().id).last()    
+                if group_folder.is_view_only==True:
+                    fl=True
+        except:
+            fl=False
+    else:
+        return render(request,'noaccess_view.html')
+
+
+    if userid:
+        if int(pk1)==userid and fl==True and data0909.is_expired==False and data.is_deleted==False and data.is_deleted_permanent==False:
+                from . import utils
+                # import pdb;pdb.set_trace()
+                # #print("dataa --------", pk, pk1)
+                activity_list = []
+                from constants import constants
+                base_url = "http://52.172.204.103:8000"
+                frontend_url = "https://services.docullyvdr.com"
+                # frontend_url = "https://services.docullyvdr.com/projectName"
+                is_deleted_permanent=data.is_deleted_permanent
+
+                index_serializer = DataroomFolderSerializer(data, many=False)
+                # is_deleted_permanent=index_serializer['is_deleted_permanent']
+                context_data['index']=utils.getIndexes(index_serializer.data)
+
+                # current2=datetime.now()
+
+
+                # print(current2,"current2=datetime.now()")
+                folder =  data
+                conversion_path=str(data.path.url)
+                # print(conversion_path,"con path")
+                path = str(data.access_path)
+                #print('path',path)
+                dpath = str(data.access_path)
+                #print('dpath', dpath)
+                docs = False
+                odf = False
+                csv = False
+                pdf = False
+                excel = False
+                psd = False
+                pptx = False
+                png = False
+                message = ''
+                user = User.objects.get(id=pk1)
+                # #print("Group Folder", group_folder)
+                try:
+                    member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=data.dataroom.id,is_deleted=False,memberactivestatus=True).first()
+                except:
+                    member = None
+                if request.accepted_renderer.format == 'html':
+                    # #print("dataa --------", data.path)
+                    if folder.name.endswith('.odt') or folder.name.endswith('.pdf') or folder.name.endswith('.ods') or folder.name.endswith('.odp'):
+                        odf = True
+                        path = str(folder.path.url)
+                        # #print("path_file_view ======>",path)
+                        dpath = path 
+                        if folder.name.endswith('.pdf'):
+                            pdf = True
+                    elif folder.name.endswith('.csv'):
+                        csv = True
+                        path = str(folder.path.url)
+                        dpath = path
+                    elif folder.name.endswith('.xlsx') or folder.name.endswith('.xls'):
+                        excel = True
+                        path = str(folder.path.url)
+                        # #print('path_xlsx ====>',path)
+                        dpath = path
+                        # if folder.conversion_path == '':
+                        #     conversion_path = utils.saveConversionPath(folder)
+                        #     folder.conversion_path = conversion_path
+                        #     folder.save()
+                        # conversion_path =  str(folder.conversion_path.url)
+                        # #print(conversion_path,99999)
+                        # if str(conversion_path)=='/media/This%20file%20is%20not%20supported':
+                        #     message ='This file is not supported.'
+                        # path = str(folder.path.url)
+                        # dpath = path
+                        # #print("conversion_path", conversion_path, member.is_dataroom_admin, member.is_la_user)
+
+                        # if member.is_end_user:
+                        #     if conversion_path.endswith('.pdf'):
+                        #         odf = True
+                        #         excel = False
+
+                    # 
+                    elif folder.name.endswith('.docx') or folder.name.endswith('.doc'):
+                        # print("in docs condition")
+                        docs = True
+                        path = str(folder.path.url)
+                        dpath = path
+                    elif folder.name.endswith('.ppt') or folder.name.endswith('.pptx'):
+                        pptx = True
+                        path = str(folder.path.url)
+                        dpath = path
+                        # print(dpath,'pptpathnew')
+                        # docx_text_list = []
+                        # file = urlopen(dpath).read()
+                        # file = BytesIO(file)
+                        # document = ZipFile(file)
+                        # content = document.read('word/document.xml')
+                        # word_obj = BeautifulSoup(content.decode('utf-8'),features="html.parser")
+                        # text_document = word_obj.findAll('w:t')
+                        # for t in text_document:
+                        #     # docx_text = t.text
+                        #     docx_text_list.append(t.text)
+                        # listToStr = ' '.join([str(elem) for elem in docx_text_list])
+                        # context_data['docx_text'] = listToStr
+                        # docx = BytesIO(requests.get(dpath).content)
+                        # text = docx2txt.process(docx)
+                        # #print("text======>",text)
+                        # from docx import Document
+                        # document = Document(dpath)
+                        # for p in document.paragraphs:
+                        #     #print("ptext ====>",p.text)
+
+                        # r = requests.get(folder.path.url)
+                        # #print(type(r.text),"value of r ====>",len(r.text),r.content)
+                        # response = HttpResponse(r.content,content_type="application/ms-word")
+                        # response['Content-Disposition'] = 'attachment; filename='+ filename
+                        # #print("value of response =====>",response)
+                        # return response
+                        # if folder.conversion_path == '':
+                        #     conversion_path = utils.saveConversionPath(folder)
+                        #     folder.conversion_path = conversion_path
+                        #     folder.save()
+                        # path = str(folder.conversion_path.url)
+                        # dpath = str(folder.path.url)
+                        # conversion_path = str(folder.conversion_path.url
+                    elif folder.name.endswith('.psd'):
+                        psd = True
+                    elif folder.name.endswith('.png'):
+                        # #print("entered in png file today")
+                        png = True
+                        path = str(folder.path.url)
+                        dpath = path
+                        # #print(png,"============",dpath)
+                    elif folder.name.endswith('.zip'):
+                        context_data['zip']=True
+                    else:
+                        path = str(folder.path.url)
+                        dpath = path
+                    # #print("docssssssssss",docs, "odf", odf, "csvvvvvvv", csv)
+                    parent_list = []
+                    data.parent_folders = []
+                    get_root_folder = False
+                    folder_id =folder.parent_folder_id
+                    while (get_root_folder == False):
+                       if folder.is_root_folder == False:
+                           folder_obj = DataroomFolder.objects.get(id = folder_id)
+                           folder_serializer = DataroomFolderSerializer(folder_obj, many=False)
+                           parent_list.append(folder_serializer.data)
+                           folder_id = folder_obj.parent_folder_id
+                           folder = folder_obj
+                       else:
+                           get_root_folder = True
+                    data.parent_folders = parent_list
+                    data.parent_folders.reverse()
+                    folders_list = []
+                    all_folders = DataroomFolder.objects.filter(dataroom_id=data.dataroom.id).values('id','name', 'parent_folder_id')
+                    for allf in all_folders:
+                        if allf['parent_folder_id'] == None:
+                            allf['parent_folder_id'] = ""
+                        folders_list.append(allf)
+                    if DataroomOverview.objects.filter(dataroom_id=data.dataroom.id).exists():
+                            dataroom_overview = DataroomOverview.objects.filter(dataroom_id=data.dataroom.id).order_by('id').last()
+                            if dataroom_overview.hide_file_indexing==False:
+                                context_data['index']=''                    
+                    
+                    if member.is_dataroom_admin == True or member.is_la_user==True:
+
+
+                        user.is_la_user = True
+                        is_upload = True
+                        is_download = True
+                        is_shortcut = True
+                        is_print = True
+                    
+                        # view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id)
+                        # # a=dict(created_date=current2)
+                        # view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id)
+                        # v1=view_list.last()
+                        # v1.created_date=current2
+                        # v1.save()
+                        # view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id).update(**a)
+                        # for i in range(5):
+                        #   time.sleep(1)
+                        #   print(i,"count")
+                        view_list2 = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id)
+                        # print(view_list2,"view_list_database")
+                        ### FolderActivityViewSerializer
+
+                        # import time
+                        # for i in range(10):
+                        #   time.sleep(1)
+                        #   print(i,"i count")
+                        view_serializer = FolderActivityViewSerializer(view_list2, many=True).data
+                        activity_list.extend(view_serializer)
+
+                        download_list = FolderDownload.objects.filter(folder_id=data.id, dataroom_id=data.dataroom.id)
+
+                        bulk_drm_list = FolderDrmDownload.objects.filter(folder_id=data.id, dataroom_id=data.dataroom.id,bulk_event_id__isnull=False)
+                        bulk_drm_serializer = BulkDataDrmActivitySerializer(bulk_drm_list, many=True).data
+                        for da in bulk_drm_serializer:
+                            da["event"] = "Bulk drm"
+                        activity_list.extend(bulk_drm_serializer)
+
+                        bulk_download_list = BulkDownloadFiles.objects.filter(folder_id=data.id, dataroom_id=data.dataroom.id,bulk_event_id__isnull=False)
+                        bulk_download_serializer = BulkDataDownloadActivitySerializer(bulk_download_list, many=True).data
+                        for da in bulk_download_serializer:
+                            da["event"] = "Bulk download"
+                        activity_list.extend(bulk_download_serializer)
+
+
+                        #### FolderActivityDownloadSerializer
+                        # BulkActivityTracker_list = list(BulkActivityTracker.objects.filter(user_id=user.id,dataroom_id=data.dataroom.id).values())
+                        # for i in BulkActivityTracker_list:
+                        #     i["user"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                        #     i["created_date"] = i["created_date"].strftime('%d/%m/%Y %H:%M:%S')
+                        #     if FolderOrFileMove.objects.filter(bulk_event_id=i['id']).exists():
+                        #         i["total_files"] = FolderOrFileMove.objects.filter(bulk_event_id=i['id']).count()
+                        #         i["files"] = BulkDataActivitySerializer(FolderOrFileMove.objects.filter(bulk_event_id=i['id']),many=True).data
+
+                        #     if FolderOrFileCopy.objects.filter(bulk_event_id=i['id']).exists():
+                        #         i["total_files"] = FolderOrFileCopy.objects.filter(bulk_event_id=i['id']).count()
+                        #         i["files"] = BulkDataCopyActivitySerializer(FolderOrFileCopy.objects.filter(bulk_event_id=i['id']),many=True).data
+
+                        #     if FolderDrmDownload.objects.filter(bulk_event_id=i['id']).exists():
+                        #         i["total_files"] = FolderDrmDownload.objects.filter(bulk_event_id=i['id']).count()
+                        #         i["files"] = BulkDataDrmActivitySerializer(FolderDrmDownload.objects.filter(bulk_event_id=i['id']),many=True).data
+
+                        #     if BulkDownloadFiles.objects.filter(bulk_event_id=i['id']).exists():
+                        #         i["total_files"] = BulkDownloadFiles.objects.filter(bulk_event_id=i['id']).count()
+                        #         i["files"] = BulkDataDownloadActivitySerializer(BulkDownloadFiles.objects.filter(bulk_event_id=i['id']),many=True).data
+
+
+                        #### no need of bulk data in file_view.html
+                        # activity_list.extend(BulkActivityTracker_list)
+
+                        download_serializer = FolderDownloadSerializer(download_list, many=True).data
+                        # print(download_serializer,"download_serializer")
+                        activity_list.extend(download_serializer)
+                        print_list = FolderPrint.objects.filter(folder_id=data.id, dataroom_id=data.dataroom.id)
+
+                        #### FolderActivityPrintSerializer
+                        print_serializer = FolderActivityPrintSerializer(print_list, many=True).data
+                        # print(print_serializer,"print_serializer")
+                        activity_list.extend(print_serializer)
+                        # #print("file_view_if")
+
+                        drm_list = list(FolderDrmDownload.objects.filter(user_id=pk1,folder_id=data.id,dataroom_id=data.dataroom.id,bulk_event_id=None).values())
+                        for i in drm_list:
+                            i["user"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                            i["folder_name"] = DataroomFolder.objects.get(id=i["folder_id"]).name
+                            i["created_date"] = i["created_date"].strftime('%d/%m/%Y %H:%M:%S')
+                        activity_list.extend(drm_list)
+
+                        deleted_file_list = list(FolderDeleteDownload.objects.filter(user_id=pk1,dataroom_id=data.dataroom.id,folder_id=data.id,bulk_event_id=None).values()) 
+                        for i in deleted_file_list:
+                            i["user"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                            i["folder_name"] = DataroomFolder.objects.get(id=i["folder_id"]).name
+                            i["created_date"] = i["created_date"].strftime('%d/%m/%Y %H:%M:%S')
+                        activity_list.extend(deleted_file_list)
+
+                        copy_file_list = list(FolderOrFileCopy.objects.filter(user_id=pk1,dataroom_id=data.dataroom.id,folder_id=data.id,bulk_event_id=None).values())
+                        for i in copy_file_list:
+                            i["user"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                            i["folder_name"] = DataroomFolder.objects.get(id=i["folder_id"]).name
+                            i["created_date"] = i["created_date"].strftime('%d/%m/%Y %H:%M:%S')
+                            # if int(i["event"]) == 1:
+                            #   i["event"] = "Copy Folder"
+                            # elif int(i["event"]) == 2:
+                            #   i["event"] = "Copy File"
+                            # else:
+                            #   pass
+                        activity_list.extend(copy_file_list)
+
+                        bulkDownload_list = list(BulkDownloadFiles.objects.filter(user_id=pk1,dataroom_id=data.dataroom.id,folder_id=data.id).values())
+                        
+                        for i in bulkDownload_list:
+                            i["user"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                            i["folder_name"] = DataroomFolder.objects.get(id=i["folder_id"]).name
+                            i["created_date"] = i["created_date"].strftime('%d/%m/%Y %H:%M:%S')
+
+                        activity_list.extend(bulkDownload_list)
+
+                        MoveFile_list = list(FolderOrFileMove.objects.filter(user_id=pk1,dataroom_id=data.dataroom.id,folder_id=data.id).values())
+                        
+                        for i in MoveFile_list:
+                            i["user"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                            i["folder_name"] = DataroomFolder.objects.get(id=i["folder_id"]).name
+                            i["created_date"] = i["created_date"].strftime('%d/%m/%Y %H:%M:%S')
+                            # if int(i["event"]) == 1:
+                            #   i["event"] = "Moved Folder"
+                            # elif int(i["event"]) == 2:
+                            #   i["event"] = "Move File"
+                            # else:
+                            #   pass
+                        activity_list.extend(MoveFile_list)
+                    else:
+                        group_folder = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=pk,dataroom_id=data.dataroom.id, dataroom_groups_id=member.end_user_group.last().id).last()    
+                        indexdata = member.member_added_by
+                        # if DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=data.dataroom.id).exists():
+                        #     dataroom_overview = DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=data.dataroom.id).first()
+                        #     if dataroom_overview.hide_file_indexing:
+                        #         context_data['index']=''
+
+                        is_upload = group_folder.is_upload
+                        is_download = group_folder.is_view_and_print_and_download
+                        is_shortcut = group_folder.is_shortcut
+                        is_print = group_folder.is_view_and_print
+                        # #print("Member----",member.end_user_group.first().id, pk)
+                        group_perm = DataroomGroupPermission.objects.filter(dataroom_id=data.dataroom.id, dataroom_groups_id=member.end_user_group.last().id).last()
+                        # #print("group_perm==>", group_perm.is_watermarking)
+                        if group_perm.is_watermarking == True:
+                            # #print("watermarking permission is True")
+                            group_folder = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=pk,dataroom_id=data.dataroom.id, dataroom_groups_id=member.end_user_group.first().id).first()
+                            watermark = Watermarking.objects.filter(dataroom_id=data.dataroom_id)
+                            # #print("type ========>",Watermarking.objects.filter(dataroom_id=data.dataroom_id).values())
+                            # #print("watermark ==>",Watermarking.objects.filter(dataroom_id=data.dataroom_id).values())
+                            # watermark_data = WatermarkingSerializer(watermark,many=True).data
+                            # #print("========>",watermark_data)
+                            from dataroom import pdf_watermarking
+                            # #print("path", "dpath")
+                            from userauth import utils
+                            ip = utils.get_client_ip(request)
+                            # #print("ip====>",ip)
+                            # if conversion_path.endswith('.pdf'):
+                            #     # #print("conversion_path ====>",conversion_path)
+                            #     block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                            #     container_name ='docullycontainer'
+                            #     path_name = conversion_path.split("/")
+                            #     # print(path_name,"ravi1")
+                            #     # print( path_name[-2]+'/'+path_name[-1],"ravi2")
+                            #     # print(path_name[-1],"ravi3")
+                            #     block_blob_service.get_blob_to_path(container_name, path_name[-2]+'/'+path_name[-1], path_name[-1])
+                            #     new_path = "/home/cdms_backend/cdms2/"+ path_name[-1]
+                            #     # #print("new_path======>",new_path)
+                            #     # pdf_watermarking.GeneratePDF(watermark, group_folder, new_path, ip, user)
+                            #     # path = str(group_folder.watermarking_file.url)
+                            #     # #print("value of path =====>",path)
+                            #     # #print("group_perm.is_doc_as_pdf", group_perm.is_doc_as_pdf)
+                            #     # if dpath.endswith('.pdf'):
+                            #     #     dpath = str(group_folder.watermarking_file.url)
+                            #     #     #print("Grouppp", group_perm.is_excel_as_pdf)
+                            #     # if group_perm.is_doc_as_pdf == True or group_perm.is_excel_as_pdf == True:
+                            #         # dpath =str(group_folder.watermarking_file.url)
+                            #         # #print("Grouppp", group_perm.is_excel_as_pdf)
+                            # elif conversion_path.endswith('.png') or conversion_path.endswith('.jpg'):
+                            #     ip = utils.get_client_ip(request)
+
+                        # except:
+                        #     is_upload = False
+                        #     is_download = False
+                        #     is_print = False
+                    # #print("is_download", is_download, is_upload, is_print)
+
+                    qna_list = []
+                    if member.is_dataroom_admin == True or member.is_la_user==True:
+                        # #print(data.dataroom.id,"<==============>",pk)
+                        qna_list_obj = QuestionAnswer.objects.filter(dataroom_id=data.dataroom.id, folder_id=pk)
+                        # qna_list_obj = QuestionAnswer.objects.filter()
+                        # #print("qna_list_obj=====>",qna_list_obj)
+                    else:
+                        qna_list_obj = QuestionAnswer.objects.filter(dataroom_id=data.dataroom.id,folder_id=pk, user_id=pk1)
+                    for each in qna_list_obj:
+                        # if not each.answer or each.final:
+                        if not each.answer:
+                            # print ("answer:-", each.answer, "/", "final:-", each.final)
+                            qna_list.append(each)
+
+                    category_list = Categories.objects.filter(dataroom_id=data.dataroom.id).exclude(category_details__user=None)
+                    cat_serializer = CategoriesSerializer(category_list, many=True)
+                    qna_serializer = QuestionFileViewerAnswerSerializer(qna_list, many=True)
+                    for qna in qna_serializer.data:
+                        quest = QuestionAnswer.objects.filter(id=qna['id']).first()
+                        quest_categ = ManageDataroomCategories.objects.filter(category_id = quest.category_id, dataroom_id=quest.dataroom_id).values_list('user_id', flat=True)
+                        categ = ManageDataroomCategories.objects.filter(dataroom_id=quest.dataroom_id).values_list('user_id', flat=True)
+                        # #print("========>",quest.dataroom_id,"pk1==>",pk1)
+                        member = DataroomMembers.objects.filter(dataroom_id=quest.dataroom_id,member_id=pk1,is_deleted=False).first()
+                        # member = DataroomMembers.objects.filter(dataroom_id=quest.dataroom_id).first()
+                        # #print(member.is_q_a_user, categ, user.id)
+                        # #print("memeber ====>",member)
+                        if member.is_q_a_user == True and  user.id not in categ:
+                            # #print("not in")
+                            reply = True
+                        elif user.id == quest.user.id or user.id in quest_categ:
+                            reply = True
+                            # #print("in")
+                        else:
+                            reply = False
+                        qna['reply'] = reply
+                    # is_end_user
+                    # if docs == True:
+                    #     is_download == False
+                    # import os, uuid, sys
+                    # from azure.storage.blob import BlockBlobService, PublicAccess
+
+                    # try:
+                    # Create the BlockBlockService that is used to call the Blob service for the storage account
+                        # block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                        # container_name ='docullycontainer'
+                        # #print("value of path =====>",path)
+                        # path_split = path.split("/")
+                        # #print("path_split ===>",path_split[-2],path_split[-1])
+                        # # new_name = '/'+ path_split[-2]+'/'+path_list[-1]
+                        # # #print("value of blob name ===>",new_name)
+                        # file_size = BlockBlobService.get_blob_properties(block_blob_service,container_name,path_split[-2]+'/'+path_split[-1]).properties.content_length
+                        # #print("value of file_size ====>",file_size)
+                        # if file_size > 0:
+                        #     context_data['path'] = path+'#toolbar=0'
+                        # else:
+                        #     context_data['path'] = ''
+
+                        # #print("value of file_size===>",file_size)
+                        # if block_blob_service.exists(container_name, path_list[-1]):
+                        #     #print("true")
+                        # else:
+                        #     pass
+                        # https://docullystorage.blob.core.windows.net/docullycontainer/test_dataroom_17_March_33da3675-0289-4480-9350-386ef8f42644/test_1.pdf
+                    # except:
+                        # #print("errors")
+
+
+                    filnn=dpath.split("/")
+                    # print(filnn,"filnn")
+                    filnnwext=filnn[-1].split(".")
+                    doc_list=['doc','docx','ppt','pptx','xlsx','xls','csv','txt']
+                    if filnnwext[-1]=='jpg':
+                        # print("in if ",filnnwext[-1])
+                        # print(filnnwext,"filnnwext")
+                        pdf_filename=str(filnnwext[0])+"."+filnnwext[-1]
+                        # print(pdf_filename,"pdf_filename")
+                        blobname=filnn[-2]+"/"+pdf_filename
+                        # print(blobname,"blobname")
+                        pdfpath2="https://docullystorage.blob.core.windows.net/docullycontainer/"+blobname+sas_url
+                        # print(pdfpath2,"pdfpath")
+                        context_data['jpg'] = pdfpath2
+                    elif filnnwext[-1]=='jpeg':
+                        # print("elif in jpeg")
+                        # print("in if ",filnnwext[-1])
+                        # print(filnnwext,"filnnwext")
+                        pdf_filename=str(filnnwext[0])+"."+filnnwext[-1]
+                        # print(pdf_filename,"pdf_filename")
+                        blobname=filnn[-2]+"/"+pdf_filename
+                        # print(blobname,"blobname")
+                        pdfpath2="https://docullystorage.blob.core.windows.net/docullycontainer/"+blobname+sas_url
+                        # print(pdfpath2,"pdfpath")
+                        context_data['jpeg'] = pdfpath2
+                    elif (filnnwext[-1]=='mp4') or (filnnwext[-1]=='mp3'):
+                        # print("elif in multi media")
+                        # print("in if ",filnnwext[-1])
+                        basename = os.path.basename(str(dpath))
+                        blobname=filnn[-2]+"/"+basename
+                        # print(blobname,"blobname")
+                        pdfpath="https://docullystorage.blob.core.windows.net/docullycontainer/"+blobname+sas_url
+                        # print(pdfpath,"imagepath")
+                        if filnnwext[-1]=='mp3':
+                            context_data['mp3'] = pdfpath
+                        else:
+                            context_data['mp4'] = pdfpath
+                    elif (filnnwext[-1] in doc_list):
+                        # print("elif in multi ext")
+                        # print("in if ",filnnwext[-1])
+                        # print(filnnwext,"filnnwext")
+                        pdf_filename=str(filnnwext[0])+".pdf"
+                        # print(pdf_filename,"pdf_filename")
+                        blobname=filnn[-2]+"/"+pdf_filename
+                        # print(blobname,"blobname")
+                        pdfpath2="https://docullystorage.blob.core.windows.net/docullycontainer/"+blobname+sas_url
+                        # print(pdfpath2,"pdfpath")
+                        if filnnwext[-1]=='txt':
+                            context_data['txtt'] = pdfpath2
+                        else:
+                            context_data['refpath'] = pdfpath2
+                    
+                    elif (filnnwext[-1]=='png') or (filnnwext[-1]=='pdf'):
+                        basename = os.path.basename(str(dpath))
+                        blobname=filnn[-2]+"/"+basename
+                        # print(blobname,"blobname")
+                        pdfpath="https://docullystorage.blob.core.windows.net/docullycontainer/"+blobname+sas_url
+                        # print(pdfpath,"imagepath")
+                        context_data['refpath'] = pdfpath
+                    dataroom_user_list = DataroomMembers.objects.filter(dataroom_id=data.dataroom_id, member_id=pk1,is_deleted=False).first()
+                    context_data['category_list'] = cat_serializer.data
+                    # if qna_serializer.data:
+                    #   for i in qna_serializer.data:
+                    #       i[]user.avatar.url=str(i.user.avatar.url)+sas_url
+                    context_data['qna_list'] = qna_serializer.data#sorted(qna_serializer.data, key=lambda k: k['created_date'], reverse=True)
+                    print(path,'old path yuyuyuy')
+                    context_data['pathdownload']=path
+
+                    pathsort1=path.split("/")
+                    pathsort2=pathsort1[-1].split(".")
+                    if pathsort2[-1]=='pptx' or pathsort2[-1]=='docx' or pathsort2[-1]=='ppt' or pathsort2[-1]=='doc':
+                        # or pathsort2[-1]=='xlsx' or pathsort2[-1]=='xls' or pathsort2[-1]=='csv'
+                        pathsort2[-1]='pdf'
+                    pathsort1[-1]='.'.join(pathsort2)
+                    path='/'.join(pathsort1)
+                    # path=str(path).replace('.pptx','.pdf').replace('.docx','.pdf').replace('.ppt','.pdf').replace('.doc','.pdf')
+                    # pathsort1=path.split("/")
+                    print(path,'new path ytyty')
+                    # pathsort2=pathsort1[-1].split(".")
+                    print(pathsort2,'pathsort2 jj')
+                    context_data['path'] = str(path)+sas_url
+                    # print('coming here lllllllllllllpppppppppppppppp22222222222')
+                    context_data['pathpptpdf']=context_data['path']
+                    context_data['pdfprintwatermark']=False
+                    context_data['pdfwatermarknew']=''     
+                    print(pathsort2[-1], 'ppppp')               
+                    if pathsort2[-1]=='pdf':
+                                        print('coming here lllllllllllllpppppppppppppppp')
+                                        if member.is_la_user or member.is_dataroom_admin:
+
+                                            watermakingcheck=True
+                                        else:
+                                            group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.last().id,dataroom=data.dataroom.id).last()
+                                            if group_perm:
+                                                watermakingcheck=group_perm.is_watermarking
+
+                                        userid=user.id      
+                                        watermarking = Watermarking.objects.filter(dataroom_id=int(data.dataroom.id)).order_by('id')
+                                        for i in watermarking:
+                                            i.user_id=userid
+                                        serializer = WatermarkingSerializer(watermarking,many=True)
+                                        data23 = serializer.data
+                                        print(data23,'909090909099090',watermakingcheck)
+                                        if data23 and watermakingcheck==True:
+                                                                    tempfile='temp'+str(random.randint(0, 10000))+'.pdf'
+                                                                    temp_path = os.path.join('media/fileviewcatche', tempfile)
+                                                                    tempfile2=str(pathsort2[-2])+str(random.randint(0, 10000))+'.pdf'
+                                                                    temp_path2 = os.path.join('media/fileviewcatche', tempfile2)
+
+                                                                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==',sas_token = sas_url)
+                                                                    container_name ='docullycontainer'
+                                                                    file_namee = path.split("/")[-2].replace("%20", " ")+"/"+path.split("/")[-1].replace("%20", " ")
+                                                                    print(file_namee,'uiuiu')
+
+                                                                    block_blob_service.get_blob_to_path(container_name, file_namee ,temp_path)
+                                                                    from userauth import utils
+                                                                    ip = utils.get_client_ip(request)
+                                                                    GeneratePDF(data23,ip,user,data.dataroom.id)
+                                                                    watermarkfile="/home/cdms_backend/cdms2/Admin_Watermark/"+str(data.dataroom.id)+".pdf"
+                                                                    outputfile=temp_path2
+                                                                    pdf_writer=PyPDF2.PdfFileWriter()
+                                                                    if (os.path.exists(temp_path)):
+                                                                        print('hfhfhfhfhfh 8888888888')
+                                                                        with open(temp_path, 'rb') as fh:
+                                                                            print('hfhfhfhfhfh 555555555555')
+                                                                            pdf=PyPDF2.PdfFileReader(fh,strict=False)
+                                                                            with open(watermarkfile,'rb') as watermarkfile:
+                                                                                watermarkfile_pdf=PyPDF2.PdfFileReader(watermarkfile,strict=False)
+                                                                                print('hfhfhfhfhfh 111111111111111111')
+                                                                                for i in range(pdf.getNumPages()):
+                                                                                    print('hfhfhfhfhfh 22222222222222222',str(data.dataroom.id))
+                                                                                    p=pdf.getPage(i)
+                                                                                    p.mergePage(watermarkfile_pdf.getPage(0))
+                                                                                    # print('hfhfhfhfhfh 22222222222222222',p)
+
+                                                                                    pdf_writer.addPage(p)
+                                                                                with open(outputfile,'wb') as outputfileeee:
+                                                                                    print('hfhfhfhfhfh 3333333333333333333',temp_path,'ooo',temp_path2)
+                                                                                    pdf_writer.write(outputfileeee)
+                                                                                    os.remove(temp_path)
+                                                                    # print(temp_path2,'oooooooooooooooooo')
+                                                                    context_data['path']='https://services.docullyvdr.com/projectName/media/fileviewcatche/'+str(tempfile2)
+                                                                    context_data['pathpptpdf']=context_data['path']
+                                                                    # print('ppppppppppppppppppppppppplllllllllll',tempfile2,'kkkkkkkkkkkkklllllllllllllll')
+                                                                    context_data['pdfprintwatermark']=True
+                                                                    context_data['pdfwatermarknew']=context_data['path']
+                                                                    print(context_data['pdfwatermarknew'],'yiyiyiyyiiiiiiiiyiyiyiyiyiyiyiyiyiyiyii')                   
+
+
+                    # print(context_data['path'],'this is path we give')
+                    from rest_framework.authtoken.models import Token
+
+                    token,created = Token.objects.get_or_create(user=user)
+                    
+
+                    context_data['basicdata'] = token.key
+
+                    context_data['dpath'] = dpath+sas_url
+                    context_data['all_folders'] = all_folders
+                    context_data['folder'] = data
+                    context_data['base_url'] = base_url
+                    context_data['frontend_url'] = frontend_url
+                    context_data['docs'] = docs
+                    context_data['odf'] = odf
+                    context_data['pdf'] = pdf
+                    context_data['csv'] = csv
+                    context_data['psd'] = psd
+                    context_data['pptx'] = pptx
+                    context_data['png'] = png
+                    context_data['url'] = "https://services.docullyvdr.com"+'/projectName/file-view/'+str(pk)+'/'+str(pk1)+'/'
+                    context_data['excel'] = excel
+                    context_data['all_folders'] = folders_list
+                    context_data['is_upload']  = is_upload
+                    context_data['is_download']  = is_download
+                    context_data['is_shortcut']  = is_shortcut
+                    context_data['is_print']  = is_print
+                    context_data['login_user'] = pk1
+                    context_data['message'] = message
+                    context_data['dataroom_user_list'] = dataroom_user_list
+                    context_data['dataroom_user_list'].member.avatar=str(context_data['dataroom_user_list'].member.avatar.url)+sas_url
+                    context_data['user'] = user
+                    context_data['pathen'] = urllib.parse.quote(context_data['path'])
+                    context_data['sas_url']=sas_url
+                    context_data['is_deleted_permanent']=is_deleted_permanent
+                    context_data['noaccess'] = False
+                    context_data['member'] = member
+
+                    # #print("user_file_viewer ===>",user)
+                    getusername(user)
+                    # #print("List",activity_list)
+                    # if docx_text is not None:
+                    #     context_data['docx_text'] = listToStr
+                    #     #print("docx_text_list ====>",docx_text_list)
+                    # else:
+                    #     context_data['docx_text'] = ""
+                 
+                    # #print("docx_text_list ====>",docx_text_list)
+                    # #print("context_data============>",context_data)
+                    activity_list.sort(key=lambda r: r['created_date'], reverse=True)
+                    context_data['activity_tracker'] = activity_list
+                    # print("check the activity_tracker",activity_list)
+                   # print("List11",activity_list)
+                    # print(context_data,"context_data")
+                    # print(is_print,'check here')
+
+                    if member.is_dataroom_admin == True or member.is_la_user==True:
+                        # print(context_data)
+                        # print(context_data['path'])
+                        if context_data['pdf'] ==True:
+                            # print('Beginning file download with urllib2...')
+                            url = context_data['path']
+                            r = requests.get(url)
+
+                            with open('/home/cdms_backend/cdms2/media/demo5551.pdf', 'wb') as f:
+                                f.write(r.content)
+
+                            # Retrieve HTTP meta-data
+                            # print(r.status_code)
+                            # print(r.headers['content-type'])
+                            # print(r.encoding)
+                            
+                            # import PyPDF2
+                            # import os 
+                            # import pdftotree
+                            # pdf_file = '/home/cdms_backend/cdms2/media/demo5551.pdf'
+                            # html_path = "/home/cdms_backend/cdms2/media/"
+                            # pdftotree.parse(pdf_file, html_path, model_type=None, model_path=None, favor_figures=True, visualize=False)
+                            # import subprocess
+                            # import uuid
+                            # ctx = {
+                            #     'link': context_data['path']
+                            # }
+                            import uuid
+                            filename = str(uuid.uuid4())
+                            f = open('/home/cdms_backend/cdms2/media/'+filename+".html",'w')
+
+                            message = """<!DOCTYPE html> 
+                            <html> 
+
+                            <head> 
+                                <title>full screen iframe</title> 
+                                <link href="https://services.docullyvdr.com/assets/css/innerviewr.css" rel="stylesheet" type="text/css" /> 
+                                                                                </head> 
+                                                                                <script type="text/javascript">
+                                                                                    document.addEventListener('contextmenu', event => event.preventDefault());
+                                                                
+                                                                                </script>
+                                                                                <body oncontextmenu="return false"  >
+                                                                                <div oncontextmenu="return false;" style="z-index: 0;opacity: 0.4;
+            background-color:red" oncopy = 'return false' oncut = 'return false'>
+                                                                        
+                <object width="100%" height="650" type="application/pdf" data="{0}#scrollbar=0&toolbar=0&navpanes=0" id="pdf_content">
+                    <p>Insert your error message here, if the PDF cannot be displayed.</p>
+                </object>
+            </div>
+                                                                                </body> 
+                                                                
+                                                                                </html>""".format(context_data['path']) 
+
+                            f.write(message)
+                            f.close()
+                            # render(request,'/home/cdms_backend/cdms2/media/')
+                            context_data['path'] = 'https://services.docullyvdr.com/projectName/media/'+filename+".html"           
+
+                            # context_data['path'] = "https://services.docullyvdr.com/projectName/media/demo5551.pdf" 
+                        # print("user email --->",useremail)
+                        # print("user id = ",userid)
+                
+
+                        # print(request.user)
+                        return render(request, 'file-view.html', context_data)
+                    else:
+                        # print(pk1,"m in else file view")
+                        # view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id).last()
+                        # a=dict(created_date=current2)
+                        # # userid=view_list['user_id']
+                        # # print(userid,"")
+                        
+                        # try:
+                        #   view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id)
+                        # except TypeError:
+                        #   pass
+                        # view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id)
+                        # v1=view_list.last()
+                        # v1.created_date=current2
+                        # v1.save()
+                        view_list2 = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id,user_id=pk1)
+                        
+                        view_serializer = FolderActivityViewSerializer(view_list2, many=True).data
+                        activity_list.extend(view_serializer)
+                        # for i in range(5):
+                        #   time.sleep(1)
+                        #   print(i,"count")
+                        download_list = FolderDownload.objects.filter(folder_id=data.id, dataroom_id=data.dataroom.id,user_id=pk1)
+
+                        #### FolderActivityDownloadSerializer
+
+                        download_serializer = FolderDownloadSerializer(download_list, many=True).data
+                        activity_list.extend(download_serializer)
+                        print_list = FolderPrint.objects.filter(folder_id=data.id, dataroom_id=data.dataroom.id,user_id=pk1)
+
+                        #### FolderActivityPrintSerializer
+                        print_serializer = FolderActivityPrintSerializer(print_list, many=True).data
+                        activity_list.extend(print_serializer)
+
+                        bulkDownload_list = list(BulkDownloadFiles.objects.filter(user_id=pk1,dataroom_id=data.dataroom.id,folder_id=data.id).values())
+                        
+                        for i in bulkDownload_list:
+                            i["user"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                            i["folder_name"] = DataroomFolder.objects.get(id=i["folder_id"]).name
+                            i["created_date"] = i["created_date"].strftime('%d/%m/%Y %H:%M:%S')
+
+                        activity_list.extend(bulkDownload_list)
+                        activity_list.sort(key=lambda r: r['created_date'], reverse=True)
+                        context_data['activity_tracker'] = activity_list
+                        context_data['member'] = member
+                        # print(context_data,"context_data")
+                        # print(view_serializer,"enddddd user")
+                        # print(context_data)
+                        # print("hello")
+                        # print("#######################################################")
+                        # print(context_data)
+                        
+
+                        # print('Beginning file download with urllib2...')
+                        # print('Beginning file download with wget module')
+
+                        url = context_data['path']
+                        # print("user email --->",useremail)
+                        # print("user id = ",userid)
+                
+
+                        # print(request.user)
+                        
+                        return render(request,'file-view.html', context_data )
+        else:
+            # return redirect('https://services.docullyvdr.com/projectName/check_drm_access/'+pk+"/"+pk1+"/", noaccess=True)
+            return render(request,'noaccess_view.html')
+    else:
+        return redirect('https://services.docullyvdr.com/#/login/'+pk+"/"+pk1+"/", noaccess=True)
+        # return redirect('https://services.docullyvdr.com/projectName/check_drm_access/'+pk+"/"+pk1+"/", noaccess=True)
+def getusername(self):
+    # #print("getusername======>",self.user)
+    return
+
+from django.views.generic import TemplateView
+
+class IframeView(TemplateView):
+    template_name = 'iframe.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(IframeView, self).get_context_data(**kwargs)
+        # import pdb;pdb.set_trace()
+        context['path'] = kwargs.get('path')
+        return context
+
+
+@api_view(('POST',))
+# @renderer_classes((TemplateHTMLRenderer, ))
+# @authentication_classes((TokenAuthentication,))
+@permission_classes((AllowAny, ))
+def upload_file_version(request, pk):
+    data = request.data
+    # #print("data--------8_april==>",data)
+    file = request.FILES.getlist('file0')[0]
+    # #print("file--------",file.name)
+    folder = DataroomFolder.objects.filter(id=pk).first()
+    folder.name = file.name
+    # #print("value of file_size ===>",file.size)
+    folder.file_size_mb = file.size
+    folder.file_content_type = file.content_type
+    folder.path = file
+    folder.save()
+    from . import utils
+    if file.name.endswith('.docx') or file.name.endswith('.doc') or file.name.endswith('.ppt') or file.name.endswith('.pptx') or file.name.endswith('.pdf') or folder.name.endswith('.xlsx') or folder.name.endswith('.xls') or folder.name.endswith('.csv') or folder.name.endswith('.odt') or folder.name.endswith('.ods') or folder.name.endswith('.odp'):
+        conversation_path = utils.saveConversionPath(folder)
+        folder.conversion_path = conversation_path
+        folder.save()
+    data = {'msg':'successfully updated'}
+    return HttpResponse(data,content_type='application/javascript')
+   
+
+@permission_classes((AllowAny, ))
+def get_print_download_logs(request, pk):
+    # print ("get all recent document data", request.GET)    
+    update_view = request.GET.get("type")
+    user = request.GET.get("user")
+    folder = DataroomFolder.objects.get(id=pk)
+
+    # print("folder", folder.access_path, user,update_view)
+    if update_view == 'view':
+        folder.is_view = True
+        folder.save()
+        view = FolderView()
+        view.folder_id = folder.id
+        view.user_id = int(user)
+        view.dataroom_id = folder.dataroom_id
+        view.save()
+    elif update_view == 'print':
+        folder.is_print = True
+        folder.save()
+        print_obj = FolderPrint()
+        print_obj.folder_id = folder.id
+        print_obj.user_id = int(user)
+        print_obj.dataroom_id = folder.dataroom_id
+        print_obj.save()
+    elif update_view == 'download':
+        # print('in download print')
+        folder.is_download = True
+        folder.save()
+        download = FolderDownload()
+        download.folder_id = folder.id
+        download.user_id = int(user)
+        download.dataroom_id = folder.dataroom_id
+        download.save()
+    else:
+        pass
+    data = {'msg':'successfully updated'}
+    return HttpResponse(data,content_type='application/javascript')
+
+
+
+# @renderer_classes((TemplateHTMLRenderer, ))
+@permission_classes((AllowAny, ))
+def file_comment(request):
+    if request.method == "POST" and request.is_ajax():
+        # import pdb;pdb.set_trace();
+        context_data = {}
+        category_id = request.POST['category_id']
+        que_title = request.POST['que_title']
+        file_id = request.POST['file_id']
+        dataroom_id = request.POST['dataroom_id']
+        login_user_id = request.POST['login_user_id']
+        # print('8888888888888',request.POST['category_id'],'9999999999999999999999')
+        qna_obj = QuestionAnswer.objects.create(user_id=login_user_id, dataroom_id=dataroom_id, question=que_title, folder_id=file_id, category_id=category_id)
+        qna_list = QuestionAnswer.objects.filter(dataroom_id=dataroom_id, folder_id=file_id)
+        category_list = Categories.objects.all()
+        cat_serializer = CategoriesSerializer(category_list, many=True)
+        qna_serializer = QuestionAnswerSerializer(qna_list.reverse(), many=True)
+        s_qna_serializer = QuestionAnswerSerializer(qna_list.reverse().first(),)
+        context_data['category_list'] = cat_serializer.data
+        context_data['single_qna'] = s_qna_serializer.data
+        context_data['qna_list'] = sorted(qna_serializer.data, key=lambda k: k['created_date'], reverse=True)
+        category_obj = ManageDataroomCategories.objects.filter(category_id=category_id, dataroom_id=dataroom_id).first()
+        from . import utils
+        check = Dataroom.objects.filter(id=dataroom_id,notify=True)
+        if check.exists():
+            utils.send_mail_to_coordinator(qna_obj, category_obj)
+
+        AllNotifications.objects.create(dataroom_id=dataroom_id, user_id=login_user_id,qna=qna_obj,dataroom_folder_id=file_id)
+
+        # print (context_data,'00000000000000000000')
+        return HttpResponse(json.dumps(context_data), content_type='application/json')
+        # return JsonResponse(context_data)
+
+
+def file_comment_reply(request):
+    if request.method == "POST" and request.is_ajax():
+        context_data = {}
+        qna_answer = request.POST['qna_answer']
+        qna_answer_id = request.POST['qna_answer_id']
+        login_user_id = request.POST['login_user_id']
+        qna_obj = QuestionAnswer.objects.filter(id=qna_answer_id).first()
+        qna_created = QuestionAnswer.objects.create(user_id=login_user_id, answer=qna_answer, question=qna_obj.question, dataroom=qna_obj.dataroom, qna_id=qna_answer_id, folder=qna_obj.folder, category=qna_obj.category, final=True)
+        # qna_serializer = QuestionAnswerSerializer(qna_list.reverse(), many=True)
+        qna_list = []
+        qna_list_obj = QuestionAnswer.objects.filter(dataroom_id=qna_obj.dataroom.id)
+        for each in qna_list_obj:
+            if not each.answer or each.final:
+                # print ("answer:-", each.answer, "/", "final:-", each.final)
+                qna_list.append(each)
+
+        category_list = Categories.objects.filter(dataroom_id=qna_obj.dataroom.id)
+        cat_serializer = CategoriesSerializer(category_list, many=True)
+        qna_serializer = QuestionAnswerSerializer(qna_list, many=True)
+        # is_end_user
+        dataroom_user_list = DataroomMembers.objects.filter(dataroom_id=qna_obj.dataroom_id, member_id=login_user_id,is_deleted=False).first()
+        context_data['category_list'] = cat_serializer.data
+        context_data['qna_list'] = qna_serializer.data#sorted(qna_serializer.data, key=lambda k: k['created_date'], reverse=True)
+        return HttpResponse(json.dumps(context_data), content_type='application/json')
+
+class GetAllActivityofDocuments(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+    
+        user = request.user
+        member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=pk,is_deleted=False).first()
+        indexpermission=True
+        if DataroomOverview.objects.filter(dataroom_id=pk).exists():
+            DataroomOverviewdata=DataroomOverview.objects.filter(dataroom_id=pk).last()
+            indexpermission=DataroomOverviewdata.hide_file_indexing
+        if member.is_la_user or member.is_dataroom_admin:
+            view_list = FolderView.objects.filter(dataroom_id=pk)
+            print_list = FolderPrint.objects.filter(dataroom_id=pk)
+            download_list = FolderDownload.objects.filter(dataroom_id=pk)
+        else:
+            view_list = FolderView.objects.filter(dataroom_id=pk, user_id = user.id)
+            print_list = FolderPrint.objects.filter(dataroom_id=pk, user_id = user.id)
+            download_list = FolderDownload.objects.filter(dataroom_id=pk, user_id = user.id)
+
+        view_serializer = FolderViewSerializer(view_list, many=True)
+
+        data = view_serializer.data
+        datas=[]
+        for da in data:
+            da['activity'] = 'Viewed'
+
+        print_serializer = FolderPrintSerializer(print_list, many=True)
+        print_data = print_serializer.data
+        for prnt in print_data:
+            prnt['activity'] = "Printed"
+            data.append(prnt)
+
+        download_serializer = FolderDownloadSerializer(download_list, many=True)
+        download_data = download_serializer.data
+        for dwnld in download_data:
+            dwnld['activity'] = "Downloaded"
+            data.append(dwnld)
+        data.sort(key=lambda r: r['created_date'], reverse=True)
+        # print(data[0])
+        from . import utils
+        for i in data:
+            if member.is_la_user or user.is_admin:
+                i['folder']['index']= utils.getIndexes(i['folder'])
+                # indx=indx+1
+                datas.append(i)
+            else:
+                group_folder = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=int(i['folder']['id']),dataroom_id=int(pk), dataroom_groups_id=int(member.end_user_group.first().id)).first()
+                if group_folder.is_no_access==False:
+                    i['folder']['index']= utils.getIndexes(i['folder'])
+
+                    # indx=indx+1
+                    datas.append(i)
+        indexpermission=('hideindexing',indexpermission)
+        # datas.append(indexpermission)
+                
+
+        # print(datas,'RJFFJFNJNFJNFJNJFNsss')
+        data=datas
+        return Response(data, status=status.HTTP_201_CREATED)
+
+class CopySelectedFiles(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def assign_index(self, data , user, pk):
+        index = 0
+        try :
+            # print ("data under assign_index is:", data)
+            # print ("priamry key is", pk)
+            max_index = DataroomFolder.objects.filter(parent_folder_id=pk, dataroom_id=data.get('dataroomId'), is_root_folder=False, is_folder=False, is_deleted=False).aggregate(Max('index'))
+            # print ("max indx is", max_index)
+            index = max_index.get('index__max')
+            # print ("index is", index)
+            if index is None:
+                index = 0
+        except :
+            pass
+        # print ("new index is", index+1)
+        return index+1
+
+    def assign_index_folder(self, data , user, pk):
+        index = 0
+        try :
+            # print ("inside create new folder", data)
+            max_index = DataroomFolder.objects.filter(dataroom_id=data.get('dataroomId'), parent_folder_id=pk, is_root_folder=False, is_folder=True, is_deleted=False).aggregate(Max('index'))
+            index = max_index.get('index__max')
+            # print ('max index now is', index)
+            if index is None:
+                index = 0
+        except :
+            pass
+        # print ("index after +1 is", index+1)
+        return index+1
+
+    def copy_folder(self, files, filed, user):
+        data = {}
+        for file in files:
+            copy_file = DataroomFolder()
+            copy_file.user_id = user.id
+            copy_file.dataroom_id = file.dataroom_id
+            copy_file.name = file.name
+            copy_file.last_updated_user_id = user.id
+            copy_file.parent_path = file.parent_path
+            copy_file.file_content_type = file.file_content_type
+            copy_file.file_size = file.file_size
+            copy_file.parent_folder_id = filed.id
+            copy_file.pages = file.pages
+            copy_file.version = file.version
+            copy_file.path = file.path
+            copy_file.is_folder = file.is_folder
+            data['dataroomId'] = file.dataroom_id 
+            if file.is_folder == True:
+                copy_file.index = self.assign_index_folder(data, user, filed.id)
+
+            else:
+                copy_file.index = self.assign_index(data, user, filed.id)
+            copy_file.save()
+            if file.is_folder == True:
+                files = DataroomFolder.objects.filter(parent_folder_id=file.id)
+                self.copy_folder(files, copy_file, user)
+        return True
+
+    def post(self, request, pk, format=None):
+        data = {}
+        user = request.user
+        check_files_len = len(request.data)
+        dataroom_list = []
+        for da in request.data:
+            dataroom_list.append(da['dataroom'])
+
+
+        if check_files_len > 1:
+            bulk_activity_tracker = BulkActivityTracker()
+            bulk_activity_tracker.user_id = user.id
+            bulk_activity_tracker.dataroom_id = dataroom_list[0]
+            bulk_activity_tracker.save()
+
+
+        for da in request.data:
+            file_obj = DataroomFolder.objects.filter(id=da['id']).first()
+            folder_obj = DataroomFolder.objects.filter(id=pk).first()
+            
+            copy_file = DataroomFolder()
+            copy_file.user_id = user.id
+            copy_file.dataroom_id = file_obj.dataroom_id
+            copy_file.name = file_obj.name
+            copy_file.last_updated_user_id = request.user.id
+            copy_file.parent_path = file_obj.parent_path
+            copy_file.file_content_type = file_obj.file_content_type
+            copy_file.file_size = file_obj.file_size
+            copy_file.parent_folder_id = folder_obj.id
+            copy_file.pages = file_obj.pages
+            copy_file.version = file_obj.version
+            copy_file.path = file_obj.path
+            if file_obj.is_root_folder == True:
+                copy_file.is_root_folder = False
+            copy_file.is_folder = file_obj.is_folder
+            data['dataroomId'] = file_obj.dataroom_id
+
+            
+            if file_obj.is_folder == True:
+                copy_file.index = self.assign_index_folder(data, user, folder_obj.id)
+                if check_files_len > 1:
+                    FolderOrFileCopy.objects.create(user_id=user.id,folder_id=folder_obj.id,dataroom_id=file_obj.dataroom_id,event='Copy Folder',bulk_event_id=bulk_activity_tracker.id)
+                else:
+                    FolderOrFileCopy.objects.create(user_id=user.id,folder_id=folder_obj.id,dataroom_id=file_obj.dataroom_id,event='Copy Folder')
+
+            if file_obj.is_folder == False:
+                copy_file.index = self.assign_index(data, user, folder_obj.id)
+                if check_files_len > 1:
+                    FolderOrFileCopy.objects.create(user_id=user.id,folder_id=file_obj.id,dataroom_id=file_obj.dataroom_id,event='Copy File',bulk_event_id=bulk_activity_tracker.id)
+                else:
+                    FolderOrFileCopy.objects.create(user_id=user.id,folder_id=file_obj.id,dataroom_id=file_obj.dataroom_id,event='Copy File')
+
+            copy_file.save()
+            if file_obj.is_folder == True:
+                files = DataroomFolder.objects.filter(parent_folder_id=file_obj.id)
+                self.copy_folder(files, copy_file, user)
+        data = request.data
+        return Response({'recent_data': True}, status=status.HTTP_201_CREATED)
+
+class MoveSelectedFiles(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def assign_index(self, data , user, pk):
+        index = 0
+        try :
+            # print ("data under assign_index is:", data)
+            # print ("priamry key is", pk)
+            max_index = DataroomFolder.objects.filter(parent_folder_id=pk, dataroom_id=data.get('dataroomId'), is_root_folder=False, is_folder=False, is_deleted=False).aggregate(Max('index'))
+            # print ("max indx is", max_index)
+            index = max_index.get('index__max')
+            # print ("index is", index)
+            if index is None:
+                index = 0
+        except :
+            pass
+        # print ("new index is", index+1)
+        return index+1
+
+    def assign_index_folder(self, data , user, pk):
+        index = 0
+        try :
+            # print ("inside create new folder", data)
+            max_index = DataroomFolder.objects.filter(dataroom_id=data.get('dataroomId'), parent_folder_id=pk, is_root_folder=False, is_folder=True, is_deleted=False).aggregate(Max('index'))
+            index = max_index.get('index__max')
+            # print ('max index now is', index)
+            if index is None:
+                index = 0
+        except :
+            pass
+        # print ("index after +1 is", index+1)
+        return index+1
+
+    def post(self, request, pk, format=None):
+        data = {}
+        user = request.user
+
+        check_files_len = len(request.data)
+        dataroom_list = []
+        for da in request.data:
+            dataroom_list.append(da['dataroom'])
+
+        if check_files_len > 1:
+            bulk_activity_tracker = BulkActivityTracker()
+            bulk_activity_tracker.user_id = user.id
+            bulk_activity_tracker.dataroom_id = dataroom_list[0]
+            bulk_activity_tracker.save()
+
+        for da in request.data:
+            file_obj = DataroomFolder.objects.filter(id=da['id']).first()
+            folder_obj = DataroomFolder.objects.filter(id=pk).first()
+
+            
+            copy_file = DataroomFolder()
+            copy_file.user_id = user.id
+            copy_file.dataroom_id = file_obj.dataroom_id
+            copy_file.name = file_obj.name
+            copy_file.last_updated_user_id = request.user.id
+            copy_file.parent_path = file_obj.parent_path
+            copy_file.file_content_type = file_obj.file_content_type
+            copy_file.file_size = file_obj.file_size
+            copy_file.parent_folder_id = folder_obj.id
+            copy_file.pages = file_obj.pages
+            copy_file.version = file_obj.version
+            copy_file.path = file_obj.path
+            data['dataroomId'] = file_obj.dataroom_id
+            copy_file.is_folder = file_obj.is_folder 
+            if file_obj.is_root_folder == True:
+                copy_file.is_root_folder = False
+            # #print("file_obj", file_obj.is_folder )
+
+
+            if file_obj.is_folder == True:
+                copy_file.index = self.assign_index_folder(data, user, folder_obj.id)
+                
+            else:
+                copy_file.index = self.assign_index(data, user, folder_obj.id)
+                
+            copy_file.dataroom_folder_uuid = file_obj.dataroom_folder_uuid
+            change_all_indexes(file_obj)
+            copy_file.save()
+
+            if file_obj.is_folder == False:
+                if check_files_len > 1:
+                    file_move_track = FolderOrFileMove()
+                    file_move_track.user_id = user.id
+                    file_move_track.folder_id = copy_file.id
+                    file_move_track.dataroom_id = file_obj.dataroom_id
+                    file_move_track.event = 'Move File'
+                    file_move_track.bulk_event_id = bulk_activity_tracker.id
+                    file_move_track.save()
+                else:
+                    file_move_track = FolderOrFileMove()
+                    file_move_track.user_id = user.id
+                    file_move_track.folder_id = copy_file.id
+                    file_move_track.dataroom_id = file_obj.dataroom_id
+                    file_move_track.event = 'Move File'
+                    file_move_track.save()
+
+                # BulkActivityTracker.objects.create(id=bulk_activity_tracker,bulk_event_id=file_move_track.id)
+                # bulk_activity_tracker.bulk_event_id = file_move_track.id
+                # bulk_activity_tracker.save()
+                # FolderOrFileMove.objects.create(user_id=user.id,folder_id=copy_file.id,dataroom_id=file_obj.dataroom_id,event='Move File')
+
+
+            if file_obj.is_folder == True:
+                DataroomFolder.objects.filter(parent_folder_id=file_obj.id).update(parent_folder_id=copy_file.id)
+                if check_files_len > 1:
+                    file_move_track = FolderOrFileMove()
+                    file_move_track.user_id = user.id
+                    file_move_track.folder_id = copy_file.id
+                    file_move_track.dataroom_id = file_obj.dataroom_id
+                    file_move_track.event = 'Move Folder'
+                    file_move_track.bulk_event_id = bulk_activity_tracker.id
+                    file_move_track.save()
+                else:
+                    file_move_track = FolderOrFileMove()
+                    file_move_track.user_id = user.id
+                    file_move_track.folder_id = copy_file.id
+                    file_move_track.dataroom_id = file_obj.dataroom_id
+                    file_move_track.event = 'Move Folder'
+                    file_move_track.save()
+                
+            file_obj.delete()
+        return Response({'recent_data': True}, status=status.HTTP_201_CREATED)
+            
+class ExportOverviewReport(APIView):
+    """docstring for ActivitybyDateReport"""
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        import datetime
+        data = []
+        from_date = request.GET.get("from_date")
+        to_date = request.GET.get("to_date")
+        # print("from_date",from_date,to_date)
+        todays_date = datetime.datetime.strftime(datetime.datetime.strptime( to_date, '%Y-%m-%d'),'%Y-%m-%d 23:59:59+05:30')
+        first_date = datetime.datetime.strftime(datetime.datetime.strptime( from_date, '%Y-%m-%d'),'%Y-%m-%d 00:00:00+05:30')
+        #print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+        # print("request get",pk, first_date, todays_date)
+
+        folder_view = FolderView.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # print(folder_view,"folder_view")
+        for fold in folder_view:
+            data.append({'created_date':fold.created_date,'event':'Viewed', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        folder_print = FolderPrint.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # print(folder_print,"folder_print")
+        for fold in folder_print:
+            data.append({'created_date':fold.created_date,'event':'Printed', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        folder_download = FolderDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # print(folder_download,"folder_download")
+        for fold in folder_download:
+            data.append({'created_date':fold.created_date,'event':'Downloaded', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        
+        workspace_view = DataroomView.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        for fold in workspace_view:
+            data.append({'created_date':fold.created_date,'event':'Dataroom view', 'title':fold.dataroom.dataroom_nameFront, 'user':fold.user.first_name+fold.user.last_name})
+
+        Folder_Drm_Download = FolderDrmDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        for fold in Folder_Drm_Download:
+            data.append({'created_date':fold.created_date,'event':'Shortcut download', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+        # Folder_Delete_Download = FolderDeleteDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # for fold in Folder_Delete_Download:
+        #     data.append({'created_date':fold.created_date,'event':'delete', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        Folder_Delete_Download = FolderDeleteDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder_id__parent_folder_id__isnull=False)
+        for fold in Folder_Delete_Download:
+            data.append({'created_date':fold.created_date,'event':'delete', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+
+        Folder_only_delete_record = FolderDeleteDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,folder_id__parent_folder_id__isnull=True)
+        for fold in Folder_only_delete_record:
+            data.append({'created_date':fold.created_date,'event':'deleted Folder', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name,'id':fold.folder.id})
+
+        Folder_Copy = FolderOrFileCopy.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Copy Folder')
+        for fold in Folder_Copy:
+            data.append({'created_date':fold.created_date,'event':'Copy Folder', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        File_Copy = FolderOrFileCopy.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Copy File')
+        for fold in File_Copy:
+            data.append({'created_date':fold.created_date,'event':'Copy File', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+        Folder_Move = FolderOrFileMove.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Move Folder')
+        for fold in Folder_Move:
+            data.append({'created_date':fold.created_date,'event':'Move Folder', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        File_Move = FolderOrFileMove.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date, event='Move File')
+        for fold in File_Move:
+            data.append({'created_date':fold.created_date,'event':'Move File', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+
+        Bulk_Download_Files = BulkDownloadFiles.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        for fold in Bulk_Download_Files:
+            data.append({'created_date':fold.created_date,'event':'bulk_download', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+        uploadfiles = Folderupload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        for fold in uploadfiles:
+            data.append({'created_date':fold.created_date,'event':'Uploaded', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+
+        bulkuploadfiles = Bulkuploadstatus.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,isuploadfail=False)
+        for fold in bulkuploadfiles:
+            uploadsuccessdata=Folderuploadinbulk.objects.filter(bulkupload_id=fold.id).reverse()
+            for i in uploadsuccessdata:
+                data.append({'created_date':i.created_date,'event':'Batch Uploaded - '+str(fold.totalnumberoffolders)+' Folders and '+str(fold.totalnumberoffiles)+' Files', 'title':str(i.file_name), 'user':fold.user.first_name+fold.user.last_name})
+        # folder = DataroomFolder.objects.filter(dataroom_id = pk, is_deleted=False,created_date__gte=first_date, created_date__lte=todays_date)
+        # for fold in folder:
+        #   if fold.is_folder == True:
+        #       print("in true")
+        #       data.append({'created_date':fold.created_date,'event':'Created', 'title':fold.name, 'user':fold.user.first_name+fold.user.last_name})
+        #   else:
+        #       print("in false")
+        #       data.append({'created_date':fold.created_date,'event':'Uploaded', 'title':fold.name, 'user':fold.user.first_name+fold.user.last_name})
+
+
+
+        # folder_deleted = FolderDeleteDownload.objects.filter(dataroom_id = pk, is_deleted=True, is_folder=False,created_date__gte=first_date, created_date__lte=todays_date)
+        # # print(folder_deleted,"folder_deleted")
+        # for fold in folder_deleted:
+        #   data.append({'created_date':fold.deleted_by_date,'event':'Deleted', 'title':fold.name, 'user':fold.deleted_by.first_name+fold.deleted_by.last_name})
+        # DataroomMembers.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        member = DataroomMembers.objects.filter(dataroom_id=pk, is_deleted=False, is_deleted_end=False, is_deleted_la=False)
+        for fold in member:
+            data.append({'created_date':fold.date_joined,'event':'member joined', 'title':fold.member.first_name+fold.member.last_name, 'user':fold.member_added_by.first_name+fold.member_added_by.last_name})
+        # for member in member_data:
+        #   member['created_date'] = member.get('date_joined')
+        #   member['event'] = 'member joined'
+        #   datas.append(member)
+        data.sort(key=lambda item:item['created_date'], reverse=True)
+        datarooms = Dataroom.objects.filter(id=pk)
+        serializer = DataroomSerializer(datarooms, many=True)
+        file_name = str(serializer.data[0].get('dataroom_nameFront'))+' - Overview Report - '+str(time.strftime("%d-%m-%Y_%H:%M:%S"))+'.csv'
+        from . import utils
+        import csv
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename='+str(file_name)+''
+        writer = csv.writer(response)
+        
+        header_data, datas = utils.getExcelOverviewData(data)
+        
+        writer.writerow(header_data)
+        writer.writerows(datas)
+        return response
+
+def build_folder_recursive(tree, parent, nodes, user, pk, group_id):
+    children  = [n for n in nodes if n['parent_folder'] == parent]
+    for child in children:
+        from . import utils
+
+        # #print("Childdddddddd-------", child)
+        child=utils.getIndexofFolder(child)
+        data = {'perm':{}}
+        data['names']=child['names']
+        data['name'] = child['name']
+        data['id'] = child['id']
+        data['is_folder'] = child['is_folder']
+        data['noaccess_indeterminate'] = False
+        data['view_indeterminate'] = False
+        data['vp_indeterminate'] = False
+        data['vpd_indeterminate'] = False
+        data['upload_indeterminate'] = False
+        data['drm_indeterminate'] = False
+        data['watermarking_indeterminate'] = False
+        data['editor_indeterminate'] = False
+        data['shortcut_indeterminate'] = False
+        try:
+            perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=data['id'],dataroom_id=pk, dataroom_groups_id=int(group_id)).last()
+            data['perm']['is_view_only'] = perm_obj.is_view_only
+            data['perm']['is_no_access'] = perm_obj.is_no_access
+            data['perm']['is_view_and_print'] = perm_obj.is_view_and_print
+            data['perm']['is_view_and_print_and_download'] = perm_obj.is_view_and_print_and_download
+            data['perm']['is_upload'] = perm_obj.is_upload
+            data['perm']['is_watermarking'] = perm_obj.is_watermarking
+            data['perm']['is_drm'] = perm_obj.is_drm
+            data['perm']['is_editor'] = perm_obj.is_editor
+            data['perm']['is_access'] = perm_obj.is_access
+            data['perm']['is_shortcut'] = perm_obj.is_shortcut
+        except:
+            data['perm']['is_view_only'] = False
+            data['perm']['is_no_access'] = True
+            data['perm']['is_access'] = False
+            data['perm']['is_view_and_print'] = False
+            data['perm']['is_view_and_print_and_download'] = False
+            data['perm']['is_upload'] = False
+            data['perm']['is_watermarking'] = False
+            data['perm']['is_drm'] = False
+            data['perm']['is_editor'] = False
+            data['perm']['is_shortcut'] = False
+        data['children'] = []
+        tree.append(data)
+        build_folder_recursive(data['children'], child['id'], nodes, user, pk, group_id)
+
+class FoldersHierarchyPermission(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        # print('this api  _____________1')
+        group_id = request.GET.get('group_id')
+        # #print("Group Id", group_id)
+        document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+        data = []
+        from . import utils
+        for doc in document:
+            docu = DataroomFolder.objects.get(id = doc.id)
+            docu_serializer = DataroomFolderSerializer(docu)
+            datas = docu_serializer.data
+            datas=utils.getIndexofFolder(datas)
+            # print(utils.getIndexofFolder(datas))
+            data.append(datas)
+            print(data)
+            docu1 = DataroomFolder.objects.filter(parent_folder = doc.id, is_deleted=False).order_by('index')
+            if len(docu1) > 0:
+                datas = []
+                data.extend(utils.get_under_file_withoutindex(docu1,datas))
+                # datas = getIndexofFolder(docu2_serializer.data)
+
+        # print("dataaaaa", data)
+        tree = []
+        # fill in tree starting with roots (those with no parent)
+        build_folder_recursive(tree, None, data, user, pk, group_id)
+        # print("treee", tree)
+        # print(tree)
+        return Response(tree, status=status.HTTP_201_CREATED)
+
+
+
+class TreeViewPermission(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        group_id = request.GET.get('group_id')
+        parent_id = request.GET.get('parent')
+        #print(parent_id)
+        # print("Group Id", pk)
+        if int(parent_id)==0:
+            document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+            #print(3434)
+        else:
+            document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=False, parent_folder=parent_id, is_deleted=False).order_by('index')
+            #print(9090)
+        data = []
+        from . import utils
+        for doc in document:
+            docu = DataroomFolder.objects.get(id = doc.id)
+            docu_serializer = DataroomFolderSerializer(docu)
+            datas = docu_serializer.data
+            # utils.getIndexofFolder(datas)
+            
+            docu1 = DataroomFolder.objects.filter(parent_folder = doc.id, is_deleted=False).order_by('index')
+            if datas['is_folder']:
+                datas['hasChildren'] = True
+            else:
+                datas['hasChildren'] = False
+
+            datas['perm'] = {}
+            datas['noaccess_indeterminate'] = False
+            datas['view_indeterminate'] = False
+            datas['vp_indeterminate'] = False
+            datas['vpd_indeterminate'] = False
+            datas['upload_indeterminate'] = False
+            datas['drm_indeterminate'] = False
+            datas['watermarking_indeterminate'] = False
+            datas['editor_indeterminate'] = False
+            datas['shortcut_indeterminate'] = False
+            # datas['children'] = []
+            try:
+                
+                perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=datas['id'],dataroom_id=pk, dataroom_groups_id=int(group_id))
+                datas['perm']['is_view_only'] = perm_obj.is_view_only
+                datas['perm']['is_no_access'] = perm_obj.is_no_access
+                datas['perm']['is_view_and_print'] = perm_obj.is_view_and_print
+                datas['perm']['is_view_and_print_and_download'] = perm_obj.is_view_and_print_and_download
+                datas['perm']['is_upload'] = perm_obj.is_upload
+                datas['perm']['is_watermarking'] = perm_obj.is_watermarking
+                datas['perm']['is_drm'] = perm_obj.is_drm
+                datas['perm']['is_editor'] = perm_obj.is_editor
+                datas['perm']['is_access'] = perm_obj.is_access
+                datas['perm']['is_exist'] = True
+                datas['perm']['is_shortcut'] = perm_obj.is_shortcut
+            except:
+                datas['perm']['is_view_only'] = False
+                datas['perm']['is_no_access'] = True
+                datas['perm']['is_access'] = False
+                datas['perm']['is_view_and_print'] = False
+                datas['perm']['is_view_and_print_and_download'] = False
+                datas['perm']['is_upload'] = False
+                datas['perm']['is_watermarking'] = False
+                datas['perm']['is_drm'] = False
+                datas['perm']['is_editor'] = False
+                datas['perm']['is_exist'] = False
+                datas['perm']['is_shortcut'] = False
+            # if len(docu1) > 0:
+                # datas = []
+                # datas['hasChildren'] = True
+            # else:
+                # datas['hasChildren'] = True
+
+            data.append(datas)
+                # data.extend(utils.get_under_file_withoutindex(docu1,datas))
+                # #print("dataaa", data)
+        # #print("dataaaaa", data)
+        # tree = []
+        # fill in tree starting with roots (those with no parent)
+        # build_folder_recursive(tree, None, data, user, pk, group_id)
+        # #print("treee", tree)
+        return Response(data, status=status.HTTP_201_CREATED)
+
+class ExportUserActivity(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self,request,pk):
+        user = request.user
+        datas=[]
+        folder_view = FolderView.objects.filter(dataroom_id = pk, user_id = user.id).values()
+        datas.extend(folder_view)
+
+        folder_download = FolderDownload.objects.filter(dataroom_id=pk, user_id=user.id).values()
+        datas.extend(folder_download)
+
+        workspace_view = DataroomView.objects.filter(dataroom_id=pk, user_id=user.id).values()
+        datas.extend(workspace_view)
+
+        folder_copy_data = FolderOrFileCopy.objects.filter(dataroom_id=pk, user_id=user.id).values()
+        datas.extend(folder_copy_data)
+
+        folder_move_data = FolderOrFileMove.objects.filter(dataroom_id=pk, user_id=user.id).values()
+        datas.extend(folder_move_data)
+
+        file_print_data = FolderPrint.objects.filter(dataroom_id=pk, user_id=user.id).values()
+        datas.extend(file_print_data)
+
+
+        file_delete_data = FolderDeleteDownload.objects.filter(dataroom_id=pk, user_id=user.id,folder_id__parent_folder_id__isnull=False).values()
+        datas.extend(file_delete_data)
+
+        folder_delete_data = FolderDeleteDownload.objects.filter(dataroom_id=pk, user_id=user.id,folder_id__parent_folder_id__isnull=True).values()
+        datas.extend(folder_delete_data)
+
+        file_drm_data = FolderDrmDownload.objects.filter(dataroom_id=pk, user_id=user.id).values()
+        datas.extend(file_drm_data)
+
+        bulk_upload_data = Folderuploadinbulk.objects.filter(dataroom_id=pk, user_id=user.id).values()
+        datas.extend(bulk_upload_data)
+
+        import csv
+        # response = HttpResponse(content_type='text/csv')
+        # response['Content-Disposition'] = 'attachment; filename="Useractivity.csv"'
+        # writer = csv.writer(response)
+        # writer.writerows(datas)
+
+        df = pd.DataFrame(datas)
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=Useractivity.csv'
+        df.to_csv(response)
+
+        # response = HttpResponse(content_type='text/csv')
+        # response['Content-Disposition'] = 'attachment; filename="useractivity.csv"'
+        # writer = csv.writer(response)
+        # for data in new_queryset:
+        #     writer.writerow(data)
+
+        # response = HttpResponse(content_type='text/csv')
+        # response['Content-Disposition'] = 'attachment; filename=Useractivity.csv'
+        # writer = csv.writer(response)
+        # writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+        # return response
+        return Response(datas, status=status.HTTP_201_CREATED)
+
+
+
+
+class UserActivity(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, pk1, format=None):
+        data = {}
+        datas=[]
+        folder_view = FolderView.objects.filter(dataroom_id = pk, user_id = pk1)
+        folder_view_data = FolderViewSerializer(folder_view, many=True).data
+        # print(folder_view_data,'YYYYYYYYYY')
+        datas.extend(folder_view_data)
+        folder_download = FolderDownload.objects.filter(dataroom_id=pk, user_id=pk1)
+        folder_download_data = FolderDownloadSerializer(folder_download, many=True).data
+        datas.extend(folder_download_data)
+        workspace_view = DataroomView.objects.filter(dataroom_id=pk, user_id=pk1)
+        folder_workspace_data = DataroomViewSerializer(workspace_view, many=True).data
+        datas.extend(folder_workspace_data)
+
+        folder_copy_data = FolderOrFileCopy.objects.filter(dataroom_id=pk, user_id=pk1)
+        folder_copy_data_serializer = BulkDataCopyActivitySerializer(folder_copy_data, many=True).data
+        for da in folder_copy_data_serializer:
+            da['folder_name'] = DataroomFolder.objects.get(id=da['folder']['parent_folder']).name
+            da['dataroom'] = Dataroom.objects.get(id=da['folder']['dataroom']).dataroom_name            
+        datas.extend(folder_copy_data_serializer)
+
+        folder_move_data = FolderOrFileMove.objects.filter(dataroom_id=pk, user_id=pk1)
+        folder_move_data_serializer = BulkDataActivitySerializer(folder_move_data, many=True).data
+        for da in folder_move_data_serializer:
+            da['folder_name'] = DataroomFolder.objects.get(id=da['folder']['parent_folder']).name
+            da['dataroom'] = Dataroom.objects.get(id=da['folder']['dataroom']).dataroom_name
+        datas.extend(folder_move_data_serializer)
+
+        file_print_data = FolderPrint.objects.filter(dataroom_id=pk, user_id=pk1)
+        file_print_data_serializer = FolderActivityPrintSerializer(file_print_data, many=True).data
+        for da in file_print_data_serializer:
+            da['folder_name'] = DataroomFolder.objects.get(id=da['folder']['parent_folder']).name
+            da['dataroom'] = Dataroom.objects.get(id=da['folder']['dataroom']).dataroom_name
+        datas.extend(file_print_data_serializer)
+
+
+        file_delete_data = FolderDeleteDownload.objects.filter(dataroom_id=pk, user_id=pk1,folder_id__parent_folder_id__isnull=False)
+        file_delete_data_serializer = FolderDeleteDownloadSerializer(file_delete_data, many=True).data
+        for da in file_delete_data_serializer:
+            da['folder_name'] = DataroomFolder.objects.get(id=da['folder']['parent_folder']).name
+            da['dataroom_name'] = Dataroom.objects.get(id=da['folder']['dataroom']).dataroom_name
+        datas.extend(file_delete_data_serializer)
+
+        folder_delete_data = FolderDeleteDownload.objects.filter(dataroom_id=pk, user_id=pk1,folder_id__parent_folder_id__isnull=True)
+        folder_delete_data_serializer = FolderDeleteDownloadSerializer(folder_delete_data, many=True).data
+        for da in folder_delete_data_serializer:
+            da['folder_name'] = DataroomFolder.objects.get(id=da['folder']['id']).name
+            da['dataroom_name'] = Dataroom.objects.get(id=da['folder']['dataroom']).dataroom_name
+        datas.extend(folder_delete_data_serializer)
+
+        file_drm_data = FolderDrmDownload.objects.filter(dataroom_id=pk, user_id=pk1)
+        file_drm_data_serializer = FolderDrmDownloadSerializer(file_drm_data, many=True).data
+        for da in file_drm_data_serializer:
+            da['folder_name'] = DataroomFolder.objects.get(id=da['folder']['parent_folder']).name
+            da['dataroom'] = Dataroom.objects.get(id=da['folder']['dataroom']).dataroom_name
+        datas.extend(file_drm_data_serializer)
+
+        bulk_upload_data = Folderuploadinbulk.objects.filter(dataroom_id=pk, user_id=pk1)
+        bulk_upload_data_serializer = FolderuploadinbulkSerializer(bulk_upload_data, many=True).data
+        datas.extend(bulk_upload_data_serializer)
+
+
+        member = DataroomMembers.objects.filter(dataroom_id=pk, member_added_by_id=pk1, is_deleted=False, is_deleted_end=False, is_deleted_la=False)
+        member_data = DataroomMembersSerializer(member, many=True).data
+        # print(member_data,'RRRRRRR')
+
+        for member in member_data:
+            # print(member.get('date_joined'),'RRRRRRR')
+            member['created_date'] = member.get('date_joined')
+            member['event'] = 'member joined'
+            datas.append(member)
+        
+        data['folder_view_count']  = folder_view.count()
+        data['folder_download_count']  = folder_download.count()
+        data['warkspace_view_count'] = workspace_view.count()
+        data['folder_copy_count'] = folder_copy_data.count()
+        data['folder_move_count'] = folder_move_data.count()
+        data['file_print_count'] = file_print_data.count()
+        data['folder_delete_count'] = file_delete_data.count() + folder_delete_data.count()
+        data['drm_download_count'] = file_drm_data.count()
+        data['bulk_upload_count'] = bulk_upload_data.count()
+        # #print("Activityyyyyy",datas)
+        # data['activity'] = sorted(datas, key=lambda k: k['created_date'], reverse=True)
+        # data['activity'] = datas.sort(key=lambda item:item['created_date'], reverse=True)
+        # print("Activityyyyyy",data)
+        sort_list = []
+        datas = sorted(datas,key=lambda x : x['created_date'], reverse=True)
+        for i in datas:
+            sort_list.append(datetime.strptime(i["created_date"], '%d/%m/%Y %H:%M:%S').strftime('%d/%m/%Y'))
+
+        remove_duplicate = list(set(sort_list))
+        remove_duplicate.sort(key = lambda date: datetime.strptime(date, '%d/%m/%Y'))
+        for da in datas:
+            for i in remove_duplicate:
+                if datetime.strptime(da["created_date"], '%d/%m/%Y %H:%M:%S').strftime('%d/%m/%Y') == i:
+                    da["sort_condition"] = remove_duplicate.index(i)
+
+        data['activity'] = sorted(datas,key=lambda x : x['sort_condition'], reverse=True)
+        return Response(data, status=status.HTTP_201_CREATED)
+
+
+class Viewbulk_files(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+    def get(self, request, pk, format=None):
+        user = request.user
+        user_name = user.first_name + " " + user.last_name
+        qs_check = BulkActivityTracker.objects.filter(id=pk).exists()
+        if qs_check:
+            BulkActivityTracker_list = list(BulkActivityTracker.objects.filter(id=pk).values())
+            for i in BulkActivityTracker_list:
+                if FolderDrmDownload.objects.filter(bulk_event_id=i['id']).exists():
+                    i["user_name"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                    i["files"] = BulkDataDrmActivitySerializer(FolderDrmDownload.objects.filter(bulk_event_id=pk),many=True).data
+                    for da in i["files"]:
+                        da["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=da['folder']['dataroom'])).data
+                        da["folder_name"] = DataroomFolder.objects.get(id=da['folder']['parent_folder']).name
+
+                if FolderOrFileMove.objects.filter(bulk_event_id=i['id']).exists():
+                    i["user_name"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                    i["files"] = BulkDataActivitySerializer(FolderOrFileMove.objects.filter(bulk_event_id=i['id']),many=True).data
+                    for da in i["files"]:
+                        da["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=da['folder']['dataroom'])).data
+                        da["folder_name"] = DataroomFolder.objects.get(id=da['folder']['parent_folder']).name
+
+                if FolderOrFileCopy.objects.filter(bulk_event_id=i['id']).exists():
+                    i["user_name"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                    i["files"] = BulkDataCopyActivitySerializer(FolderOrFileCopy.objects.filter(bulk_event_id=i['id']),many=True).data
+                    for da in i["files"]:
+                        da["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=da['folder']['dataroom'])).data
+                        da["folder_name"] = DataroomFolder.objects.get(id=da['folder']['parent_folder']).name
+
+                if FolderDeleteDownload.objects.filter(bulk_event_id=i['id'],folder_id__parent_folder_id__isnull=False).exists():
+                    i["user_name"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                    i["files"] = FolderDeleteDownloadSerializer(FolderDeleteDownload.objects.filter(bulk_event_id=i['id']),many=True).data
+                    for da in i["files"]:
+                        da["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=da['folder']['dataroom'])).data
+                        # da["folder_name"] = DataroomFolder.objects.get(id=da['folder']['parent_folder']).name
+
+                if BulkDownloadFiles.objects.filter(bulk_event_id=i['id']).exists():
+                    i["user_name"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+                    i["files"] = BulkDataDownloadActivitySerializer(BulkDownloadFiles.objects.filter(bulk_event_id=i['id']),many=True).data
+                    for da in i["files"]:
+                        da["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=da['folder']['dataroom'])).data
+                        da["folder_name"] = DataroomFolder.objects.get(id=da['folder']['parent_folder']).name
+
+            data = {
+            "Files": BulkActivityTracker_list
+            }
+            return Response(data, status=status.HTTP_201_CREATED)
+        else:
+            data = {
+            "error": "No files"
+            }
+            return Response(data, status=status.HTTP_201_CREATED)
+
+
+# class StandardResultsSetPagination(PageNumberPagination):
+#     page_size = 100
+#     page_size_query_param = 'page_size'
+#     max_page_size = 1000
+
+        
+class DataroomActivity(GenericAPIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+    pagination_class = CustomPagination
+
+    def get(self, request, pk, format=None):
+        data = {}
+        datas=[]
+        #print("request =====>",request.data)
+        #print("pk ======>",pk)
+        user = request.user
+        from_date = request.GET.get("from_date")
+        to_date = request.GET.get("to_date")
+        page = request.GET.get("page")
+        #print("dataroom_activity_api_called ====>",from_date,to_date)
+        # need to work after the some time
+        dateobject1=datetime.strptime(from_date,'%Y-%m-%d')
+        first_date=dateobject1.strftime("%Y-%m-%d 00:00:00+05:30")
+        dateobject2=datetime.strptime(to_date,'%Y-%m-%d')
+        todays_date=dateobject2.strftime("%Y-%m-%d 23:59:59+05:30")
+        #print("dataroom_activity_api_called ====>")
+
+        # print(first_date,"first_date",type(first_date))
+        #print(todays_date)
+        # first_date = datetime.datetime.strftime(datetime.datetime.strptime( from_date, '%Y-%m-%d'),'%Y-%m-%d 00:00:00+05:30')
+        #print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+        #print("request get", first_date, todays_date)
+
+        folder_view = FolderView.objects.filter(dataroom_id = pk,created_date__gte=first_date, created_date__lte=todays_date)
+        folder_view_data = FolderViewSerializer(folder_view, many=True).data
+        datas.extend(folder_view_data)
+
+        folder_print = FolderPrint.objects.filter(dataroom_id = pk,created_date__gte=first_date, created_date__lte=todays_date)
+        folder_print_data = FolderPrintSerializer(folder_print, many=True).data
+        datas.extend(folder_print_data)
+
+        folder_download = FolderDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        folder_download_data = FolderDownloadSerializer(folder_download, many=True).data
+        datas.extend(folder_download_data)
+
+        fileactivity1 = FolderDrmDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,bulk_event_id=None)
+        fileactivity_data1 = FolderDrmDownloadSerializer(fileactivity1, many=True).data
+        datas.extend(fileactivity_data1)
+
+        fileactivity2 = FolderDeleteDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,bulk_event_id=None)
+        fileactivity_data2 = FolderDeleteDownloadSerializer(fileactivity2, many=True).data
+        datas.extend(fileactivity_data2)
+
+
+        fileactivity3= FolderOrFileCopy.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,bulk_event_id=None)
+        fileactivity_data3 = FolderOrFileCopySerializer(fileactivity3, many=True).data
+        datas.extend(fileactivity_data3)
+
+
+        fileactivity4 = FolderOrFileMove.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,bulk_event_id=None)
+        fileactivity_data4 = FolderOrFileMoveSerializer(fileactivity4, many=True).data
+        datas.extend(fileactivity_data4)
+
+        fileactivity5 = BulkDownloadFiles.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,bulk_event_id=None)
+        fileactivity_data5 = BulkDownloadFilesSerializer(fileactivity5, many=True).data
+        datas.extend(fileactivity_data5)
+
+        fileactivity6 = Bulkuploadstatus.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,isuploadfail=False)
+        fileactivity_data6 = BulkuploadstatusSerializer(fileactivity6, many=True).data
+        datas.extend(fileactivity_data6)
+
+        fileactivity7 = Folderupload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        fileactivity_data7 = FolderuploadSerializer(fileactivity7, many=True).data
+        datas.extend(fileactivity_data7)
+
+        fileactivity8 = RestoreFiles.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,bulk_event_id=None)
+        fileactivity_data8 = RestoreFileActivitySerializer(fileactivity8, many=True).data
+        datas.extend(fileactivity_data8)
+
+        workspace_view = DataroomView.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        folder_workspace_data = DataroomViewSerializer(workspace_view, many=True).data
+        datas.extend(folder_workspace_data)
+
+        ########### rushikesh not add these reason for duplicate values in activity log
+
+        # workspace_view = FolderDrmDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # folder_workspace_data = BulkDataDrmActivitySerializer(workspace_view, many=True).data
+        # datas.extend(folder_workspace_data)
+
+
+        # workspace_view = FolderOrFileMove.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # folder_workspace_data = BulkDataActivitySerializer(workspace_view, many=True).data
+        # datas.extend(folder_workspace_data)
+
+        # workspace_view = FolderOrFileCopy.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # folder_workspace_data = BulkDataCopyActivitySerializer(workspace_view, many=True).data
+        # datas.extend(folder_workspace_data)
+
+        # workspace_view = FolderDeleteDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # folder_workspace_data = FolderDeleteDownloadSerializer(workspace_view, many=True).data
+        # datas.extend(folder_workspace_data)
+        #### ---- today
+        Bulk_list = [i.id for i in BulkActivityTracker.objects.filter(created_date__gte=first_date, created_date__lte=todays_date)]
+        BulkActivityTracker_list = list(BulkActivityTracker.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date).values())
+
+        # # bulk_new_activity = BulkActivityTracker.objects.filter(created_date__gte=first_date, created_date__lte=todays_date)
+        # # bulk_activity_tracker_list = BulkActivityTrackerlistsSerializer(bulk_new_activity, many=True).data
+        # # datas.extend(bulk_activity_tracker_list)
+        # print("len of BulkActivityTracker_list",BulkActivityTracker_list)
+
+        for i in BulkActivityTracker_list:
+            i["user"] = User.objects.get(id=i["user_id"]).first_name + " " + User.objects.get(id=i["user_id"]).last_name
+            i["created_date"] = i["created_date"].strftime('%d/%m/%Y %H:%M:%S')
+            if FolderDrmDownload.objects.filter(bulk_event_id=i['id']).exists():
+                # i["dataroom_id"] = list(Dataroom.objects.filter(id=i['dataroom_id']).values())
+                # i["folder_name"] = DataroomFolder.objects.get(id=i['folder_id']).name
+                i["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=i['dataroom_id'])).data
+                i["sub_event"] = "drm download"
+                i["total_files"] = FolderDrmDownload.objects.filter(bulk_event_id=i['id']).count()
+                i["files"] = BulkDataDrmActivitySerializer(FolderDrmDownload.objects.filter(bulk_event_id=i['id']),many=True).data
+                if DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).exists():
+                    i["folder_name"] = DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).last().name
+
+            if FolderOrFileMove.objects.filter(bulk_event_id=i['id']).exists():
+                # i["folder_name"] = DataroomFolder.objects.get(id=i['folder_id']).name
+                i["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=i['dataroom_id'])).data
+                i["sub_event"] = "Move"
+                i["total_files"] = FolderOrFileMove.objects.filter(bulk_event_id=i['id']).count()
+                i["files"] = BulkDataActivitySerializer(FolderOrFileMove.objects.filter(bulk_event_id=i['id']),many=True).data
+                if DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).exists():
+                    i["folder_name"] = DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).last().name
+
+            if FolderOrFileCopy.objects.filter(bulk_event_id=i['id']).exists():
+                # i["folder_name"] = DataroomFolder.objects.get(id=i['folder_id']).name
+                i["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=i['dataroom_id'])).data
+                i["sub_event"] = "Copy"
+                i["total_files"] = FolderOrFileCopy.objects.filter(bulk_event_id=i['id']).count()
+                i["files"] = BulkDataCopyActivitySerializer(FolderOrFileCopy.objects.filter(bulk_event_id=i['id']),many=True).data
+                if DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).exists():
+                    i["folder_name"] = DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).last().name
+
+            if FolderDeleteDownload.objects.filter(bulk_event_id=i['id'],folder_id__parent_folder_id__isnull=False).exists():
+                i["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=i['dataroom_id'])).data
+                i["sub_event"] = "Delete"
+                i["total_files"] = FolderDeleteDownload.objects.filter(bulk_event_id=i['id'],folder_id__parent_folder_id__isnull=False).count()
+                i["files"] = FolderDeleteDownloadSerializer(FolderDeleteDownload.objects.filter(bulk_event_id=i['id']),many=True).data
+                if DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).exists():
+                    i["folder_name"] = DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).last().name
+
+            if FolderDeleteDownload.objects.filter(bulk_event_id=i['id'],folder_id__parent_folder_id__isnull=True).exists():
+                qs = FolderDeleteDownload.objects.filter(bulk_event_id=i['id'],folder_id__parent_folder_id__isnull=True).values('folder_id')
+                for j in qs:
+                    # i["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=i['dataroom_id'])).data
+                    i["sub_event"] = "Deleted Folder Files"
+                    i["total_files"] = FolderDeleteDownload.objects.filter(bulk_event_id=i['id'],folder_id__parent_folder_id=j['folder_id']).count()
+                    if i["total_files"] == 0:
+                        i["total_files"] = "Empty"
+                    i["files"] = FolderDeleteDownloadSerializer(FolderDeleteDownload.objects.filter(bulk_event_id=i['id'],folder_id__parent_folder_id=j['folder_id']),many=True).data
+
+            if BulkDownloadFiles.objects.filter(bulk_event_id=i['id']).exists():
+                # i["folder_name"] = DataroomFolder.objects.get(id=i['folder_id']).name
+                i["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=i['dataroom_id'])).data
+                i["sub_event"] = "Download"
+                i["total_files"] = BulkDownloadFiles.objects.filter(bulk_event_id=i['id']).count()
+                i["files"] = BulkDataDownloadActivitySerializer(BulkDownloadFiles.objects.filter(bulk_event_id=i['id']),many=True).data
+                if DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).exists():
+                    i["folder_name"] = DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).last().name
+
+            if RestoreFiles.objects.filter(bulk_event_id=i['id']).exists():
+                # i["folder_name"] = DataroomFolder.objects.get(id=i['folder_id']).name
+                i["dataroom_id"] = DataroomSerializer(Dataroom.objects.get(id=i['dataroom_id'])).data
+                i["sub_event"] = "Restore"
+                i["total_files"] = RestoreFiles.objects.filter(bulk_event_id=i['id']).count()
+                i["files"] = RestoreFileActivitySerializer(RestoreFiles.objects.filter(bulk_event_id=i['id']),many=True).data
+                if DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).exists():
+                    i["folder_name"] = DataroomFolder.objects.filter(id=i['files'][0]['folder']['parent_folder']).last().name
+        
+        # print("before len",len(BulkActivityTracker_list))
+        for i in BulkActivityTracker_list:
+            if len(i) >= 8:
+                pass
+            else:
+                index_no = BulkActivityTracker_list.pop(BulkActivityTracker_list.index(i))
+
+        # print(len(BulkActivityTracker_list),"after -->",BulkActivityTracker_list)
+        # for check in BulkActivityTracker_list:
+        #     print("now check this -->",check)
+        
+        #### -- today
+
+
+        datas.extend(BulkActivityTracker_list)
+        
+
+        # bulk_download_drm = FolderDrmDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date,bulk_event_id__in=Bulk_list)
+        # drm_data_serialize = FolderDrmDownloadSerializer(bulk_download_drm, many=True).data
+        # bulk_drm_list = []
+        # for da in drm_data_serialize:
+        #   print("check bulk here -->",da)
+        #   da["event"] = "Bulk_event"
+        # bulk_activity_tracker = BulkActivityTracker.objects.filter(created_date__gte=first_date, created_date__lte=todays_date)
+
+        # folder = DataroomFolder.objects.filter(dataroom_id = pk, is_deleted=False,created_date__gte=first_date, created_date__lte=todays_date)
+        # folder_data = DataroomFolderSerializer(folder, many=True).data
+        # for fold in folder_data:
+        #   if fold['is_folder'] == True:
+        #       fold['event']='Created'
+        #   else:
+        #       fold['event']='Uploaded'
+        #   # fold['first_name'] = User.objects.filter(id=fold.get('user')).values_list('first_name',flat=True)
+        #   name = User.objects.get(id=fold.get('user'))
+        #   if name.first_name != '' or name.last_name !=None and name.last_name != '' or name.last_name != None :
+        #       fold['first_name'] =name.first_name
+        #       fold['last_name'] = name.last_name
+        #   else :
+        #       fold['first_name'] = 'user name is not defined '
+        #   datas.append(fold)
+
+
+        member = DataroomMembers.objects.filter(dataroom_id=pk, is_deleted=False, is_deleted_end=False, is_deleted_la=False)
+        member_data = DataroomMembersSerializer(member, many=True).data
+        for member in member_data:
+            member['created_date'] = member.get('date_joined')
+            member['event'] = 'member joined'
+            datas.append(member)
+   
+
+        # folder_view = FolderView.objects.filter(dataroom_id = pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # for fold in folder_view:
+        #   # date = datetime.strptime('2018-11-10 10:55:31', '%Y-%m-%d %H:%M:%S')
+        #   datas.append({'created_date':fold.created_date,'event':'Viewed', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        # folder_print = FolderPrint.objects.filter(dataroom_id = pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # for fold in folder_print:
+        #   # print(type(fold.created_date))
+
+        #   datas.append({'created_date':fold.created_date,'event':'Printed', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        # folder_download = FolderDownload.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # for fold in folder_download:
+
+        #   datas.append({'created_date':fold.created_date,'event':'Downloaded', 'title':fold.folder.name, 'user':fold.user.first_name+fold.user.last_name})
+        # workspace_view = DataroomView.objects.filter(dataroom_id=pk,created_date__gte=first_date, created_date__lte=todays_date)
+        # for fold in workspace_view:
+
+        #   datas.append({'created_date':fold.created_date,'event':'Dataroom view', 'title':fold.dataroom.dataroom_nameFront, 'user':fold.user.first_name+fold.user.last_name})
+        # folder_deleted = DataroomFolder.objects.filter(dataroom_id = pk, is_deleted=True, is_folder=False,created_date__gte=first_date, created_date__lte=todays_date)
+        # for fold in folder_deleted:
+        #   datas.append({'created_date':fold.deleted_by_date,'event':'Deleted', 'title':fold.name, 'user':fold.deleted_by.first_name+fold.deleted_by.last_name})
+        # folder = DataroomFolder.objects.filter(dataroom_id = pk, is_deleted=False,created_date__gte=first_date, created_date__lte=todays_date)
+        # for fold in folder:
+        #   if fold.is_folder == True:
+        #       datas.append({'created_date':fold.created_date,'event':'Created', 'title':fold.name, 'user':fold.user.first_name+fold.user.last_name})
+        #   else:
+        #       datas.append({'created_date':fold.created_date,'event':'Uploaded', 'title':fold.name, 'user':fold.user.first_name+fold.user.last_name})
+
+
+        # member = DataroomMembers.objects.filter(dataroom_id=pk, is_deleted=False, is_deleted_end=False, is_deleted_la=False)
+        # # member_data = DataroomMembersSerializer(member, many=True).data
+        # # member = DataroomMembers.objects.filter(dataroom_id=pk, is_deleted=False, is_deleted_end=False, is_deleted_la=False)
+        # for fold in member:
+        #   datas.append({'created_date':fold.date_joined,'event':'member joined', 'title':fold.member.first_name+fold.member.last_name, 'user':fold.member_added_by.first_name+fold.member_added_by.last_name})
+
+        # # print("dataaaaaaaaa", datas,'___________')
+
+        # datas.sort(key=lambda item:item['created_date'])
+        # print("value of datas -----> not sorted -->",datas)
+        # print(type(datas),"check methods -->",dir(datas))
+        # datas = sorted(datas,key=lambda x : x['created_date'], reverse=True)
+
+        sort_list = []
+        datas = sorted(datas,key=lambda x : x['created_date'], reverse=True)
+        for i in datas:
+            sort_list.append(datetime.strptime(i["created_date"], '%d/%m/%Y %H:%M:%S').strftime('%d/%m/%Y'))
+
+        remove_duplicate = list(set(sort_list))
+        remove_duplicate.sort(key = lambda date: datetime.strptime(date, '%d/%m/%Y'))
+        for da in datas:
+            for i in remove_duplicate:
+                if datetime.strptime(da["created_date"], '%d/%m/%Y %H:%M:%S').strftime('%d/%m/%Y') == i:
+                    da["sort_condition"] = remove_duplicate.index(i)
+
+        datas = sorted(datas,key=lambda x : x['sort_condition'], reverse=True)
+
+        ##### pagination
+        # datas = Paginator(datas, 10)
+        # page1 = datas.page(1)
+        # paginate_dict = {
+        # "data":page1.object_list,
+        # "count":datas.count,
+        # "range":datas.num_pages
+        # }
+        ##### pagination
+        count=len(datas)
+        return Response({'data':datas,'size':count}, status=status.HTTP_201_CREATED)
+
+
+def pathgeneratortoprint(data):
+    if data['is_root_folder']==False:
+        dataa=DataroomFolder.objects.get(id=data['parent_folder'])
+        dataa = DataroomFolderSerializer(dataa)
+        tempp=str(pathgeneratortoprint(dataa.data))+'/'+str(data['name'])
+    else:
+        tempp=str(data['name'])
+
+    return tempp
+
+def build_tree_recursive_index_report(tree, parent, nodes):
+    from . import utils
+    children  = [n for n in nodes if n['parent_folder'] == parent]
+    for child in children:
+        # #print("Childdddddddd-------", child)
+        data = {}
+        data['name'] = child['name']
+        data['id'] = child['id']
+        if child['is_folder'] == True:
+            data['type'] = 'Folder'
+        else:
+            data['type']  = 'File'
+        data['path'] = str(child['path'])
+        data['date'] = child['created_date']
+        data['size'] = child['file_size_mb'] if child['file_size_mb'] != None else 0
+        data['index'] = utils.getIndexes(child)
+        data['children'] = []
+        tree.append(data)
+        build_tree_recursive_index_report(data['children'], child['id'], nodes)
+
+class IndexReportUserWise(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, pk1, format=None):
+        user = request.user
+        dataroom = Dataroom.objects.get(id=pk)
+
+        member = DataroomMembers.objects.filter(member_id=pk1, dataroom_id=pk).first()
+        data=[]
+        if member: 
+                document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+
+
+                from . import utils
+                if document!=None:
+                    for doc in document:
+                        flagg=0            
+
+                        if member.is_la_user == True or member.is_dataroom_admin == True:
+                            flagg=1
+                        else:
+                            # try:
+                            perm_obj = DataroomGroupFolderSpecificPermissions.objects.get(folder_id=doc.id,dataroom_id=pk, dataroom_groups_id=member.end_user_group.first().id)
+                            if perm_obj.is_view_only==True:
+                                    flagg=1
+                        docu = DataroomFolder.objects.get(id = doc.id)
+                        docu_serializer = DataroomFolderSerializer(docu)
+                        datas = docu_serializer.data
+                        datas['index'] = utils.getIndexes(datas)
+                        data.append(datas)
+                        docu1 = DataroomFolder.objects.filter(parent_folder = doc.id, is_deleted=False).order_by('index')
+                        if len(docu1) > 0:
+                            datas = []
+                            data.extend(utils.get_under_fileee(docu1,datas,member))
+        for i in data:
+                i['path']=str(dataroom.dataroom_nameFront)+'/'+str(pathgeneratortoprint(i))
+                # print(i['path'],'&&&&&&&&&&&&&&&&&&&&') 
+        tree = []
+        build_tree_recursive_index_report(tree, None, data)
+        import csv
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="index.csv"'
+        writer = csv.writer(response)
+        users = User.objects.get(id=pk1)
+        dataroom = Dataroom.objects.get(id=pk)
+        # print(users.id)
+        # print(pk)
+        if DataroomOverview.objects.filter(dataroom_id=pk).exists():
+            DataroomOverviewdata=DataroomOverview.objects.filter(dataroom_id=pk).last()
+            indexpermission=DataroomOverviewdata.hide_file_indexing
+        else:
+            indexpermission=True
+
+        header_data, datas = utils.getExcelIndexReportUserWise(tree,[],indexpermission)
+        writer.writerow(["This index report is of "+users.first_name+" "+users.last_name+" ("+users.email+") from _______Dataroom "+dataroom.dataroom_nameFront])
+        writer.writerow(header_data)
+        # new_list = []
+        # for value in datas:
+        #     # #print(type(value),"<===== new_data_for_csv====>",value)
+        #     new_list.append(list(value))
+        # # #print("new_list==========>",new_list)
+        # i=0
+        # for new_value in new_list:
+        #     # #print("new_value=====>",new_value)
+        #     if new_list[i][-1] is not None:
+        #         new_list[i][-1] = dataroom.dataroom_nameFront +'/'+ new_list[i][1] + '/' + new_list[i][-1]
+        #         # new_path = new_list[1][-1].split('/')
+        #     i=i+1
+        # print(new_list,'list________')
+        # # #print("set===>",str(new_list[1][-1]).split('/'))
+        # print("new_path=====>",new_path[-1],new_path[-2],new_path[-3])
+        # new_list[1][-1] = new_path[-3] +'/'+ new_path[-2]+'/'+new_path[-1]
+        # print("updated_list===>",new_list)        
+        writer.writerows(datas)
+        # #print(datas[0][1],"2323=========>",type(datas),datas[1])
+        return response
+
+class DataroomMembersView(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        user = request.user
+        email = request.GET.get('key','')
+        if email!='':
+            email=email.lower()
+            members = DataroomMembers.objects.filter(dataroom_id=pk, is_deleted=False,member__email__icontains=email)
+        else:
+            members = DataroomMembers.objects.filter(dataroom_id=pk, is_deleted=False)
+        serializer = DataroomMembersSerializer(members, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class GetSingleMemberView(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+    def get(self, request, pk, format=None):
+        user = request.user
+        members = DataroomMembers.objects.filter(id=pk, is_deleted=False)
+        serializer = DataroomMembersSerializer(members, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+def build_folder_recursivenew(tree, parent, nodes, user, pk, group_id):
+    # children  = [n for n in nodes if n['parent_folder'] == parent]
+    children=nodes
+    for child in children:
+        print(44444444444444)
+        from . import utils
+        child=utils.getIndexofFolder(child)
+        data = {'perm':{}}
+        data['names']=child['names']
+        data['name'] = child['name']
+        data['id'] = child['id']
+        data['is_folder'] = child['is_folder']
+        data['noaccess_indeterminate'] = False
+        data['view_indeterminate'] = False
+        data['vp_indeterminate'] = False
+        data['vpd_indeterminate'] = False
+        data['upload_indeterminate'] = False
+        data['drm_indeterminate'] = False
+        data['watermarking_indeterminate'] = False
+        data['editor_indeterminate'] = False
+        data['shortcut_indeterminate'] = False
+        try:
+            perm_obj = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=data['id'],dataroom_id=pk, dataroom_groups_id=int(group_id)).last()
+            data['perm']['is_view_only'] = perm_obj.is_view_only
+            data['perm']['is_no_access'] = perm_obj.is_no_access
+            data['perm']['is_view_and_print'] = perm_obj.is_view_and_print
+            data['perm']['is_view_and_print_and_download'] = perm_obj.is_view_and_print_and_download
+            data['perm']['is_upload'] = perm_obj.is_upload
+            data['perm']['is_watermarking'] = perm_obj.is_watermarking
+            data['perm']['is_drm'] = perm_obj.is_drm
+            data['perm']['is_editor'] = perm_obj.is_editor
+            data['perm']['is_access'] = perm_obj.is_access
+            data['perm']['is_shortcut'] = perm_obj.is_shortcut
+        except:
+            data['perm']['is_view_only'] = False
+            data['perm']['is_no_access'] = True
+            data['perm']['is_access'] = False
+            data['perm']['is_view_and_print'] = False
+            data['perm']['is_view_and_print_and_download'] = False
+            data['perm']['is_upload'] = False
+            data['perm']['is_watermarking'] = False
+            data['perm']['is_drm'] = False
+            data['perm']['is_editor'] = False
+            data['perm']['is_shortcut'] = False
+        # data['children'] = []
+        tree.append(data)
+
+class FoldersHierarchyPermissionnew(APIView):
+    # authentication_classes = (TokenAuthentication, )
+    permission_classes = (AllowAny, )
+
+    def get(self, request, pk, format=None):
+        # user = request.user
+        # print('this api  _____________1')
+        user=User.objects.filter(email='harvinndera@gmail.com').last()
+        group_id = request.GET.get('group_id')
+        folderid = request.GET.get('folder_id')
+
+        # #print("Group Id", group_id)
+        if folderid=='0':
+            print(111111111111)
+            document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=True, is_deleted=False).order_by('index')
+        else:
+            print(222222222222)
+            document = DataroomFolder.objects.filter(dataroom_id = pk, is_root_folder=False, parent_folder_id=folderid, is_deleted=False).order_by('index')
+        data = DataroomFolderSerializer(document,many=True).data
+        # data = []
+        # from . import utils
+        # for doc in document:
+        #     docu = DataroomFolder.objects.get(id = doc.id)
+        #     docu_serializer = DataroomFolderSerializer(docu)
+        #     datas = docu_serializer.data
+        #     datas=utils.getIndexofFolder(datas)
+        #     data.append(datas)
+        tree = []
+        print(3333333333333)
+        # fill in tree starting with roots (those with no parent)
+        build_folder_recursivenew(tree, None, data, user, pk, group_id)
+        # print("treee", tree)
+        # print(tree)
+        return Response(tree, status=status.HTTP_201_CREATED)
+
+class DataroomFilesActivity(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, pk1, format=None):
+            user = request.user
+            data = []
+            # print(pk,"pk====>",pk1)
+            # try:
+            print("dataroomid",pk,"user.id",user.id)
+            member = DataroomMembers.objects.filter(dataroom_id=pk,member_id=user.id,is_deleted=False).first()
+            if member.is_dataroom_admin or member.is_la_user:
+                view = FolderView.objects.filter(dataroom_id=pk, folder_id=pk1)
+                view_serializer = FolderViewSerializer(view, many=True).data
+                data.extend(view_serializer)
+                download = FolderDownload.objects.filter(dataroom_id=pk, folder_id=pk1)
+                download_serializer = FolderDownloadSerializer(download, many=True).data
+                data.extend(download_serializer)
+                prints = FolderPrint.objects.filter(dataroom_id=pk, folder_id=pk1)
+                print_serializer = FolderPrintSerializer(prints, many=True).data
+                data.extend(print_serializer)
+
+                folder_copy_data = FolderOrFileCopy.objects.filter(dataroom_id=pk, folder_id=pk1)
+                folder_copy_data_serializer = BulkDataCopyActivitySerializer(folder_copy_data, many=True).data
+                data.extend(folder_copy_data_serializer)
+
+                folder_move_data = FolderOrFileMove.objects.filter(dataroom_id=pk, folder_id=pk1)
+                folder_move_data_serializer = BulkDataActivitySerializer(folder_move_data, many=True).data
+                data.extend(folder_move_data_serializer)
+
+                file_delete_data = FolderDeleteDownload.objects.filter(dataroom_id=pk, folder_id=pk1,folder_id__parent_folder_id__isnull=False)
+                file_delete_data_serializer = FolderDeleteDownloadSerializer(file_delete_data, many=True).data
+                data.extend(file_delete_data_serializer)
+
+                folder_delete_data = FolderDeleteDownload.objects.filter(dataroom_id=pk, folder_id=pk1,folder_id__parent_folder_id__isnull=True)
+                folder_delete_data_serializer = FolderDeleteDownloadSerializer(folder_delete_data, many=True).data
+                data.extend(folder_delete_data_serializer)
+
+                file_drm_data = FolderDrmDownload.objects.filter(dataroom_id=pk, folder_id=pk1)
+                file_drm_data_serializer = FolderDrmDownloadSerializer(file_drm_data, many=True).data
+                data.extend(file_drm_data_serializer)
+
+                bulk_download_list = BulkDownloadFiles.objects.filter(dataroom_id=pk,folder_id=pk1,bulk_event_id__isnull=False)
+                bulk_download_serializer = BulkDataDownloadActivitySerializer(bulk_download_list, many=True).data
+                data.extend(bulk_download_serializer)
+            else:
+                view = FolderView.objects.filter(dataroom_id=pk, folder_id=pk1,user_id=user.id)
+                view_serializer = FolderViewSerializer(view, many=True).data
+                data.extend(view_serializer)
+                download = FolderDownload.objects.filter(dataroom_id=pk, folder_id=pk1,user_id=user.id)
+                download_serializer = FolderDownloadSerializer(download, many=True).data
+                data.extend(download_serializer)
+                prints = FolderPrint.objects.filter(dataroom_id=pk, folder_id=pk1,user_id=user.id)
+                print_serializer = FolderPrintSerializer(prints, many=True).data
+                data.extend(print_serializer)
+
+                folder_copy_data = FolderOrFileCopy.objects.filter(dataroom_id=pk, folder_id=pk1,user_id=user.id)
+                folder_copy_data_serializer = BulkDataCopyActivitySerializer(folder_copy_data, many=True).data
+                data.extend(folder_copy_data_serializer)
+
+                folder_move_data = FolderOrFileMove.objects.filter(dataroom_id=pk, folder_id=pk1,user_id=user.id)
+                folder_move_data_serializer = BulkDataActivitySerializer(folder_move_data, many=True).data
+                data.extend(folder_move_data_serializer)
+
+                file_delete_data = FolderDeleteDownload.objects.filter(dataroom_id=pk, folder_id=pk1,folder_id__parent_folder_id__isnull=False,user_id=user.id)
+                file_delete_data_serializer = FolderDeleteDownloadSerializer(file_delete_data, many=True).data
+                data.extend(file_delete_data_serializer)
+
+                folder_delete_data = FolderDeleteDownload.objects.filter(dataroom_id=pk, folder_id=pk1,folder_id__parent_folder_id__isnull=True,user_id=user.id)
+                folder_delete_data_serializer = FolderDeleteDownloadSerializer(folder_delete_data, many=True).data
+                data.extend(folder_delete_data_serializer)
+
+                file_drm_data = FolderDrmDownload.objects.filter(dataroom_id=pk, folder_id=pk1,user_id=user.id)
+                file_drm_data_serializer = FolderDrmDownloadSerializer(file_drm_data, many=True).data
+                data.extend(file_drm_data_serializer)
+
+                bulk_download_list = BulkDownloadFiles.objects.filter(dataroom_id=pk,folder_id=pk1,bulk_event_id__isnull=False,user_id=user.id)
+                bulk_download_serializer = BulkDataDownloadActivitySerializer(bulk_download_list, many=True).data
+                data.extend(bulk_download_serializer)
+
+            import datetime
+            data.sort(key=lambda r: r['created_date'], reverse=True)
+            return Response(data, status=status.HTTP_201_CREATED)
+            # except Exception as e:
+            #     print("member not found",e)
+            #     return Response(data, status=status.HTTP_400_BAD_REQUEST)
+
+# class DataroomFilesActivity(APIView):
+#     authentication_classes = (TokenAuthentication, )
+#     permission_classes = (IsAuthenticated, )
+
+#     def get(self, request, pk, pk1, format=None):
+#         user = request.user
+#         data = []
+#         # print(pk,"pk====>",pk1)
+#         view = FolderView.objects.filter(dataroom_id=pk, folder_id=pk1)
+#         # #print("this_api====>",view)
+#         # #print("new_data ===>",FolderView.objects.filter(dataroom_id=pk,folder_id=pk1).values())
+#         view_serializer = FolderViewSerializer(view, many=True).data
+#         data.extend(view_serializer)
+#         download = FolderDownload.objects.filter(dataroom_id=pk, folder_id=pk1)
+#         download_serializer = FolderDownloadSerializer(download, many=True).data
+#         data.extend(download_serializer)
+#         prints = FolderPrint.objects.filter(dataroom_id=pk, folder_id=pk1)
+#         print_serializer = FolderPrintSerializer(prints, many=True).data
+#         data.extend(print_serializer)
+
+#         folder_copy_data = FolderOrFileCopy.objects.filter(dataroom_id=pk, folder_id=pk1)
+#         folder_copy_data_serializer = BulkDataCopyActivitySerializer(folder_copy_data, many=True).data
+#         data.extend(folder_copy_data_serializer)
+
+#         folder_move_data = FolderOrFileMove.objects.filter(dataroom_id=pk, folder_id=pk1)
+#         folder_move_data_serializer = BulkDataActivitySerializer(folder_move_data, many=True).data
+#         data.extend(folder_move_data_serializer)
+
+#         file_delete_data = FolderDeleteDownload.objects.filter(dataroom_id=pk, folder_id=pk1,folder_id__parent_folder_id__isnull=False)
+#         file_delete_data_serializer = FolderDeleteDownloadSerializer(file_delete_data, many=True).data
+#         data.extend(file_delete_data_serializer)
+
+#         folder_delete_data = FolderDeleteDownload.objects.filter(dataroom_id=pk, folder_id=pk1,folder_id__parent_folder_id__isnull=True)
+#         folder_delete_data_serializer = FolderDeleteDownloadSerializer(folder_delete_data, many=True).data
+#         data.extend(folder_delete_data_serializer)
+
+#         file_drm_data = FolderDrmDownload.objects.filter(dataroom_id=pk, folder_id=pk1)
+#         file_drm_data_serializer = FolderDrmDownloadSerializer(file_drm_data, many=True).data
+#         data.extend(file_drm_data_serializer)
+
+#         bulk_download_list = BulkDownloadFiles.objects.filter(dataroom_id=pk,folder_id=pk1,bulk_event_id__isnull=False)
+#         bulk_download_serializer = BulkDataDownloadActivitySerializer(bulk_download_list, many=True).data
+#         # for da in bulk_download_serializer:
+#             # da["event"] = "Bulk download"
+#         data.extend(bulk_download_serializer)
+
+#         #print("data_file_activity=====>",data)
+#         import datetime
+#         data.sort(key=lambda r: r['created_date'], reverse=True)
+#         # data.sort(key=lambda r: datetime.datetime.strptime(r['created_date'], '%Y/%d/%m %H:%M:%S'), reverse=True)
+#         # print("value of data ====>",data)
+#         # print("value of data ====>",type(data))
+#         return Response(data, status=status.HTTP_201_CREATED)
+
+
+class SendDocumentUpdate(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        document = DataroomFolder.objects.get(id=pk)
+        # #print("document", document.path)
+        utils.send_notify_to_all_members_regarding_uploaded_file(dataroom_file)
+        return Response(status=status.HTTP_201_CREATED)
+
+
+                # rootfolder_file_name =DataroomFolder.objects.filter(parent_folder=/file['id']).values_list('name',flat=True)
+
+                # print(rootfolder_file_name,"rootfolder_file_name")
+                
+                        # print("in else1")
+                # utils.copy(utils.split_link(file['path']), str(directory_name)+'/')
+                # break
+
+        # file_paths_1 = []
+        # directory_name_array = []
+        # file_paths = []
+        # directory_name_array = ['./'+str(file_name)+'']
+        # os.system("mv -v "+str(directory_name)+" "+str('media/../'))
+
+        # for file_name in directory_name_array:
+        #     if os.path.isdir(file_name):
+        #         print(file_name)
+        #         file_paths_1 = utils.get_all_file_paths(file_name)
+        #         for file in file_paths_1:
+        #             file_paths.append(file)
+                    
+        # zipFileName = utils.randomString2(8)
+        # # writing files to a zipfile 
+        # with ZipFile('media/'+str(zipFileName)+'.zip','w') as zip: 
+        #     # writing each file one by one 
+        #     for file in file_paths:
+        #         zip.write(file)
+        # os.system("rm -r ./"+str(file_name)+"")
+        # # fsize=os.stat('media'+str(file_name).split('.')[1]+'.zip')
+        # fsize=os.path.getsize('media/'+str(zipFileName)+'.zip')/float(1<<20)
+
+
+
+
+
+
+
+
+
+
+
+
+        #   zip_name="MUltiple_Folder_"+str(datetime.now())
+        #   os.mkdir("/home/cdms_backend/cdms2/media/"+zip_name)
+            
+        #   subfolder_files =DataroomFolder.objects.filter(parent_folder__in=root_folder_id,is_root_folder=False,is_folder=False).values_list('path',flat=True)
+            
+        #   for f in (subfolder_files):
+        #       print(f,"f")
+        #       file_name=f.split("/")
+        #       print(file_name)
+        #       block_blob_service.get_blob_to_path(CONTAINER_NAME, f, file_name[-1])
+        #       print("yes")
+        #       with open(file_name[-1], 'rb') as ifh:
+        #           read_data=ifh.read()
+        #           try:
+        #               os.mkdir("/home/cdms_backend/cdms2/media/"+zip_name+"/"+root_folder_name[0])
+        #           except FileExistsError:
+        #               pass
+        #           with open("/home/cdms_backend/cdms2/media/"+zip_name+"/"+root_folder_name[0]+"/"+file_name[-1], 'wb') as fileee:
+        #               fileee.write(read_data)
+        #   import shutil
+        #   zip_name2 = "/home/cdms_backend/cdms2/media/"+zip_name
+        #   directory_name = "/home/cdms_backend/cdms2/media/"+zip_name
+        #   shutil.make_archive(zip_name2, 'zip', directory_name)
+
+        #   zip_filess=(open("/home/cdms_backend/cdms2/media/"+zip_name+'.zip','rb').read())
+        #   response = HttpResponse(zip_filess,content_type="application/zip")
+        #   filen=zip_name+'.zip'
+        #   response["Content-Disposition"] = b'attachment; filename=%s' % filen.encode(encoding="utf-8")
+        #   return response
+        # else:
+        #   print("in not root folder")
+        #   file_id=[]
+        #   for i in data['data']:
+        #       file_id.append(i.get('id'))
+        #   print(file_id,"file_id")
+
+        #   root_folder_name =DataroomFolder.objects.filter(id__in=file_id).values_list('name',flat=True)
+        #   print(root_folder_name,"root_folder_name")
+        #   zip_name="MUltiple_Folder_"+str(datetime.now())
+        #   os.mkdir("/home/cdms_backend/cdms2/media/"+zip_name)
+            
+        #   subfolder_files =DataroomFolder.objects.filter(parent_folder__in=file_id,is_root_folder=False,is_folder=False).values_list('path',flat=True)
+            
+        #   for f in (subfolder_files):
+        #       print(f,"f")
+        #       file_name=f.split("/")
+        #       print(file_name)
+        #       block_blob_service.get_blob_to_path(CONTAINER_NAME, f, file_name[-1])
+        #       print("yes")
+        #       with open(file_name[-1], 'rb') as ifh:
+        #           read_data=ifh.read()
+        #           try:
+        #               os.mkdir("/home/cdms_backend/cdms2/media/"+zip_name+"/"+root_folder_name[0])
+        #           except FileExistsError:
+        #               pass
+        #           with open("/home/cdms_backend/cdms2/media/"+zip_name+"/"+root_folder_name[0]+"/"+file_name[-1], 'wb') as fileee:
+        #               fileee.write(read_data)
+        #   import shutil
+        #   zip_name2 = "/home/cdms_backend/cdms2/media/"+zip_name
+        #   directory_name = "/home/cdms_backend/cdms2/media/"+zip_name
+        #   shutil.make_archive(zip_name2, 'zip', directory_name)
+
+        #   zip_filess=(open("/home/cdms_backend/cdms2/media/"+zip_name+'.zip','rb').read())
+        #   response = HttpResponse(zip_filess,content_type="application/zip")
+        #   filen=zip_name+'.zip'
+        #   response["Content-Disposition"] = b'attachment; filename=%s' % filen.encode(encoding="utf-8")
+        #   return response
+
+
+        
+
+
+
+
+
+# class shortCutDownload(APIView):
+#     authentication_classes = (TokenAuthentication, )
+#     permission_classes = (IsAuthenticated, )
+
+#     def post(self, request, pk, format=None):
+
+#         from constants import constants
+#         base_url = constants.backend_ip
+
+#         docu = DataroomFolder.objects.get(id = pk)
+#         docu_serializer = DataroomFolderSerializer(docu)
+#         datas = docu_serializer.data
+#         file_name = datas.get('name').split('.')
+#         iconFile = 'default.ico'
+#         #print(datas.get('name').split('.')[0])
+#         if datas.get('name'):
+#             iconFile = file_name[len(file_name)-1]+'.ico'
+
+#         if not request.user.is_icon_downloaded:
+#             User.objects.filter(id=request.user.id).update(is_icon_downloaded=True)
+#         file_name = str(request.user.id)+'_'+str(pk)+'.txt'
+
+#         f= open(file_name,"w+")
+
+#         url = 'URL='+str(base_url)+'/file-view/'+str(pk)+'/'+str(request.user.id)+'/'
+
+#         data = ['[InternetShortcut]']
+#         url_file = datas.get('name').split('.')[0].replace(' ','_')
+
+#         icon = "IconFile=%USERPROFILE%\\Downloads\\"+str(url_file)+"\\"+str(iconFile)
+#         icon = icon.replace(" ", "")
+#         data.append(url)
+#         data.append('IconIndex=0')
+#         data.append(icon)
+
+#         for i in data:
+#              f.write("%s\r\n" %(i))
+#         f.close()
+#         os.system("rm -r ./media/shortcut/"+str(url_file))
+#         os.mkdir("./media/shortcut/"+str(url_file))
+#         #print(url_file)
+#         os.system("mv "+file_name+" ./media/shortcut/"+str(url_file)+'/'+str(url_file)+".url")
+#         try:
+#             data = os.system("cp -r ./static/file_icon/"+str(iconFile)+" ./media/shortcut/"+str(url_file)+'/')
+#             #print(data, 3815)
+#         except(OSError, IOError):
+#             os.system("cp -r ./static/file_icon/default.ico ./media/shortcut/"+str(url_file)+'/')
+
+#         os.system("rm -r "+str(settings.MEDIA_ROOT)+'../'+str(url_file)+'/')
+
+#         os.system("mv -v "+str(settings.MEDIA_ROOT)+"shortcut/"+str(url_file)+'/ '+str(settings.MEDIA_ROOT)+'../'+str(url_file)+'/')
+
+#         path = str(settings.MEDIA_ROOT)+'../'+str(url_file)+'/'+str(url_file)+".url"
+#         file_paths = []
+#         file_paths.append('./media/../'+str(url_file)+'/'+str(url_file)+".url")
+#         file_paths.append('./media/../'+str(url_file)+'/'+str(iconFile))
+#         zipFile = url_file
+#         os.system("rm -r "+str(settings.MEDIA_ROOT)+str(zipFile)+'.zip')
+#         result = {}
+#         if os.path.exists(path):
+
+#             with ZipFile('media/'+str(zipFile)+'.zip','w') as zip: 
+#                 # writing each file one by one 
+#                 for file in file_paths:
+#                     zip.write(file)
+
+#             fsize=os.path.getsize('media/'+str(zipFile)+'.zip')/float(1<<20)
+
+#             result = {"size":round(fsize, 2),
+#             "name":str(settings.MEDIA_ROOT)+str(zipFile)+'.zip',
+#             "path":'media/'+str(zipFile)+'.zip'
+#             }
+#         return Response(result, status=status.HTTP_201_CREATED)
+
+
+# def downloadtxt(file_name):
+#     #print("hit ==>",file_name)
+#     file_name_split = file_name.split("/")
+#     if os.path.exists(file_name_split[-1]):
+#         #print("existed =====>")
+#         with open(file_name_split[-1], 'rb') as fh:
+#             #print("fh.read==>",fh.read())
+#             response = HttpResponse(fh.read(), content_type='text/plain')
+#             #print("response =====>",response)
+#             response['Content-Disposition'] = 'inline; filename=' + file_name_split[-1]
+#             # os.remove(url_file+'.url')
+#             return response
+ 
+
+
+
+
+
+
+
+class shortCutDownload(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, pk, format=None):
+
+        from constants import constants
+        import os
+        base_url = constants.backend_ip2
+        # print("the value of pk",pk)
+
+        docu = DataroomFolder.objects.get(id = pk)
+        # print("shotcut dataroom -->",DataroomFolder.objects.filter(id = pk).values())
+
+        docu_serializer = DataroomFolderSerializer(docu)
+        datas = docu_serializer.data
+        file_name = datas.get('name').split('.')
+        iconFile = 'default.ico'
+        #print(datas.get('name').split('.')[0])
+        if datas.get('name'):
+            iconFile = file_name[len(file_name)-1]+'.ico'
+
+        if not request.user.is_icon_downloaded:
+            User.objects.filter(id=request.user.id).update(is_icon_downloaded=True)
+        file_name = str(request.user.id)+'_'+str(pk)+'.txt'
+
+        f= open(file_name,"w+")
+
+        url = 'URL='+str(base_url)+'/file-view/'+str(pk)+'/'+str(request.user.id)+'/'
+
+        data = ['[InternetShortcut]']
+        tempnamereplace=datas.get('name').split('.')[-1]
+
+        url_file = datas.get('name').replace('.'+str(tempnamereplace),'').replace(' ','_')
+
+        # url_file = datas.get('name').split('.')[0].replace(' ','_')
+        # #print('url_file',url_file)
+        # #print('url ------',url)
+        url_file_ext = datas.get('name').split('.')
+        # #print("url_file_ext =====>",url_file_ext[1])
+
+        # icon_path = '/home/cdms_backend/cdms2/static/Doculink_Icon/'
+        # for file_icon in os.listdir(icon_path):
+        #     file_icon_type = file_icon.split('.')
+        #     if file_icon_type[0] == url_file_ext[1]:
+        #         #print("file_icon ==>",file_icon)
+        #         icon_type = file_icon
+
+
+        # icon = "IconFile=%USERPROFILE%\\Downloads\\"+str(url_file)+"\\"+"media"+"\\"+"new_icon_type.ico"
+        # icon = icon.replace(" ", "")
+        data.append(url)
+        # data.append('IconIndex=0')
+        # data.append(icon)
+
+        for i in data:  
+            f.write("%s\r\n" %(i))
+        f.close()
+        # #print("file_name ==>",file_name)
+        # #print("url_file ===>",url_file)
+        # #print("storage_path ===>",settings.MEDIA_ROOT)
+        # #print("data =====>",type(data))
+        # blob_list = container_client.list_blobs()
+        # for blob in blob_list:
+        #     #print("\t" + blob.name)
+        new_filename = file_name.split('.')
+        # icon_path = '/home/cdms_backend/cdms2/static/Doculink_Icon/'
+        # for file_icon in os.listdir(icon_path):
+        #     file_icon_type = file_icon.split('.')
+        #     if file_icon_type[0] == url_file_ext[1]:
+        #         #print("file_icon ==>",file_icon)
+        #         icon_type = file_icon
+        # #print("value of icon_type =====>",icon_type)
+        # copy_file = os.system("cp -r /home/cdms_backend/cdms2/"+file_name+" /home/"+url_file+'.url')
+        # #print("copy_file =====>",copy_file)
+        # data = os.system("cp -r /home/cdms_backend/cdms2/static/Doculink_Icon/"+icon_type+" /home/cdms_backend/cdms2/"+file_name)
+        # #print(data,"=========", 3815)
+        # #print("directory ===>",os.getcwd())
+        # if not os.path.exists("/home/"+url_file+"/"):
+        #     os.mkdir("/home/"+url_file+"/")
+        #     os.makedirs(directory, 0777)
+        #     os.chmod("/home/", 777)
+        #     os.chmod("/home/", 0o777)
+        #     os.mkdir("/home/"+url_file+"/")
+        # new_file_direct = os.mkdir("media"+"/"+url_file+'.url'
+        # #print("new_file_direct =====>",new_file_direct)
+        #print("filename ==>",file_name)
+        # print("/home/cdms_backend/cdms2/"+file_name,"before copy")
+        # print('/home/cdms_backend/cdms2/'+url_file+'.url',"after copy")
+        shutil.copy2("/home/cdms_backend/cdms2/"+file_name, '/home/cdms_backend/cdms2/'+url_file+'.url')
+
+        # file_blob_path = 'media'+'/'+url_file+'/'+url_file+'.url'
+        # import os, uuid, sys
+        # from azure.storage.blob import BlockBlobService, PublicAccess
+        # from azure.storage.file import FileService
+        # try:
+        # Create the BlockBlockService that is used to call the Blob service for the storage account
+            # block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+            # container_name ='docullycontainer'
+            # blob_name = 'new_media'
+            # top_level_container_name = "docullycontainer"
+            # block_blob_service.create_container(container_name)
+            # block_blob_service.set_container_acl(container_name, public_access=PublicAccess.Container)
+            # block_blob_service.create_directory(container_name, 'sampledir')
+            # block_blob_service.create_blob_from_path(container_name,blob_name)
+            # generator = block_blob_service.list_blobs(top_level_container_name)
+            # for blob in generator:
+            #     #print("\t Blob name: " + blob.name)
+            # new_filename = file_name.split('.')
+            # file_blob_path = 'media'+'/'+url_file+'/'+url_file+'.url'
+            # a = block_blob_service.create_blob_from_path(container_name,file_blob_path,'/home/cdms_backend/cdms2/'+file_name)
+            # block_blob_service.create_blob_from_path(container_name,file_blob_path,'/home/cdms_backend/cdms2/'+url_file+'.url')
+            # #print("value of blob =====>",url_file)
+            # block_blob_service.create_blob_from_path(container_name,'media'+'/'+url_file+'/'+icon_type,'/home/cdms_backend/cdms2/static/Doculink_Icon/'+icon_type)
+            # file_size = BlockBlobService.get_blob_properties(block_blob_service,container_name,'media'+'/'+ url_file+'/'+url_file+'.url').properties.content_length
+            # #print("value of file_size ====>",file_size)
+            # block_blob_service.get_blob_to_path(container_name,'media'+'/'+ url_file+'/'+url_file+'.url' , url_file+'.url')
+
+            # if not os.path.exists(''):
+            #     os.makedirs('my_folder')
+            # shutil.copy2("/home/cdms_backend/cdms2/"+url_file+".url", 'media/'+url_file+"_"+".url")
+            # #print("value of file_size =====>",file_size)
+            # #print("value of filename ===>",file_name)
+
+            # shutil.copy2("/home/cdms_backend/cdms2/static/Doculink_Icon/"+icon_type, 'media/new_icon_type.ico')
+            # shutil.copy2("/home/cdms_backend/cdms2/"+file_name, 'media/'+url_file+'.url')
+            # zip_file = url_file
+            # file_paths = []
+            # file_paths.append('media/new_icon_type.ico')
+            # file_paths.append('media/'+ url_file+'.url')
+            # #print("zip_file ======>",zip_file)
+            # if file_size > 0:
+            #     with ZipFile("media/"+str(url_file)+'.zip','w') as zip:
+            #         for file in file_paths:
+            #             zip.write(file)
+
+
+            # block_blob_service.create_blob_from_path(container_name,'media'+'/'+ url_file + url_file+'.zip','media/'+str(url_file)+'.zip')
+            # os.remove('/home/cdms_backend/cdms2/media/'+ url_file+'_'+'.url')
+            # os.remove('/home/cdms_backend/cdms2/media/new_icon_type')
+            # os.remove("/home/cdms_backend/cdms2/media/"+str(url_file)+'.zip')
+            # block_blob_service.create_blob_from_text(container_name,file_name,'hello')
+            # generator = block_blob_service.list_blobs(container_name)
+            # fp = open(file_name, 'ab')
+            # for blob in generator:
+            #     #print("blob",blob)
+            #     b = service.get_blob_to_bytes(container_name, blob.name)
+            #     fp.write(b.content)
+            # fp.flush()
+            # fp.close()
+        # except:
+            # #print("errors")
+
+        # os.system("cp  /home/cdms_backend/cdms2/static/Doculink_Icon/"+icon_type+" /media/"+icon_type)
+        # os.system("cp" +url_file+'.url'+" /media/"+url_file+'.url')
+
+
+        # https://docullystorage.blob.core.windows.net/quickstartblobs/219_13663.txt
+        
+        
+        # file_paths.append('./media/../'+str(url_file)+'/'+str(iconFile))
+
+        # zip_file = url_file
+        # file_paths = []
+        # file_paths.append('/home/cdms_backend/cdms2/static/Doculink_Icon/'+icon_type)
+        # file_paths.append('/home/cdms_backend/cdms2/'+ file_name)
+        # #print("zip_file ======>",zip_file)
+        # file_paths = []
+        # file_paths.append('./media/../'+str(url_file)+'/'+str(url_file)+".url")
+        # file_paths.append('./media/../'+str(url_file)+'/'+str(iconFile))
+        # zipFile = url_file
+        # os.system("rm -r "+str(settings.MEDIA_ROOT)+str(zipFile)+'.zip')
+        # result = {}
+        # #print("============>")
+        # if os.path.exists(path):
+        #     #print("path exists ====>")
+        #     with ZipFile('media/'+str(zipFile)+'.zip','w') as zip: 
+        #         # writing each file one by one 
+        #         for file in file_paths:
+        #             zip.write(file)
+
+        #     fsize=os.path.getsize('media/'+str(zipFile)+'.zip')/float(1<<20)
+
+        #     result = {"size":round(fsize, 2),
+        #     "name":str(settings.MEDIA_ROOT)+str(zipFile)+'.zip',
+        #     "path":'media/'+str(zipFile)+'.zip'
+        #     }
+
+        # if file_size > 0:
+        #     #print("true =====>")
+        #     with ZipFile(str(url_file)+'.zip','w') as zip:
+        #         for file in file_paths:
+        #             zip.write(file)
+
+
+
+
+        # r = requests.get("https://docullystorage.blob.core.windows.net/quickstartblobs/" + file_name)
+        # response = HttpResponse(r.content,content_type='application/octet-stream')
+        # response['Content-Disposition'] = 'inline; filename='+ file_name
+        # # with open('new_'+file_name,'wb') as fh:
+        # #     fh.write(r.content)
+        # #print("response ====>",r.headers)
+
+        # if os.path.exists(file_name):
+        #     with open(file_name, 'rb') as fh:
+        #         #print("file_found ====>",file_name)
+        #         response = HttpResponse()
+        #         response["Content-Disposition"]= "attachment; filename="+ url_file +'.url'
+        #         #print("response ====>",response)
+        #         return response
+        #     raise Http404
+
+        # file_path = "/home/cdms_backend/cdms2" +'/'+ url_file + '.url'
+        # file_wrapper = FileWrapper(open(file_path,'rb'))
+        # file_mimetype = mimetypes.guess_type(file_path)
+        # response = HttpResponse(file_wrapper, content_type=file_mimetype )
+        # response['X-Sendfile'] = file_path
+        # response['Content-Length'] = os.stat(file_path).st_size
+        # response['Content-Disposition'] = 'attachment; filename=%s' % url_file + '.url'
+        # #print("response ====>",response) 
+        # return response
+        #print("file ====>",os.getcwd())
+        # downloadtxt(file_name)
+        file_name_split = file_name.split("/")
+        if os.path.exists(file_name_split[-1]):
+            #print("existed =====>")
+            with open(file_name_split[-1], 'rb') as fh:
+                print("fh.read==>",fh.read())
+        # os.remove(url_file+'.url')
+        # print(url,"url end in api")
+        if url_file and url:
+            FolderDrmDownload.objects.create(user_id=docu.user_id,dataroom_id=docu.dataroom_id,folder_id=pk)
+        result = {"path": url_file + '.url',"text":'[InternetShortcut]'+'\n'+ url}
+        # print(result)
+        return Response(result, status=status.HTTP_201_CREATED)
+
+        # Set the permission so the blobs are public.
+        # storage_path = "https://docullystorage.blob.core.windows.net/docullycontainer/"
+        # os.system("rm -r "+ storage_path+"./media/shortcut/"+str(url_file))
+        # os.mkdir(storage_path +"media/shortcut/"+str(url_file))
+
+        
+        # os.system("mv "+file_name+" ./media/shortcut/"+str(url_file)+'/'+str(url_file)+".url")
+        # try:
+        #     data = os.system("cp -r ./static/file_icon/"+str(iconFile)+" ./media/shortcut/"+str(url_file)+'/')
+        #     #print(data, 3815)
+        # except(OSError, IOError):
+        #     os.system("cp -r ./static/file_icon/default.ico ./media/shortcut/"+str(url_file)+'/')
+
+        # os.system("rm -r "+str(settings.MEDIA_ROOT)+'../'+str(url_file)+'/')
+
+        # os.system("mv -v "+str(settings.MEDIA_ROOT)+"shortcut/"+str(url_file)+'/ '+str(settings.MEDIA_ROOT)+'../'+str(url_file)+'/')
+
+        # path = str(settings.MEDIA_ROOT)+'../'+str(url_file)+'/'+str(url_file)+".url"
+        # file_paths = []
+        # file_paths.append('./media/../'+str(url_file)+'/'+str(url_file)+".url")
+        # file_paths.append('./media/../'+str(url_file)+'/'+str(iconFile))
+        # zipFile = url_file
+        # os.system("rm -r "+str(settings.MEDIA_ROOT)+str(zipFile)+'.zip')
+        # result = {}
+        # #print("============>")
+        # if os.path.exists(path):
+        #     #print("path exists ====>")
+        #     with ZipFile('media/'+str(zipFile)+'.zip','w') as zip: 
+        #         # writing each file one by one 
+        #         for file in file_paths:
+        #             zip.write(file)
+
+        #     fsize=os.path.getsize('media/'+str(zipFile)+'.zip')/float(1<<20)
+
+        #     result = {"size":round(fsize, 2),
+        #     "name":str(settings.MEDIA_ROOT)+str(zipFile)+'.zip',
+        #     "path":'media/'+str(zipFile)+'.zip'
+        #     }
+        # #print("result ====>",result)
+        # return Response(result, status=status.HTTP_201_CREATED)
+@permission_classes((AllowAny, ))
+def downloadfileskey(request, path, user):
+    import PyPDF2
+    if request.method == "GET":
+        user=request.user
+        import os
+        from constants import constants
+        extensions = constants.extensions
+        # print(path,"pathhhh")
+        extension11=os.path.splitext(path)
+        # print(extension11,"extension11")
+        content_type=extension11[-1]
+
+        file_cont_type=extensions[content_type]
+        # print(file_cont_type,"file_cont_type")
+        # print(path,'g+++++++++++++++++++++')
+    
+        from azure.storage.blob import BlockBlobService, PublicAccess
+        block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+        container_name ='docullycontainer'
+        path_name = path.split("/")
+        path_name[-2] = str(path_name[-2]).replace('%20',' ')
+        # print("file_name===>",path_name[-2])
+        pathhh=path.split("/")
+        file_name=pathhh
+        pathoffile=pathhh[3]+"/"+pathhh[-1]
+        # print("name of file --->",pathhh[-1])
+        print(pathoffile,"pathoffile")
+        # print("dataroom_values -->",DataroomFolder.objects.filter(path=pathoffile).values('id','dataroom_id','user_id'))
+        # dataroom_data = DataroomFolder.objects.get(user_id=user.id,path=pathoffile)
+        # print("get_data",dataroom_data.id,"*******",dataroom_data.dataroom_id,)
+        # print("see the data here -->",DataroomFolder.objects.filter(path=pathoffile).values())
+        dataroomid=DataroomFolder.objects.filter(path=pathoffile).values('dataroom_id','user_id')
+
+        print(dataroomid,"dataroomid")
+        room_id_here=dataroomid[0]['dataroom_id']
+        # print(room_id_here,"room_id_here")
+        user_id_here=dataroomid[0]['user_id']
+        # print(user_id_here,"---------",room_id_here)
+        # print("see this data",DataroomFolder.objects.filter(user_id=user_id_here).values())
+        dataroom_data = DataroomFolder.objects.filter(user_id=user_id_here,dataroom_id=room_id_here,path=pathoffile,name=pathhh[-1]).first()
+        # print(room_id_here,"room_id_here")
+        # folder = DataroomFolder.objects.get(id=room_id_here)
+        user_data=User.objects.filter(id=user_id_here).values()
+        # print(user_data,"user_data")
+        member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=room_id_here,is_deleted=False).first()
+        # print(member,"<====== memeber ====>")
+        block_blob_service.get_blob_to_path(container_name, pathoffile, pathhh[-1])
+        # print(block_blob_service.get_blob_to_path(container_name, pathoffile, pathhh[-1]),"blooob")
+        extension=os.path.splitext(pathhh[-1])[-1]
+        # data_of_per=DataroomGroupPermission.objects.filter(dataroom=room_id_here).values("is_doc_as_pdf","is_watermarking","is_excel_as_pdf")
+        watermarkingcheck=True
+        member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=room_id_here,is_deleted=False).first()
+        if member.is_dataroom_admin or member.is_la_user :
+            data_of_per=list(DataroomGroupPermission.objects.filter(dataroom=room_id_here).values("is_doc_as_pdf","is_watermarking","is_excel_as_pdf"))
+            # if member.is_la_user:
+            #     group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.first().id,dataroom=room_id_here).first()
+            #     watermarkingcheck=group_perm.is_watermarking
+            # else:
+            watermarkingcheck=True      
+        else:
+            data_of_per=list(DataroomGroupPermission.objects.filter(dataroom=room_id_here,dataroom_groups=member.end_user_group.first().id).values("is_doc_as_pdf","is_watermarking","is_excel_as_pdf"))
+
+            group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.first().id,dataroom=room_id_here).first()
+
+            watermarkingcheck=group_perm.is_watermarking
+
+
+        # print(data_of_per)
+        # print("see path -->",extension)
+        if data_of_per:
+            data_of_per2=data_of_per[-1]
+        if (extension=='.pdf'):
+            if os.path.exists(pathhh[-1]):
+                from dataroom.serializers import WatermarkingSerializer
+                from dataroom.pdf_watermarking import GeneratePDF
+                # print(user,"useruser")
+                nameee=User.objects.filter(email=user).values('id')
+                # print(nameee,"nameee")
+                watermarking = Watermarking.objects.filter(dataroom_id=int(room_id_here)).order_by('id')
+                for i in watermarking:
+                    i.user_id=nameee[0]['id']
+                # print("watermarking =====>",watermarking)
+                serializer = WatermarkingSerializer(watermarking,many=True)
+                data = serializer.data
+                # print(data,"in download")
+                if data and watermarkingcheck:
+                    from userauth import utils
+                    ip = utils.get_client_ip(request)
+                    # print(room_id_here,"pkk")
+                    GeneratePDF(data,ip,user,room_id_here)
+                    watermarkfile="/home/cdms_backend/cdms2/Admin_Watermark/"+str(room_id_here)+".pdf"
+                    outputfile="/home/cdms_backend/cdms2/downloadpdf/success"+str(room_id_here)+".pdf"
+                    pdf_writer=PyPDF2.PdfFileWriter()
+                    with open(pathhh[-1], 'rb') as fh:
+                        pdf=PyPDF2.PdfFileReader(fh,strict=False)
+                        with open(watermarkfile,'rb') as watermarkfile:
+                            watermarkfile_pdf=PyPDF2.PdfFileReader(watermarkfile,strict=False)
+                            for i in range(pdf.getNumPages()):
+                                p=pdf.getPage(i)
+                                p.mergePage(watermarkfile_pdf.getPage(0))
+                                pdf_writer.addPage(p)
+                            with open(outputfile,'wb') as outputfileeee:
+                                pdf_writer.write(outputfileeee)
+                            with open(outputfile, 'rb') as output:
+                                response = HttpResponse(output.read(), content_type=file_cont_type)
+                                response['Content-Disposition'] = 'inline; filename=' + pathhh[-1]
+                            return response
+                            # print('vhvhvhhhhhhhhhhhhhvhvhvhvhvhjjjjjjjjjjj')
+
+                        raise Http404
+                else:
+                    with open(pathhh[-1], 'rb') as output:
+                        response = HttpResponse(output.read(), content_type="application/pdf")
+                        response['Content-Disposition'] = 'inline; filename=' + pathhh[-1]
+                        os.remove(pathhh[-1])
+                        return response
+        
+        elif ((member.is_la_user== False) and (member.is_dataroom_admin == False)):
+            # data_of_per2=data_of_per[-1]
+
+            # print(data_of_per,data_of_per2,data_of_per2['is_excel_as_pdf'],'RUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU')
+            if ((extension=='.xlsx') or (extension==".xls") or (extension==".csv")) and ((data_of_per2['is_excel_as_pdf']==True)):
+                # print("in xlsx")
+                import os, uuid, sys
+                from azure.storage.blob import BlockBlobService, PublicAccess
+                block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                container_name ='docullycontainer'
+                from pathlib import Path
+                filename1 = Path(file_name[-1])
+                filename_wo_ext = filename1.with_suffix('')
+                # print(filename_wo_ext,'RRRRRRRRRUUUUUUUUUUUUUUUUUUUUUUUU')
+                pdf_filename=str(filename_wo_ext)+".pdf"
+                blobname=file_name[-2]+"/"+pdf_filename
+                # print(blobname,'++++++++++++++++++++++++++++')
+
+                block_blob_service.get_blob_to_path(container_name, blobname,pdf_filename)
+
+                import PyPDF2
+
+                from dataroom.serializers import WatermarkingSerializer
+
+                from dataroom.pdf_watermarking import GeneratePDF
+                                    
+
+                userid=user.id
+                watermarking = Watermarking.objects.filter(dataroom_id=int(room_id_here)).order_by('id')
+                for i in watermarking:
+                    i.user_id=userid
+                serializer = WatermarkingSerializer(watermarking,many=True)
+                data = serializer.data
+                from userauth import utils
+                ip = utils.get_client_ip(request)
+                if data and watermarkingcheck:
+                                        GeneratePDF(data,ip,user,room_id_here)
+                                        watermarkfile="/home/cdms_backend/cdms2/Admin_Watermark/"+str(room_id_here)+".pdf"
+                                        outputfile="/home/cdms_backend/cdms2/dataroom/success.pdf"
+                                        pdf_writer=PyPDF2.PdfFileWriter()
+                                        if (os.path.exists(pdf_filename)):
+                                            with open(pdf_filename, 'rb') as fh:
+                                                pdf=PyPDF2.PdfFileReader(fh)
+                                                with open(watermarkfile,'rb') as watermarkfile:
+                                                    watermarkfile_pdf=PyPDF2.PdfFileReader(watermarkfile)
+                                                    for i in range(pdf.getNumPages()):
+                                                        p=pdf.getPage(i)
+                                                        p.mergePage(watermarkfile_pdf.getPage(0))
+                                                        pdf_writer.addPage(p)
+                                                    with open(outputfile,'wb') as outputfileeee:
+                                                        pdf_writer.write(outputfileeee)
+                                                    with open(outputfile, 'rb') as output:
+                                                        response = HttpResponse(output.read(), content_type="application/pdf")
+                                                        response['Content-Disposition'] = 'inline; filename=' + pdf_filename
+                                                        os.remove(pdf_filename)
+                                                    return response
+                else:
+                                        with open(pdf_filename, 'rb') as output:
+                                            response = HttpResponse(output.read(), content_type="application/pdf")
+                                            response['Content-Disposition'] = 'inline; filename=' + pdf_filename
+                                            os.remove(pdf_filename)
+                                            return response
+
+            elif ((extension=='.docx') or (extension==".doc") or (extension=='.pptx') or (extension==".ppt")) and ((data_of_per2['is_doc_as_pdf']==True)):
+                # print("in xlsx")
+                print("in this condition it is coming -->",extension)
+                import os, uuid, sys
+                from azure.storage.blob import BlockBlobService, PublicAccess
+                block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                container_name ='docullycontainer'
+                from pathlib import Path
+                filename1 = Path(file_name[-1])
+                filename_wo_ext = filename1.with_suffix('')
+                pdf_filename=str(filename_wo_ext)+".pdf"
+                blobname=file_name[-2]+"/"+pdf_filename
+                block_blob_service.get_blob_to_path(container_name, blobname,pdf_filename)
+                import PyPDF2
+
+                from dataroom.serializers import WatermarkingSerializer
+
+                from dataroom.pdf_watermarking import GeneratePDF
+                                    
+
+                userid=user.id
+                watermarking = Watermarking.objects.filter(dataroom_id=int(room_id_here)).order_by('id')
+                for i in watermarking:
+                    i.user_id=userid
+                serializer = WatermarkingSerializer(watermarking,many=True)
+                data = serializer.data
+                from userauth import utils
+                ip = utils.get_client_ip(request)
+                if data and watermarkingcheck:
+                                        GeneratePDF(data,ip,user,room_id_here)
+                                        watermarkfile="/home/cdms_backend/cdms2/Admin_Watermark/"+str(room_id_here)+".pdf"
+                                        outputfile="/home/cdms_backend/cdms2/dataroom/success.pdf"
+                                        pdf_writer=PyPDF2.PdfFileWriter()
+                                        if (os.path.exists(pdf_filename)):
+                                            with open(pdf_filename, 'rb') as fh:
+                                                pdf=PyPDF2.PdfFileReader(fh)
+                                                with open(watermarkfile,'rb') as watermarkfile:
+                                                    watermarkfile_pdf=PyPDF2.PdfFileReader(watermarkfile)
+                                                    for i in range(pdf.getNumPages()):
+                                                        p=pdf.getPage(i)
+                                                        p.mergePage(watermarkfile_pdf.getPage(0))
+                                                        pdf_writer.addPage(p)
+                                                    with open(outputfile,'wb') as outputfileeee:
+                                                        pdf_writer.write(outputfileeee)
+                                                    with open(outputfile, 'rb') as output:
+                                                        response = HttpResponse(output.read(), content_type="application/pdf")
+                                                        response['Content-Disposition'] = 'inline; filename=' + pdf_filename
+                                                        os.remove(pdf_filename)
+                                                    return response
+                else:
+                                        with open(pdf_filename, 'rb') as output:
+                                            response = HttpResponse(output.read(), content_type="application/pdf")
+                                            response['Content-Disposition'] = 'inline; filename=' + pdf_filename
+                                            os.remove(pdf_filename)
+                                            print("download response of pptx coming here")
+                                            return response
+            else:
+                # print("else in not file extention condition")
+                import os, uuid, sys
+                from azure.storage.blob import BlockBlobService, PublicAccess
+                block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                container_name ='docullycontainer'
+                block_blob_service.get_blob_to_path(container_name, pathoffile, pathhh[-1])
+                if os.path.exists(path_name[-1]):
+                    with open(pathhh[-1], 'rb') as fh:
+                        response = HttpResponse(fh.read(), content_type=file_cont_type)
+                        response['Content-Disposition'] = 'inline; filename=' + path_name[-1]
+                        os.remove(path_name[-1])
+                        return response
+        
+        else:
+            # print("else in not admin la and is_superadmin condition")
+            # print(extension)
+            # print("get_data",dataroom_data.id,"*******",dataroom_data.dataroom_id,dataroom_data.user_id)
+            import os, uuid, sys
+            from azure.storage.blob import BlockBlobService, PublicAccess
+            block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+            container_name ='docullycontainer'
+            block_blob_service.get_blob_to_path(container_name, pathoffile, pathhh[-1])
+            dataroom_data = DataroomFolder.objects.get(user_id=user.id,path=pathoffile)
+            if os.path.exists(path_name[-1]):
+                # print("download query",FolderDownload.objects.filter(folder_id=dataroom_data.id,user_id=dataroom_data.user_id,dataroom_id=dataroom_data.dataroom_id).values())
+                FolderDownload.objects.create(folder_id=dataroom_data.id,user_id=dataroom_data.user_id,dataroom_id=dataroom_data.dataroom_id)
+                with open(pathhh[-1], 'rb') as fh:
+                    response = HttpResponse(fh.read(), content_type=file_cont_type)
+                    response['Content-Disposition'] = 'inline; filename=' + path_name[-1]
+                    os.remove(path_name[-1])
+                    return response
+
+
+
+@permission_classes((AllowAny, ))
+def show_download_response(request):
+    import datetime 
+    user = request.user
+    file = request.GET.get('file-name', False)
+    user_detail = User.objects.get(email=request.user)
+    user_name = user_detail.first_name + " " + user_detail.last_name
+    current_time = datetime.datetime.strptime(str(datetime.datetime.now()),"%Y-%m-%d %H:%M:%S.%f").strftime("%Y-%m-%d %H:%M:%S")
+    ###### get the data room id and folder id from frontend ajax call or other option if possible
+    folder_download_activity = list(BulkDownloadFiles.objects.filter(user_id=user.id).values())
+    folder_drm_activity = list(FolderDrmDownload.objects.filter(user_id=user.id).values())
+    return JsonResponse({"full_name":user_name,"time":current_time,"file":file,"Download_list":folder_download_activity,"DrmDownload":folder_drm_activity})
+
+
+
+
+
+
+
+
+
+
+import codecs
+
+# def page(self,request):
+#   return render(request,'pdffile.html')
+
+# class PrivateView(APIView):
+    # authentication_classes = (TokenAuthentication, )
+    # permission_classes = (IsAuthenticated, )
+
+    # def post(self,request):
+    #   dd=request.data['dataaa']
+    #   print(dd,"dddd")
+    #   extension=os.path.splitext(dd)[-1]
+    #   print(extension,"extension")
+    #   DATA=({"extension":extension})
+    #   if extension=='.png':
+    #       return Response(DATA,status=200)
+    #   elif extension=='.pdf':
+    #       print("pdf")
+    #       return render(request, 'file-view.html')
+from datetime import datetime, timedelta
+from azure.storage.blob import (
+    BlockBlobService,
+    ContainerPermissions,
+    BlobPermissions,
+    PublicAccess,
+)
+def PrivateView(request):
+    if request.method=='GET':
+        dpath=request.GET.get('dataaa')
+        # print(dpath,"in class")
+        # print("get")
+        extension=os.path.splitext(str(dpath))[-1]
+        # print(extension,"extension")
+        d="https://docullystorage.blob.core.windows.net/docullycontainer/new_test_8_april_later_1c3978ed-c31e-40fa-821b-1d0fcb222730/new_sample.pdf?se=2020-05-24T18%3A28%3A12Z&sp=r&sv=2018-03-28&sr=b&sig=hZeMvUga1/mzOILLOvg08RYl4qs8kPer5lEgB/6fdjk%3D"
+        dd="https://docullystorage.blob.core.windows.net/docullycontainer/data_room_new_16_april_dbb18eea-14f1-420a-b303-24fd8a7d7c29/testing35.pdf?sp=r&st=2020-06-09T15:06:13Z&se=2020-06-09T23:06:13Z&spr=https&sv=2019-10-10&sr=b&sig=j8jzz8j8xWfTNPWSlEb99lV%2B%2Bh1LqTR83pWObOX%2BSak%3D"
+        AZURE_ACC_NAME = 'docullystorage'
+        AZURE_PRIMARY_KEY = 'ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw=='
+        AZURE_CONTAINER = 'docullycontainer'
+        if extension==".pdf":
+            return render(request, 'pdffile.html',{"data":str(dpath)})
+        elif extension==".docx" or ".doc":
+            from pathlib import Path
+            p = Path(str(dpath))
+            frbl=str(dpath).split("/")
+            # print(frbl,"frbl")
+            filen=frbl[-1]
+            # print(filen,"filen")
+            from pathlib import Path
+            filename1 = Path(filen)
+            filename_wo_ext = filename1.with_suffix('')
+            # print(filename_wo_ext,"filename_wo_ext")
+            from datetime import datetime, timedelta
+            AZURE_BLOB=frbl[4]+"/"+str(filename_wo_ext)+".pdf"
+            block_blob_service = BlockBlobService(account_name=AZURE_ACC_NAME, account_key=AZURE_PRIMARY_KEY)
+            sas_url = block_blob_service.generate_blob_shared_access_signature(AZURE_CONTAINER,AZURE_BLOB,permission=BlobPermissions.READ,expiry= datetime.utcnow() + timedelta(hours=1))
+            finaldoc='https://'+AZURE_ACC_NAME+'.blob.core.windows.net/'+AZURE_CONTAINER+'/'+AZURE_BLOB
+            # print(finaldoc,"finaldoc")
+            return render(request, 'pdffile.html',{"data":finaldoc})
+        elif extension==".pptx" or ".ppt":
+            from pathlib import Path
+            p = Path(str(dpath))
+            frbl=str(dpath).split("/")
+            # print(frbl,"frbl")
+            filen=frbl[-1]
+            # print(filen,"filen")
+            from pathlib import Path
+            filename1 = Path(filen)
+            filename_wo_ext = filename1.with_suffix('')
+            # print(filename_wo_ext,"filename_wo_ext")
+            from datetime import datetime, timedelta
+            AZURE_BLOB=frbl[4]+"/"+str(filename_wo_ext)+".pdf"
+            block_blob_service = BlockBlobService(account_name=AZURE_ACC_NAME, account_key=AZURE_PRIMARY_KEY)
+            sas_url = block_blob_service.generate_blob_shared_access_signature(AZURE_CONTAINER,AZURE_BLOB,permission=BlobPermissions.READ,expiry= datetime.utcnow() + timedelta(hours=1))
+            finaldoc='https://'+AZURE_ACC_NAME+'.blob.core.windows.net/'+AZURE_CONTAINER+'/'+AZURE_BLOB
+            #+'?'+sas_url
+            # print(finaldoc,"finaldoc")
+            return render(request, 'pdffile.html',{"data":finaldoc})
+
+
+# from rest_framework.permissions import AllowAny
+# @permission_classes((AllowAny, ))
+class PrivateView_image(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+    def post(self,request):
+        dpath=request.data['dataaa']
+        # print(dpath,"in class")
+        # print("get")
+        extension=os.path.splitext(str(dpath))[-1]
+        # print(extension,"extension")
+        frbl=str(dpath).split("/")
+        AZURE_BLOB=frbl[4]+"/"+frbl[-1]
+        AZURE_ACC_NAME = 'docullystorage'
+        AZURE_PRIMARY_KEY = 'ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw=='
+        AZURE_CONTAINER = 'docullycontainer'
+        block_blob_service = BlockBlobService(account_name=AZURE_ACC_NAME, account_key=AZURE_PRIMARY_KEY)
+        sas_url = block_blob_service.generate_blob_shared_access_signature(AZURE_CONTAINER,AZURE_BLOB,permission=BlobPermissions.READ,expiry= datetime.utcnow() + timedelta(hours=1))
+        finaldoc='https://'+AZURE_ACC_NAME+'.blob.core.windows.net/'+AZURE_CONTAINER+'/'+AZURE_BLOB+'?'+sas_url
+        return Response(finaldoc)
+# def PrivateView_image(request):
+#   if request.method=='POST':
+        
+
+        #req = urllib.request.urlopen(dd)
+       # charset = req.info().get_content_charset()
+       # content = req.read()
+       # print(type(content))
+       # decoded_data = codecs.encode(content, 'base64')
+        
+        # print(DATA,"DATA")
+        
+# def pdffile()
+
+class bulkdownloadstatuscreate(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    #Rushikesh0033
+    def get(self, request, pk, format=None):
+        from .utils import randomString2
+        user=request.user
+        dataroomdata=Dataroom.objects.filter(id=pk).last()
+        try:
+            lastid=int(BulkDownloadstatus.objects.filter().last().id)+1
+        except:
+            lastid=1
+        randomname = randomString2(5)
+        datetimee=datetime.now()
+        obj=BulkDownloadstatus()
+        obj.user_id=user.id
+        obj.dataroom_id=pk
+        obj.filename=str(dataroomdata.dataroom_name)+str(int(datetimee.timestamp()))+'.zip'
+        obj.save()
+        return Response(obj.id,status=status.HTTP_201_CREATED)
+
+class bulkdownloadrequesrtlist(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    #Rushikesh0033
+    def get(self, request, pk, format=None):
+        user=request.user
+        flagg=0
+        dataobj=BulkDownloadstatus.objects.filter(dataroom_id=pk,user_id=user.id,is_deleted=False).order_by('-id')
+        for i in dataobj:
+            if i.readytodownload==False:
+                flagg=1
+        dataa=BulkDownloadstatus2Serializer(dataobj,many=True).data
+        if flagg==1:
+            flaggg=False
+        else:
+            flaggg=True
+
+        return Response({'data':dataa,'readytodownload':flaggg},status=status.HTTP_201_CREATED)
+
+class bulkdownloadfiles(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    #Rushikesh0033
+    def get(self, request, pk, format=None):
+        user=request.user
+        dataobj=BulkDownloadFiles.objects.filter(batch_id=pk,user_id=user.id)
+        dataa=BulkDownloadFilesSerializer(dataobj,many=True).data
+        return Response(dataa,status=status.HTTP_201_CREATED)
+
+class bulkdownloadpermission(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    #Rushikesh0033
+    def get(self, request, pk, format=None):
+        user=request.user    
+        dataobj=BulkDownloadFiles.objects.filter(batch_id=pk,user_id=user.id).last()
+        if dataobj:
+            flagch=0   
+            member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=dataobj.dataroom.id,is_deleted=False,memberactivestatus=True).first() 
+            if member:   
+                if member.is_la_user or member.is_dataroom_admin:
+                    flagch=1
+                else:
+                    filesdata=BulkDownloadFiles.objects.filter(batch_id=pk,user_id=user.id)
+                    for i in filesdata:
+                        try:
+                            file_permission = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=i.folder.id,dataroom_id=i.dataroom.id, dataroom_groups_id=member.end_user_group.first().id).first()              
+                            if file_permission:
+                                if file_permission.is_view_and_print_and_download==True:
+                                    flagch=1
+                                else:
+                                    flagch=0
+                                    break
+                            else:
+                                flagch=0
+                                break
+                        except:
+                            flagch=0
+                            break
+                if flagch==1:
+                    bulkdataobj=BulkDownloadstatus.objects.filter(id=pk,user_id=user.id).last()
+                    return Response({'download_permission':'True','filedata':bulkdataobj.filename,'msg':'success'},status=status.HTTP_201_CREATED)
+                else:
+                    return Response({'download_permission':'False','filedata':'','msg':'Fail, Permissions changed'},status=status.HTTP_400_BAD_REQUEST)
+
+            else:
+                return Response({'msg':'user is not dataroom member'},status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'msg':'no data found with this user'},status=status.HTTP_400_BAD_REQUEST)
+
+class bulkDownloadfilecount(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+    def post(self, request, pk, format=None):
+        from . import utils
+        user=request.user
+        data = json.loads(request.data)
+        print('___________',data,'_______')
+        count=0
+        size=0
+        for file in data['data']:
+                if 'is_folder' in file:
+                    print('111111111111',count,size)                               
+
+                    if file['is_folder']:
+                            print('222222222222',count,size)                               
+
+                            mergedata=utils.get_sub_listcount(request,file,count,size)
+                            datasplitted=mergedata.split('*')
+                            count=int(datasplitted[0])
+                            size=float(datasplitted[1])
+
+                    if not file['is_folder']:
+                            print('33333333333',count,size)                               
+
+                            mergedata=utils.downloadcount(request,file,count,size)
+                            datasplitted=mergedata.split('*')
+                            count=int(datasplitted[0])
+                            size=float(datasplitted[1])
+                else:
+                    print('7777777777777',count,size)                               
+
+                    if file['folder']['is_folder']:
+                            print('55555555555',count,size)                               
+
+                            mergedata=utils.get_sub_listcount(request,file,count,size)
+                            datasplitted=mergedata.split('*')
+                            count=int(datasplitted[0])
+                            size=float(datasplitted[1])
+
+                    if not file['folder']['is_folder']:
+                            print('666666666666',count,size)                               
+
+                            mergedata=utils.downloadcount(request,file,count,size) 
+                            datasplitted=mergedata.split('*')
+                            count=int(datasplitted[0])
+                            size=float(datasplitted[1])
+        print('4444444444444',count,size)  
+        size="{:.2f}".format(size)                             
+        # BulkDownloadstatus.objects.filter(id=pk,user_id=user.id).update(filecount=count)
+        return Response({'filecount':count,'size':size},status=status.HTTP_201_CREATED)
+
+
+class bulkDownloadtwo(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+    # permission_classes = (AllowAny, )
+
+    # def get(self, request, pk, format=None):
+    #         if request.GET.get('start')=='true':
+    #             user=request.user
+    #             bulk_activity_tracker = BulkActivityTracker()
+    #             bulk_activity_tracker.user_id = user.id
+    #             bulk_activity_tracker.dataroom_id = pk
+    #             bulk_activity_tracker.event=''
+    #             bulk_activity_tracker.save()
+    #             print(bulk_activity_tracker.id,'llllllllllllllllll')
+    #             return Response(bulk_activity_tracker.id, status=status.HTTP_201_CREATED)
+    #         elif request.GET.get('status')=='true':
+    #             dataa=BulkActivityTracker.objects.filter(id=pk).last()
+    #             return Response(dataa.event, status=status.HTTP_201_CREATED)
+    #         else:
+    #             return Response('', status=status.HTTP_400_BAD_REQUEST)
+
+
+            # else:
+            #     BulkActivityTracker.objects.filter(id=pk).update(event='bulk_event_tracker')
+            #     return Response('success', status=status.HTTP_201_CREATED)
+
+
+
+    def get(self, request, pk, format=None):
+        user=request.user
+        dataobj=BulkDownloadstatus.objects.filter(id=pk,user_id=user.id).last()
+        if dataobj:
+            memberdata=DataroomMembers.objects.filter(member_id=user.id,dataroom_id=dataobj.dataroom.id,is_deleted=False).last()
+            if memberdata:
+                if memberdata.is_dataroom_admin==True or memberdata.is_la_user==True:
+                    BulkDownloadstatus.objects.filter(id=pk,user_id=user.id).update(downloaded=True,downloadedcount=F('downloadedcount')+1)
+                    dataa=BulkDownloadstatusSerializer(dataobj,many=False).data
+                    return Response(dataa, status=status.HTTP_201_CREATED)
+                else:
+                    filesdata=BulkDownloadFiles.objects.filter(dataroom_id=dataobj.dataroom.id,batch_id=pk,user_id=user.id)
+                    for i in filesdata:
+                        file_permission = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=i.folder.id,dataroom_id=dataobj.dataroom.id, dataroom_groups_id=memberdata.end_user_group.first().id).first()              
+                        if file_permission:
+                            if file_permission.is_view_and_print_and_download==True:
+                                pass
+                            else:
+                                return Response('please check file permissions', status=status.HTTP_400_BAD_REQUEST)
+                        else:
+                            return Response('please check file permissions', status=status.HTTP_400_BAD_REQUEST)
+                    dataa=BulkDownloadstatusSerializer(dataobj,many=False).data
+                    return Response(dataa, status=status.HTTP_201_CREATED) 
+
+    def post(self, request, pk, format=None):
+        # print("hello")
+        from . import utils
+        data = json.loads(request.data)
+        # ts = datetime.now().timestamp()
+        # file_name = str(data['token'])+'_'+str(ts).split('.')[0]
+        # print(request.data,'utururruuuuuuuuuuuuuuuuuuuuuu',data, "HHHHHHHHHH")
+        objid=data['statusid']
+        # print(len(data['data']),'lllllllllllllllllll')
+        file_name=str(BulkDownloadstatus.objects.filter(id=objid).last().filename.split('.')[0])
+        print(file_name)
+        BulkDownloadstatus.objects.filter(id=objid).update(failfilecount=int(pk))
+        dataaobj= BulkDownloadstatus.objects.filter(id=objid).last()
+        # print(dataaobj.successfilescount,dataaobj.failfilecount,'pppppppppppppppppp')
+
+        user=request.user
+        if len(data) > 1:
+            bulk_activity_tracker = BulkActivityTracker()
+            bulk_activity_tracker.user_id = user.id
+            bulk_activity_tracker.dataroom_id = data['data'][0]['dataroom']
+            bulk_activity_tracker.save()
+            bulkid = bulk_activity_tracker.id
+        else:
+            bulkid = None
+
+        flagg=1
+        dataindex=True
+
+        member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=data['data'][0]['dataroom'],is_deleted=False,memberactivestatus=True).first()
+        if member.is_la_user or member.is_dataroom_admin:
+            docaspdf=False
+            exelaspdf=False
+            # if member.is_la_user:bulkDownloadtwo
+            #     group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.last().id,dataroom=data['data'][0]['dataroom']).last()
+            #     watermakingcheck=group_perm.is_watermarking
+            # else:
+            # print('1111111111111111111111111')
+            watermakingcheck=True
+            if DataroomOverview.objects.filter(user_id=user.id,dataroom_id=data['data'][0]['dataroom']).exists():
+                dataroom_overview = DataroomOverview.objects.filter(user_id=user.id,dataroom_id=data['data'][0]['dataroom']).first()
+                dataindex=dataroom_overview.hide_file_indexing
+        else:
+            # print('222222222222222222222')
+            group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.last().id,dataroom=data['data'][0]['dataroom']).last()
+            docaspdf=group_perm.is_doc_as_pdf
+            exelaspdf=group_perm.is_excel_as_pdf
+            watermakingcheck=group_perm.is_watermarking
+            indexdata = member.member_added_by
+            if DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=data['data'][0]['dataroom']).exists():
+                dataroom_overview = DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=data['data'][0]['dataroom']).first()
+                dataindex=dataroom_overview.hide_file_indexing
+        dataroomid=data['data'][0]['dataroom']
+        # for i in data['data']:
+        #   if i['is_folder']==True:
+        #       if i['is_view_and_print_and_download']==True:
+        #           flagg=1   
+        #   else:
+        #       if i['perm']['is_view_and_print_and_download']==True:
+        #           flagg=1
+        # print(dataindex,'check this is index')
+        if flagg==1:
+
+
+            dataroomdataa=Dataroom.objects.get(id=data['data'][0]['dataroom'])
+            file_name1 = dataroomdataa.dataroom_nameFront
+
+            os.mkdir('media/'+str(file_name))
+            directory_name = 'media/'+''+str(file_name)+''
+            # print("check bulk data",data['data'])
+            for file in data['data']:
+                # print(file['perm']['is_view_and_print_and_download'])
+                if 'is_folder' in file:
+                    if file['is_folder']:
+                        print(file,'898989898')
+                        if member.is_la_user or member.is_dataroom_admin:
+                            directory = str(directory_name).replace('__',' ')+'/'+str(file['index'])+'__'+str(file['name'])
+                            # print(directory)
+                            # print('2',file['name'])
+
+                            os.mkdir(''+directory+'')
+                            # break
+                            user = request.user
+                            utils.get_sub_listtwo(request,file['id'], directory,file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid,objid)
+
+                        elif file['is_view_and_print_and_download']==True:
+                        ## changed the key giving error
+                        # elif file["perm"]['is_view_and_print_and_download']==True:
+                            directory = str(directory_name).replace('__',' ')+'/'+str(file['index'])+'__'+str(file['name'])
+                            # print(directory)
+                            # print('2',file['name'])
+
+                            os.mkdir(''+directory+'')
+                            # break
+                            user = request.user
+                            utils.get_sub_listtwo(request,file['id'], directory,file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid,objid)
+                            # break
+                    if not file['is_folder']:
+                        if file['perm']['is_view_and_print_and_download']==True:
+                            user = request.user
+                            utils.downloadtwo(request,str(file['path']), str(directory_name)+'/',file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid,objid)
+
+                else:
+                    if file['folder']['is_folder']:
+                        if member.is_la_user or member.is_dataroom_admin:
+                            try:
+                                # print('1',file['folder']['name'])
+                                os.mkdir(str(directory_name)+'/'+str(file['index'])+'__'+str(file['folder']['name']).replace(' ','__'))
+                                # break
+                                user = request.user
+                                utils.get_sub_listtwo(request,file['folder']['id'], str(directory_name)+'/'+str(file['folder']['name']),file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid,objid)
+
+                            except:
+                                print("File Exist")
+                        elif file['folder']['perm']['is_view_and_print_and_download']==True:
+                            try:
+                                # print('1',file['folder']['name'])
+                                os.mkdir(str(directory_name)+'/'+str(file['index'])+'__'+str(file['folder']['name']).replace(' ','__'))
+                                # break
+                                user = request.user
+                                utils.get_sub_listtwo(request,file['folder']['id'], str(directory_name)+'/'+str(file['folder']['name']),file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid,objid)
+
+                            except:
+                                print("File Exist")
+                            # break
+                    if not file['folder']['is_folder']:
+                        if member.is_la_user or member.is_dataroom_admin:
+                            user = request.user
+                            utils.downloadtwo(request,str(file['folder']['path']), str(directory_name)+'/',file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid,objid)                                
+
+                        elif file['folder']['perm']['is_view_and_print_and_download']==True:
+                            user = request.user
+                            utils.downloadtwo(request,str(file['folder']['path']), str(directory_name)+'/',file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid,objid)
+                
+                # BulkDownloadstatus.objects.filter(id=objid).update(successfilescount=F('successfilescount')+1)
+
+                            
+            file_paths_1 = []
+            directory_name_array = []
+            file_paths = []
+            directory_name_array = ['./'+str(file_name)+'']
+            os.system("mv -v "+str(directory_name)+" "+str('media/../'))
+
+            for file_name_1 in directory_name_array:
+                if os.path.isdir(file_name_1):
+                    # print(file_name_1)
+                    file_paths_1 = utils.get_all_file_paths(file_name_1)
+                    for file in file_paths_1:
+                        file_paths.append(file)
+
+
+    #        zipFileName = utils.randomString2(8)
+            #writing files to a zipfile
+            with ZipFile('media/'+str(file_name)+'.zip','w') as zip:
+                # print(file_paths,'PPPPPPPPPPPPPPPPPP')
+                for file in file_paths:
+                    outzipname=str(file).replace('/'+str(file_name),'')
+                    # print(file,'23232323232323gggggggggggggggggggggg')
+                    # print(file,'23232323232323gggggggggggggggggggggg')
+
+                    zip.write(file,outzipname)
+            os.system("rm -r ./"+str(file_name)+"")
+            # print(file_name, "ffffffffffff",str(file_name).split('.'), file_name)
+            # fsize=os.stat('media'+str(file_name).split('.')[0]+'.zip')
+            fsize=os.path.getsize('media/'+str(file_name)+'.zip')/float(1<<20)
+            result = {"size":round(fsize, 2),
+                "name":str(file_name1)+'.zip',
+                "path":'media/'+str(file_name)+'.zip'
+                }
+            BulkDownloadstatus.objects.filter(id=objid).update(readytodownload=True)
+
+            # if result['size'] > 0 and result['path'] is not None:
+            #   # print("enter bulk")
+            #   BulkDownloadFiles.objects.create(user_id=user.id,file_name=result['name'],dataroom_id=data['data'][0]['dataroom'],folder_id=data['data'][0]['id'])
+            # else:
+            #   pass
+            if data['notifyemail']:
+                from_email = settings.DEFAULT_FROM_EMAIL
+                subject='Your Files are Ready to Download on '+str(dataaobj.dataroom.dataroom_nameFront)+' on DocullyVDR.'
+                ctx = {
+                    'user': str(user.first_name)+' '+str(user.last_name),
+                    'Dataroomname': str(dataaobj.dataroom.dataroom_nameFront),
+                }
+                message = get_template('emailer/bulkdownloadnotify.html').render(ctx)
+                msg = EmailMessage(subject, message, to=[user.email], from_email=from_email)
+                msg.content_subtype = 'html'
+                msg.send()
+            print(result,'check this is index')
+            return Response('result', status=status.HTTP_201_CREATED)
+        else:
+            return Response('you have not permission to download selected file', status=status.HTTP_201_CREATED)    
+
+    # def post(self, request, pk, format=None):
+    #     # print("hello")
+    #     from . import utils
+    #     data = json.loads(request.data)
+    #     # data =request.data
+
+    #     print(request.data,'utururruuuuuuuuuuuuuuuuuuuuuu',data, "HHHHHHHHHH")
+    #     user=request.user
+    #     if len(data) > 1:
+    #         bulk_activity_tracker = BulkActivityTracker()
+    #         bulk_activity_tracker.user_id = user.id
+    #         bulk_activity_tracker.dataroom_id = data['data'][0]['dataroom']
+    #         bulk_activity_tracker.event=''
+    #         bulk_activity_tracker.save()
+    #         bulkid = bulk_activity_tracker.id
+    #     else:
+    #         bulkid = None
+    #     # bulkid=data['bulkid']
+
+    #     flagg=1
+    #     dataindex=True
+
+    #     member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=data['data'][0]['dataroom'],is_deleted=False,memberactivestatus=True).first()
+    #     if member.is_la_user or member.is_dataroom_admin:
+    #         docaspdf=False
+    #         exelaspdf=False
+    #         # if member.is_la_user:
+    #         #     group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.last().id,dataroom=data['data'][0]['dataroom']).last()
+    #         #     watermakingcheck=group_perm.is_watermarking
+    #         # else:
+    #         # print('1111111111111111111111111')
+    #         watermakingcheck=True
+
+    #         if DataroomOverview.objects.filter(user_id=user.id,dataroom_id=data['data'][0]['dataroom']).exists():
+    #             dataroom_overview = DataroomOverview.objects.filter(user_id=user.id,dataroom_id=data['data'][0]['dataroom']).first()
+    #             dataindex=dataroom_overview.hide_file_indexing
+    #     else:
+    #         # print('222222222222222222222')
+
+    #         group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.last().id,dataroom=data['data'][0]['dataroom']).last()
+    #         docaspdf=group_perm.is_doc_as_pdf
+    #         exelaspdf=group_perm.is_excel_as_pdf
+    #         watermakingcheck=group_perm.is_watermarking
+    #         indexdata = member.member_added_by
+    #         if DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=data['data'][0]['dataroom']).exists():
+    #             dataroom_overview = DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=data['data'][0]['dataroom']).first()
+    #             dataindex=dataroom_overview.hide_file_indexing
+    #     dataroomid=data['data'][0]['dataroom']
+    #     # for i in data['data']:
+    #     #   if i['is_folder']==True:
+    #     #       if i['is_view_and_print_and_download']==True:
+    #     #           flagg=1   
+    #     #   else:
+    #     #       if i['perm']['is_view_and_print_and_download']==True:
+    #     #           flagg=1
+    #     # print(dataindex,'check this is index')
+    #     if flagg==1:
+    #         ts = datetime.now().timestamp()
+    #         file_name = str(data['token'])+'_'+str(ts).split('.')[0]
+
+    #         dataroomdataa=Dataroom.objects.get(id=data['data'][0]['dataroom'])
+    #         file_name1 = dataroomdataa.dataroom_nameFront
+
+    #         os.mkdir('media/'+str(file_name))
+    #         directory_name = 'media/'+''+str(file_name)+''
+    #         # print("check bulk data",data['data'])
+    #         for file in data['data']:
+    #             # print(file['perm']['is_view_and_print_and_download'])
+    #             if 'is_folder' in file:
+    #                 if file['is_folder']:
+    #                     print(file,'898989898')
+    #                     if member.is_la_user or member.is_dataroom_admin:
+    #                         directory = str(directory_name).replace('__',' ')+'/'+str(file['index'])+'__'+str(file['name'])
+    #                         # print(directory)
+    #                         # print('2',file['name'])
+
+    #                         os.mkdir(''+directory+'')
+    #                         # break
+    #                         user = request.user
+    #                         utils.get_sub_list(request,file['id'], directory,file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+
+    #                     elif file['is_view_and_print_and_download']==True:
+    #                     ## changed the key giving error
+    #                     # elif file["perm"]['is_view_and_print_and_download']==True:
+    #                         directory = str(directory_name).replace('__',' ')+'/'+str(file['index'])+'__'+str(file['name'])
+    #                         # print(directory)
+    #                         # print('2',file['name'])
+
+    #                         os.mkdir(''+directory+'')
+    #                         # break
+    #                         user = request.user
+    #                         utils.get_sub_list(request,file['id'], directory,file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+    #                         # break
+    #                 if not file['is_folder']:
+    #                     if file['perm']['is_view_and_print_and_download']==True:
+    #                         user = request.user
+    #                         utils.download(request,str(file['path']), str(directory_name)+'/',file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+
+    #             else:
+    #                 if file['folder']['is_folder']:
+    #                     if member.is_la_user or member.is_dataroom_admin:
+    #                         try:
+    #                             # print('1',file['folder']['name'])
+    #                             os.mkdir(str(directory_name)+'/'+str(file['index'])+'__'+str(file['folder']['name']).replace(' ','__'))
+    #                             # break
+    #                             user = request.user
+    #                             utils.get_sub_list(request,file['folder']['id'], str(directory_name)+'/'+str(file['folder']['name']),file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+
+    #                         except:
+    #                             print("File Exist")
+    #                     elif file['folder']['perm']['is_view_and_print_and_download']==True:
+    #                         try:
+    #                             # print('1',file['folder']['name'])
+    #                             os.mkdir(str(directory_name)+'/'+str(file['index'])+'__'+str(file['folder']['name']).replace(' ','__'))
+    #                             # break
+    #                             user = request.user
+    #                             utils.get_sub_list(request,file['folder']['id'], str(directory_name)+'/'+str(file['folder']['name']),file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+
+    #                         except:
+    #                             print("File Exist")
+    #                         # break
+    #                 if not file['folder']['is_folder']:
+    #                     if member.is_la_user or member.is_dataroom_admin:
+    #                         user = request.user
+    #                         utils.download(request,str(file['folder']['path']), str(directory_name)+'/',file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)                                
+
+    #                     elif file['folder']['perm']['is_view_and_print_and_download']==True:
+    #                         user = request.user
+    #                         utils.download(request,str(file['folder']['path']), str(directory_name)+'/',file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+
+                            
+    #         file_paths_1 = []
+    #         directory_name_array = []
+    #         file_paths = []
+    #         directory_name_array = ['./'+str(file_name)+'']
+    #         os.system("mv -v "+str(directory_name)+" "+str('media/../'))
+
+    #         for file_name_1 in directory_name_array:
+    #             if os.path.isdir(file_name_1):
+    #                 # print(file_name_1)
+    #                 file_paths_1 = utils.get_all_file_paths(file_name_1)
+    #                 for file in file_paths_1:
+    #                     file_paths.append(file)
+
+
+    # #        zipFileName = utils.randomString2(8)
+    #         #writing files to a zipfile
+    #         with ZipFile('media/'+str(file_name)+'.zip','w') as zip:
+    #             # print(file_paths,'PPPPPPPPPPPPPPPPPP')
+    #             for file in file_paths:
+    #                 outzipname=str(file).replace('/'+str(file_name),'')
+    #                 # print(file,'23232323232323gggggggggggggggggggggg')
+    #                 # print(file,'23232323232323gggggggggggggggggggggg')
+
+    #                 zip.write(file,outzipname)
+    #         os.system("rm -r ./"+str(file_name)+"")
+    #         # print(file_name, "ffffffffffff",str(file_name).split('.'), file_name)
+    #         # fsize=os.stat('media'+str(file_name).split('.')[0]+'.zip')
+    #         fsize=os.path.getsize('media/'+str(file_name)+'.zip')/float(1<<20)
+    #         result = {"size":round(fsize, 2),
+    #             "name":str(file_name1)+'.zip',
+    #             "path":'media/'+str(file_name)+'.zip'
+    #             }
+    #         # if result['size'] > 0 and result['path'] is not None:
+    #         #   # print("enter bulk")
+    #         #   BulkDownloadFiles.objects.create(user_id=user.id,file_name=result['name'],dataroom_id=data['data'][0]['dataroom'],folder_id=data['data'][0]['id'])
+    #         # else:
+    #         #   pass
+    #         print(result,'check this is index')
+    #         # if len(data) > 1:
+    #         #     BulkActivityTracker.objects.filter(id=bulkid).update(event='media/'+str(file_name)+'.zip')
+    #         return Response(result)
+    #     else:
+    #         return Response('you have not permission to download selected file')
+
+
+
+class bulkDownload(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+        data = [{'name':'sanket'}]
+        return Response(data, status=status.HTTP_201_CREATED)
+
+    def post(self, request, pk, format=None):
+        # print("hello")
+        from . import utils
+        data = json.loads(request.data)
+        # data =request.data
+
+        # print(request.data,'utururruuuuuuuuuuuuuuuuuuuuuu',data, "HHHHHHHHHH")
+        user=request.user
+        if len(data) > 1:
+            bulk_activity_tracker = BulkActivityTracker()
+            bulk_activity_tracker.user_id = user.id
+            bulk_activity_tracker.dataroom_id = data['data'][0]['dataroom']
+            bulk_activity_tracker.save()
+            bulkid = bulk_activity_tracker.id
+        else:
+            bulkid = None
+
+        flagg=1
+        dataindex=True
+
+        member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=data['data'][0]['dataroom'],is_deleted=False,memberactivestatus=True).first()
+        if member.is_la_user or member.is_dataroom_admin:
+            docaspdf=False
+            exelaspdf=False
+            # if member.is_la_user:
+            #     group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.last().id,dataroom=data['data'][0]['dataroom']).last()
+            #     watermakingcheck=group_perm.is_watermarking
+            # else:
+            # print('1111111111111111111111111')
+            watermakingcheck=True
+
+            if DataroomOverview.objects.filter(user_id=user.id,dataroom_id=data['data'][0]['dataroom']).exists():
+                dataroom_overview = DataroomOverview.objects.filter(user_id=user.id,dataroom_id=data['data'][0]['dataroom']).first()
+                dataindex=dataroom_overview.hide_file_indexing
+        else:
+            # print('222222222222222222222')
+
+            group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.last().id,dataroom=data['data'][0]['dataroom']).last()
+            docaspdf=group_perm.is_doc_as_pdf
+            exelaspdf=group_perm.is_excel_as_pdf
+            watermakingcheck=group_perm.is_watermarking
+            indexdata = member.member_added_by
+            if DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=data['data'][0]['dataroom']).exists():
+                dataroom_overview = DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=data['data'][0]['dataroom']).first()
+                dataindex=dataroom_overview.hide_file_indexing
+        dataroomid=data['data'][0]['dataroom']
+        # for i in data['data']:
+        #   if i['is_folder']==True:
+        #       if i['is_view_and_print_and_download']==True:
+        #           flagg=1   
+        #   else:
+        #       if i['perm']['is_view_and_print_and_download']==True:
+        #           flagg=1
+        # print(dataindex,'check this is index')
+        if flagg==1:
+            ts = datetime.now().timestamp()
+            file_name = str(data['token'])+'_'+str(ts).split('.')[0]
+
+            dataroomdataa=Dataroom.objects.get(id=data['data'][0]['dataroom'])
+            file_name1 = dataroomdataa.dataroom_nameFront
+
+            os.mkdir('media/'+str(file_name))
+            directory_name = 'media/'+''+str(file_name)+''
+            # print("check bulk data",data['data'])
+            for file in data['data']:
+                # print(file['perm']['is_view_and_print_and_download'])
+                if 'is_folder' in file:
+                    if file['is_folder']:
+                        print(file,'898989898')
+                        if member.is_la_user or member.is_dataroom_admin:
+                            directory = str(directory_name).replace('__',' ')+'/'+str(file['index'])+'__'+str(file['name'])
+                            # print(directory)
+                            # print('2',file['name'])
+
+                            os.mkdir(''+directory+'')
+                            # break
+                            user = request.user
+                            utils.get_sub_list(request,file['id'], directory,file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+
+                        elif file['is_view_and_print_and_download']==True:
+                        ## changed the key giving error
+                        # elif file["perm"]['is_view_and_print_and_download']==True:
+                            directory = str(directory_name).replace('__',' ')+'/'+str(file['index'])+'__'+str(file['name'])
+                            # print(directory)
+                            # print('2',file['name'])
+
+                            os.mkdir(''+directory+'')
+                            # break
+                            user = request.user
+                            utils.get_sub_list(request,file['id'], directory,file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+                            # break
+                    if not file['is_folder']:
+                        if file['perm']['is_view_and_print_and_download']==True:
+                            user = request.user
+                            utils.download(request,str(file['path']), str(directory_name)+'/',file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+
+                else:
+                    if file['folder']['is_folder']:
+                        if member.is_la_user or member.is_dataroom_admin:
+                            try:
+                                # print('1',file['folder']['name'])
+                                os.mkdir(str(directory_name)+'/'+str(file['index'])+'__'+str(file['folder']['name']).replace(' ','__'))
+                                # break
+                                user = request.user
+                                utils.get_sub_list(request,file['folder']['id'], str(directory_name)+'/'+str(file['folder']['name']),file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+
+                            except:
+                                print("File Exist")
+                        elif file['folder']['perm']['is_view_and_print_and_download']==True:
+                            try:
+                                # print('1',file['folder']['name'])
+                                os.mkdir(str(directory_name)+'/'+str(file['index'])+'__'+str(file['folder']['name']).replace(' ','__'))
+                                # break
+                                user = request.user
+                                utils.get_sub_list(request,file['folder']['id'], str(directory_name)+'/'+str(file['folder']['name']),file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+
+                            except:
+                                print("File Exist")
+                            # break
+                    if not file['folder']['is_folder']:
+                        if member.is_la_user or member.is_dataroom_admin:
+                            user = request.user
+                            utils.download(request,str(file['folder']['path']), str(directory_name)+'/',file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)                                
+
+                        elif file['folder']['perm']['is_view_and_print_and_download']==True:
+                            user = request.user
+                            utils.download(request,str(file['folder']['path']), str(directory_name)+'/',file,docaspdf,exelaspdf,dataroomid,dataindex,watermakingcheck,bulkid)
+
+                            
+            file_paths_1 = []
+            directory_name_array = []
+            file_paths = []
+            directory_name_array = ['./'+str(file_name)+'']
+            os.system("mv -v "+str(directory_name)+" "+str('media/../'))
+
+            for file_name_1 in directory_name_array:
+                if os.path.isdir(file_name_1):
+                    # print(file_name_1)
+                    file_paths_1 = utils.get_all_file_paths(file_name_1)
+                    for file in file_paths_1:
+                        file_paths.append(file)
+
+
+    #        zipFileName = utils.randomString2(8)
+            #writing files to a zipfile
+            with ZipFile('media/'+str(file_name)+'.zip','w') as zip:
+                # print(file_paths,'PPPPPPPPPPPPPPPPPP')
+                for file in file_paths:
+                    outzipname=str(file).replace('/'+str(file_name),'')
+                    # print(file,'23232323232323gggggggggggggggggggggg')
+                    # print(file,'23232323232323gggggggggggggggggggggg')
+
+                    zip.write(file,outzipname)
+            os.system("rm -r ./"+str(file_name)+"")
+            # print(file_name, "ffffffffffff",str(file_name).split('.'), file_name)
+            # fsize=os.stat('media'+str(file_name).split('.')[0]+'.zip')
+            fsize=os.path.getsize('media/'+str(file_name)+'.zip')/float(1<<20)
+            result = {"size":round(fsize, 2),
+                "name":str(file_name1)+'.zip',
+                "path":'media/'+str(file_name)+'.zip'
+                }
+            # if result['size'] > 0 and result['path'] is not None:
+            #   # print("enter bulk")
+            #   BulkDownloadFiles.objects.create(user_id=user.id,file_name=result['name'],dataroom_id=data['data'][0]['dataroom'],folder_id=data['data'][0]['id'])
+            # else:
+            #   pass
+            print(result,'check this is index')
+
+            return Response(result)
+        else:
+            return Response('you have not permission to download selected file')
+
+
+
+class bulkresponsecheck(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+
+        return Response(data, status=status.HTTP_201_CREATED)
+
+
+
+class bulkDownloaddrm(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+
+    def post(self, request, pk, format=None):
+        from . import utils
+        # print(request.data,'^^^^^^^^&&&&&&&&&&&&7')
+
+        data = json.loads(request.data)
+        # print(data,'^^^^^^^^&&&&&&&&&&&&7',data['data'])
+
+        user=request.user
+        if len(data) > 1:
+            bulk_activity_tracker = BulkActivityTracker()
+            bulk_activity_tracker.user_id = user.id
+            bulk_activity_tracker.dataroom_id = data['data'][0]['dataroom']
+            bulk_activity_tracker.save()
+            bulkid = bulk_activity_tracker.id
+        else:
+            bulkid = None
+
+        flagg=0
+        dataindex=True
+
+        member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=data['data'][0]['dataroom'],is_deleted=False).first()
+        if member.is_la_user or member.is_dataroom_admin:
+            if DataroomOverview.objects.filter(user_id=user.id,dataroom_id=data['data'][0]['dataroom']).exists():
+                dataroom_overview = DataroomOverview.objects.filter(user_id=user.id,dataroom_id=data['data'][0]['dataroom']).first()
+                dataindex=dataroom_overview.hide_file_indexing
+        else:
+            group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.last().id,dataroom=data['data'][0]['dataroom']).last()
+            indexdata = member.member_added_by
+            if DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=data['data'][0]['dataroom']).exists():
+                dataroom_overview = DataroomOverview.objects.filter(user_id=indexdata,dataroom_id=data['data'][0]['dataroom']).first()
+                dataindex=dataroom_overview.hide_file_indexing
+        dataroomid=data['data'][0]['dataroom']
+        # for i in data['data']:
+        #   if i['is_folder']==True:
+        #       if i['is_drm']==False:
+        #           flagg=1   
+        #   else:
+        #       if i['perm']['is_drm']==False:
+        #           flagg=1
+        if flagg==0:
+            ts = datetime.now().timestamp()
+            file_name = str(data['token'])+'_'+str(ts).split('.')[0]
+
+            dataroomdataa=Dataroom.objects.get(id=data['data'][0]['dataroom'])
+            file_name1 = dataroomdataa.dataroom_nameFront
+
+            os.mkdir('media/'+str(file_name))
+
+            directory_name = 'media/'+''+str(file_name)+''
+            for file in data['data']:
+                if 'is_folder' in file:
+                    if file['is_folder']:
+                        if member.is_la_user or member.is_dataroom_admin:
+                            # print("first condtion")
+                            directory = str(directory_name).replace('__',' ')+'/'+str(file['index'])+'__'+str(file['name'])
+                            # print(directory)
+
+                            os.mkdir(''+directory+'')
+                            # break
+                            user = request.user
+                            utils.get_sub_list_drm(request,file['id'], directory,file,dataroomid,dataindex,bulkid)
+
+                        elif file['is_shortcut']==True:
+                            # print("second condtion")
+                            directory = str(directory_name).replace('__',' ')+'/'+str(file['index'])+'__'+str(file['name'])
+                            # print(directory)
+
+                            os.mkdir(''+directory+'')
+                            user = request.user
+                            utils.get_sub_list_drm(request,file['id'], directory,file,dataroomid,dataindex,bulkid)
+                    
+                    if not file['is_folder']:
+                        if member.is_la_user or member.is_dataroom_admin:
+                            # print("third consition")
+                            user = request.user
+                            utils.download_drm(request,str(file['path']), str(directory_name)+'/',file,dataroomid,dataindex,bulkid)
+
+                        elif file['perm']['is_shortcut']==True:
+                            # print("fourth consition")
+                            user = request.user
+                            utils.download_drm(request,str(file['path']), str(directory_name)+'/',file,dataroomid,dataindex,bulkid)
+                        # break
+                else:
+                    if file['folder']['is_folder']:
+                        if member.is_la_user or member.is_dataroom_admin:
+                            try:
+                                # print('1',file['folder']['name'])
+                                # print("fifth condtion")
+                                user = request.user
+                                os.mkdir(str(directory_name)+'/'+str(file['index'])+'__'+str(file['folder']['name']).replace(' ','__'))
+                                utils.get_sub_list_drm(request,file['folder']['id'], str(directory_name)+'/'+str(file['folder']['name']),file,dataroomid,dataindex,bulkid)
+
+                            except:
+                                print("File Exist")
+
+                        elif file['folder']['is_shortcut']==True:
+                            try:
+                                # print("six condtion")
+                                user = request.user
+                                utils.get_sub_list_drm(request,file['folder']['id'], str(directory_name)+'/'+str(file['folder']['name']),file,dataroomid,dataindex,bulkid)
+                            except:
+                                print("File Exist")
+                    if not file['folder']['is_folder']:
+                        if member.is_la_user or member.is_dataroom_admin:
+                            # print("seventh condition")
+                            user = request.user
+                            utils.download_drm(request,str(file['folder']['path']), str(directory_name)+'/',file,dataroomid,dataindex,bulkid)
+
+                        elif file['folder']['perm']['is_shortcut']==True:
+                            # print("eight condition")
+                            user = request.user
+                            utils.download_drm(request,str(file['folder']['path']), str(directory_name)+'/',file,dataroomid,dataindex,bulkid)
+
+
+            # print('hibelowthis')
+            file_paths_1 = []
+            directory_name_array = []
+            file_paths = []
+            directory_name_array = ['./'+str(file_name)+'']
+            os.system("mv -v "+str(directory_name)+" "+str('media/../'))
+
+            for file_name_1 in directory_name_array:
+                if os.path.isdir(file_name_1):
+                    # print(file_name_1)
+                    file_paths_1 = utils.get_all_file_paths(file_name_1)
+                    for file in file_paths_1:
+                        file_paths.append(file)
+
+
+    #        zipFileName = utils.randomString2(8)
+            #writing files to a zipfile
+            with ZipFile('media/'+str(file_name)+'.zip','w') as zip:
+                # writing each file one by one
+                for file in file_paths:
+                    outzipname=str(file).replace('/'+str(file_name),'')
+
+                    zip.write(file,outzipname)
+            os.system("rm -r ./"+str(file_name)+"")
+            # print(file_name, "ffffffffffff",str(file_name).split('.'), file_name)
+            # fsize=os.stat('media'+str(file_name).split('.')[0]+'.zip')
+            fsize=os.path.getsize('media/'+str(file_name)+'.zip')/float(1<<20)
+            result = {"size":round(fsize, 2),
+                "name":str(file_name1)+'.zip',
+                "path":'media/'+str(file_name)+'.zip'
+                }
+            # print("zip result ------>",result)
+            # if result['size'] > 0 and result['path'] is not None:
+            #   print("enter bulk")
+            #   BulkDownloadFiles.objects.create(user_id=user.id,file_name=result['name'],dataroom_id=data['data'][0]['dataroom'],folder_id=data['data'][0]['id'])
+            # else:
+            #   pass
+            return Response(result, status=status.HTTP_201_CREATED)
+        else:
+            return Response('you have not permission to download selected file', status=status.HTTP_201_CREATED)
+
+
+
+
+class allbulkuploaddata(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, pk, format=None):
+            user=request.user
+            member=DataroomMembers.objects.filter(member_id=user.id, dataroom_id=int(pk),is_deleted=False,memberactivestatus=True).first()
+            if member.is_la_user or member.is_dataroom_admin:
+                bulkstausdata=Bulkuploadstatus.objects.filter(dataroom_id=int(pk))                
+            else:
+                bulkstausdata=Bulkuploadstatus.objects.filter(dataroom_id=int(pk),user_id=user.id)
+            bulkstausdata=BulkuploadstatusSerializer(bulkstausdata,many=True).data          
+            return Response({'bulkstausdata':bulkstausdata}, status=status.HTTP_201_CREATED)
+
+
+class bulkuploadfilecheck(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+
+    def get(self, request, pk, format=None):
+            bulkstausdata=Bulkuploadstatus.objects.get(id=int(pk))
+            bulkstausdata=BulkuploadstatusSerializer(bulkstausdata,many=False).data
+            bulksuccessdata=Folderuploadinbulk.objects.filter(bulkupload__id=int(pk))
+            bulksuccessdata=FolderuploadinbulkSerializer(bulksuccessdata,many=True).data
+            bulkfaildata=Folderfailinbulk.objects.filter(bulkupload__id=int(pk))
+            bulkfaildata=FolderfailinbulkSerializer(bulkfaildata,many=True).data            
+            return Response({'bulkstausdata':bulkstausdata,'bulksuccessdata':bulksuccessdata,'bulkfaildata':bulkfaildata}, status=status.HTTP_201_CREATED)
+
+
+class viewwatermarkdelete(APIView):
+    permission_classes = (AllowAny, )
+    def post(self, request,format=None):
+            tempfileee=request.data
+            frbl=str(tempfileee).split("/")[-1]
+
+            temp_path = os.path.join('media/fileviewcatche', frbl)
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+
+            
+            return Response('Done', status=status.HTTP_201_CREATED)
+
+
+class pdfprintwatermarkk(APIView):
+    permission_classes = (AllowAny, )
+    def get(self, request,pk,pk2,format=None):
+                userid=pk2
+                member=DataroomMembers.objects.filter(dataroom_id=pk,member_id=userid,is_deleted=False).first()
+                path=''
+                # print('ccsdscdcsdcsdc',pk,userid)
+                user=User.objects.get(id=userid)
+                folderdata = DataroomFolder.objects.get(id=request.GET.get('folder'))
+
+                if member:                    
+                                        if member.is_la_user or member.is_dataroom_admin:
+
+                                            watermakingcheck=True
+                                        else:
+                                            group_perm = DataroomGroupPermission.objects.filter(dataroom_groups_id=member.end_user_group.last().id,dataroom=pk).last()
+                                            if group_perm:
+                                                watermakingcheck=group_perm.is_watermarking
+
+                                        userid=pk2      
+                                        watermarking = Watermarking.objects.filter(dataroom_id=int(pk)).order_by('id')
+                                        for i in watermarking:
+                                            i.user_id=userid
+                                        serializer = WatermarkingSerializer(watermarking,many=True)
+                                        data23 = serializer.data
+                                        # print(folderdata.access_path,'909090909099090',watermakingcheck)
+                                        if data23 and watermakingcheck==True:
+                                                                    tempfile='temp'+str(random.randint(0, 10000))
+                                                                    temp_path = os.path.join('media/fileviewcatche', tempfile)
+                                                                    tempfile2=str(folderdata.name.split('.')[-2])+str(random.randint(0, 10000))+'.pdf'
+                                                                    temp_path2 = os.path.join('media/fileviewcatche', tempfile2)
+
+                                                                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==',sas_token = sas_url)
+                                                                    container_name ='docullycontainer'
+                                                                    file_namee = folderdata.path.url.split("/")[-2].replace("%20", " ")+"/"+folderdata.path.url.split("/")[-1].replace("%20", " ")
+                                                                    pathsort2=file_namee[-1].split(".")
+
+                                                                    if pathsort2[-1]=='pptx' or pathsort2[-1]=='docx' or pathsort2[-1]=='ppt' or pathsort2[-1]=='doc':
+                                                                        pathsort2[-1]='pdf'
+                                                                        filename[-1]='pdf'
+                                                                    file_namee[-1]='.'.join(pathsort2)
+                                                                    block_blob_service.get_blob_to_path(container_name, file_namee ,temp_path)
+                                                                    from userauth import utils
+                                                                    ip = utils.get_client_ip(request)
+                                                                    GeneratePDF(data23,ip,user,pk)
+                                                                    watermarkfile="/home/cdms_backend/cdms2/Admin_Watermark/"+str(pk)+".pdf"
+                                                                    outputfile=temp_path2
+                                                                    pdf_writer=PyPDF2.PdfFileWriter()
+                                                                    if (os.path.exists(temp_path)):
+                                                                        with open(temp_path, 'rb') as fh:
+                                                                            pdf=PyPDF2.PdfFileReader(fh)
+                                                                            with open(watermarkfile,'rb') as watermarkfile:
+                                                                                watermarkfile_pdf=PyPDF2.PdfFileReader(watermarkfile)
+                                                                                for i in range(pdf.getNumPages()):
+                                                                                    p=pdf.getPage(i)
+                                                                                    p.mergePage(watermarkfile_pdf.getPage(0))
+                                                                                    pdf_writer.addPage(p)
+                                                                                with open(outputfile,'wb') as outputfileeee:
+                                                                                    pdf_writer.write(outputfileeee)
+                                                                                    os.remove(temp_path)
+                                                                    # print(temp_path2,'oooooooooooooooooo')
+                                                                    path='https://services.docullyvdr.com/projectName/media/fileviewcatche/'+str(tempfile2)
+                                                                    # print('ppppppppppppppppppppppppplllllllllll',tempfile2,'kkkkkkkkkkkkklllllllllllllll')
+
+                return Response(path, status=status.HTTP_201_CREATED)
+
+# class bulkdownloadbuttonpc(APIView):
+#   authentication_classes = (TokenAuthentication, )
+#   permission_classes = (IsAuthenticated, )
+
+#   def get(self, request, pk, format=None):
+#       user=request.user
+#       folderdata=request.GET.get('folderdata')
+#       member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=pk).last()
+#       flag=False
+#       if member.is_la_user or member.is_dataroom_admin or member.is_primary_user:
+#           flag=True
+#       else:
+#           for i in folderdata:
+#               group_perm = DataroomGroupFolderSpecificPermissions.objects.filter(dataroom_groups_id=member.end_user_group.first().id,dataroom_id=pk,folder_id=i).first()
+#               if group_perm.is_view_and_print_and_download:
+#                   flag=True
+
+#       return Response(flag,status=status.HTTP_201_CREATED)
+
+
+
+############################ testing api 
+
+class TestApi(APIView):
+    permission_classes = [permissions.AllowAny]
+
+
+    def post(self,request):
+        pk = request.data['pk']
+        pk1=request.data['pk1']
+        from . import utils
+
+        # import pdb;pdb.set_trace()
+        # #print("dataa --------", pk, pk1)
+        # print("this api is calling")
+
+        activity_list = []
+        context_data = {}
+        from constants import constants
+        base_url = "http://52.172.204.103:8000"
+        frontend_url = "https://services.docullyvdr.com"
+        # frontend_url = "https://services.docullyvdr.com/projectName"
+        data = DataroomFolder.objects.filter(id=pk).first()
+        index_serializer = DataroomFolderSerializer(data, many=False)
+
+        context_data['index']=utils.getIndexes(index_serializer.data)
+
+        current2=datetime.now()
+
+
+        # print(current2,"current2=datetime.now()")
+        folder =  data
+        conversion_path=str(data.path.url)
+        # print(conversion_path,"con path")
+        path = str(data.access_path)
+        #print('path',path)
+        dpath = str(data.access_path)
+        #print('dpath', dpath)
+        docs = False
+        odf = False
+        csv = False
+        pdf = False
+        excel = False
+        psd = False
+        pptx = False
+        png = False
+        message = ''
+        user = User.objects.get(id=pk1)
+        # #print("Group Folder", group_folder)
+        try:
+            member = DataroomMembers.objects.filter(member_id=user.id, dataroom_id=data.dataroom.id).first()
+        except:
+            member = None
+        
+        # #print("dataa --------", data.path)
+        if folder.name.endswith('.odt') or folder.name.endswith('.pdf') or folder.name.endswith('.ods') or folder.name.endswith('.odp'):
+            odf = True
+            path = str(folder.path.url)
+            # #print("path_file_view ======>",path)
+            dpath = path 
+            if folder.name.endswith('.pdf'):
+                pdf = True
+        elif folder.name.endswith('.csv'):
+            csv = True
+            path = str(folder.path.url)
+            dpath = path
+        elif folder.name.endswith('.xlsx') or folder.name.endswith('.xls'):
+            excel = True
+            path = str(folder.path.url)
+            # #print('path_xlsx ====>',path)
+            dpath = path
+            # if folder.conversion_path == '':
+            #     conversion_path = utils.saveConversionPath(folder)
+            #     folder.conversion_path = conversion_path
+            #     folder.save()
+            # conversion_path =  str(folder.conversion_path.url)
+            # #print(conversion_path,99999)
+            # if str(conversion_path)=='/media/This%20file%20is%20not%20supported':
+            #     message ='This file is not supported.'
+            # path = str(folder.path.url)
+            # dpath = path
+            # #print("conversion_path", conversion_path, member.is_dataroom_admin, member.is_la_user)
+
+            # if member.is_end_user:
+            #     if conversion_path.endswith('.pdf'):
+            #         odf = True
+            #         excel = False
+
+        # 
+        elif folder.name.endswith('.docx') or folder.name.endswith('.doc'):
+            # print("in docs condition")
+            docs = True
+            path = str(folder.path.url)
+            dpath = path
+        elif folder.name.endswith('.ppt') or folder.name.endswith('.pptx'):
+            pptx = True
+            path = str(folder.path.url)
+            dpath = path
+            # print(dpath,'pptpathnew')
+            # docx_text_list = []
+            # file = urlopen(dpath).read()
+            # file = BytesIO(file)
+            # document = ZipFile(file)
+            # content = document.read('word/document.xml')
+            # word_obj = BeautifulSoup(content.decode('utf-8'),features="html.parser")
+            # text_document = word_obj.findAll('w:t')
+            # for t in text_document:
+            #     # docx_text = t.text
+            #     docx_text_list.append(t.text)
+            # listToStr = ' '.join([str(elem) for elem in docx_text_list])
+            # context_data['docx_text'] = listToStr
+            # docx = BytesIO(requests.get(dpath).content)
+            # text = docx2txt.process(docx)
+            # #print("text======>",text)
+            # from docx import Document
+            # document = Document(dpath)
+            # for p in document.paragraphs:
+            #     #print("ptext ====>",p.text)
+
+            # r = requests.get(folder.path.url)
+            # #print(type(r.text),"value of r ====>",len(r.text),r.content)
+            # response = HttpResponse(r.content,content_type="application/ms-word")
+            # response['Content-Disposition'] = 'attachment; filename='+ filename
+            # #print("value of response =====>",response)
+            # return response
+            # if folder.conversion_path == '':
+            #     conversion_path = utils.saveConversionPath(folder)
+            #     folder.conversion_path = conversion_path
+            #     folder.save()
+            # path = str(folder.conversion_path.url)
+            # dpath = str(folder.path.url)
+            # conversion_path = str(folder.conversion_path.url
+        elif folder.name.endswith('.psd'):
+            psd = True
+        elif folder.name.endswith('.png'):
+            # #print("entered in png file today")
+            png = True
+            path = str(folder.path.url)
+            dpath = path
+            # #print(png,"============",dpath)
+        else:
+            path = str(folder.path.url)
+            dpath = path
+        # #print("docssssssssss",docs, "odf", odf, "csvvvvvvv", csv)
+        parent_list = []
+        data.parent_folders = []
+        get_root_folder = False
+        folder_id =folder.parent_folder_id
+        while (get_root_folder == False):
+           if folder.is_root_folder == False:
+               folder_obj = DataroomFolder.objects.get(id = folder_id)
+               folder_serializer = DataroomFolderSerializer(folder_obj, many=False)
+               parent_list.append(folder_serializer.data)
+               folder_id = folder_obj.parent_folder_id
+               folder = folder_obj
+           else:
+               get_root_folder = True
+        data.parent_folders = parent_list
+        data.parent_folders.reverse()
+        folders_list = []
+        all_folders = DataroomFolder.objects.filter(dataroom_id=data.dataroom.id).values('id','name', 'parent_folder_id')
+        for allf in all_folders:
+            if allf['parent_folder_id'] == None:
+                allf['parent_folder_id'] = ""
+            folders_list.append(allf)
+        
+
+        if member.is_dataroom_admin == True or member.is_la_user==True:
+            user.is_la_user = True
+            is_upload = True
+            is_download = True
+            is_shortcut = True
+            is_print = True
+        
+            # view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id)
+            # # a=dict(created_date=current2)
+            # view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id)
+            # v1=view_list.last()
+            # v1.created_date=current2
+            # v1.save()
+            # view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id).update(**a)
+            # for i in range(5):
+            #   time.sleep(1)
+            #   print(i,"count")
+            # view_list2 = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id)
+            # print(view_list2,"view_list_database")
+            ### FolderActivityViewSerializer
+
+            # import time
+            # for i in range(10):
+            #   time.sleep(1)
+            #   print(i,"i count")
+
+
+            download_list = FolderDownload.objects.filter(folder_id=data.id, dataroom_id=data.dataroom.id)
+
+            #### FolderActivityDownloadSerializer
+
+            download_serializer = FolderDownloadSerializer(download_list, many=True).data
+            activity_list.extend(download_serializer)
+            print_list = FolderPrint.objects.filter(folder_id=data.id, dataroom_id=data.dataroom.id)
+
+            #### FolderActivityPrintSerializer
+            print_serializer = FolderActivityPrintSerializer(print_list, many=True).data
+            activity_list.extend(print_serializer)
+
+            view_list2 = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id)
+            view_serializer = FolderActivityViewSerializer(view_list2, many=True).data
+            activity_list.extend(view_serializer)
+
+
+            print("file_view_if")
+        else:
+            print("file_view_else")
+            group_folder = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=pk,dataroom_id=data.dataroom.id, dataroom_groups_id=member.end_user_group.first().id).first()    
+            # #print("------", group_folder.folder_id, group_folder.dataroom_groups_id, group_folder.is_view_and_print_and_download, group_folder.is_view_and_print)
+            is_upload = group_folder.is_upload
+            is_download = group_folder.is_view_and_print_and_download
+            is_shortcut = group_folder.is_shortcut
+            is_print = group_folder.is_view_and_print
+            # #print("Member----",member.end_user_group.first().id, pk)
+            group_perm = DataroomGroupPermission.objects.filter(dataroom_id=data.dataroom_id, dataroom_groups_id=member.end_user_group.first().id).first()
+            # #print("group_perm==>", group_perm.is_watermarking)
+            if group_perm.is_watermarking == True:
+                # #print("watermarking permission is True")
+                group_folder = DataroomGroupFolderSpecificPermissions.objects.filter(folder_id=pk,dataroom_id=data.dataroom.id, dataroom_groups_id=member.end_user_group.first().id).first()
+                watermark = Watermarking.objects.filter(dataroom_id=data.dataroom_id)
+                # #print("type ========>",Watermarking.objects.filter(dataroom_id=data.dataroom_id).values())
+                # #print("watermark ==>",Watermarking.objects.filter(dataroom_id=data.dataroom_id).values())
+                # watermark_data = WatermarkingSerializer(watermark,many=True).data
+                # #print("========>",watermark_data)
+                from dataroom import pdf_watermarking
+                # #print("path", "dpath")
+                from userauth import utils
+                ip = utils.get_client_ip(request)
+                # #print("ip====>",ip)
+                if conversion_path.endswith('.pdf'):
+                    # #print("conversion_path ====>",conversion_path)
+                    block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+                    container_name ='docullycontainer'
+                    path_name = conversion_path.split("/")
+                    # print(path_name,"ravi1")
+                    # print( path_name[-2]+'/'+path_name[-1],"ravi2")
+                    # print(path_name[-1],"ravi3")
+                    block_blob_service.get_blob_to_path(container_name, path_name[-2]+'/'+path_name[-1], path_name[-1])
+                    new_path = "/home/cdms_backend/cdms2/"+ path_name[-1]
+                    # #print("new_path======>",new_path)
+                    # pdf_watermarking.GeneratePDF(watermark, group_folder, new_path, ip, user)
+                    # path = str(group_folder.watermarking_file.url)
+                    # #print("value of path =====>",path)
+                    # #print("group_perm.is_doc_as_pdf", group_perm.is_doc_as_pdf)
+                    # if dpath.endswith('.pdf'):
+                    #     dpath = str(group_folder.watermarking_file.url)
+                    #     #print("Grouppp", group_perm.is_excel_as_pdf)
+                    # if group_perm.is_doc_as_pdf == True or group_perm.is_excel_as_pdf == True:
+                        # dpath =str(group_folder.watermarking_file.url)
+                        # #print("Grouppp", group_perm.is_excel_as_pdf)
+                elif conversion_path.endswith('.png') or conversion_path.endswith('.jpg'):
+                    ip = utils.get_client_ip(request)
+
+            # except:
+            #     is_upload = False
+            #     is_download = False
+            #     is_print = False
+        # #print("is_download", is_download, is_upload, is_print)
+
+        qna_list = []
+        if member.is_dataroom_admin == True or member.is_la_user==True:
+            # #print(data.dataroom.id,"<==============>",pk)
+            qna_list_obj = QuestionAnswer.objects.filter(dataroom_id=data.dataroom.id, folder_id=pk)
+            # qna_list_obj = QuestionAnswer.objects.filter()
+            # #print("qna_list_obj=====>",qna_list_obj)
+        else:
+            qna_list_obj = QuestionAnswer.objects.filter(dataroom_id=data.dataroom.id,folder_id=pk, user_id=pk1)
+        for each in qna_list_obj:
+            # if not each.answer or each.final:
+            if not each.answer:
+                # print ("answer:-", each.answer, "/", "final:-", each.final)
+                qna_list.append(each)
+
+        category_list = Categories.objects.filter(dataroom_id=data.dataroom.id).exclude(category_details__user=None)
+        cat_serializer = CategoriesSerializer(category_list, many=True)
+        qna_serializer = QuestionFileViewerAnswerSerializer(qna_list, many=True)
+        for qna in qna_serializer.data:
+            quest = QuestionAnswer.objects.filter(id=qna['id']).first()
+            quest_categ = ManageDataroomCategories.objects.filter(category_id = quest.category_id, dataroom_id=quest.dataroom_id).values_list('user_id', flat=True)
+            categ = ManageDataroomCategories.objects.filter(dataroom_id=quest.dataroom_id).values_list('user_id', flat=True)
+            # #print("========>",quest.dataroom_id,"pk1==>",pk1)
+            member = DataroomMembers.objects.filter(dataroom_id=quest.dataroom_id,member_id=pk1).first()
+            # member = DataroomMembers.objects.filter(dataroom_id=quest.dataroom_id).first()
+            # #print(member.is_q_a_user, categ, user.id)
+            # #print("memeber ====>",member)
+            if member.is_q_a_user == True and  user.id not in categ:
+                # #print("not in")
+                reply = True
+            elif user.id == quest.user.id or user.id in quest_categ:
+                reply = True
+                # #print("in")
+            else:
+                reply = False
+            qna['reply'] = reply
+        # is_end_user
+        # if docs == True:
+        #     is_download == False
+        # import os, uuid, sys
+        # from azure.storage.blob import BlockBlobService, PublicAccess
+
+        # try:
+        # Create the BlockBlockService that is used to call the Blob service for the storage account
+            # block_blob_service = BlockBlobService(account_name='docullystorage', account_key='ddIGey4fa6zz/FnWjMgPm5zN35BgIEDsaY6K18dpTFpkqUAJRD6efPBpXZGdBG8ICnyWWE8Y/PPGZQ0ajUeZTw==')
+            # container_name ='docullycontainer'
+            # #print("value of path =====>",path)
+            # path_split = path.split("/")
+            # #print("path_split ===>",path_split[-2],path_split[-1])
+            # # new_name = '/'+ path_split[-2]+'/'+path_list[-1]
+            # # #print("value of blob name ===>",new_name)
+            # file_size = BlockBlobService.get_blob_properties(block_blob_service,container_name,path_split[-2]+'/'+path_split[-1]).properties.content_length
+            # #print("value of file_size ====>",file_size)
+            # if file_size > 0:
+            #     context_data['path'] = path+'#toolbar=0'
+            # else:
+            #     context_data['path'] = ''
+
+            # #print("value of file_size===>",file_size)
+            # if block_blob_service.exists(container_name, path_list[-1]):
+            #     #print("true")
+            # else:
+            #     pass
+            # https://docullystorage.blob.core.windows.net/docullycontainer/test_dataroom_17_March_33da3675-0289-4480-9350-386ef8f42644/test_1.pdf
+        # except:
+            # #print("errors")
+
+
+        filnn=dpath.split("/")
+        # print(filnn,"filnn")
+        filnnwext=filnn[-1].split(".")
+        doc_list=['doc','docx','ppt','pptx','xlsx','xls','csv','txt']
+        if filnnwext[-1]=='jpg':
+            # print("in if ",filnnwext[-1])
+            # print(filnnwext,"filnnwext")
+            pdf_filename=str(filnnwext[0])+"."+filnnwext[-1]
+            # print(pdf_filename,"pdf_filename")
+            blobname=filnn[-2]+"/"+pdf_filename
+            # print(blobname,"blobname")
+            pdfpath2="https://docullystorage.blob.core.windows.net/docullycontainer/"+blobname+sas_url
+            # print(pdfpath2,"pdfpath")
+            context_data['jpg'] = pdfpath2
+        elif filnnwext[-1]=='jpeg':
+            # print("elif in jpeg")
+            # print("in if ",filnnwext[-1])
+            # print(filnnwext,"filnnwext")
+            pdf_filename=str(filnnwext[0])+"."+filnnwext[-1]
+            # print(pdf_filename,"pdf_filename")
+            blobname=filnn[-2]+"/"+pdf_filename
+            # print(blobname,"blobname")
+            pdfpath2="https://docullystorage.blob.core.windows.net/docullycontainer/"+blobname+sas_url
+            # print(pdfpath2,"pdfpath")
+            context_data['jpeg'] = pdfpath2
+        elif (filnnwext[-1]=='mp4') or (filnnwext[-1]=='mp3'):
+            # print("elif in multi media")
+            # print("in if ",filnnwext[-1])
+            basename = os.path.basename(str(dpath))
+            blobname=filnn[-2]+"/"+basename
+            # print(blobname,"blobname")
+            pdfpath="https://docullystorage.blob.core.windows.net/docullycontainer/"+blobname+sas_url
+            # print(pdfpath,"imagepath")
+            if filnnwext[-1]=='mp3':
+                context_data['mp3'] = pdfpath
+            else:
+                context_data['mp4'] = pdfpath
+        elif (filnnwext[-1] in doc_list):
+            # print("elif in multi ext")
+            # print("in if ",filnnwext[-1])
+            # print(filnnwext,"filnnwext")
+            pdf_filename=str(filnnwext[0])+".pdf"
+            # print(pdf_filename,"pdf_filename")
+            blobname=filnn[-2]+"/"+pdf_filename
+            # print(blobname,"blobname")
+            pdfpath2="https://docullystorage.blob.core.windows.net/docullycontainer/"+blobname+sas_url
+            # print(pdfpath2,"pdfpath")
+            if filnnwext[-1]=='txt':
+                context_data['txtt'] = pdfpath2
+            else:
+                context_data['refpath'] = pdfpath2
+        
+        elif (filnnwext[-1]=='png') or (filnnwext[-1]=='pdf'):
+            basename = os.path.basename(str(dpath))
+            blobname=filnn[-2]+"/"+basename
+            # print(blobname,"blobname")
+            pdfpath="https://docullystorage.blob.core.windows.net/docullycontainer/"+blobname+sas_url
+            # print(pdfpath,"imagepath")
+            context_data['refpath'] = pdfpath
+        dataroom_user_list = DataroomMembers.objects.filter(dataroom_id=data.dataroom_id, member_id=pk1).first()
+        context_data['category_list'] = cat_serializer.data
+        # if qna_serializer.data:
+        #   for i in qna_serializer.data:
+        #       i[]user.avatar.url=str(i.user.avatar.url)+sas_url
+        context_data['qna_list'] = qna_serializer.data#sorted(qna_serializer.data, key=lambda k: k['created_date'], reverse=True)
+        context_data['path'] = str(path)+sas_url+'#toolbar=0'
+        # print(context_data['path'],'this is path we give')
+
+        context_data['dpath'] = dpath+sas_url
+        context_data['all_folders'] = all_folders
+        context_data['folder'] = data
+        context_data['base_url'] = base_url
+        context_data['frontend_url'] = frontend_url
+        context_data['docs'] = docs
+        context_data['odf'] = odf
+        context_data['pdf'] = pdf
+        context_data['csv'] = csv
+        context_data['psd'] = psd
+        context_data['pptx'] = pptx
+        context_data['png'] = png
+        context_data['url'] = "https://services.docullyvdr.com"+'/projectName/file-view/'+str(pk)+'/'+str(pk1)+'/'
+        context_data['excel'] = excel
+        context_data['all_folders'] = folders_list
+        context_data['is_upload']  = is_upload
+        context_data['is_download']  = is_download
+        context_data['is_shortcut']  = is_shortcut
+        context_data['is_print']  = is_print
+        context_data['login_user'] = pk1
+        context_data['message'] = message
+        context_data['dataroom_user_list'] = dataroom_user_list
+        context_data['dataroom_user_list'].member.avatar=str(context_data['dataroom_user_list'].member.avatar.url)+sas_url
+        context_data['user'] = user
+        context_data['pathen'] = urllib.parse.quote(context_data['path'])
+        context_data['pathdownload']=path
+        context_data['pathpptpdf']=context_data['path']
+        context_data['sas_url']=sas_url
+
+        # #print("user_file_viewer ===>",user)
+        getusername(user)
+        # #print("List",activity_list)
+        # if docx_text is not None:
+        #     context_data['docx_text'] = listToStr
+        #     #print("docx_text_list ====>",docx_text_list)
+        # else:
+        #     context_data['docx_text'] = ""
+
+        
+
+        # #print("docx_text_list ====>",docx_text_list)
+        # #print("context_data============>",context_data)
+        activity_list.sort(key=lambda r: r['created_date'], reverse=True)
+        context_data['activity_tracker'] = activity_list
+       # print("List11",activity_list)
+        # print(context_data,"context_data")
+        # print(is_print,'check here')
+
+        if member.is_dataroom_admin == True or member.is_la_user==True:
+            # print(context_data)
+            # print(context_data['path'])
+            # print("if coding")
+            # # print(context_data)
+            # print('Beginning file download with urllib2...')
+            url = context_data['path']
+            r = requests.get(url)
+
+            with open('/home/cdms_backend/cdms2/media/demo5555.pdf', 'wb') as f:
+                f.write(r.content)
+
+            # Retrieve HTTP meta-data
+            # print(r.status_code)
+            # print(r.headers['content-type'])
+            # print(r.encoding)
+
+            context_data['path'] = "http://52.172.204.103:8000/projectName/media/iframehtml.html" 
+            # urllib.request.urlretrieve(url, '/home/cdms_backend/cdms2/media/demo5555.html')
+            
+            ctx = {
+            "link":context_data['path']
+            }
+            message12 = render(request,'iframehtml.html',ctx)
+            message12 = render_to_string('iframehtml.html',ctx)
+            context_data['path'] = message12
+            # print(message12)
+            return Response({"ok":"ok"})
+        else:
+            # print(pk1,"m in else file view")
+            # view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id).last()
+            # a=dict(created_date=current2)
+            # # userid=view_list['user_id']
+            # # print(userid,"")
+            
+            # try:
+            #   view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id)
+            # except TypeError:
+            #   pass
+            # view_list = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id)
+            # v1=view_list.last()
+            # v1.created_date=current2
+            # v1.save()
+
+
+            download_list = FolderDownload.objects.filter(folder_id=data.id, dataroom_id=data.dataroom.id,user_id=pk1)
+
+            #### FolderActivityDownloadSerializer
+
+            download_serializer = FolderDownloadSerializer(download_list, many=True).data
+            activity_list.extend(download_serializer)
+            print_list = FolderPrint.objects.filter(folder_id=data.id, dataroom_id=data.dataroom.id,user_id=pk1)
+
+            #### FolderActivityPrintSerializer
+            print_serializer = FolderActivityPrintSerializer(print_list, many=True).data
+            activity_list.extend(print_serializer)
+
+            view_list2 = FolderView.objects.filter(folder_id=data.id, dataroom_id= data.dataroom.id,user_id=pk1)
+            
+            view_serializer = FolderActivityViewSerializer(view_list2, many=True).data
+            activity_list.extend(view_serializer)
+            
+            activity_list.sort(key=lambda r: r['created_date'], reverse=True)
+            context_data['activity_tracker'] = activity_list
+            # print(context_data,"context_data")
+            # print(view_serializer,"enddddd user")
+            # print(context_data)
+            # print("hello")
+            # print("#######################################################")
+            # print(context_data)
+            
+
+            # print('Beginning file download with urllib2...')
+            # print('Beginning file download with wget module')
+
+            url = context_data['path']
+            
+            return Response(context_data)
+
+
+
+class NotifyUpdate(APIView):
+    permission_classes = [permissions.AllowAny]
+
+
+    def post(self,request):
+        data = request.data
+        print(data)
+        type = data['type']
+        flag = data['flag']
+        context = {}
+        if type == 'dataroom':
+            if flag == 'true' or flag ==True:
+                context['notify'] = True
+            else:
+                context['notify'] = False
+            dataroom_id = data['id']
+            Dataroom.objects.filter(id=dataroom_id).update(**context)
+            context = DataroomSerializer(Dataroom.objects.filter(id=dataroom_id),many=True)
+            return Response(context.data)
+        else:
+            if flag == 'true' or flag ==True:
+                context['notify_recieved'] = True
+            else:
+                context['notify_recieved'] = False
+            user_id = data['id']
+            User.objects.filter(id=user_id).update(**context)
+            context = UserSerializer(User.objects.filter(id=user_id),many=True)
+            return Response(context.data)
+
+        return Response({"ok":"ok"})

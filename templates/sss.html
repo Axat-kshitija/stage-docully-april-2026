@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://js.stripe.com/v3/"></script>
+  <title></title>
+</head>
+<body>
+<form id="payment-form" data-secret="{{ client_secret }}">
+  <div id="payment-element">
+    <!-- Elements will create form elements here -->
+  </div>
+
+  <button id="submit" type="submit">Submit</button>
+</form>
+</body>
+<script type="text/javascript">
+  const stripe = Stripe('pk_test_51NL2YpSDKmPlLj2is6Fyn5vzz2P1yvvDaKvQCvlTe18m6yurYqhEzIX5lhxuWmEibHYutQJlzsMcjhsPwYfmaPeE00gH2M9VUW'); 
+   // const stripe = Stripe('pk_live_51NVV60LnHCqpTJP19JBtzxm2P7e9qqDY6ffsOSsYuvvbkhLcoyQKTKtz3MHGarVZmdPgv3rU6sPHfRbWAfNXlgkC00weLRhJCU');
+
+  const options = {
+  clientSecret: '{{client_secret}}',
+  // Fully customizable with appearance API.
+  // mode: 'payment',
+  // currency: 'inr',
+  // amount: 1099,
+};
+
+// Set up Stripe.js and Elements using the SetupIntent's client secret
+const elements = stripe.elements(options);
+
+// Create and mount the Payment Element
+const paymentElement = elements.create('payment');
+
+paymentElement.mount('#payment-element');
+
+
+
+</script>
+<script type="text/javascript">
+const quantity='{{quantity}}'
+const pk='{{pk}}'
+const flag='{{flag}}'
+const temp='{{temp}}'
+const price='{{price}}'
+const email='{{email}}'
+const cart_id='{{cart_id}}'
+
+const form = document.getElementById('payment-form');
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const {error} = await stripe.confirmSetup({
+    //`Elements` instance that was used to create the Payment Element
+    elements,
+    confirmParams: {
+      return_url: `http://20.198.98.31/projectName/stripetest/${pk}/${cart_id}/${flag}/${temp}/${price}/${quantity}/${email}/`,
+    }
+  });
+
+  if (error) {
+    // This point will only be reached if there is an immediate error when
+    // confirming the payment. Show error to your customer (for example, payment
+    // details incomplete)
+    const messageContainer = document.querySelector('#error-message');
+    messageContainer.textContent = error.message;
+  } else {
+    // Your customer will be redirected to your `return_url`. For some payment
+    // methods like iDEAL, your customer will be redirected to an intermediate
+    // site first to authorize the payment, then redirected to the `return_url`.
+  }
+});
+</script>
+</html>

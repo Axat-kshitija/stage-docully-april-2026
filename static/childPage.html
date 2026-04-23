@@ -1,0 +1,61 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <!-- Metadata -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="description" content="" />
+
+        <!-- Title -->
+        <title>AccuSample</title>
+
+        <!-- Libraries -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+
+        <!-- PrizmCSS -->
+        <link rel="stylesheet" href="/static/css/viewercontrol.css">
+        <!-- <link rel="stylesheet" href="https://pcc-demos.accusoft.com/static/viewer-latest/css/viewer.css"> -->
+        <link rel="stylesheet" href="/static/css/cdms-viewer.css">
+
+        <!-- Inline Stylesheet -->
+        <style>
+            html, body, #main {
+                height:100%;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- #main -->
+        <main id="main">
+        </main>
+
+        <!-- Libraries -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+
+        <!-- PrizmJS -->
+        <script src="/static/js/bundle-cdms.js"></script>
+        <script src="/static/js/jquery.hotkey.min.js"></script>
+        <script src="/static/js/viewercontrol.js"></script>
+        <script src="/static/js/viewer.js"></script>
+
+        <script>
+            var queryStringParameters = new URLSearchParams(location.search.substring(1));
+
+            var viewingSessionId = queryStringParameters.get("viewingSessionId");
+
+            var viewerControl;
+
+            $(document).ready(function() {
+                // Initialize viewer
+                viewerControl = $("#main").pccViewer({
+                    "documentID": viewingSessionId,
+                    "imageHandlerUrl": "https://api.accusoft.com/v2/viewers/proxy",
+                    "language": languageItems,
+                    "template": htmlTemplates
+                }).viewerControl;
+            });
+        </script>
+    </body>
+    </html>

@@ -1,0 +1,83 @@
+
+{% extends 'emailer/base/base.html' %}
+
+
+ {% block context %}
+  <style>
+    
+    p{
+        font-family:'arial';
+        font-size: 14px;
+    }    
+</style>
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+					<p style="font-family:'arial';font-size: 14px;">Dear {{ non_exist.first_name }},</p>
+					<p style="font-family:'arial';font-size: 14px;margin-top: 5px; margin-bottom: 15px; ">
+					<!-- Hi <b>{{sender1.first_name}} {{sender1.last_name}}</b>, -->
+          Welcome to DocullyVDR - secure business document sharing platform. Companies around
+          the world use DocullyVDR platform to easily share, control and track their sensitive business
+          documents.
+          <br>
+          <br>
+          Message from : {{sender1.first_name}} {{sender1.last_name}}
+<!-- You have been invited by  to join <b>{{dataroom.dataroom_nameFront}}</b> dataroom. -->
+	<br>
+  <br>
+  {{custom_msg}}
+  <br>
+  <br>
+
+	<!-- You have been added to Project{{dataroom.dataroom_nameFront}} by {{sender1.first_name}} {{sender1.last_name}} to review & collaborate on project documents. 
+	Click on the link below to login & access Project {{dataroom.dataroom_nameFront}}. -->
+<!-- <br>{{new_data.invitation_link}}<br> -->
+	Your user id - {{non_exist.email}}
+  <br>
+  <br>
+	Click on the link below to activate your account &amp; setup your own unique password.
+
+  <p style="font-family:'arial';font-size: 14px;"> Activate &amp; setup password <a href={{link}}>Activation Link</a></p>
+		</p>
+	 <!--      <p>If you have forgotten your password, click <a href="https://services.docullyvdr.com/#/forget">here</a> to Reset Password </p> -->
+                
+                <p style="font-family:'arial';font-size: 14px;">
+                  This is a one-time use link and will automatically expire after 30 days.
+                </p>
+                
+
+
+				 <!-- <p style="padding-left: 20px; padding-right: 20px;">
+                            
+                            If you need any help, please feel free to visit our HelpDesk <a href="mailto:support@axatcloud.com" style="color:#0cd3f1;">{{site_setting.support_email_id}} or write to us at support@docullyvdr.com 
+                        </p> -->
+                        <p style="font-family:'arial';font-size: 14px;">                            
+                            If you need any help, please feel free to visit our  <a href="https://docullyvdr.zohodesk.com/portal/en/home">HelpDesk</a> or write to us at support@docullyvdr.com 
+                        </p>
+                        <br>
+                        <p style="font-family:arial;font-size: 14px;">Thanks,</p>
+            <p style="font-family:arial;font-size: 14px;">
+            Team DocullyVDR</p>
+
+
+            <div class="" style="text-align: center;">
+              <h4>Docully SaaS Technologies Co. LLC</h4>
+              <p style="color:rgb(0, 89, 251)"><a href="https://www.docully.com">www.docullyvdr.com</a> 
+                  </p>
+
+              <p >If you have received this email in error, please report it to 
+                <a href="mailto:support@docullyvdr.com ">support@docullyvdr.com</a></p>
+
+            </div>
+
+ </div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock %}

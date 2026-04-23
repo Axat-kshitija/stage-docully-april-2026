@@ -1,0 +1,38 @@
+
+
+{% extends 'emailer/base/base.html' %}
+
+
+ {% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">				
+
+        	<p><strong style=" font-weight: 600; color: #4e6e7f; font-size: 16px;">Hi {{ first_name }},</strong></p>
+					<p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">You have successfully created <a href="http://axatcloud.com" target="_blank" style="color:#0cd3f1;">www.axatcloud.com</a> account. Please click on the link below to verify your email address and complete your registration.</p>
+				
+				<p style="padding-left: 20px; padding-right: 20px; padding-top:15px; padding-bottom:15px">
+					<span style="color: #1059ff; word-break: break-all; font-size: 12px;">{{link}}</span>
+				</p>
+			
+				<p style="padding-left: 20px; padding-right: 20px;">
+					<p>If you have any query regarding your account, please contact us at  <a href="mailto:support@axatcloud.com" style="color:#0cd3f1;">support@axatcloud.com</a></p>
+					<p>You can always call us at  <strong style="color: #0cd3f1">(022) 4011 6762</strong> if you have any questions.</a></p>
+				</p>
+			
+				<p align="left" style="font-size:13px; font-weight: 500; padding:20px;">
+					<p style="font-weight: 600; padding:15px 0 0;  margin: 0 0 5px; border-top:1px solid #f1f1f1;">Best regards,</p>
+					<p style="padding: 0; margin: 0 0 5px; color: #7a7a7a">Your AxatCloud Team</p>
+					<p style="padding: 0; margin: 0;"><a href="http://axatcloud.com" target="_blank" style="color:#0cd3f1;">www.axatcloud.com</a></p>
+				</p>
+			</div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock %}

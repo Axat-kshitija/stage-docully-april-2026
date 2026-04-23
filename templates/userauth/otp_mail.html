@@ -1,0 +1,40 @@
+{% extends 'emailer/base/base.html' %}
+
+
+ {% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+                            <p><strong style=" font-weight: 600; color: #4e6e7f; font-size: 16px;">Hello {{first_name}} {{last_name}},</strong></p>
+                            <p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">
+                            	                           
+                                <br/>
+                                The administrator of the data room has restricted the access to the data room by an additional one-time password.<br/><br/>
+                                {{otp}} is your OTP (One Time Password) to access {{name}} on DocullyVDR. This OTP will be valid only for 1 Minute.<br/><br/>
+                                                
+                        <p>                            
+                            If you have any questions or need any assistance, please feel free to contact us at  <a href="mailto:support@docullyvdr.com" >support@docullyvdr.com</a>
+                        </p>
+                    
+            <p>Thanks,</p>
+            <p><span class="context">DocullyVDR</span></p>
+
+            <div class="" style="text-align: center;">
+              <h4>Docully SaaS Technologies Co. LLC</h4>
+              <p style="color:rgb(0, 89, 251)"><a href="https://www.docullyvdr.com">www.docullyvdr.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a></p>
+
+            </div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock %}

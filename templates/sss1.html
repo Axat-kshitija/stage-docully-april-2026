@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://js.stripe.com/v3/"></script>
+  <title></title>
+</head>
+<body>
+<p id='message'></p>
+</body>
+<script>
+const quantity='{{quantity}}'
+const pk='{{pk}}'
+const flag='{{flag}}'
+const temp='{{temp}}'
+const price='{{price}}'
+const email='{{email}}'
+const cart_id='{{cart_id}}'
+  // Initialize Stripe.js using your publishable key
+// const stripe = Stripe('{PUBLISHABLE_KEY}');
+const stripe = Stripe('pk_test_51NL2YpSDKmPlLj2is6Fyn5vzz2P1yvvDaKvQCvlTe18m6yurYqhEzIX5lhxuWmEibHYutQJlzsMcjhsPwYfmaPeE00gH2M9VUW');
+// const stripe = Stripe('pk_live_51NVV60LnHCqpTJP19JBtzxm2P7e9qqDY6ffsOSsYuvvbkhLcoyQKTKtz3MHGarVZmdPgv3rU6sPHfRbWAfNXlgkC00weLRhJCU');
+
+// Retrieve the "setup_intent_client_secret" query parameter appended to
+// your return_url by Stripe.js
+const clientSecret = new URLSearchParams(window.location.search).get(
+  'setup_intent_client_secret'
+);
+
+// Retrieve the SetupIntent
+stripe.retrieveSetupIntent(clientSecret).then(({setupIntent}) => {
+  const message = document.querySelector('#message')
+
+  // Inspect the SetupIntent `status` to indicate the status of the payment
+  // to your customer.
+  //
+  // Some payment methods will [immediately succeed or fail][0] upon
+  // confirmation, while others will first enter a `processing` state.
+  //
+  // [0]: https://stripe.com/docs/payments/payment-methods#payment-notification
+  switch (setupIntent.status) {
+    case 'succeeded': {
+      message.innerText = 'Success! Your payment method has been saved.';
+      window.location=`http://20.198.98.31/projectName/teststripepage/${pk}/${cart_id}/${flag}/${temp}/${price}/${quantity}/${email}/`
+      // const response = fetch(`http://20.198.98.31/projectName/teststripepage/${flag}/${temp}/${price}/${quantity}/`);
+      // const movies = await response.json();
+      // console.log(movies);
+    
+      break;
+    }
+
+    case 'processing': {
+      message.innerText = "Processing payment details. We'll update you when processing is complete.";
+      window.location=`http://20.198.98.31/projectName/teststripepage/${flag}/${temp}/${price}/${quantity}/`
+      // const response = fetch(`http://20.198.98.31/projectName/teststripepage/${flag}/${temp}/${price}/${quantity}/`);
+      // const movies = await response.json();
+      // console.log(movies);
+      break;
+    }
+
+    case 'requires_payment_method': {
+      message.innerText = 'Failed to process payment details. Please try another payment method.';
+
+      // Redirect your user back to your payment page to attempt collecting
+      // payment again
+
+      break;
+    }
+  }
+});
+</script>
+</html>

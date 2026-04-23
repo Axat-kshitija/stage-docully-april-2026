@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url> <loc>https://www.analyzemarkets.com/</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/intelligence</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/intelligence/:name</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/intelligence/markets/:markets</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/intelligence/region/:region</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/auth</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/podcasts</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/newsletters</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/app</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/about-us</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/contact</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/extends/terms-of-use</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/privacy-policy</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/trademarks</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/subscribe</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/signin</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/terms-of-use</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/advertise</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/careers</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/forgot-password</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/search-press-release</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/en/submit-wire</loc> </url>
+<url> <loc>https://www.analyzemarkets.com/</loc> </url>
+</urlset>

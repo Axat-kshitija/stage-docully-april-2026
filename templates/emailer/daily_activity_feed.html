@@ -1,0 +1,83 @@
+{% extends 'emailer/base/base.html' %}
+
+ {% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">					
+		<p>Dear {{ user.first_name }}  {{ user.last_name }},</p>
+		<p>This is your daily activity summary across different projects hosted on Docully.</p>
+    <p>{{ dataroom_name }} - Total new documents {{ count }} - (size)<a href="https://services.docullyvdr.com/#/documents">View all</a></p>
+    <table border="1">
+  {% if upload_data_permission%}
+  <tr>
+    <th>S.No</th>
+    <th>Name of the document</th>
+    <th>Event</th>
+    <th>Action</th>
+  </tr>
+  
+  {% for i in upload_data %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ i.folder.name }} in {{ i.dataroom.dataroom_name }}</td>
+    <td>Upload</td>
+    <td><a href="https://services.docullyvdr.com/projectName/file-view/{{ i.folder.id }}/{{ i.user.id }}/">View</a></td>
+  </tr>
+  <tr>
+    {% endfor %}
+    {% for i in upload_data1 %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ i.folder.name }} in {{ i.dataroom.dataroom_name }}</td>
+    <td>Upload</td>
+    <td><a href="https://services.docullyvdr.com/projectName/file-view/{{ i.folder.id }}/{{ i.user.id }}/">View</a></td>
+  </tr>
+  <tr>
+    {% endfor %}
+    {% endif %}
+</table>
+<table border="1">
+  {% if qna_permission%}
+  <tr>
+    <th>Total Questions</th>
+    <th>Answered</th>
+    <th>Pending</th>
+    <th>Action</th>
+  </tr>
+  <tr>
+    <td>{{ qna_data.total_questions }}</td>
+    <td>{{ qna_data.total_answer }}</td>
+    <td>{{ qna_data.pending }}</td>
+    <td>View</td>
+  </tr>
+  {% endif %}
+</table>
+    <table border="1">
+  <tr>
+    <th>S.No</th>
+    <th>Project Name</th>
+    <th>Storage Quota as per plan (MB)</th>
+    <th>Current Storage (MB)</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>{{ dataroom_name }}</td>
+    <td>{{ total_dataroom_storage }}</td>
+    <td>{{ totaldataroomcosumed }}</td>
+  </tr>
+  <tr>
+</table>
+
+    <p>Login to <a href="https://services.docullyvdr.com/#/login">Docully</a></p>
+    <p>Your user id - {{ user.email }}</p>
+    <p>Password - Use your existing password. If you have forgotten your password, click here to <a href="https://services.docullyvdr.com/#/forget">Reset Password</a></p>
+		<p>If you need any help, please feel free to visit our <a href="https://docully.freshdesk.com/support/solutions">HelpDesk</a> or write to us at <a href="mailto:support@docullyvdr.com"> support@docullyvdr.com.</p>
+    {% include "emailer/address.html" %}
+    </div>		
+    </div>
+    </div>       
+    </div>
+    </div>
+    </div>    
+
+{% endblock context %}

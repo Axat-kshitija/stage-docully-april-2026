@@ -1,0 +1,996 @@
+This Bulk Download report is of varun kkkkk (varun.k@axat-tech.com) from _______Dataroom Vizcom
+Index,Name,Size(in MB),Date Time,Path,Download Status
+1.1.1.0.9,3 Microsoft Excel Worksheet-Demo.csv,0.001,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/3 Microsoft Excel Worksheet-Demo.csv,Success
+1.0.2,17.3.0.5 43.0.5 4 Demo Microsoft PowerPoint Presentation.pptx,3.627,10-09-2024 11:40:26,Vizcom/clienttest1/17.3.0.5 43.0.5 4 Demo Microsoft PowerPoint Presentation.pptx,Success
+1.0.3,17.3.0.4 43.0.3 3 Demo Microsoft Word Document.docx,0.032,10-09-2024 11:40:29,Vizcom/clienttest1/17.3.0.4 43.0.3 3 Demo Microsoft Word Document.docx,Success
+1.0.4,17.3.0.3 43.0.4 4 Demo Microsoft PowerPoint Presentation pdf.pdf,0.53,10-09-2024 11:40:30,Vizcom/clienttest1/17.3.0.3 43.0.4 4 Demo Microsoft PowerPoint Presentation pdf.pdf,Success
+1.0.5,2.0.3pdf-test.pdf,0.02,10-09-2024 11:40:31,Vizcom/clienttest1/2.0.3pdf-test.pdf,Success
+1.0.26,cloud-storage.png,0.024,10-09-2024 11:40:32,Vizcom/clienttest1/cloud-storage.png,Success
+1.0.27,logo.png,0.015,10-09-2024 11:40:32,Vizcom/clienttest1/logo.png,Success
+1.0.28,new_logo_favicon.png,0.004,10-09-2024 11:40:32,Vizcom/clienttest1/new_logo_favicon.png,Success
+2.2.0.2,17.3.0.25 istockphoto-1419410282-1024x1024.jpg,0.175,10-09-2024 11:40:33,Vizcom/Sample folder/bbb/17.3.0.25 istockphoto-1419410282-1024x1024.jpg,Success
+2.2.0.3,17.3.0.24 istockphoto-1072462590-1024x1024.jpg,0.111,10-09-2024 11:40:33,Vizcom/Sample folder/bbb/17.3.0.24 istockphoto-1072462590-1024x1024.jpg,Success
+2.2.0.4,17.3.0.23 graphics-603272_640.jpg,0.137,10-09-2024 11:40:33,Vizcom/Sample folder/bbb/17.3.0.23 graphics-603272_640.jpg,Success
+2.2.0.5,17.3.0.22 graffiti-3274744_640.jpg,0.133,10-09-2024 11:40:33,Vizcom/Sample folder/bbb/17.3.0.22 graffiti-3274744_640.jpg,Success
+2.2.0.6,17.3.0.21 graffiti-623003_640.jpg,0.168,10-09-2024 11:40:33,Vizcom/Sample folder/bbb/17.3.0.21 graffiti-623003_640.jpg,Success
+2.2.0.7,17.3.0.20 graffiti-508272_1280.jpg,0.469,10-09-2024 11:40:33,Vizcom/Sample folder/bbb/17.3.0.20 graffiti-508272_1280.jpg,Success
+2.2.0.8,17.3.0.19 flowers-276014_1280.jpg,0.353,10-09-2024 11:40:33,Vizcom/Sample folder/bbb/17.3.0.19 flowers-276014_1280.jpg,Success
+2.2.0.9,17.3.0.18 graffiti-508272_1280 (1).jpg,0.469,10-09-2024 11:40:33,Vizcom/Sample folder/bbb/17.3.0.18 graffiti-508272_1280 (1).jpg,Success
+2.2.0.10,17.3.0.17 coca-cola-736967_640.jpg,0.179,10-09-2024 11:40:33,Vizcom/Sample folder/bbb/17.3.0.17 coca-cola-736967_640.jpg,Success
+2.2.0.11,17.3.0.16 yoga.png,0.012,10-09-2024 11:40:33,Vizcom/Sample folder/bbb/17.3.0.16 yoga.png,Success
+2.2.0.12,17.3.0.15 oncology.png,0.014,10-09-2024 11:40:33,Vizcom/Sample folder/bbb/17.3.0.15 oncology.png,Success
+2.2.0.13,17.3.0.14 Gynecology.png,0.012,10-09-2024 11:40:34,Vizcom/Sample folder/bbb/17.3.0.14 Gynecology.png,Success
+2.2.0.14,17.3.0.13 Alternative Therapies.png,0.02,10-09-2024 11:40:34,Vizcom/Sample folder/bbb/17.3.0.13 Alternative Therapies.png,Success
+2.2.0.15,17.3.0.12 wellness.png,0.02,10-09-2024 11:40:34,Vizcom/Sample folder/bbb/17.3.0.12 wellness.png,Success
+2.2.0.16,17.3.0.10 knee-replacement.png,0.019,10-09-2024 11:40:34,Vizcom/Sample folder/bbb/17.3.0.10 knee-replacement.png,Success
+2.2.0.17,17.3.0.9 hip-replacement.png,0.022,10-09-2024 11:40:34,Vizcom/Sample folder/bbb/17.3.0.9 hip-replacement.png,Success
+2.2.0.18,17.3.0.8 herbal-treatment.png,0.014,10-09-2024 11:40:34,Vizcom/Sample folder/bbb/17.3.0.8 herbal-treatment.png,Success
+2.2.0.19,17.3.0.7 Cardiovascular.png,0.032,10-09-2024 11:40:34,Vizcom/Sample folder/bbb/17.3.0.7 Cardiovascular.png,Success
+2.2.0.20,17.3.0.11 Organ Transplant.png,0.017,10-09-2024 11:40:34,Vizcom/Sample folder/bbb/17.3.0.11 Organ Transplant.png,Success
+2.2.0.21,17.3.0.5 43.0.5 4 Demo Microsoft PowerPoint Presentation.pptx,3.627,10-09-2024 11:40:34,Vizcom/Sample folder/bbb/17.3.0.5 43.0.5 4 Demo Microsoft PowerPoint Presentation.pptx,Success
+2.2.0.22,17.3.0.4 43.0.3 3 Demo Microsoft Word Document.docx,0.032,10-09-2024 11:40:37,Vizcom/Sample folder/bbb/17.3.0.4 43.0.3 3 Demo Microsoft Word Document.docx,Success
+2.2.0.23,17.3.0.3 43.0.4 4 Demo Microsoft PowerPoint Presentation pdf.pdf,0.53,10-09-2024 11:40:37,Vizcom/Sample folder/bbb/17.3.0.3 43.0.4 4 Demo Microsoft PowerPoint Presentation pdf.pdf,Success
+2.0.4,49.0.20Sample pdf file.pdf,0.084,10-09-2024 11:40:38,Vizcom/Sample folder/49.0.20Sample pdf file.pdf,Success
+2.0.5,49.0.21Sample ppt file.pptx,0.059,10-09-2024 11:40:39,Vizcom/Sample folder/49.0.21Sample ppt file.pptx,Success
+2.0.6,Sample word file.docx,0.013,10-09-2024 11:40:39,Vizcom/Sample folder/Sample word file.docx,Success
+3.0.1,Binary Testing.xlsb,0.065,10-09-2024 11:40:39,Vizcom/5-12 Excel and pdf/Binary Testing.xlsb,Success
+3.1.0.1,1 test file.pdf,0.419,10-09-2024 11:40:42,Vizcom/5-12 Excel and pdf/7 DocullyVDR Demo files/1 test file.pdf,Success
+3.1.0.2,1.0.1_bh__(2) (1).pptx,0.25,10-09-2024 11:40:42,Vizcom/5-12 Excel and pdf/7 DocullyVDR Demo files/1.0.1_bh__(2) (1).pptx,Success
+3.1.0.3,18.0.1 Std. VII English Gramm.Punctuations ws answer key.pdf,0.021,10-09-2024 11:40:43,Vizcom/5-12 Excel and pdf/7 DocullyVDR Demo files/18.0.1 Std. VII English Gramm.Punctuations ws answer key.pdf,Success
+3.1.0.4,18.0.2 Std. VII English L-3.3 ws answer key.pdf,0.034,10-09-2024 11:40:43,Vizcom/5-12 Excel and pdf/7 DocullyVDR Demo files/18.0.2 Std. VII English L-3.3 ws answer key.pdf,Success
+3.1.0.5,19.0.1 Std. VII Geography Ch.11 ws answer key.pdf,0.302,10-09-2024 11:40:45,Vizcom/5-12 Excel and pdf/7 DocullyVDR Demo files/19.0.1 Std. VII Geography Ch.11 ws answer key.pdf,Success
+3.1.0.6,19.0.2 Std. VII Geography Ch.4 ws answer key.pdf,0.033,10-09-2024 11:40:45,Vizcom/5-12 Excel and pdf/7 DocullyVDR Demo files/19.0.2 Std. VII Geography Ch.4 ws answer key.pdf,Success
+3.1.0.7,Docully Documentation .xlsx,0.496,10-09-2024 11:40:45,Vizcom/5-12 Excel and pdf/7 DocullyVDR Demo files/Docully Documentation .xlsx,Success
+3.1.0.8,results.xlsx,0.007,10-09-2024 11:40:45,Vizcom/5-12 Excel and pdf/7 DocullyVDR Demo files/results.xlsx,Success
+3.1.0.9,Untitled 1.pdf,0.004,10-09-2024 11:40:46,Vizcom/5-12 Excel and pdf/7 DocullyVDR Demo files/Untitled 1.pdf,Success
+3.0.2,CSV Testing.csv,6.726,10-09-2024 11:40:46,Vizcom/5-12 Excel and pdf/CSV Testing.csv,Success
+3.0.3,CSV Testing.pdf,36.784,10-09-2024 11:45:09,Vizcom/5-12 Excel and pdf/CSV Testing.pdf,Success
+3.0.4,Gujrati language pdf.pdf,0.104,10-09-2024 11:45:10,Vizcom/5-12 Excel and pdf/Gujrati language pdf.pdf,Success
+3.0.5,Marathi language pdf.pdf,0.051,10-09-2024 11:45:10,Vizcom/5-12 Excel and pdf/Marathi language pdf.pdf,Success
+3.0.6,Testing XLT.xlt,0.859,10-09-2024 11:45:10,Vizcom/5-12 Excel and pdf/Testing XLT.xlt,Success
+3.0.7,Urdu language pdf.pdf,0.407,10-09-2024 11:45:11,Vizcom/5-12 Excel and pdf/Urdu language pdf.pdf,Success
+3.0.8,XLS Testing - multiple sheets.xls,32.884,10-09-2024 11:45:11,Vizcom/5-12 Excel and pdf/XLS Testing - multiple sheets.xls,Success
+3.0.9,dashboard.png,0.007,10-09-2024 11:45:11,Vizcom/5-12 Excel and pdf/dashboard.png,Success
+3.0.10,notification.png,0.014,10-09-2024 11:45:11,Vizcom/5-12 Excel and pdf/notification.png,Success
+3.0.11,ppo.png,0.029,10-09-2024 11:45:12,Vizcom/5-12 Excel and pdf/ppo.png,Success
+3.0.12,user.png,0.016,10-09-2024 11:45:12,Vizcom/5-12 Excel and pdf/user.png,Success
+3.0.13,hindi language pdf file.pdf,0.058,10-09-2024 11:45:12,Vizcom/5-12 Excel and pdf/hindi language pdf file.pdf,Success
+4.1.0.1,Vizcom - Overview Report - 2023-10-01 -to- 2023-10-31.csv,0.003,10-09-2024 11:45:12,Vizcom/vizcomoverview-report1702450330/vizcomoverview-report1702450330/Vizcom - Overview Report - 2023-10-01 -to- 2023-10-31.csv,Success
+4.1.0.2,Vizcom - Overview Report - 2023-11-01 -to- 2023-11-30.csv,0.012,10-09-2024 11:45:12,Vizcom/vizcomoverview-report1702450330/vizcomoverview-report1702450330/Vizcom - Overview Report - 2023-11-01 -to- 2023-11-30.csv,Success
+4.1.0.3,Vizcom - Overview Report - 2023-12-01 -to- 2023-12-13.csv,0.01,10-09-2024 11:45:12,Vizcom/vizcomoverview-report1702450330/vizcomoverview-report1702450330/Vizcom - Overview Report - 2023-12-01 -to- 2023-12-13.csv,Success
+4.1.0.4,Vizcom - Overview Report - 2023-09-01 -to- 2023-09-30.csv,0.002,10-09-2024 11:45:12,Vizcom/vizcomoverview-report1702450330/vizcomoverview-report1702450330/Vizcom - Overview Report - 2023-09-01 -to- 2023-09-30.csv,Success
+5.0.1,IDFCFIRSTBankstatement_10177719712.pdf,0.112,10-09-2024 11:45:13,Vizcom/Excel with diagram/IDFCFIRSTBankstatement_10177719712.pdf,Success
+5.0.2,logo-no-background.png,0.031,10-09-2024 11:45:13,Vizcom/Excel with diagram/logo-no-background.png,Success
+5.0.3,logo-no-background.png,0.056,10-09-2024 11:45:13,Vizcom/Excel with diagram/logo-no-background.png,Success
+5.0.4,1 Microsoft PowerPoint Presentation-Demo.pptx,0.075,10-09-2024 11:45:13,Vizcom/Excel with diagram/1 Microsoft PowerPoint Presentation-Demo.pptx,Success
+8.1.0.2,logo.png,0.0,10-09-2024 11:45:14,Vizcom/12 bulkuploadone/12.1 New folder T/logo.png,Success
+8.1.0.3,new_logo_favicon.png,0.0,10-09-2024 11:45:14,Vizcom/12 bulkuploadone/12.1 New folder T/new_logo_favicon.png,Success
+8.1.0.4,email-folder.png,,10-09-2024 11:45:14,Vizcom/12 bulkuploadone/12.1 New folder T/email-folder.png,Success
+8.1.0.5,cloud-storage.png,0.024,10-09-2024 11:45:14,Vizcom/12 bulkuploadone/12.1 New folder T/cloud-storage.png,Success
+8.1.0.6,email_icon.png,,10-09-2024 11:45:14,Vizcom/12 bulkuploadone/12.1 New folder T/email_icon.png,Success
+8.1.0.7,Microsoft Sharepoint Framework - Standalone (free) Use Terms.docx,0.037,10-09-2024 11:45:15,Vizcom/12 bulkuploadone/12.1 New folder T/Microsoft Sharepoint Framework - Standalone (free) Use Terms.docx,Success
+8.1.0.8,test.docx,0.037,10-09-2024 11:45:24,Vizcom/12 bulkuploadone/12.1 New folder T/test.docx,Success
+8.3.0.1,Issues revised on 23 Aug.xlsx,0.161,10-09-2024 11:45:24,Vizcom/12 bulkuploadone/aaa/Issues revised on 23 Aug.xlsx,Success
+8.0.19,46.0.1 9424023-excel with hyper link _ diagram.xlsx,0.017,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/46.0.1 9424023-excel with hyper link _ diagram.xlsx,Success
+8.0.20,46.0.2 48.0.19424023-excel_with_hyper_link___diagram.xlsx,0.037,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/46.0.2 48.0.19424023-excel_with_hyper_link___diagram.xlsx,Success
+8.0.21,logo.png,0.0,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/logo.png,Success
+8.0.22,new_logo_favicon.png,0.004,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/new_logo_favicon.png,Success
+8.0.25,DocullyVDR Brochure & Pricing 2024- Strategic Deals.pdf,6.482,10-09-2024 11:45:27,Vizcom/12 bulkuploadone/DocullyVDR Brochure & Pricing 2024- Strategic Deals.pdf,Success
+8.0.26,uc?id=1jDxELhwUovUkTgEaFDydQv7NXSdkl1B9&export=download,0.162,10-09-2024 11:45:27,Vizcom/12 bulkuploadone/uc?id=1jDxELhwUovUkTgEaFDydQv7NXSdkl1B9&export=download,Success
+8.0.27,Sample overview report.csv,0.363,10-09-2024 11:45:27,Vizcom/12 bulkuploadone/Sample overview report.csv,Success
+8.0.28,Sample pdf file.pdf,0.084,10-09-2024 11:45:27,Vizcom/12 bulkuploadone/Sample pdf file.pdf,Success
+8.0.29,Sample ppt file.pptx,0.059,10-09-2024 11:45:28,Vizcom/12 bulkuploadone/Sample ppt file.pptx,Success
+8.0.30,Sample word file.docx,0.013,10-09-2024 11:45:28,Vizcom/12 bulkuploadone/Sample word file.docx,Success
+9.0.1,3.0.9_sampleDocs__green__background____image..jpg,13.986,10-09-2024 11:45:29,Vizcom/Uploading by Shakti/3.0.9_sampleDocs__green__background____image..jpg,Success
+9.1.1.0.1,3.0.9_sampleDocs__green__background____image..jpg,13.986,10-09-2024 11:45:29,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.0.9_sampleDocs__green__background____image..jpg,Success
+9.1.1.1.0.1,3.0.9_sampleDocs__green__background____image..jpg,13.986,10-09-2024 11:45:29,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.0.9_sampleDocs__green__background____image..jpg,Success
+9.1.1.1.0.2,3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,0.059,10-09-2024 11:45:29,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,Success
+9.1.1.1.0.3,3.1.1.0.2_2__Text__Document-Demo.txt,0.0,10-09-2024 11:45:29,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.1.0.2_2__Text__Document-Demo.txt,Success
+9.1.1.1.0.4,3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,0.032,10-09-2024 11:45:30,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,Success
+9.1.1.1.0.5,3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,0.01,10-09-2024 11:45:30,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,Success
+9.1.1.1.0.6,3.1.1.0.5_Demo__PDF__File.pdf,0.021,10-09-2024 11:45:31,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.1.0.5_Demo__PDF__File.pdf,Success
+9.1.1.1.0.7,3.1.1.0.6_IMAGE__JPEG.jpg,0.007,10-09-2024 11:45:31,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.1.0.6_IMAGE__JPEG.jpg,Success
+9.1.1.1.0.8,3.1.1.0.7_IMAGE__PNG.jpg,0.009,10-09-2024 11:45:31,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.1.0.7_IMAGE__PNG.jpg,Success
+9.1.1.1.0.9,3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,0.03,10-09-2024 11:45:31,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,Success
+9.1.1.1.0.10,3.1.1.0.9_Thumbs.db,0.067,10-09-2024 11:45:31,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.1.0.9_Thumbs.db,Success
+9.1.1.1.0.11,3.1.1.0.10_~$crosoft__Word__Document-Demo.pdf,0.017,10-09-2024 11:45:32,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.1.0.10_~$crosoft__Word__Document-Demo.pdf,Success
+9.1.1.1.0.12,3.1.2.0.1_excel__with__hyper__link_____diagram.pdf,0.032,10-09-2024 11:45:32,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.2.0.1_excel__with__hyper__link_____diagram.pdf,Success
+9.1.1.1.0.13,3.1.2.0.2_excel__with__hyper__link_____diagram.pdf,0.032,10-09-2024 11:45:33,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.2.0.2_excel__with__hyper__link_____diagram.pdf,Success
+9.1.1.1.0.14,3.1.2.0.3_PPT__with__hyper__link.pdf,0.059,10-09-2024 11:45:33,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.2.0.3_PPT__with__hyper__link.pdf,Success
+9.1.1.1.0.15,3.1.2.0.4_Thumbs.db,0.01,10-09-2024 11:45:33,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.2.0.4_Thumbs.db,Success
+9.1.1.1.0.16,3.1.2.0.5_word__with__hyper__link.pdf,0.024,10-09-2024 11:45:34,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/3.1.2.0.5_word__with__hyper__link.pdf,Success
+9.1.1.1.0.17,4.0.1 2.0.5_file_example_MP4_1920_18MG.mp4,17.013,10-09-2024 11:45:34,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.1 2.0.5_file_example_MP4_1920_18MG.mp4,Success
+9.1.1.1.0.18,4.0.2 2.2.0.1_Apache__Open__Office__.__odt.odt,0.004,10-09-2024 11:45:34,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.2 2.2.0.1_Apache__Open__Office__.__odt.odt,Success
+9.1.1.1.0.19,4.0.3 2.2.0.2_CDMS__DEMO__PDF.pdf,0.122,10-09-2024 11:45:34,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.3 2.2.0.2_CDMS__DEMO__PDF.pdf,Success
+9.1.1.1.0.20,4.0.4 2.2.0.3_CDMS__DEMO__PPT.pptx,0.035,10-09-2024 11:45:35,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.4 2.2.0.3_CDMS__DEMO__PPT.pptx,Success
+9.1.1.1.0.21,4.0.5 2.2.0.4_CDR.txt,0.0,10-09-2024 11:45:35,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.5 2.2.0.4_CDR.txt,Success
+9.1.1.1.0.22,4.0.6 2.2.0.5_cdr.xlsx,0.01,10-09-2024 11:45:35,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.6 2.2.0.5_cdr.xlsx,Success
+9.1.1.1.0.23,4.0.7 2.2.0.6_DEMO__XLS.xls,0.074,10-09-2024 11:45:35,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.7 2.2.0.6_DEMO__XLS.xls,Success
+9.1.1.1.0.24,4.0.8 2.2.0.7_DEMO__XLXS.xlsx,0.019,10-09-2024 11:45:35,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.8 2.2.0.7_DEMO__XLXS.xlsx,Success
+9.1.1.1.0.25,4.0.9 2.2.0.8_excel__.__csv__delimited.csv,0.0,10-09-2024 11:45:35,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.9 2.2.0.8_excel__.__csv__delimited.csv,Success
+9.1.1.1.0.26,4.0.10 2.2.0.9_Excel__.__xls.xls,0.025,10-09-2024 11:45:35,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.10 2.2.0.9_Excel__.__xls.xls,Success
+9.1.1.1.0.27,4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,0.008,10-09-2024 11:45:35,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,Success
+9.1.1.1.0.28,4.0.12 2.2.0.11_images__JPEG.jpg,0.013,10-09-2024 11:45:36,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.12 2.2.0.11_images__JPEG.jpg,Success
+9.1.1.1.0.29,4.0.13 2.2.0.12_jpeg__image.jpg,0.338,10-09-2024 11:45:36,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.13 2.2.0.12_jpeg__image.jpg,Success
+9.1.1.1.0.30,4.0.14 2.2.0.13_jpeg_image.jpg,0.139,10-09-2024 11:45:36,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.14 2.2.0.13_jpeg_image.jpg,Success
+9.1.1.1.0.31,4.0.15 2.2.0.14_Microsoft__office__word__.doc.doc,0.026,10-09-2024 11:45:36,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.15 2.2.0.14_Microsoft__office__word__.doc.doc,Success
+9.1.1.1.0.32,4.0.16 2.2.0.15_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,0.062,10-09-2024 11:45:36,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.16 2.2.0.15_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,Success
+9.1.1.1.0.33,4.0.17 2.2.0.16_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,0.062,10-09-2024 11:45:37,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.17 2.2.0.16_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,Success
+9.1.1.1.0.34,4.0.18 2.2.0.17_New__Microsoft__Word__Document__.docx.docx,0.011,10-09-2024 11:45:37,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.18 2.2.0.17_New__Microsoft__Word__Document__.docx.docx,Success
+9.1.1.1.0.35,4.0.19 2.2.0.18_New__Microsoft__Word__Document__TEXT.txt,0.0,10-09-2024 11:45:37,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.19 2.2.0.18_New__Microsoft__Word__Document__TEXT.txt,Success
+9.1.1.1.0.36,4.0.20 2.2.0.19_New__Rich__Text__Document__.__rtf.rtf,0.039,10-09-2024 11:45:37,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.20 2.2.0.19_New__Rich__Text__Document__.__rtf.rtf,Success
+9.1.1.1.0.37,4.0.21 2.2.0.20_PDF.pdf,0.031,10-09-2024 11:45:38,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.21 2.2.0.20_PDF.pdf,Success
+9.1.1.1.0.38,4.0.22 2.2.0.21_test__disclaimer.pdf,0.032,10-09-2024 11:45:38,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.22 2.2.0.21_test__disclaimer.pdf,Success
+9.1.1.1.0.39,4.0.23 2.2.0.22_Thumbs.db,0.004,10-09-2024 11:45:38,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.23 2.2.0.22_Thumbs.db,Success
+9.1.1.1.0.40,4.0.24 2.2.0.23_zip_10MB.zip,10.185,10-09-2024 11:45:38,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.0.24 2.2.0.23_zip_10MB.zip,Success
+9.1.1.1.0.41,4.1.0.1 2.2.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pptx,0.075,10-09-2024 11:45:39,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.1.0.1 2.2.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pptx,Success
+9.1.1.1.0.42,4.1.0.2 2.2.1.0.2_2__Text__Document-Demo.txt,0.0,10-09-2024 11:45:39,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.1.0.2 2.2.1.0.2_2__Text__Document-Demo.txt,Success
+9.1.1.1.0.43,4.1.0.3 2.2.1.0.3_3__Microsoft__Excel__Worksheet-Demo.csv,0.001,10-09-2024 11:45:39,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.1.0.3 2.2.1.0.3_3__Microsoft__Excel__Worksheet-Demo.csv,Success
+9.1.1.1.0.44,4.1.0.4 2.2.1.0.4_3.0.7__DISCLAIMERS.docx,0.012,10-09-2024 11:45:39,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.1.0.4 2.2.1.0.4_3.0.7__DISCLAIMERS.docx,Success
+9.1.1.1.0.45,4.1.0.5 2.2.1.0.5_Demo__PDF__File.pdf,0.022,10-09-2024 11:45:40,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.1.0.5 2.2.1.0.5_Demo__PDF__File.pdf,Success
+9.1.1.1.0.46,4.1.0.6 2.2.1.0.6_IMAGE__JPEG.jpg,0.007,10-09-2024 11:45:40,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.1.0.6 2.2.1.0.6_IMAGE__JPEG.jpg,Success
+9.1.1.1.0.47,4.1.0.7 2.2.1.0.7_IMAGE__PNG.jpg,0.009,10-09-2024 11:45:40,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.1.0.7 2.2.1.0.7_IMAGE__PNG.jpg,Success
+9.1.1.1.0.48,4.1.0.8 2.2.1.0.8_Microsoft__Word__Document-Demo.docx,0.013,10-09-2024 11:45:40,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.1.0.8 2.2.1.0.8_Microsoft__Word__Document-Demo.docx,Success
+9.1.1.1.0.50,4.2.0.1 1.0.1_cdr.url,0.0,10-09-2024 11:45:40,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.1 1.0.1_cdr.url,Success
+9.1.1.1.0.51,4.2.0.2 1.0.1_cdr.xlsx,0.01,10-09-2024 11:45:40,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.2 1.0.1_cdr.xlsx,Success
+9.1.1.1.0.52,4.2.0.3 1.0.2_DEMO__XLS.xls,0.074,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.3 1.0.2_DEMO__XLS.xls,Success
+9.1.1.1.0.53,4.2.0.4 1.0.2_DEMO_XLS.url,0.0,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.4 1.0.2_DEMO_XLS.url,Success
+9.1.1.1.0.54,4.2.0.5 1.0.3_DEMO__XLXS.xlsx,0.019,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.5 1.0.3_DEMO__XLXS.xlsx,Success
+9.1.1.1.0.55,4.2.0.6 1.0.3_DEMO_XLXS.url,0.0,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.6 1.0.3_DEMO_XLXS.url,Success
+9.1.1.1.0.56,4.2.0.7 1.0.4_excel_._csv_delimited.url,0.0,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.7 1.0.4_excel_._csv_delimited.url,Success
+9.1.1.1.0.57,4.2.0.8 1.0.4_excel__.__csv__delimited.csv,0.0,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.8 1.0.4_excel__.__csv__delimited.csv,Success
+9.1.1.1.0.58,4.2.0.9 1.0.5_Excel_._xls.url,0.0,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.9 1.0.5_Excel_._xls.url,Success
+9.1.1.1.0.59,4.2.0.10 1.0.5_Excel__.__xls.xls,0.025,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.10 1.0.5_Excel__.__xls.xls,Success
+9.1.1.1.0.60,4.2.0.11 1.0.6_Excel_._xlsx.url,0.0,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.11 1.0.6_Excel_._xlsx.url,Success
+9.1.1.1.0.61,4.2.0.12 1.0.6_Excel__.__xlsx.xlsx,0.008,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.12 1.0.6_Excel__.__xlsx.xlsx,Success
+9.1.1.1.0.62,4.2.0.13 1.0.7_images__JPEG.jpg,0.013,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.13 1.0.7_images__JPEG.jpg,Success
+9.1.1.1.0.63,4.2.0.14 1.0.7_images_JPEG.url,0.0,10-09-2024 11:45:41,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.14 1.0.7_images_JPEG.url,Success
+9.1.1.1.0.64,4.2.0.15 1.0.8_jpeg__image.jpg,0.338,10-09-2024 11:45:42,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.15 1.0.8_jpeg__image.jpg,Success
+9.1.1.1.0.65,4.2.0.16 1.0.8_jpeg_image.url,0.0,10-09-2024 11:45:42,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.16 1.0.8_jpeg_image.url,Success
+9.1.1.1.0.66,4.2.0.17 1.0.9_jpeg_image.jpg,0.139,10-09-2024 11:45:42,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.17 1.0.9_jpeg_image.jpg,Success
+9.1.1.1.0.67,4.2.0.18 1.0.9_jpeg_image.url,0.0,10-09-2024 11:45:42,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.18 1.0.9_jpeg_image.url,Success
+9.1.1.1.0.68,4.2.0.19 1.0.10_Microsoft__office__word__.doc.doc,0.026,10-09-2024 11:45:42,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.19 1.0.10_Microsoft__office__word__.doc.doc,Success
+9.1.1.1.0.69,4.2.0.20 1.0.10_Microsoft_office_word.url,0.0,10-09-2024 11:45:42,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.20 1.0.10_Microsoft_office_word.url,Success
+9.1.1.1.0.70,4.2.0.21 1.0.11_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,0.062,10-09-2024 11:45:43,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.21 1.0.11_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,Success
+9.1.1.1.0.71,4.2.0.22 1.0.11_New_Microsoft_PowerPoint_Presentation_._ppt.url,0.0,10-09-2024 11:45:43,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.22 1.0.11_New_Microsoft_PowerPoint_Presentation_._ppt.url,Success
+9.1.1.1.0.72,4.2.0.23 1.0.12_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,0.062,10-09-2024 11:45:43,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.23 1.0.12_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,Success
+9.1.1.1.0.73,4.2.0.24 1.0.12_New_Microsoft_PowerPoint_Presentation_._pptx.url,0.0,10-09-2024 11:45:43,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.24 1.0.12_New_Microsoft_PowerPoint_Presentation_._pptx.url,Success
+9.1.1.1.0.74,4.2.0.25 1.0.13_CDMS__DEMO__PDF.pdf,0.122,10-09-2024 11:45:44,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.25 1.0.13_CDMS__DEMO__PDF.pdf,Success
+9.1.1.1.0.75,4.2.0.26 1.0.13_CDMS_DEMO_PDF.url,0.0,10-09-2024 11:45:44,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.26 1.0.13_CDMS_DEMO_PDF.url,Success
+9.1.1.1.0.77,4.2.0.28 1.0.14_CDMS_DEMO_PPT.url,0.0,10-09-2024 11:45:44,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.28 1.0.14_CDMS_DEMO_PPT.url,Success
+9.1.1.1.0.78,4.2.0.29 1.0.15_CDR.txt,0.0,10-09-2024 11:45:44,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.29 1.0.15_CDR.txt,Success
+9.1.1.1.0.79,4.2.0.30 1.0.15_CDR.url,0.0,10-09-2024 11:45:44,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.30 1.0.15_CDR.url,Success
+9.1.1.1.0.80,478.docx,0.011,10-09-2024 11:45:44,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/478.docx,Success
+9.1.1.1.0.81,545.docx,0.012,10-09-2024 11:45:45,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/545.docx,Success
+9.1.1.1.0.82,T3.pdf,14.401,10-09-2024 11:47:28,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/T3.pdf,Success
+9.1.1.1.0.83,T55.pdf,10.912,10-09-2024 11:49:00,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/T55.pdf,Success
+9.1.1.1.0.84,TEST.docx,0.011,10-09-2024 11:49:01,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/TEST.docx,Success
+9.1.1.1.0.85,Test.jpg,0.369,10-09-2024 11:49:01,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/Test.jpg,Success
+9.1.1.1.0.86,TESTING.pdf,0.059,10-09-2024 11:49:01,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/TESTING.pdf,Success
+9.1.1.0.2,3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,0.059,10-09-2024 11:49:02,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,Success
+9.1.1.0.3,3.1.1.0.2_2__Text__Document-Demo.txt,0.0,10-09-2024 11:49:02,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.1.0.2_2__Text__Document-Demo.txt,Success
+9.1.1.0.4,3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,0.032,10-09-2024 11:49:02,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,Success
+9.1.1.0.5,3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,0.01,10-09-2024 11:49:02,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,Success
+9.1.1.0.6,3.1.1.0.5_Demo__PDF__File.pdf,0.021,10-09-2024 11:49:03,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.1.0.5_Demo__PDF__File.pdf,Success
+9.1.1.0.7,3.1.1.0.6_IMAGE__JPEG.jpg,0.007,10-09-2024 11:49:03,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.1.0.6_IMAGE__JPEG.jpg,Success
+9.1.1.0.8,3.1.1.0.7_IMAGE__PNG.jpg,0.009,10-09-2024 11:49:03,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.1.0.7_IMAGE__PNG.jpg,Success
+9.1.1.0.9,3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,0.03,10-09-2024 11:49:03,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,Success
+9.1.1.0.10,3.1.1.0.9_Thumbs.db,0.067,10-09-2024 11:49:03,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.1.0.9_Thumbs.db,Success
+9.1.1.0.11,3.1.1.0.10_~$crosoft__Word__Document-Demo.pdf,0.017,10-09-2024 11:49:04,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.1.0.10_~$crosoft__Word__Document-Demo.pdf,Success
+9.1.1.0.12,3.1.2.0.1_excel__with__hyper__link_____diagram.pdf,0.032,10-09-2024 11:49:04,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.2.0.1_excel__with__hyper__link_____diagram.pdf,Success
+9.1.1.0.13,3.1.2.0.2_excel__with__hyper__link_____diagram.pdf,0.032,10-09-2024 11:49:04,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.2.0.2_excel__with__hyper__link_____diagram.pdf,Success
+9.1.1.0.14,3.1.2.0.3_PPT__with__hyper__link.pdf,0.059,10-09-2024 11:49:05,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.2.0.3_PPT__with__hyper__link.pdf,Success
+9.1.1.0.15,3.1.2.0.4_Thumbs.db,0.01,10-09-2024 11:49:05,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.2.0.4_Thumbs.db,Success
+9.1.1.0.16,3.1.2.0.5_word__with__hyper__link.pdf,0.024,10-09-2024 11:49:05,Vizcom/Uploading by Shakti/New folder (1)/New folder/3.1.2.0.5_word__with__hyper__link.pdf,Success
+9.1.1.0.17,4.0.1 2.0.5_file_example_MP4_1920_18MG.mp4,17.013,10-09-2024 11:49:06,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.1 2.0.5_file_example_MP4_1920_18MG.mp4,Success
+9.1.1.0.18,4.0.2 2.2.0.1_Apache__Open__Office__.__odt.odt,0.004,10-09-2024 11:49:06,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.2 2.2.0.1_Apache__Open__Office__.__odt.odt,Success
+9.1.1.0.19,4.0.3 2.2.0.2_CDMS__DEMO__PDF.pdf,0.122,10-09-2024 11:49:06,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.3 2.2.0.2_CDMS__DEMO__PDF.pdf,Success
+9.1.1.0.20,4.0.4 2.2.0.3_CDMS__DEMO__PPT.pptx,0.035,10-09-2024 11:49:06,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.4 2.2.0.3_CDMS__DEMO__PPT.pptx,Success
+9.1.1.0.21,4.0.5 2.2.0.4_CDR.txt,0.0,10-09-2024 11:49:07,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.5 2.2.0.4_CDR.txt,Success
+9.1.1.0.22,4.0.6 2.2.0.5_cdr.xlsx,0.01,10-09-2024 11:49:07,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.6 2.2.0.5_cdr.xlsx,Success
+9.1.1.0.23,4.0.7 2.2.0.6_DEMO__XLS.xls,0.074,10-09-2024 11:49:07,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.7 2.2.0.6_DEMO__XLS.xls,Success
+9.1.1.0.24,4.0.8 2.2.0.7_DEMO__XLXS.xlsx,0.019,10-09-2024 11:49:07,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.8 2.2.0.7_DEMO__XLXS.xlsx,Success
+9.1.1.0.25,4.0.9 2.2.0.8_excel__.__csv__delimited.csv,0.0,10-09-2024 11:49:07,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.9 2.2.0.8_excel__.__csv__delimited.csv,Success
+9.1.1.0.26,4.0.10 2.2.0.9_Excel__.__xls.xls,0.025,10-09-2024 11:49:07,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.10 2.2.0.9_Excel__.__xls.xls,Success
+9.1.1.0.27,4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,0.008,10-09-2024 11:49:07,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,Success
+9.1.1.0.28,4.0.12 2.2.0.11_images__JPEG.jpg,0.013,10-09-2024 11:49:07,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.12 2.2.0.11_images__JPEG.jpg,Success
+9.1.1.0.29,4.0.13 2.2.0.12_jpeg__image.jpg,0.338,10-09-2024 11:49:07,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.13 2.2.0.12_jpeg__image.jpg,Success
+9.1.1.0.30,4.0.14 2.2.0.13_jpeg_image.jpg,0.139,10-09-2024 11:49:07,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.14 2.2.0.13_jpeg_image.jpg,Success
+9.1.1.0.31,4.0.15 2.2.0.14_Microsoft__office__word__.doc.doc,0.026,10-09-2024 11:49:08,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.15 2.2.0.14_Microsoft__office__word__.doc.doc,Success
+9.1.1.0.32,4.0.16 2.2.0.15_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,0.062,10-09-2024 11:49:08,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.16 2.2.0.15_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,Success
+9.1.1.0.33,4.0.17 2.2.0.16_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,0.062,10-09-2024 11:49:08,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.17 2.2.0.16_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,Success
+9.1.1.0.34,4.0.18 2.2.0.17_New__Microsoft__Word__Document__.docx.docx,0.011,10-09-2024 11:49:09,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.18 2.2.0.17_New__Microsoft__Word__Document__.docx.docx,Success
+9.1.1.0.35,4.0.19 2.2.0.18_New__Microsoft__Word__Document__TEXT.txt,0.0,10-09-2024 11:49:09,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.19 2.2.0.18_New__Microsoft__Word__Document__TEXT.txt,Success
+9.1.1.0.36,4.0.20 2.2.0.19_New__Rich__Text__Document__.__rtf.rtf,0.039,10-09-2024 11:49:09,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.20 2.2.0.19_New__Rich__Text__Document__.__rtf.rtf,Success
+9.1.1.0.37,4.0.21 2.2.0.20_PDF.pdf,0.031,10-09-2024 11:49:09,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.21 2.2.0.20_PDF.pdf,Success
+9.1.1.0.38,4.0.22 2.2.0.21_test__disclaimer.pdf,0.032,10-09-2024 11:49:09,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.22 2.2.0.21_test__disclaimer.pdf,Success
+9.1.1.0.39,4.0.23 2.2.0.22_Thumbs.db,0.004,10-09-2024 11:49:09,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.23 2.2.0.22_Thumbs.db,Success
+9.1.1.0.40,4.0.24 2.2.0.23_zip_10MB.zip,10.185,10-09-2024 11:49:10,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.0.24 2.2.0.23_zip_10MB.zip,Success
+9.1.1.0.41,4.1.0.1 2.2.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pptx,0.075,10-09-2024 11:49:10,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.1.0.1 2.2.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pptx,Success
+9.1.1.0.42,4.1.0.2 2.2.1.0.2_2__Text__Document-Demo.txt,0.0,10-09-2024 11:49:10,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.1.0.2 2.2.1.0.2_2__Text__Document-Demo.txt,Success
+9.1.1.0.43,4.1.0.3 2.2.1.0.3_3__Microsoft__Excel__Worksheet-Demo.csv,0.001,10-09-2024 11:49:10,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.1.0.3 2.2.1.0.3_3__Microsoft__Excel__Worksheet-Demo.csv,Success
+9.1.1.0.44,4.1.0.4 2.2.1.0.4_3.0.7__DISCLAIMERS.docx,0.012,10-09-2024 11:49:10,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.1.0.4 2.2.1.0.4_3.0.7__DISCLAIMERS.docx,Success
+9.1.1.0.45,4.1.0.5 2.2.1.0.5_Demo__PDF__File.pdf,0.022,10-09-2024 11:49:11,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.1.0.5 2.2.1.0.5_Demo__PDF__File.pdf,Success
+9.1.1.0.46,4.1.0.6 2.2.1.0.6_IMAGE__JPEG.jpg,0.007,10-09-2024 11:49:11,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.1.0.6 2.2.1.0.6_IMAGE__JPEG.jpg,Success
+9.1.1.0.47,4.1.0.7 2.2.1.0.7_IMAGE__PNG.jpg,0.009,10-09-2024 11:49:11,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.1.0.7 2.2.1.0.7_IMAGE__PNG.jpg,Success
+9.1.1.0.48,4.1.0.8 2.2.1.0.8_Microsoft__Word__Document-Demo.docx,0.013,10-09-2024 11:49:11,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.1.0.8 2.2.1.0.8_Microsoft__Word__Document-Demo.docx,Success
+9.1.1.0.50,4.2.0.1 1.0.1_cdr.url,0.0,10-09-2024 11:49:11,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.1 1.0.1_cdr.url,Success
+9.1.1.0.51,4.2.0.2 1.0.1_cdr.xlsx,0.01,10-09-2024 11:49:11,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.2 1.0.1_cdr.xlsx,Success
+9.1.1.0.52,4.2.0.3 1.0.2_DEMO__XLS.xls,0.074,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.3 1.0.2_DEMO__XLS.xls,Success
+9.1.1.0.53,4.2.0.4 1.0.2_DEMO_XLS.url,0.0,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.4 1.0.2_DEMO_XLS.url,Success
+9.1.1.0.54,4.2.0.5 1.0.3_DEMO__XLXS.xlsx,0.019,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.5 1.0.3_DEMO__XLXS.xlsx,Success
+9.1.1.0.55,4.2.0.6 1.0.3_DEMO_XLXS.url,0.0,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.6 1.0.3_DEMO_XLXS.url,Success
+9.1.1.0.56,4.2.0.7 1.0.4_excel_._csv_delimited.url,0.0,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.7 1.0.4_excel_._csv_delimited.url,Success
+9.1.1.0.57,4.2.0.8 1.0.4_excel__.__csv__delimited.csv,0.0,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.8 1.0.4_excel__.__csv__delimited.csv,Success
+9.1.1.0.58,4.2.0.9 1.0.5_Excel_._xls.url,0.0,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.9 1.0.5_Excel_._xls.url,Success
+9.1.1.0.59,4.2.0.10 1.0.5_Excel__.__xls.xls,0.025,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.10 1.0.5_Excel__.__xls.xls,Success
+9.1.1.0.60,4.2.0.11 1.0.6_Excel_._xlsx.url,0.0,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.11 1.0.6_Excel_._xlsx.url,Success
+9.1.1.0.61,4.2.0.12 1.0.6_Excel__.__xlsx.xlsx,0.008,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.12 1.0.6_Excel__.__xlsx.xlsx,Success
+9.1.1.0.62,4.2.0.13 1.0.7_images__JPEG.jpg,0.013,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.13 1.0.7_images__JPEG.jpg,Success
+9.1.1.0.63,4.2.0.14 1.0.7_images_JPEG.url,0.0,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.14 1.0.7_images_JPEG.url,Success
+9.1.1.0.64,4.2.0.15 1.0.8_jpeg__image.jpg,0.338,10-09-2024 11:49:12,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.15 1.0.8_jpeg__image.jpg,Success
+9.1.1.0.65,4.2.0.16 1.0.8_jpeg_image.url,0.0,10-09-2024 11:49:13,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.16 1.0.8_jpeg_image.url,Success
+9.1.1.0.66,4.2.0.17 1.0.9_jpeg_image.jpg,0.139,10-09-2024 11:49:13,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.17 1.0.9_jpeg_image.jpg,Success
+9.1.1.0.67,4.2.0.18 1.0.9_jpeg_image.url,0.0,10-09-2024 11:49:13,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.18 1.0.9_jpeg_image.url,Success
+9.1.1.0.68,4.2.0.19 1.0.10_Microsoft__office__word__.doc.doc,0.026,10-09-2024 11:49:13,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.19 1.0.10_Microsoft__office__word__.doc.doc,Success
+9.1.1.0.69,4.2.0.20 1.0.10_Microsoft_office_word.url,0.0,10-09-2024 11:49:13,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.20 1.0.10_Microsoft_office_word.url,Success
+9.1.1.0.71,4.2.0.22 1.0.11_New_Microsoft_PowerPoint_Presentation_._ppt.url,0.0,10-09-2024 11:49:13,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.22 1.0.11_New_Microsoft_PowerPoint_Presentation_._ppt.url,Success
+9.1.1.0.72,4.2.0.23 1.0.12_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,0.062,10-09-2024 11:49:14,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.23 1.0.12_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,Success
+9.1.1.0.73,4.2.0.24 1.0.12_New_Microsoft_PowerPoint_Presentation_._pptx.url,0.0,10-09-2024 11:49:14,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.24 1.0.12_New_Microsoft_PowerPoint_Presentation_._pptx.url,Success
+9.1.1.0.74,4.2.0.25 1.0.13_CDMS__DEMO__PDF.pdf,0.122,10-09-2024 11:49:14,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.25 1.0.13_CDMS__DEMO__PDF.pdf,Success
+9.1.1.0.75,4.2.0.26 1.0.13_CDMS_DEMO_PDF.url,0.0,10-09-2024 11:49:14,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.26 1.0.13_CDMS_DEMO_PDF.url,Success
+9.1.1.0.76,4.2.0.27 1.0.14_CDMS__DEMO__PPT.pptx,0.035,10-09-2024 11:49:14,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.27 1.0.14_CDMS__DEMO__PPT.pptx,Success
+9.1.1.0.77,4.2.0.28 1.0.14_CDMS_DEMO_PPT.url,0.0,10-09-2024 11:49:15,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.28 1.0.14_CDMS_DEMO_PPT.url,Success
+9.1.1.0.78,4.2.0.29 1.0.15_CDR.txt,0.0,10-09-2024 11:49:15,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.29 1.0.15_CDR.txt,Success
+9.1.1.0.79,4.2.0.30 1.0.15_CDR.url,0.0,10-09-2024 11:49:15,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.30 1.0.15_CDR.url,Success
+9.1.1.0.80,478.docx,0.011,10-09-2024 11:49:15,Vizcom/Uploading by Shakti/New folder (1)/New folder/478.docx,Success
+9.1.1.0.81,545.docx,0.012,10-09-2024 11:49:15,Vizcom/Uploading by Shakti/New folder (1)/New folder/545.docx,Success
+9.1.1.0.82,T3.pdf,14.401,10-09-2024 11:51:00,Vizcom/Uploading by Shakti/New folder (1)/New folder/T3.pdf,Success
+9.1.1.0.83,T55.pdf,10.912,10-09-2024 11:52:34,Vizcom/Uploading by Shakti/New folder (1)/New folder/T55.pdf,Success
+9.1.1.0.84,TEST.docx,0.011,10-09-2024 11:52:34,Vizcom/Uploading by Shakti/New folder (1)/New folder/TEST.docx,Success
+9.1.1.0.85,Test.jpg,0.369,10-09-2024 11:52:34,Vizcom/Uploading by Shakti/New folder (1)/New folder/Test.jpg,Success
+9.1.1.0.86,TESTING.pdf,0.059,10-09-2024 11:52:35,Vizcom/Uploading by Shakti/New folder (1)/New folder/TESTING.pdf,Success
+9.1.0.1,3.0.3_file_example_JPG_2500kB.jpg,2.389,10-09-2024 11:52:35,Vizcom/Uploading by Shakti/New folder (1)/3.0.3_file_example_JPG_2500kB.jpg,Success
+9.1.0.2,3.0.4_file_example_MP3_5MG.mp3,5.044,10-09-2024 11:52:35,Vizcom/Uploading by Shakti/New folder (1)/3.0.4_file_example_MP3_5MG.mp3,Success
+9.1.0.3,3.0.5_file_example_MP4_1920_18MG.mp4,17.013,10-09-2024 11:52:35,Vizcom/Uploading by Shakti/New folder (1)/3.0.5_file_example_MP4_1920_18MG.mp4,Success
+9.1.0.4,3.0.6_file_example_PPT_1MB.pdf,0.543,10-09-2024 11:52:36,Vizcom/Uploading by Shakti/New folder (1)/3.0.6_file_example_PPT_1MB.pdf,Success
+9.1.0.5,3.0.7_file_example_TIFF_10MB.tiff,9.681,10-09-2024 11:52:36,Vizcom/Uploading by Shakti/New folder (1)/3.0.7_file_example_TIFF_10MB.tiff,Success
+9.1.0.6,3.0.8_file_example_XLSX_5000.pdf,4.298,10-09-2024 11:52:58,Vizcom/Uploading by Shakti/New folder (1)/3.0.8_file_example_XLSX_5000.pdf,Success
+9.1.0.7,3.0.9_sampleDocs__green__background____image..jpg,13.986,10-09-2024 11:52:58,Vizcom/Uploading by Shakti/New folder (1)/3.0.9_sampleDocs__green__background____image..jpg,Success
+9.1.0.8,3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,0.059,10-09-2024 11:52:59,Vizcom/Uploading by Shakti/New folder (1)/3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,Success
+9.1.0.9,3.1.1.0.2_2__Text__Document-Demo.txt,0.0,10-09-2024 11:52:59,Vizcom/Uploading by Shakti/New folder (1)/3.1.1.0.2_2__Text__Document-Demo.txt,Success
+9.1.0.10,3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,0.032,10-09-2024 11:52:59,Vizcom/Uploading by Shakti/New folder (1)/3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,Success
+9.1.0.11,3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,0.01,10-09-2024 11:52:59,Vizcom/Uploading by Shakti/New folder (1)/3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,Success
+9.1.0.12,3.1.1.0.5_Demo__PDF__File.pdf,0.021,10-09-2024 11:53:00,Vizcom/Uploading by Shakti/New folder (1)/3.1.1.0.5_Demo__PDF__File.pdf,Success
+9.1.0.13,3.1.1.0.6_IMAGE__JPEG.jpg,0.007,10-09-2024 11:53:00,Vizcom/Uploading by Shakti/New folder (1)/3.1.1.0.6_IMAGE__JPEG.jpg,Success
+9.1.0.14,3.1.1.0.7_IMAGE__PNG.jpg,0.009,10-09-2024 11:53:00,Vizcom/Uploading by Shakti/New folder (1)/3.1.1.0.7_IMAGE__PNG.jpg,Success
+9.1.0.15,3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,0.03,10-09-2024 11:53:00,Vizcom/Uploading by Shakti/New folder (1)/3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,Success
+9.1.0.16,3.1.1.0.9_Thumbs.db,0.067,10-09-2024 11:53:00,Vizcom/Uploading by Shakti/New folder (1)/3.1.1.0.9_Thumbs.db,Success
+9.1.0.17,3.1.1.0.10_~$crosoft__Word__Document-Demo.pdf,0.017,10-09-2024 11:53:01,Vizcom/Uploading by Shakti/New folder (1)/3.1.1.0.10_~$crosoft__Word__Document-Demo.pdf,Success
+9.1.0.18,3.1.2.0.1_excel__with__hyper__link_____diagram.pdf,0.032,10-09-2024 11:53:01,Vizcom/Uploading by Shakti/New folder (1)/3.1.2.0.1_excel__with__hyper__link_____diagram.pdf,Success
+9.1.0.19,3.1.2.0.2_excel__with__hyper__link_____diagram.pdf,0.032,10-09-2024 11:53:01,Vizcom/Uploading by Shakti/New folder (1)/3.1.2.0.2_excel__with__hyper__link_____diagram.pdf,Success
+9.1.0.20,3.1.2.0.3_PPT__with__hyper__link.pdf,0.059,10-09-2024 11:53:02,Vizcom/Uploading by Shakti/New folder (1)/3.1.2.0.3_PPT__with__hyper__link.pdf,Success
+9.1.0.21,3.1.2.0.4_Thumbs.db,0.01,10-09-2024 11:53:02,Vizcom/Uploading by Shakti/New folder (1)/3.1.2.0.4_Thumbs.db,Success
+9.1.0.22,3.1.2.0.5_word__with__hyper__link.pdf,0.024,10-09-2024 11:53:02,Vizcom/Uploading by Shakti/New folder (1)/3.1.2.0.5_word__with__hyper__link.pdf,Success
+9.1.0.23,4.0.1 2.0.5_file_example_MP4_1920_18MG.mp4,17.013,10-09-2024 11:53:02,Vizcom/Uploading by Shakti/New folder (1)/4.0.1 2.0.5_file_example_MP4_1920_18MG.mp4,Success
+9.1.0.24,4.0.2 2.2.0.1_Apache__Open__Office__.__odt.odt,0.004,10-09-2024 11:53:03,Vizcom/Uploading by Shakti/New folder (1)/4.0.2 2.2.0.1_Apache__Open__Office__.__odt.odt,Success
+9.1.0.25,4.0.3 2.2.0.2_CDMS__DEMO__PDF.pdf,0.122,10-09-2024 11:53:04,Vizcom/Uploading by Shakti/New folder (1)/4.0.3 2.2.0.2_CDMS__DEMO__PDF.pdf,Success
+9.1.0.26,4.0.4 2.2.0.3_CDMS__DEMO__PPT.pptx,0.035,10-09-2024 11:53:04,Vizcom/Uploading by Shakti/New folder (1)/4.0.4 2.2.0.3_CDMS__DEMO__PPT.pptx,Success
+9.1.0.27,4.0.5 2.2.0.4_CDR.txt,0.0,10-09-2024 11:53:04,Vizcom/Uploading by Shakti/New folder (1)/4.0.5 2.2.0.4_CDR.txt,Success
+9.1.0.28,4.0.6 2.2.0.5_cdr.xlsx,0.01,10-09-2024 11:53:04,Vizcom/Uploading by Shakti/New folder (1)/4.0.6 2.2.0.5_cdr.xlsx,Success
+9.1.0.29,4.0.7 2.2.0.6_DEMO__XLS.xls,0.074,10-09-2024 11:53:05,Vizcom/Uploading by Shakti/New folder (1)/4.0.7 2.2.0.6_DEMO__XLS.xls,Success
+9.1.0.30,4.0.8 2.2.0.7_DEMO__XLXS.xlsx,0.019,10-09-2024 11:53:05,Vizcom/Uploading by Shakti/New folder (1)/4.0.8 2.2.0.7_DEMO__XLXS.xlsx,Success
+9.1.0.31,4.0.9 2.2.0.8_excel__.__csv__delimited.csv,0.0,10-09-2024 11:53:05,Vizcom/Uploading by Shakti/New folder (1)/4.0.9 2.2.0.8_excel__.__csv__delimited.csv,Success
+9.1.0.32,4.0.10 2.2.0.9_Excel__.__xls.xls,0.025,10-09-2024 11:53:05,Vizcom/Uploading by Shakti/New folder (1)/4.0.10 2.2.0.9_Excel__.__xls.xls,Success
+9.1.0.33,4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,0.008,10-09-2024 11:53:05,Vizcom/Uploading by Shakti/New folder (1)/4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,Success
+9.1.0.34,4.0.12 2.2.0.11_images__JPEG.jpg,0.013,10-09-2024 11:53:05,Vizcom/Uploading by Shakti/New folder (1)/4.0.12 2.2.0.11_images__JPEG.jpg,Success
+9.1.0.35,4.0.13 2.2.0.12_jpeg__image.jpg,0.338,10-09-2024 11:53:05,Vizcom/Uploading by Shakti/New folder (1)/4.0.13 2.2.0.12_jpeg__image.jpg,Success
+9.1.0.36,4.0.14 2.2.0.13_jpeg_image.jpg,0.139,10-09-2024 11:53:06,Vizcom/Uploading by Shakti/New folder (1)/4.0.14 2.2.0.13_jpeg_image.jpg,Success
+9.1.0.38,4.0.16 2.2.0.15_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,0.062,10-09-2024 11:53:06,Vizcom/Uploading by Shakti/New folder (1)/4.0.16 2.2.0.15_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,Success
+9.1.0.39,4.0.17 2.2.0.16_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,0.062,10-09-2024 11:53:07,Vizcom/Uploading by Shakti/New folder (1)/4.0.17 2.2.0.16_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,Success
+9.1.0.40,4.0.18 2.2.0.17_New__Microsoft__Word__Document__.docx.docx,0.011,10-09-2024 11:53:07,Vizcom/Uploading by Shakti/New folder (1)/4.0.18 2.2.0.17_New__Microsoft__Word__Document__.docx.docx,Success
+9.1.0.41,4.0.19 2.2.0.18_New__Microsoft__Word__Document__TEXT.txt,0.0,10-09-2024 11:53:07,Vizcom/Uploading by Shakti/New folder (1)/4.0.19 2.2.0.18_New__Microsoft__Word__Document__TEXT.txt,Success
+9.1.0.42,4.0.20 2.2.0.19_New__Rich__Text__Document__.__rtf.rtf,0.039,10-09-2024 11:53:07,Vizcom/Uploading by Shakti/New folder (1)/4.0.20 2.2.0.19_New__Rich__Text__Document__.__rtf.rtf,Success
+9.1.0.43,4.0.21 2.2.0.20_PDF.pdf,0.031,10-09-2024 11:53:08,Vizcom/Uploading by Shakti/New folder (1)/4.0.21 2.2.0.20_PDF.pdf,Success
+9.1.0.44,4.0.22 2.2.0.21_test__disclaimer.pdf,0.032,10-09-2024 11:53:08,Vizcom/Uploading by Shakti/New folder (1)/4.0.22 2.2.0.21_test__disclaimer.pdf,Success
+9.1.0.45,4.0.23 2.2.0.22_Thumbs.db,0.004,10-09-2024 11:53:08,Vizcom/Uploading by Shakti/New folder (1)/4.0.23 2.2.0.22_Thumbs.db,Success
+9.1.0.46,4.0.24 2.2.0.23_zip_10MB.zip,10.185,10-09-2024 11:53:08,Vizcom/Uploading by Shakti/New folder (1)/4.0.24 2.2.0.23_zip_10MB.zip,Success
+9.1.0.47,4.1.0.1 2.2.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pptx,0.075,10-09-2024 11:53:09,Vizcom/Uploading by Shakti/New folder (1)/4.1.0.1 2.2.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pptx,Success
+9.1.0.48,4.1.0.2 2.2.1.0.2_2__Text__Document-Demo.txt,0.0,10-09-2024 11:53:09,Vizcom/Uploading by Shakti/New folder (1)/4.1.0.2 2.2.1.0.2_2__Text__Document-Demo.txt,Success
+9.1.0.49,4.1.0.3 2.2.1.0.3_3__Microsoft__Excel__Worksheet-Demo.csv,0.001,10-09-2024 11:53:09,Vizcom/Uploading by Shakti/New folder (1)/4.1.0.3 2.2.1.0.3_3__Microsoft__Excel__Worksheet-Demo.csv,Success
+9.1.0.50,4.1.0.4 2.2.1.0.4_3.0.7__DISCLAIMERS.docx,0.012,10-09-2024 11:53:09,Vizcom/Uploading by Shakti/New folder (1)/4.1.0.4 2.2.1.0.4_3.0.7__DISCLAIMERS.docx,Success
+9.1.0.51,4.1.0.5 2.2.1.0.5_Demo__PDF__File.pdf,0.022,10-09-2024 11:53:10,Vizcom/Uploading by Shakti/New folder (1)/4.1.0.5 2.2.1.0.5_Demo__PDF__File.pdf,Success
+9.1.0.52,4.1.0.6 2.2.1.0.6_IMAGE__JPEG.jpg,0.007,10-09-2024 11:53:10,Vizcom/Uploading by Shakti/New folder (1)/4.1.0.6 2.2.1.0.6_IMAGE__JPEG.jpg,Success
+9.1.0.53,4.1.0.7 2.2.1.0.7_IMAGE__PNG.jpg,0.009,10-09-2024 11:53:10,Vizcom/Uploading by Shakti/New folder (1)/4.1.0.7 2.2.1.0.7_IMAGE__PNG.jpg,Success
+9.1.0.54,4.1.0.8 2.2.1.0.8_Microsoft__Word__Document-Demo.docx,0.013,10-09-2024 11:53:10,Vizcom/Uploading by Shakti/New folder (1)/4.1.0.8 2.2.1.0.8_Microsoft__Word__Document-Demo.docx,Success
+9.1.0.56,4.2.0.1 1.0.1_cdr.url,0.0,10-09-2024 11:53:10,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.1 1.0.1_cdr.url,Success
+9.1.0.57,4.2.0.2 1.0.1_cdr.xlsx,0.01,10-09-2024 11:53:10,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.2 1.0.1_cdr.xlsx,Success
+9.1.0.58,4.2.0.3 1.0.2_DEMO__XLS.xls,0.074,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.3 1.0.2_DEMO__XLS.xls,Success
+9.1.0.59,4.2.0.4 1.0.2_DEMO_XLS.url,0.0,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.4 1.0.2_DEMO_XLS.url,Success
+9.1.0.60,4.2.0.5 1.0.3_DEMO__XLXS.xlsx,0.019,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.5 1.0.3_DEMO__XLXS.xlsx,Success
+9.1.0.61,4.2.0.6 1.0.3_DEMO_XLXS.url,0.0,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.6 1.0.3_DEMO_XLXS.url,Success
+9.1.0.62,4.2.0.7 1.0.4_excel_._csv_delimited.url,0.0,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.7 1.0.4_excel_._csv_delimited.url,Success
+9.1.0.63,4.2.0.8 1.0.4_excel__.__csv__delimited.csv,0.0,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.8 1.0.4_excel__.__csv__delimited.csv,Success
+9.1.0.64,4.2.0.9 1.0.5_Excel_._xls.url,0.0,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.9 1.0.5_Excel_._xls.url,Success
+9.1.0.65,4.2.0.10 1.0.5_Excel__.__xls.xls,0.025,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.10 1.0.5_Excel__.__xls.xls,Success
+9.1.0.66,4.2.0.11 1.0.6_Excel_._xlsx.url,0.0,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.11 1.0.6_Excel_._xlsx.url,Success
+9.1.0.67,4.2.0.12 1.0.6_Excel__.__xlsx.xlsx,0.008,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.12 1.0.6_Excel__.__xlsx.xlsx,Success
+9.1.0.68,4.2.0.13 1.0.7_images__JPEG.jpg,0.013,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.13 1.0.7_images__JPEG.jpg,Success
+9.1.0.69,4.2.0.14 1.0.7_images_JPEG.url,0.0,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.14 1.0.7_images_JPEG.url,Success
+9.1.0.70,4.2.0.15 1.0.8_jpeg__image.jpg,0.338,10-09-2024 11:53:11,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.15 1.0.8_jpeg__image.jpg,Success
+9.1.0.71,4.2.0.16 1.0.8_jpeg_image.url,0.0,10-09-2024 11:53:12,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.16 1.0.8_jpeg_image.url,Success
+9.1.0.72,4.2.0.17 1.0.9_jpeg_image.jpg,0.139,10-09-2024 11:53:12,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.17 1.0.9_jpeg_image.jpg,Success
+9.1.0.73,4.2.0.18 1.0.9_jpeg_image.url,0.0,10-09-2024 11:53:12,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.18 1.0.9_jpeg_image.url,Success
+9.1.0.74,4.2.0.19 1.0.10_Microsoft__office__word__.doc.doc,0.026,10-09-2024 11:53:12,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.19 1.0.10_Microsoft__office__word__.doc.doc,Success
+9.1.0.75,4.2.0.20 1.0.10_Microsoft_office_word.url,0.0,10-09-2024 11:53:12,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.20 1.0.10_Microsoft_office_word.url,Success
+9.1.0.76,4.2.0.21 1.0.11_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,0.062,10-09-2024 11:53:13,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.21 1.0.11_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,Success
+9.1.0.77,4.2.0.22 1.0.11_New_Microsoft_PowerPoint_Presentation_._ppt.url,0.0,10-09-2024 11:53:13,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.22 1.0.11_New_Microsoft_PowerPoint_Presentation_._ppt.url,Success
+9.1.0.78,4.2.0.23 1.0.12_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,0.062,10-09-2024 11:53:13,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.23 1.0.12_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,Success
+9.1.0.79,4.2.0.24 1.0.12_New_Microsoft_PowerPoint_Presentation_._pptx.url,0.0,10-09-2024 11:53:13,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.24 1.0.12_New_Microsoft_PowerPoint_Presentation_._pptx.url,Success
+9.1.0.80,4.2.0.25 1.0.13_CDMS__DEMO__PDF.pdf,0.122,10-09-2024 11:53:14,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.25 1.0.13_CDMS__DEMO__PDF.pdf,Success
+9.1.0.81,4.2.0.26 1.0.13_CDMS_DEMO_PDF.url,0.0,10-09-2024 11:53:14,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.26 1.0.13_CDMS_DEMO_PDF.url,Success
+9.1.0.82,4.2.0.27 1.0.14_CDMS__DEMO__PPT.pptx,0.035,10-09-2024 11:53:14,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.27 1.0.14_CDMS__DEMO__PPT.pptx,Success
+9.1.0.83,4.2.0.28 1.0.14_CDMS_DEMO_PPT.url,0.0,10-09-2024 11:53:14,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.28 1.0.14_CDMS_DEMO_PPT.url,Success
+9.1.0.84,4.2.0.29 1.0.15_CDR.txt,0.0,10-09-2024 11:53:14,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.29 1.0.15_CDR.txt,Success
+9.1.0.85,4.2.0.30 1.0.15_CDR.url,0.0,10-09-2024 11:53:14,Vizcom/Uploading by Shakti/New folder (1)/4.2.0.30 1.0.15_CDR.url,Success
+9.1.0.86,478.docx,0.011,10-09-2024 11:53:15,Vizcom/Uploading by Shakti/New folder (1)/478.docx,Success
+9.1.0.87,545.docx,0.012,10-09-2024 11:53:15,Vizcom/Uploading by Shakti/New folder (1)/545.docx,Success
+9.1.0.88,T3.pdf,14.401,10-09-2024 11:54:58,Vizcom/Uploading by Shakti/New folder (1)/T3.pdf,Success
+9.1.0.89,T55.pdf,10.912,10-09-2024 11:56:32,Vizcom/Uploading by Shakti/New folder (1)/T55.pdf,Success
+9.1.0.90,TEST.docx,0.011,10-09-2024 11:56:32,Vizcom/Uploading by Shakti/New folder (1)/TEST.docx,Success
+9.1.0.91,Test.jpg,0.369,10-09-2024 11:56:32,Vizcom/Uploading by Shakti/New folder (1)/Test.jpg,Success
+9.1.0.92,TESTING.pdf,0.059,10-09-2024 11:56:32,Vizcom/Uploading by Shakti/New folder (1)/TESTING.pdf,Success
+9.2.0.1,1.0.3_excel__with__hyper__link_____diagram.xlsx,0.017,10-09-2024 11:56:33,Vizcom/Uploading by Shakti/ttt/1.0.3_excel__with__hyper__link_____diagram.xlsx,Success
+9.2.1.0.1,3.0.9_sampleDocs__green__background____image..jpg,13.986,10-09-2024 11:56:33,Vizcom/Uploading by Shakti/ttt/New folder/3.0.9_sampleDocs__green__background____image..jpg,Success
+9.2.1.1.0.1,3.0.9_sampleDocs__green__background____image..jpg,13.986,10-09-2024 11:56:33,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.0.9_sampleDocs__green__background____image..jpg,Success
+9.2.1.1.0.2,3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,0.059,10-09-2024 11:56:33,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,Success
+9.2.1.1.0.3,3.1.1.0.2_2__Text__Document-Demo.txt,0.0,10-09-2024 11:56:34,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.1.0.2_2__Text__Document-Demo.txt,Success
+9.2.1.1.0.4,3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,0.032,10-09-2024 11:56:34,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,Success
+9.2.1.1.0.5,3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,0.01,10-09-2024 11:56:34,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,Success
+9.2.1.1.0.6,3.1.1.0.5_Demo__PDF__File.pdf,0.021,10-09-2024 11:56:35,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.1.0.5_Demo__PDF__File.pdf,Success
+9.2.1.1.0.7,3.1.1.0.6_IMAGE__JPEG.jpg,0.007,10-09-2024 11:56:35,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.1.0.6_IMAGE__JPEG.jpg,Success
+9.2.1.1.0.8,3.1.1.0.7_IMAGE__PNG.jpg,0.009,10-09-2024 11:56:35,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.1.0.7_IMAGE__PNG.jpg,Success
+9.2.1.1.0.9,3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,0.03,10-09-2024 11:56:35,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,Success
+9.2.1.1.0.10,3.1.1.0.9_Thumbs.db,0.067,10-09-2024 11:56:35,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.1.0.9_Thumbs.db,Success
+9.2.1.1.0.11,3.1.1.0.10_~$crosoft__Word__Document-Demo.pdf,0.017,10-09-2024 11:56:36,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.1.0.10_~$crosoft__Word__Document-Demo.pdf,Success
+9.2.1.1.0.12,3.1.2.0.1_excel__with__hyper__link_____diagram.pdf,0.032,10-09-2024 11:56:36,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.2.0.1_excel__with__hyper__link_____diagram.pdf,Success
+9.2.1.1.0.13,3.1.2.0.2_excel__with__hyper__link_____diagram.pdf,0.032,10-09-2024 11:56:36,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.2.0.2_excel__with__hyper__link_____diagram.pdf,Success
+9.2.1.1.0.14,3.1.2.0.3_PPT__with__hyper__link.pdf,0.059,10-09-2024 11:56:37,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.2.0.3_PPT__with__hyper__link.pdf,Success
+9.2.1.1.0.15,3.1.2.0.4_Thumbs.db,0.01,10-09-2024 11:56:37,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.2.0.4_Thumbs.db,Success
+9.2.1.1.0.16,3.1.2.0.5_word__with__hyper__link.pdf,0.024,10-09-2024 11:56:37,Vizcom/Uploading by Shakti/ttt/New folder/New folder/3.1.2.0.5_word__with__hyper__link.pdf,Success
+9.2.1.1.0.17,4.0.1 2.0.5_file_example_MP4_1920_18MG.mp4,17.013,10-09-2024 11:56:37,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.1 2.0.5_file_example_MP4_1920_18MG.mp4,Success
+9.2.1.1.0.18,4.0.2 2.2.0.1_Apache__Open__Office__.__odt.odt,0.004,10-09-2024 11:56:37,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.2 2.2.0.1_Apache__Open__Office__.__odt.odt,Success
+9.2.1.1.0.19,4.0.3 2.2.0.2_CDMS__DEMO__PDF.pdf,0.122,10-09-2024 11:56:38,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.3 2.2.0.2_CDMS__DEMO__PDF.pdf,Success
+9.2.1.1.0.20,4.0.4 2.2.0.3_CDMS__DEMO__PPT.pptx,0.035,10-09-2024 11:56:38,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.4 2.2.0.3_CDMS__DEMO__PPT.pptx,Success
+9.2.1.1.0.21,4.0.5 2.2.0.4_CDR.txt,0.0,10-09-2024 11:56:38,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.5 2.2.0.4_CDR.txt,Success
+9.2.1.1.0.22,4.0.6 2.2.0.5_cdr.xlsx,0.01,10-09-2024 11:56:38,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.6 2.2.0.5_cdr.xlsx,Success
+9.2.1.1.0.23,4.0.7 2.2.0.6_DEMO__XLS.xls,0.074,10-09-2024 11:56:39,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.7 2.2.0.6_DEMO__XLS.xls,Success
+9.2.1.1.0.24,4.0.8 2.2.0.7_DEMO__XLXS.xlsx,0.019,10-09-2024 11:56:39,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.8 2.2.0.7_DEMO__XLXS.xlsx,Success
+9.2.1.1.0.25,4.0.9 2.2.0.8_excel__.__csv__delimited.csv,0.0,10-09-2024 11:56:39,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.9 2.2.0.8_excel__.__csv__delimited.csv,Success
+9.2.1.1.0.26,4.0.10 2.2.0.9_Excel__.__xls.xls,0.025,10-09-2024 11:56:39,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.10 2.2.0.9_Excel__.__xls.xls,Success
+9.2.1.1.0.27,4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,0.008,10-09-2024 11:56:39,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,Success
+9.2.1.1.0.28,4.0.12 2.2.0.11_images__JPEG.jpg,0.013,10-09-2024 11:56:39,Vizcom/Uploading by Shakti/ttt/New folder/New folder/4.0.12 2.2.0.11_images__JPEG.jpg,Success
+9.2.1.0.2,3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,0.059,10-09-2024 11:56:39,Vizcom/Uploading by Shakti/ttt/New folder/3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,Success
+9.2.1.0.3,3.1.1.0.2_2__Text__Document-Demo.txt,0.0,10-09-2024 11:56:39,Vizcom/Uploading by Shakti/ttt/New folder/3.1.1.0.2_2__Text__Document-Demo.txt,Success
+9.2.1.0.4,3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,0.032,10-09-2024 11:56:40,Vizcom/Uploading by Shakti/ttt/New folder/3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,Success
+9.2.1.0.5,3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,0.01,10-09-2024 11:56:40,Vizcom/Uploading by Shakti/ttt/New folder/3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,Success
+9.2.1.0.6,3.1.1.0.5_Demo__PDF__File.pdf,0.021,10-09-2024 11:56:40,Vizcom/Uploading by Shakti/ttt/New folder/3.1.1.0.5_Demo__PDF__File.pdf,Success
+9.2.1.0.7,3.1.1.0.6_IMAGE__JPEG.jpg,0.007,10-09-2024 11:56:41,Vizcom/Uploading by Shakti/ttt/New folder/3.1.1.0.6_IMAGE__JPEG.jpg,Success
+9.2.1.0.8,3.1.1.0.7_IMAGE__PNG.jpg,0.009,10-09-2024 11:56:41,Vizcom/Uploading by Shakti/ttt/New folder/3.1.1.0.7_IMAGE__PNG.jpg,Success
+9.2.1.0.9,3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,0.03,10-09-2024 11:56:41,Vizcom/Uploading by Shakti/ttt/New folder/3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,Success
+9.2.1.0.10,3.1.1.0.9_Thumbs.db,0.067,10-09-2024 11:56:41,Vizcom/Uploading by Shakti/ttt/New folder/3.1.1.0.9_Thumbs.db,Success
+9.2.1.0.11,3.1.1.0.10_~$crosoft__Word__Document-Demo.pdf,0.017,10-09-2024 11:56:41,Vizcom/Uploading by Shakti/ttt/New folder/3.1.1.0.10_~$crosoft__Word__Document-Demo.pdf,Success
+9.2.1.0.12,3.1.2.0.1_excel__with__hyper__link_____diagram.pdf,0.032,10-09-2024 11:56:42,Vizcom/Uploading by Shakti/ttt/New folder/3.1.2.0.1_excel__with__hyper__link_____diagram.pdf,Success
+9.2.1.0.13,3.1.2.0.2_excel__with__hyper__link_____diagram.pdf,0.032,10-09-2024 11:56:42,Vizcom/Uploading by Shakti/ttt/New folder/3.1.2.0.2_excel__with__hyper__link_____diagram.pdf,Success
+9.2.1.0.14,3.1.2.0.3_PPT__with__hyper__link.pdf,0.059,10-09-2024 11:56:43,Vizcom/Uploading by Shakti/ttt/New folder/3.1.2.0.3_PPT__with__hyper__link.pdf,Success
+9.2.1.0.15,3.1.2.0.4_Thumbs.db,0.01,10-09-2024 11:56:43,Vizcom/Uploading by Shakti/ttt/New folder/3.1.2.0.4_Thumbs.db,Success
+9.2.1.0.16,3.1.2.0.5_word__with__hyper__link.pdf,0.024,10-09-2024 11:56:43,Vizcom/Uploading by Shakti/ttt/New folder/3.1.2.0.5_word__with__hyper__link.pdf,Success
+9.2.1.0.17,4.0.1 2.0.5_file_example_MP4_1920_18MG.mp4,17.013,10-09-2024 11:56:43,Vizcom/Uploading by Shakti/ttt/New folder/4.0.1 2.0.5_file_example_MP4_1920_18MG.mp4,Success
+9.2.1.0.18,4.0.2 2.2.0.1_Apache__Open__Office__.__odt.odt,0.004,10-09-2024 11:56:43,Vizcom/Uploading by Shakti/ttt/New folder/4.0.2 2.2.0.1_Apache__Open__Office__.__odt.odt,Success
+9.2.1.0.19,4.0.3 2.2.0.2_CDMS__DEMO__PDF.pdf,0.122,10-09-2024 11:56:44,Vizcom/Uploading by Shakti/ttt/New folder/4.0.3 2.2.0.2_CDMS__DEMO__PDF.pdf,Success
+9.2.1.0.20,4.0.4 2.2.0.3_CDMS__DEMO__PPT.pptx,0.035,10-09-2024 11:56:44,Vizcom/Uploading by Shakti/ttt/New folder/4.0.4 2.2.0.3_CDMS__DEMO__PPT.pptx,Success
+9.2.1.0.21,4.0.5 2.2.0.4_CDR.txt,0.0,10-09-2024 11:56:44,Vizcom/Uploading by Shakti/ttt/New folder/4.0.5 2.2.0.4_CDR.txt,Success
+9.2.1.0.22,4.0.6 2.2.0.5_cdr.xlsx,0.01,10-09-2024 11:56:44,Vizcom/Uploading by Shakti/ttt/New folder/4.0.6 2.2.0.5_cdr.xlsx,Success
+9.2.1.0.23,4.0.7 2.2.0.6_DEMO__XLS.xls,0.074,10-09-2024 11:56:44,Vizcom/Uploading by Shakti/ttt/New folder/4.0.7 2.2.0.6_DEMO__XLS.xls,Success
+9.2.1.0.24,4.0.8 2.2.0.7_DEMO__XLXS.xlsx,0.019,10-09-2024 11:56:44,Vizcom/Uploading by Shakti/ttt/New folder/4.0.8 2.2.0.7_DEMO__XLXS.xlsx,Success
+9.2.1.0.25,4.0.9 2.2.0.8_excel__.__csv__delimited.csv,0.0,10-09-2024 11:56:44,Vizcom/Uploading by Shakti/ttt/New folder/4.0.9 2.2.0.8_excel__.__csv__delimited.csv,Success
+9.2.1.0.26,4.0.10 2.2.0.9_Excel__.__xls.xls,0.025,10-09-2024 11:56:45,Vizcom/Uploading by Shakti/ttt/New folder/4.0.10 2.2.0.9_Excel__.__xls.xls,Success
+9.2.1.0.27,4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,0.008,10-09-2024 11:56:45,Vizcom/Uploading by Shakti/ttt/New folder/4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,Success
+9.2.1.0.28,4.0.12 2.2.0.11_images__JPEG.jpg,0.013,10-09-2024 11:56:45,Vizcom/Uploading by Shakti/ttt/New folder/4.0.12 2.2.0.11_images__JPEG.jpg,Success
+9.2.1.0.29,4.0.13 2.2.0.12_jpeg__image.jpg,0.338,10-09-2024 11:56:45,Vizcom/Uploading by Shakti/ttt/New folder/4.0.13 2.2.0.12_jpeg__image.jpg,Success
+9.2.1.0.30,4.0.14 2.2.0.13_jpeg_image.jpg,0.139,10-09-2024 11:56:45,Vizcom/Uploading by Shakti/ttt/New folder/4.0.14 2.2.0.13_jpeg_image.jpg,Success
+9.2.1.0.31,4.0.15 2.2.0.14_Microsoft__office__word__.doc.doc,0.026,10-09-2024 11:56:45,Vizcom/Uploading by Shakti/ttt/New folder/4.0.15 2.2.0.14_Microsoft__office__word__.doc.doc,Success
+9.2.1.0.32,4.0.16 2.2.0.15_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,0.062,10-09-2024 11:56:45,Vizcom/Uploading by Shakti/ttt/New folder/4.0.16 2.2.0.15_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,Success
+9.2.1.0.33,4.0.17 2.2.0.16_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,0.062,10-09-2024 11:56:46,Vizcom/Uploading by Shakti/ttt/New folder/4.0.17 2.2.0.16_New__Microsoft__PowerPoint__Presentation__.__pptx.pptx,Success
+9.2.1.0.34,4.0.18 2.2.0.17_New__Microsoft__Word__Document__.docx.docx,0.011,10-09-2024 11:56:46,Vizcom/Uploading by Shakti/ttt/New folder/4.0.18 2.2.0.17_New__Microsoft__Word__Document__.docx.docx,Success
+9.2.0.2,1.0.4_PPT__with__hyper__link.pptx,0.075,10-09-2024 11:56:46,Vizcom/Uploading by Shakti/ttt/1.0.4_PPT__with__hyper__link.pptx,Success
+9.2.0.3,1.0.5_word__with__hyper__link.docx,0.012,10-09-2024 11:56:50,Vizcom/Uploading by Shakti/ttt/1.0.5_word__with__hyper__link.docx,Success
+9.2.0.4,1.0.8_SP_test-__Activity__by__Files__report__-__2022-01-27__12-11-15.csv,0.112,10-09-2024 11:56:50,Vizcom/Uploading by Shakti/ttt/1.0.8_SP_test-__Activity__by__Files__report__-__2022-01-27__12-11-15.csv,Success
+9.0.2,3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,0.059,10-09-2024 11:56:51,Vizcom/Uploading by Shakti/3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,Success
+9.0.3,3.1.1.0.2_2__Text__Document-Demo.txt,0.0,10-09-2024 11:56:51,Vizcom/Uploading by Shakti/3.1.1.0.2_2__Text__Document-Demo.txt,Success
+9.3.1.1.0.1,1.0.10_word__with__hyper__link__(1).docx,0.012,10-09-2024 11:56:51,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/1.0.10_word__with__hyper__link__(1).docx,Success
+9.3.1.1.1.1.1.1.1.0.1,1.0.10_word__with__hyper__link__(1).docx,0.012,10-09-2024 11:56:52,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/New folder/1.0.10_word__with__hyper__link__(1).docx,Success
+9.3.1.1.1.1.1.1.1.0.2,1.1.0.1 Demo1.docx,0.012,10-09-2024 11:56:52,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/New folder/1.1.0.1 Demo1.docx,Success
+9.3.1.1.1.1.1.1.1.0.3,1.1.0.1 Demo1.pdf,0.031,10-09-2024 11:56:53,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/New folder/1.1.0.1 Demo1.pdf,Success
+9.3.1.1.1.1.1.1.1.0.4,1.1.0.2 Demo2.xlsx,1.425,10-09-2024 11:56:53,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/New folder/1.1.0.2 Demo2.xlsx,Success
+9.3.1.1.1.1.1.1.1.0.5,1.1.0.3 Demo3.pptx,0.032,10-09-2024 11:56:53,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/New folder/1.1.0.3 Demo3.pptx,Success
+9.3.1.1.1.1.1.1.1.0.6,1.1.0.4 Demo4.pdf,0.029,10-09-2024 11:56:54,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/New folder/1.1.0.4 Demo4.pdf,Success
+9.3.1.1.1.1.1.1.1.0.7,3.0.1_file-sample_1MB.pdf,0.485,10-09-2024 11:56:55,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/New folder/3.0.1_file-sample_1MB.pdf,Success
+9.3.1.1.1.1.1.1.1.0.8,3.0.2_file_example_CSV_5000.pdf,3.988,10-09-2024 11:57:14,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/New folder/3.0.2_file_example_CSV_5000.pdf,Success
+9.3.1.1.1.1.1.1.0.1,1.0.10_word__with__hyper__link__(1).docx,0.012,10-09-2024 11:57:14,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/1.0.10_word__with__hyper__link__(1).docx,Success
+9.3.1.1.1.1.1.1.0.2,1.1.0.1 Demo1.docx,0.012,10-09-2024 11:57:15,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/1.1.0.1 Demo1.docx,Success
+9.3.1.1.1.1.1.1.0.3,1.1.0.1 Demo1.pdf,0.031,10-09-2024 11:57:15,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/1.1.0.1 Demo1.pdf,Success
+9.3.1.1.1.1.1.1.0.4,1.1.0.2 Demo2.xlsx,1.425,10-09-2024 11:57:15,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/1.1.0.2 Demo2.xlsx,Success
+9.3.1.1.1.1.1.1.0.5,1.1.0.3 Demo3.pptx,0.032,10-09-2024 11:57:16,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/1.1.0.3 Demo3.pptx,Success
+9.3.1.1.1.1.1.1.0.6,1.1.0.4 Demo4.pdf,0.029,10-09-2024 11:57:16,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/1.1.0.4 Demo4.pdf,Success
+9.3.1.1.1.1.1.1.0.7,3.0.1_file-sample_1MB.pdf,0.485,10-09-2024 11:57:17,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/3.0.1_file-sample_1MB.pdf,Success
+9.3.1.1.1.1.1.1.0.8,3.0.2_file_example_CSV_5000.pdf,3.988,10-09-2024 11:57:36,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/New folder/3.0.2_file_example_CSV_5000.pdf,Success
+9.3.1.1.1.1.1.0.1,1.0.10_word__with__hyper__link__(1).docx,0.012,10-09-2024 11:57:36,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/1.0.10_word__with__hyper__link__(1).docx,Success
+9.3.1.1.1.1.1.0.2,1.1.0.1 Demo1.docx,0.012,10-09-2024 11:57:37,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/1.1.0.1 Demo1.docx,Success
+9.3.1.1.1.1.1.0.3,1.1.0.1 Demo1.pdf,0.031,10-09-2024 11:57:37,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/1.1.0.1 Demo1.pdf,Success
+9.3.1.1.1.1.1.0.4,1.1.0.2 Demo2.xlsx,1.425,10-09-2024 11:57:37,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/1.1.0.2 Demo2.xlsx,Success
+9.3.1.1.1.1.1.0.5,1.1.0.3 Demo3.pptx,0.032,10-09-2024 11:57:37,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/1.1.0.3 Demo3.pptx,Success
+9.3.1.1.1.1.1.0.6,1.1.0.4 Demo4.pdf,0.029,10-09-2024 11:57:38,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/1.1.0.4 Demo4.pdf,Success
+9.3.1.1.1.1.1.0.7,3.0.1_file-sample_1MB.pdf,0.485,10-09-2024 11:57:39,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/3.0.1_file-sample_1MB.pdf,Success
+9.3.1.1.1.1.1.0.8,3.0.2_file_example_CSV_5000.pdf,3.988,10-09-2024 11:57:58,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/New folder/3.0.2_file_example_CSV_5000.pdf,Success
+9.3.1.1.1.1.0.1,1.0.10_word__with__hyper__link__(1).docx,0.012,10-09-2024 11:57:58,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/1.0.10_word__with__hyper__link__(1).docx,Success
+9.3.1.1.1.1.0.2,1.1.0.1 Demo1.docx,0.012,10-09-2024 11:57:58,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/1.1.0.1 Demo1.docx,Success
+9.3.1.1.1.1.0.3,1.1.0.1 Demo1.pdf,0.031,10-09-2024 11:57:59,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/1.1.0.1 Demo1.pdf,Success
+9.3.1.1.1.1.0.4,1.1.0.2 Demo2.xlsx,1.425,10-09-2024 11:57:59,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/1.1.0.2 Demo2.xlsx,Success
+9.3.1.1.1.1.0.5,1.1.0.3 Demo3.pptx,0.032,10-09-2024 11:57:59,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/1.1.0.3 Demo3.pptx,Success
+9.3.1.1.1.1.0.6,1.1.0.4 Demo4.pdf,0.029,10-09-2024 11:58:00,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/1.1.0.4 Demo4.pdf,Success
+9.3.1.1.1.1.0.7,3.0.1_file-sample_1MB.pdf,0.485,10-09-2024 11:58:00,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/3.0.1_file-sample_1MB.pdf,Success
+9.3.1.1.1.1.0.8,3.0.2_file_example_CSV_5000.pdf,3.988,10-09-2024 11:58:19,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/New folder/3.0.2_file_example_CSV_5000.pdf,Success
+9.3.1.1.1.0.1,1.0.10_word__with__hyper__link__(1).docx,0.012,10-09-2024 11:58:20,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/1.0.10_word__with__hyper__link__(1).docx,Success
+9.3.1.1.1.0.2,1.1.0.1 Demo1.docx,0.012,10-09-2024 11:58:20,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/1.1.0.1 Demo1.docx,Success
+9.3.1.1.1.0.3,1.1.0.1 Demo1.pdf,0.031,10-09-2024 11:58:21,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/1.1.0.1 Demo1.pdf,Success
+9.3.1.1.1.0.4,1.1.0.2 Demo2.xlsx,1.425,10-09-2024 11:58:21,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/1.1.0.2 Demo2.xlsx,Success
+9.3.1.1.1.0.5,1.1.0.3 Demo3.pptx,0.032,10-09-2024 11:58:21,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/1.1.0.3 Demo3.pptx,Success
+9.3.1.1.1.0.6,1.1.0.4 Demo4.pdf,0.029,10-09-2024 11:58:21,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/1.1.0.4 Demo4.pdf,Success
+9.3.1.1.1.0.7,3.0.1_file-sample_1MB.pdf,0.485,10-09-2024 11:58:22,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/3.0.1_file-sample_1MB.pdf,Success
+9.3.1.1.1.0.8,3.0.2_file_example_CSV_5000.pdf,3.988,10-09-2024 11:58:41,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/New folder/3.0.2_file_example_CSV_5000.pdf,Success
+9.3.1.1.0.2,1.1.0.1 Demo1.docx,0.012,10-09-2024 11:58:41,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/1.1.0.1 Demo1.docx,Success
+9.3.1.1.0.3,1.1.0.1 Demo1.pdf,0.031,10-09-2024 11:58:42,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/1.1.0.1 Demo1.pdf,Success
+9.3.1.1.0.4,1.1.0.2 Demo2.xlsx,1.425,10-09-2024 11:58:42,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/1.1.0.2 Demo2.xlsx,Success
+9.3.1.1.0.5,1.1.0.3 Demo3.pptx,0.032,10-09-2024 11:58:42,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/1.1.0.3 Demo3.pptx,Success
+9.3.1.1.0.6,1.1.0.4 Demo4.pdf,0.029,10-09-2024 11:58:43,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/1.1.0.4 Demo4.pdf,Success
+9.3.1.1.0.7,3.0.1_file-sample_1MB.pdf,0.485,10-09-2024 11:58:43,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/3.0.1_file-sample_1MB.pdf,Success
+9.3.1.1.0.8,3.0.2_file_example_CSV_5000.pdf,3.988,10-09-2024 11:59:02,Vizcom/Uploading by Shakti/New folder/DFDFDFD/New folder/3.0.2_file_example_CSV_5000.pdf,Success
+9.3.1.0.2,1.1.0.1 Demo1.docx,0.012,10-09-2024 11:59:03,Vizcom/Uploading by Shakti/New folder/DFDFDFD/1.1.0.1 Demo1.docx,Success
+9.3.1.0.3,1.1.0.1 Demo1.pdf,0.031,10-09-2024 11:59:03,Vizcom/Uploading by Shakti/New folder/DFDFDFD/1.1.0.1 Demo1.pdf,Success
+9.3.1.0.4,1.1.0.2 Demo2.xlsx,1.425,10-09-2024 11:59:03,Vizcom/Uploading by Shakti/New folder/DFDFDFD/1.1.0.2 Demo2.xlsx,Success
+9.3.1.0.5,1.1.0.3 Demo3.pptx,0.032,10-09-2024 11:59:04,Vizcom/Uploading by Shakti/New folder/DFDFDFD/1.1.0.3 Demo3.pptx,Success
+9.3.1.0.6,1.1.0.4 Demo4.pdf,0.029,10-09-2024 11:59:04,Vizcom/Uploading by Shakti/New folder/DFDFDFD/1.1.0.4 Demo4.pdf,Success
+9.3.1.0.7,3.0.1_file-sample_1MB.pdf,0.485,10-09-2024 11:59:05,Vizcom/Uploading by Shakti/New folder/DFDFDFD/3.0.1_file-sample_1MB.pdf,Success
+9.3.1.0.8,3.0.2_file_example_CSV_5000.pdf,3.988,10-09-2024 11:59:23,Vizcom/Uploading by Shakti/New folder/DFDFDFD/3.0.2_file_example_CSV_5000.pdf,Success
+9.3.2.0.1,3.0.9_sampleDocs__green__background____image..jpg,13.986,10-09-2024 11:59:24,Vizcom/Uploading by Shakti/New folder/Blank Folder/3.0.9_sampleDocs__green__background____image..jpg,Success
+9.3.2.0.2,3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,0.059,10-09-2024 11:59:25,Vizcom/Uploading by Shakti/New folder/Blank Folder/3.1.1.0.1_1__Microsoft__PowerPoint__Presentation-Demo.pdf,Success
+9.3.2.0.3,3.1.1.0.2_2__Text__Document-Demo.txt,0.0,10-09-2024 11:59:25,Vizcom/Uploading by Shakti/New folder/Blank Folder/3.1.1.0.2_2__Text__Document-Demo.txt,Success
+9.3.2.0.4,3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,0.032,10-09-2024 11:59:25,Vizcom/Uploading by Shakti/New folder/Blank Folder/3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,Success
+9.3.2.0.5,3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,0.01,10-09-2024 11:59:26,Vizcom/Uploading by Shakti/New folder/Blank Folder/3.1.1.0.4_3.0.7__DISCLAIMERS.pdf,Success
+9.4.0.1,1 Demo PDF File.pdf,0.005,10-09-2024 11:59:26,Vizcom/Uploading by Shakti/Demo files/1 Demo PDF File.pdf,Success
+14.0.1,10.0.4 - Copy.DS_Store,0.008,10-09-2024 11:59:28,Vizcom/10 Demo 7777/10.0.4 - Copy.DS_Store,Success
+14.0.2,10.0.5 .DS_Store,0.008,10-09-2024 11:59:28,Vizcom/10 Demo 7777/10.0.5 .DS_Store,Success
+14.0.3,10.0.6 1.1.0.15 test file - Copy (2).pdf,0.51,10-09-2024 11:59:29,Vizcom/10 Demo 7777/10.0.6 1.1.0.15 test file - Copy (2).pdf,Success
+14.0.4,10.0.7 1.1.0.15 test file - Copy (3).pdf,0.51,10-09-2024 11:59:29,Vizcom/10 Demo 7777/10.0.7 1.1.0.15 test file - Copy (3).pdf,Success
+14.0.5,10.0.8 1.1.0.15 test file - Copy (4).pdf,0.51,10-09-2024 11:59:32,Vizcom/10 Demo 7777/10.0.8 1.1.0.15 test file - Copy (4).pdf,Success
+14.0.6,10.0.9 1.1.0.15 test file - Copy.pdf,0.51,10-09-2024 11:59:34,Vizcom/10 Demo 7777/10.0.9 1.1.0.15 test file - Copy.pdf,Success
+14.0.7,10.0.10 1.1.0.15 test file.pdf,0.51,10-09-2024 11:59:37,Vizcom/10 Demo 7777/10.0.10 1.1.0.15 test file.pdf,Success
+14.0.8,10.0.11 Coffee Table - Copy (2).csv,0.08,10-09-2024 11:59:37,Vizcom/10 Demo 7777/10.0.11 Coffee Table - Copy (2).csv,Success
+14.0.9,10.0.12 Coffee Table - Copy (3).csv,0.08,10-09-2024 11:59:37,Vizcom/10 Demo 7777/10.0.12 Coffee Table - Copy (3).csv,Success
+14.0.10,10.0.13 Coffee Table - Copy (4).csv,0.08,10-09-2024 11:59:37,Vizcom/10 Demo 7777/10.0.13 Coffee Table - Copy (4).csv,Success
+14.0.11,10.0.14 Coffee Table - Copy.csv,0.08,10-09-2024 11:59:37,Vizcom/10 Demo 7777/10.0.14 Coffee Table - Copy.csv,Success
+14.0.12,10.0.15 Coffee Table.csv,0.08,10-09-2024 11:59:37,Vizcom/10 Demo 7777/10.0.15 Coffee Table.csv,Success
+14.0.13,10.0.16 docullyvdr pricing plans aug 22 - Copy (2).pptx,0.041,10-09-2024 11:59:38,Vizcom/10 Demo 7777/10.0.16 docullyvdr pricing plans aug 22 - Copy (2).pptx,Success
+14.0.14,10.0.17 docullyvdr pricing plans aug 22 - Copy (3).pptx,0.041,10-09-2024 11:59:38,Vizcom/10 Demo 7777/10.0.17 docullyvdr pricing plans aug 22 - Copy (3).pptx,Success
+14.0.15,10.0.18 docullyvdr pricing plans aug 22 - Copy (4).pptx,0.041,10-09-2024 11:59:39,Vizcom/10 Demo 7777/10.0.18 docullyvdr pricing plans aug 22 - Copy (4).pptx,Success
+14.0.16,10.0.19 docullyvdr pricing plans aug 22 - Copy.pptx,0.041,10-09-2024 11:59:39,Vizcom/10 Demo 7777/10.0.19 docullyvdr pricing plans aug 22 - Copy.pptx,Success
+14.0.17,10.0.20 docullyvdr pricing plans aug 22.pptx,0.041,10-09-2024 11:59:40,Vizcom/10 Demo 7777/10.0.20 docullyvdr pricing plans aug 22.pptx,Success
+14.0.18,10.0.21 image - Copy (2).png,0.174,10-09-2024 11:59:40,Vizcom/10 Demo 7777/10.0.21 image - Copy (2).png,Success
+14.0.19,10.0.22 image - Copy (3).png,0.174,10-09-2024 11:59:40,Vizcom/10 Demo 7777/10.0.22 image - Copy (3).png,Success
+14.0.20,10.0.23 image - Copy (4).png,0.174,10-09-2024 11:59:40,Vizcom/10 Demo 7777/10.0.23 image - Copy (4).png,Success
+14.0.21,10.0.24 image - Copy.png,0.174,10-09-2024 11:59:40,Vizcom/10 Demo 7777/10.0.24 image - Copy.png,Success
+14.0.22,10.0.25 image (1) - Copy.png,0.175,10-09-2024 11:59:40,Vizcom/10 Demo 7777/10.0.25 image (1) - Copy.png,Success
+14.0.23,10.0.26 image (1).png,0.175,10-09-2024 11:59:40,Vizcom/10 Demo 7777/10.0.26 image (1).png,Success
+14.0.24,10.0.27 image (2) - Copy.png,0.175,10-09-2024 11:59:40,Vizcom/10 Demo 7777/10.0.27 image (2) - Copy.png,Success
+14.0.25,10.0.28 image (3) - Copy.png,0.175,10-09-2024 11:59:40,Vizcom/10 Demo 7777/10.0.28 image (3) - Copy.png,Success
+14.0.26,10.0.29 image (4) - Copy.png,0.175,10-09-2024 11:59:41,Vizcom/10 Demo 7777/10.0.29 image (4) - Copy.png,Success
+14.0.27,10.0.30 image.png,0.174,10-09-2024 11:59:41,Vizcom/10 Demo 7777/10.0.30 image.png,Success
+14.0.28,10.0.31 independence-day-2022 (1) - Copy.png,0.821,10-09-2024 11:59:41,Vizcom/10 Demo 7777/10.0.31 independence-day-2022 (1) - Copy.png,Success
+14.0.29,10.0.32 independence-day-2022 (1).png,0.821,10-09-2024 11:59:41,Vizcom/10 Demo 7777/10.0.32 independence-day-2022 (1).png,Success
+14.0.30,10.0.33 independence-day-2022 (2) - Copy.png,0.821,10-09-2024 11:59:41,Vizcom/10 Demo 7777/10.0.33 independence-day-2022 (2) - Copy.png,Success
+14.0.31,10.0.34 independence-day-2022 (3) - Copy.png,0.821,10-09-2024 11:59:41,Vizcom/10 Demo 7777/10.0.34 independence-day-2022 (3) - Copy.png,Success
+14.0.32,10.0.35 independence-day-2022 (4) - Copy.png,0.821,10-09-2024 11:59:41,Vizcom/10 Demo 7777/10.0.35 independence-day-2022 (4) - Copy.png,Success
+14.0.33,10.0.36 Just-Learning - Copy (2).cer,0.002,10-09-2024 11:59:41,Vizcom/10 Demo 7777/10.0.36 Just-Learning - Copy (2).cer,Success
+14.0.34,10.0.37 Just-Learning - Copy (3).cer,0.002,10-09-2024 11:59:41,Vizcom/10 Demo 7777/10.0.37 Just-Learning - Copy (3).cer,Success
+14.0.35,10.0.38 Just-Learning - Copy (4).cer,0.002,10-09-2024 11:59:41,Vizcom/10 Demo 7777/10.0.38 Just-Learning - Copy (4).cer,Success
+14.0.36,10.0.39 Just-Learning - Copy.cer,0.002,10-09-2024 11:59:41,Vizcom/10 Demo 7777/10.0.39 Just-Learning - Copy.cer,Success
+14.0.37,10.0.40 Just-Learning.cer,0.002,10-09-2024 11:59:42,Vizcom/10 Demo 7777/10.0.40 Just-Learning.cer,Success
+14.0.38,10.0.41 Mockups Mega Menu & Footer-20220809T051648Z-001.zip,70.053,10-09-2024 11:59:43,Vizcom/10 Demo 7777/10.0.41 Mockups Mega Menu & Footer-20220809T051648Z-001.zip,Success
+14.0.39,10.0.42 Screenshot 1 - Copy (2).png,0.964,10-09-2024 11:59:43,Vizcom/10 Demo 7777/10.0.42 Screenshot 1 - Copy (2).png,Success
+14.0.40,10.0.43 Screenshot 1 - Copy (3).png,0.964,10-09-2024 11:59:43,Vizcom/10 Demo 7777/10.0.43 Screenshot 1 - Copy (3).png,Success
+14.0.41,10.0.44 Screenshot 1 - Copy (4).png,0.964,10-09-2024 11:59:43,Vizcom/10 Demo 7777/10.0.44 Screenshot 1 - Copy (4).png,Success
+14.0.42,10.0.45 Screenshot 1 - Copy.png,0.964,10-09-2024 11:59:43,Vizcom/10 Demo 7777/10.0.45 Screenshot 1 - Copy.png,Success
+14.0.43,10.0.46 Screenshot 1.png,0.964,10-09-2024 11:59:43,Vizcom/10 Demo 7777/10.0.46 Screenshot 1.png,Success
+14.0.44,10.0.47 Screenshot 2 - Copy (2).png,0.823,10-09-2024 11:59:43,Vizcom/10 Demo 7777/10.0.47 Screenshot 2 - Copy (2).png,Success
+14.0.45,10.0.48 Screenshot 2 - Copy (3).png,0.823,10-09-2024 11:59:43,Vizcom/10 Demo 7777/10.0.48 Screenshot 2 - Copy (3).png,Success
+14.0.46,10.0.49 Screenshot 2 - Copy (4).png,0.823,10-09-2024 11:59:43,Vizcom/10 Demo 7777/10.0.49 Screenshot 2 - Copy (4).png,Success
+14.0.47,10.0.50 Screenshot 2 - Copy.png,0.823,10-09-2024 11:59:44,Vizcom/10 Demo 7777/10.0.50 Screenshot 2 - Copy.png,Success
+14.0.48,10.0.51 Screenshot 2.png,0.823,10-09-2024 11:59:44,Vizcom/10 Demo 7777/10.0.51 Screenshot 2.png,Success
+14.0.49,10.0.52 Screenshot 2022-07-08 at 8.11.38 PM - Copy (2).png,1.01,10-09-2024 11:59:44,Vizcom/10 Demo 7777/10.0.52 Screenshot 2022-07-08 at 8.11.38 PM - Copy (2).png,Success
+14.0.50,10.0.53 Screenshot 2022-07-08 at 8.11.38 PM - Copy (3).png,1.01,10-09-2024 11:59:44,Vizcom/10 Demo 7777/10.0.53 Screenshot 2022-07-08 at 8.11.38 PM - Copy (3).png,Success
+14.0.51,10.0.54 Screenshot 2022-07-08 at 8.11.38 PM - Copy (4).png,1.01,10-09-2024 11:59:44,Vizcom/10 Demo 7777/10.0.54 Screenshot 2022-07-08 at 8.11.38 PM - Copy (4).png,Success
+14.0.52,10.0.55 Screenshot 2022-07-08 at 8.11.38 PM - Copy.png,1.01,10-09-2024 11:59:44,Vizcom/10 Demo 7777/10.0.55 Screenshot 2022-07-08 at 8.11.38 PM - Copy.png,Success
+14.0.53,10.0.56 Screenshot 2022-07-08 at 8.11.38 PM.png,1.01,10-09-2024 11:59:44,Vizcom/10 Demo 7777/10.0.56 Screenshot 2022-07-08 at 8.11.38 PM.png,Success
+14.0.54,10.0.57 Screenshot 2022-07-11 at 3.04.24 PM - Copy (2).png,1.267,10-09-2024 11:59:44,Vizcom/10 Demo 7777/10.0.57 Screenshot 2022-07-11 at 3.04.24 PM - Copy (2).png,Success
+14.0.55,10.0.58 Screenshot 2022-07-11 at 3.04.24 PM - Copy (3).png,1.267,10-09-2024 11:59:44,Vizcom/10 Demo 7777/10.0.58 Screenshot 2022-07-11 at 3.04.24 PM - Copy (3).png,Success
+14.0.56,10.0.59 Screenshot 2022-07-11 at 3.04.24 PM - Copy (4).png,1.267,10-09-2024 11:59:44,Vizcom/10 Demo 7777/10.0.59 Screenshot 2022-07-11 at 3.04.24 PM - Copy (4).png,Success
+14.0.57,10.0.60 Screenshot 2022-07-11 at 3.04.24 PM - Copy.png,1.267,10-09-2024 11:59:45,Vizcom/10 Demo 7777/10.0.60 Screenshot 2022-07-11 at 3.04.24 PM - Copy.png,Success
+14.0.58,10.0.61 Screenshot 2022-07-11 at 3.04.24 PM.png,1.267,10-09-2024 11:59:45,Vizcom/10 Demo 7777/10.0.61 Screenshot 2022-07-11 at 3.04.24 PM.png,Success
+14.0.59,10.0.62 Screenshot from 2022-07-07 20-22-42 - Copy (2).png,0.271,10-09-2024 11:59:45,Vizcom/10 Demo 7777/10.0.62 Screenshot from 2022-07-07 20-22-42 - Copy (2).png,Success
+14.0.60,10.0.63 Screenshot from 2022-07-07 20-22-42 - Copy (3).png,0.271,10-09-2024 11:59:45,Vizcom/10 Demo 7777/10.0.63 Screenshot from 2022-07-07 20-22-42 - Copy (3).png,Success
+14.0.61,10.0.64 Screenshot from 2022-07-07 20-22-42 - Copy (4).png,0.271,10-09-2024 11:59:45,Vizcom/10 Demo 7777/10.0.64 Screenshot from 2022-07-07 20-22-42 - Copy (4).png,Success
+14.0.62,10.0.65 Screenshot from 2022-07-07 20-22-42 - Copy.png,0.271,10-09-2024 11:59:45,Vizcom/10 Demo 7777/10.0.65 Screenshot from 2022-07-07 20-22-42 - Copy.png,Success
+14.0.63,10.0.66 Screenshot from 2022-07-07 20-22-42.png,0.271,10-09-2024 11:59:45,Vizcom/10 Demo 7777/10.0.66 Screenshot from 2022-07-07 20-22-42.png,Success
+15.3.0.1,9.0.1 - Copy (2).DS_Store,0.008,10-09-2024 11:59:46,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.1 - Copy (2).DS_Store,Success
+15.3.0.2,9.0.2 - Copy (3).DS_Store,0.008,10-09-2024 11:59:46,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.2 - Copy (3).DS_Store,Success
+15.3.0.3,9.0.3 - Copy (4).DS_Store,0.008,10-09-2024 11:59:46,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.3 - Copy (4).DS_Store,Success
+15.3.0.4,9.0.4 - Copy.DS_Store,0.008,10-09-2024 11:59:46,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.4 - Copy.DS_Store,Success
+15.3.0.5,9.0.5 .DS_Store,0.008,10-09-2024 11:59:47,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.5 .DS_Store,Success
+15.3.0.6,9.0.6 1.1.0.15 test file - Copy (2).pdf,0.51,10-09-2024 11:59:49,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.6 1.1.0.15 test file - Copy (2).pdf,Success
+15.3.0.7,9.0.7 1.1.0.15 test file - Copy (3).pdf,0.51,10-09-2024 11:59:51,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.7 1.1.0.15 test file - Copy (3).pdf,Success
+15.3.0.8,9.0.8 1.1.0.15 test file - Copy (4).pdf,0.51,10-09-2024 11:59:54,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.8 1.1.0.15 test file - Copy (4).pdf,Success
+15.3.0.9,9.0.9 1.1.0.15 test file - Copy.pdf,0.51,10-09-2024 11:59:57,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.9 1.1.0.15 test file - Copy.pdf,Success
+15.3.0.10,9.0.10 1.1.0.15 test file.pdf,0.51,10-09-2024 11:59:59,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.10 1.1.0.15 test file.pdf,Success
+15.3.0.11,9.0.11 Coffee Table - Copy (2).csv,0.08,10-09-2024 11:59:59,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.11 Coffee Table - Copy (2).csv,Success
+15.3.0.12,9.0.12 Coffee Table - Copy (3).csv,0.08,10-09-2024 11:59:59,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.12 Coffee Table - Copy (3).csv,Success
+15.3.0.13,9.0.13 Coffee Table - Copy (4).csv,0.08,10-09-2024 11:59:59,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.13 Coffee Table - Copy (4).csv,Success
+15.3.0.14,9.0.14 Coffee Table - Copy.csv,0.08,10-09-2024 11:59:59,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.14 Coffee Table - Copy.csv,Success
+15.3.0.15,9.0.15 Coffee Table.csv,0.08,10-09-2024 11:59:59,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.15 Coffee Table.csv,Success
+15.3.0.16,9.0.16 docullyvdr pricing plans aug 22 - Copy (2).pptx,0.041,10-09-2024 12:00:00,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.16 docullyvdr pricing plans aug 22 - Copy (2).pptx,Success
+15.3.0.17,9.0.17 docullyvdr pricing plans aug 22 - Copy (3).pptx,0.041,10-09-2024 12:00:01,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.17 docullyvdr pricing plans aug 22 - Copy (3).pptx,Success
+15.3.0.18,9.0.18 docullyvdr pricing plans aug 22 - Copy (4).pptx,0.041,10-09-2024 12:00:01,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.18 docullyvdr pricing plans aug 22 - Copy (4).pptx,Success
+15.3.0.19,9.0.19 docullyvdr pricing plans aug 22 - Copy.pptx,0.041,10-09-2024 12:00:02,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.19 docullyvdr pricing plans aug 22 - Copy.pptx,Success
+15.3.0.20,9.0.20 docullyvdr pricing plans aug 22.pptx,0.041,10-09-2024 12:00:02,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.20 docullyvdr pricing plans aug 22.pptx,Success
+15.3.0.21,9.0.21 image - Copy (2).png,0.174,10-09-2024 12:00:02,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.21 image - Copy (2).png,Success
+15.3.0.22,9.0.22 image - Copy (3).png,0.174,10-09-2024 12:00:02,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.22 image - Copy (3).png,Success
+15.3.0.23,9.0.23 image - Copy (4).png,0.174,10-09-2024 12:00:03,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.23 image - Copy (4).png,Success
+15.3.0.24,9.0.24 image - Copy.png,0.174,10-09-2024 12:00:03,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.24 image - Copy.png,Success
+15.3.0.25,9.0.25 image (1) - Copy.png,0.175,10-09-2024 12:00:03,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.25 image (1) - Copy.png,Success
+15.3.0.26,9.0.26 image (1).png,0.175,10-09-2024 12:00:03,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.26 image (1).png,Success
+15.3.0.27,9.0.27 image (2) - Copy.png,0.175,10-09-2024 12:00:03,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.27 image (2) - Copy.png,Success
+15.3.0.28,9.0.28 image (3) - Copy.png,0.175,10-09-2024 12:00:03,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.28 image (3) - Copy.png,Success
+15.3.0.29,9.0.29 image (4) - Copy.png,0.175,10-09-2024 12:00:03,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.29 image (4) - Copy.png,Success
+15.3.0.30,9.0.30 image.png,0.174,10-09-2024 12:00:03,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.30 image.png,Success
+15.3.0.31,9.0.31 independence-day-2022 (1) - Copy.png,0.821,10-09-2024 12:00:03,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.31 independence-day-2022 (1) - Copy.png,Success
+15.3.0.32,9.0.32 independence-day-2022 (1).png,0.821,10-09-2024 12:00:03,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.32 independence-day-2022 (1).png,Success
+15.3.0.33,9.0.33 independence-day-2022 (2) - Copy.png,0.821,10-09-2024 12:00:04,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.33 independence-day-2022 (2) - Copy.png,Success
+15.3.0.34,9.0.34 independence-day-2022 (3) - Copy.png,0.821,10-09-2024 12:00:04,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.34 independence-day-2022 (3) - Copy.png,Success
+15.3.0.35,9.0.35 independence-day-2022 (4) - Copy.png,0.821,10-09-2024 12:00:04,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.35 independence-day-2022 (4) - Copy.png,Success
+15.3.0.36,9.0.36 Just-Learning - Copy (2).cer,0.002,10-09-2024 12:00:04,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.36 Just-Learning - Copy (2).cer,Success
+15.3.0.37,9.0.37 Just-Learning - Copy (3).cer,0.002,10-09-2024 12:00:04,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.37 Just-Learning - Copy (3).cer,Success
+15.3.0.38,9.0.38 Just-Learning - Copy (4).cer,0.002,10-09-2024 12:00:04,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.38 Just-Learning - Copy (4).cer,Success
+15.3.0.39,9.0.39 Just-Learning - Copy.cer,0.002,10-09-2024 12:00:04,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.39 Just-Learning - Copy.cer,Success
+15.3.0.40,9.0.40 Just-Learning.cer,0.002,10-09-2024 12:00:04,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.40 Just-Learning.cer,Success
+15.3.0.41,9.0.41 Mockups Mega Menu & Footer-20220809T051648Z-001.zip,70.053,10-09-2024 12:00:05,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.41 Mockups Mega Menu & Footer-20220809T051648Z-001.zip,Success
+15.3.0.43,9.0.43 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.964,10-09-2024 12:00:06,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.43 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.44,9.0.44 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.964,10-09-2024 12:00:06,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.44 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.45,9.0.45 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.823,10-09-2024 12:00:06,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.45 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.46,9.0.46 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.01,10-09-2024 12:00:07,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.46 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.47,9.0.47 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.823,10-09-2024 12:00:07,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.47 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.48,9.0.48 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.823,10-09-2024 12:00:07,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.48 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.49,9.0.49 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.964,10-09-2024 12:00:08,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.49 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.50,9.0.50 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.823,10-09-2024 12:00:08,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.50 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.51,9.0.51 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.823,10-09-2024 12:00:09,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.51 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.52,9.0.52 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.964,10-09-2024 12:00:09,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.52 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.53,9.0.53 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.964,10-09-2024 12:00:09,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.53 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.54,9.0.54 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.267,10-09-2024 12:00:10,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.54 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.55,9.0.55 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.267,10-09-2024 12:00:10,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.55 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.56,9.0.56 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.01,10-09-2024 12:00:11,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.56 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.57,9.0.57 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.267,10-09-2024 12:00:11,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.57 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.58,9.0.58 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.267,10-09-2024 12:00:11,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.58 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.59,9.0.59 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.01,10-09-2024 12:00:12,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.59 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.60,9.0.60 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.01,10-09-2024 12:00:12,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.60 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.61,9.0.61 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.271,10-09-2024 12:00:13,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.61 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.62,9.0.62 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.271,10-09-2024 12:00:13,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.62 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.63,9.0.63 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.271,10-09-2024 12:00:13,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.63 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.65,9.0.65 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.271,10-09-2024 12:00:14,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.65 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.67,9.0.67 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.271,10-09-2024 12:00:14,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.67 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.68,9.0.68 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.267,10-09-2024 12:00:14,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.68 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.69,9.0.69 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.08,10-09-2024 12:00:17,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.69 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.70,9.0.70 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.089,10-09-2024 12:00:19,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.70 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.72,9.0.72 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.089,10-09-2024 12:00:22,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.72 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.73,9.0.73 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.089,10-09-2024 12:00:24,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.73 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.74,9.0.74 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.089,10-09-2024 12:00:27,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.74 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.75,9.0.75 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.089,10-09-2024 12:00:29,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.75 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.77,9.0.77 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.08,10-09-2024 12:00:31,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.77 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.78,9.0.78 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.08,10-09-2024 12:00:33,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.78 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.79,9.0.79 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.08,10-09-2024 12:00:35,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.79 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.80,9.0.80 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.041,10-09-2024 12:00:35,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.80 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.81,9.0.81 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.08,10-09-2024 12:00:37,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.81 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.3.0.82,9.0.82 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.01,10-09-2024 12:00:38,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.82 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.1,9.0.1 - Copy (2).DS_Store,0.008,10-09-2024 12:00:38,Vizcom/Uploading by HS/9 Demo 4444/9.0.1 - Copy (2).DS_Store,Success
+15.4.0.2,9.0.2 - Copy (3).DS_Store,0.008,10-09-2024 12:00:38,Vizcom/Uploading by HS/9 Demo 4444/9.0.2 - Copy (3).DS_Store,Success
+15.4.0.3,9.0.3 - Copy (4).DS_Store,0.008,10-09-2024 12:00:38,Vizcom/Uploading by HS/9 Demo 4444/9.0.3 - Copy (4).DS_Store,Success
+15.4.0.4,9.0.4 - Copy.DS_Store,0.008,10-09-2024 12:00:38,Vizcom/Uploading by HS/9 Demo 4444/9.0.4 - Copy.DS_Store,Success
+15.4.0.5,9.0.5 .DS_Store,0.008,10-09-2024 12:00:38,Vizcom/Uploading by HS/9 Demo 4444/9.0.5 .DS_Store,Success
+15.4.0.6,9.0.6 1.1.0.15 test file - Copy (2).pdf,0.51,10-09-2024 12:00:41,Vizcom/Uploading by HS/9 Demo 4444/9.0.6 1.1.0.15 test file - Copy (2).pdf,Success
+15.4.0.7,9.0.7 1.1.0.15 test file - Copy (3).pdf,0.51,10-09-2024 12:00:43,Vizcom/Uploading by HS/9 Demo 4444/9.0.7 1.1.0.15 test file - Copy (3).pdf,Success
+15.4.0.8,9.0.8 1.1.0.15 test file - Copy (4).pdf,0.51,10-09-2024 12:00:46,Vizcom/Uploading by HS/9 Demo 4444/9.0.8 1.1.0.15 test file - Copy (4).pdf,Success
+15.4.0.9,9.0.9 1.1.0.15 test file - Copy.pdf,0.51,10-09-2024 12:00:48,Vizcom/Uploading by HS/9 Demo 4444/9.0.9 1.1.0.15 test file - Copy.pdf,Success
+15.4.0.10,9.0.10 1.1.0.15 test file.pdf,0.51,10-09-2024 12:00:50,Vizcom/Uploading by HS/9 Demo 4444/9.0.10 1.1.0.15 test file.pdf,Success
+15.4.0.11,9.0.11 Coffee Table - Copy (2).csv,0.08,10-09-2024 12:00:51,Vizcom/Uploading by HS/9 Demo 4444/9.0.11 Coffee Table - Copy (2).csv,Success
+15.4.0.12,9.0.12 Coffee Table - Copy (3).csv,0.08,10-09-2024 12:00:51,Vizcom/Uploading by HS/9 Demo 4444/9.0.12 Coffee Table - Copy (3).csv,Success
+15.4.0.13,9.0.13 Coffee Table - Copy (4).csv,0.08,10-09-2024 12:00:51,Vizcom/Uploading by HS/9 Demo 4444/9.0.13 Coffee Table - Copy (4).csv,Success
+15.4.0.14,9.0.14 Coffee Table - Copy.csv,0.08,10-09-2024 12:00:51,Vizcom/Uploading by HS/9 Demo 4444/9.0.14 Coffee Table - Copy.csv,Success
+15.4.0.15,9.0.15 Coffee Table.csv,0.08,10-09-2024 12:00:51,Vizcom/Uploading by HS/9 Demo 4444/9.0.15 Coffee Table.csv,Success
+15.4.0.16,9.0.16 docullyvdr pricing plans aug 22 - Copy (2).pptx,0.041,10-09-2024 12:00:52,Vizcom/Uploading by HS/9 Demo 4444/9.0.16 docullyvdr pricing plans aug 22 - Copy (2).pptx,Success
+15.4.0.17,9.0.17 docullyvdr pricing plans aug 22 - Copy (3).pptx,0.041,10-09-2024 12:00:52,Vizcom/Uploading by HS/9 Demo 4444/9.0.17 docullyvdr pricing plans aug 22 - Copy (3).pptx,Success
+15.4.0.18,9.0.18 docullyvdr pricing plans aug 22 - Copy (4).pptx,0.041,10-09-2024 12:00:53,Vizcom/Uploading by HS/9 Demo 4444/9.0.18 docullyvdr pricing plans aug 22 - Copy (4).pptx,Success
+15.4.0.19,9.0.19 docullyvdr pricing plans aug 22 - Copy.pptx,0.041,10-09-2024 12:00:53,Vizcom/Uploading by HS/9 Demo 4444/9.0.19 docullyvdr pricing plans aug 22 - Copy.pptx,Success
+15.4.0.20,9.0.20 docullyvdr pricing plans aug 22.pptx,0.041,10-09-2024 12:00:54,Vizcom/Uploading by HS/9 Demo 4444/9.0.20 docullyvdr pricing plans aug 22.pptx,Success
+15.4.0.21,9.0.21 image - Copy (2).png,0.174,10-09-2024 12:00:54,Vizcom/Uploading by HS/9 Demo 4444/9.0.21 image - Copy (2).png,Success
+15.4.0.22,9.0.22 image - Copy (3).png,0.174,10-09-2024 12:00:54,Vizcom/Uploading by HS/9 Demo 4444/9.0.22 image - Copy (3).png,Success
+15.4.0.23,9.0.23 image - Copy (4).png,0.174,10-09-2024 12:00:54,Vizcom/Uploading by HS/9 Demo 4444/9.0.23 image - Copy (4).png,Success
+15.4.0.24,9.0.24 image - Copy.png,0.174,10-09-2024 12:00:54,Vizcom/Uploading by HS/9 Demo 4444/9.0.24 image - Copy.png,Success
+15.4.0.25,9.0.25 image (1) - Copy.png,0.175,10-09-2024 12:00:54,Vizcom/Uploading by HS/9 Demo 4444/9.0.25 image (1) - Copy.png,Success
+15.4.0.26,9.0.26 image (1).png,0.175,10-09-2024 12:00:54,Vizcom/Uploading by HS/9 Demo 4444/9.0.26 image (1).png,Success
+15.4.0.27,9.0.27 image (2) - Copy.png,0.175,10-09-2024 12:00:54,Vizcom/Uploading by HS/9 Demo 4444/9.0.27 image (2) - Copy.png,Success
+15.4.0.28,9.0.28 image (3) - Copy.png,0.175,10-09-2024 12:00:54,Vizcom/Uploading by HS/9 Demo 4444/9.0.28 image (3) - Copy.png,Success
+15.4.0.29,9.0.29 image (4) - Copy.png,0.175,10-09-2024 12:00:54,Vizcom/Uploading by HS/9 Demo 4444/9.0.29 image (4) - Copy.png,Success
+15.4.0.30,9.0.30 image.png,0.174,10-09-2024 12:00:55,Vizcom/Uploading by HS/9 Demo 4444/9.0.30 image.png,Success
+15.4.0.31,9.0.31 independence-day-2022 (1) - Copy.png,0.821,10-09-2024 12:00:55,Vizcom/Uploading by HS/9 Demo 4444/9.0.31 independence-day-2022 (1) - Copy.png,Success
+15.4.0.32,9.0.32 independence-day-2022 (1).png,0.821,10-09-2024 12:00:55,Vizcom/Uploading by HS/9 Demo 4444/9.0.32 independence-day-2022 (1).png,Success
+15.4.0.33,9.0.33 independence-day-2022 (2) - Copy.png,0.821,10-09-2024 12:00:55,Vizcom/Uploading by HS/9 Demo 4444/9.0.33 independence-day-2022 (2) - Copy.png,Success
+15.4.0.34,9.0.34 independence-day-2022 (3) - Copy.png,0.821,10-09-2024 12:00:55,Vizcom/Uploading by HS/9 Demo 4444/9.0.34 independence-day-2022 (3) - Copy.png,Success
+15.4.0.35,9.0.35 independence-day-2022 (4) - Copy.png,0.821,10-09-2024 12:00:55,Vizcom/Uploading by HS/9 Demo 4444/9.0.35 independence-day-2022 (4) - Copy.png,Success
+15.4.0.36,9.0.36 Just-Learning - Copy (2).cer,0.002,10-09-2024 12:00:55,Vizcom/Uploading by HS/9 Demo 4444/9.0.36 Just-Learning - Copy (2).cer,Success
+15.4.0.37,9.0.37 Just-Learning - Copy (3).cer,0.002,10-09-2024 12:00:55,Vizcom/Uploading by HS/9 Demo 4444/9.0.37 Just-Learning - Copy (3).cer,Success
+15.4.0.38,9.0.38 Just-Learning - Copy (4).cer,0.002,10-09-2024 12:00:55,Vizcom/Uploading by HS/9 Demo 4444/9.0.38 Just-Learning - Copy (4).cer,Success
+15.4.0.39,9.0.39 Just-Learning - Copy.cer,0.002,10-09-2024 12:00:56,Vizcom/Uploading by HS/9 Demo 4444/9.0.39 Just-Learning - Copy.cer,Success
+15.4.0.40,9.0.40 Just-Learning.cer,0.002,10-09-2024 12:00:56,Vizcom/Uploading by HS/9 Demo 4444/9.0.40 Just-Learning.cer,Success
+15.4.0.41,9.0.41 Mockups Mega Menu & Footer-20220809T051648Z-001.zip,70.053,10-09-2024 12:00:57,Vizcom/Uploading by HS/9 Demo 4444/9.0.41 Mockups Mega Menu & Footer-20220809T051648Z-001.zip,Success
+15.4.0.43,9.0.43 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.964,10-09-2024 12:00:57,Vizcom/Uploading by HS/9 Demo 4444/9.0.43 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.44,9.0.44 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.964,10-09-2024 12:00:57,Vizcom/Uploading by HS/9 Demo 4444/9.0.44 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.45,9.0.45 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.823,10-09-2024 12:00:58,Vizcom/Uploading by HS/9 Demo 4444/9.0.45 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.47,9.0.47 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.823,10-09-2024 12:00:58,Vizcom/Uploading by HS/9 Demo 4444/9.0.47 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.48,9.0.48 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.823,10-09-2024 12:00:59,Vizcom/Uploading by HS/9 Demo 4444/9.0.48 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.49,9.0.49 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.964,10-09-2024 12:00:59,Vizcom/Uploading by HS/9 Demo 4444/9.0.49 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.50,9.0.50 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.823,10-09-2024 12:01:00,Vizcom/Uploading by HS/9 Demo 4444/9.0.50 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.52,9.0.52 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.964,10-09-2024 12:01:00,Vizcom/Uploading by HS/9 Demo 4444/9.0.52 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.53,9.0.53 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.964,10-09-2024 12:01:00,Vizcom/Uploading by HS/9 Demo 4444/9.0.53 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.54,9.0.54 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.267,10-09-2024 12:01:01,Vizcom/Uploading by HS/9 Demo 4444/9.0.54 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.55,9.0.55 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.267,10-09-2024 12:01:01,Vizcom/Uploading by HS/9 Demo 4444/9.0.55 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.56,9.0.56 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.01,10-09-2024 12:01:02,Vizcom/Uploading by HS/9 Demo 4444/9.0.56 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.57,9.0.57 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.267,10-09-2024 12:01:02,Vizcom/Uploading by HS/9 Demo 4444/9.0.57 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.58,9.0.58 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.267,10-09-2024 12:01:02,Vizcom/Uploading by HS/9 Demo 4444/9.0.58 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.59,9.0.59 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.01,10-09-2024 12:01:03,Vizcom/Uploading by HS/9 Demo 4444/9.0.59 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.60,9.0.60 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.01,10-09-2024 12:01:03,Vizcom/Uploading by HS/9 Demo 4444/9.0.60 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.61,9.0.61 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.271,10-09-2024 12:01:04,Vizcom/Uploading by HS/9 Demo 4444/9.0.61 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.62,9.0.62 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.271,10-09-2024 12:01:04,Vizcom/Uploading by HS/9 Demo 4444/9.0.62 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.63,9.0.63 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.271,10-09-2024 12:01:04,Vizcom/Uploading by HS/9 Demo 4444/9.0.63 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.69,9.0.69 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.08,10-09-2024 12:01:07,Vizcom/Uploading by HS/9 Demo 4444/9.0.69 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.70,9.0.70 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.089,10-09-2024 12:01:09,Vizcom/Uploading by HS/9 Demo 4444/9.0.70 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.72,9.0.72 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.089,10-09-2024 12:01:12,Vizcom/Uploading by HS/9 Demo 4444/9.0.72 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.73,9.0.73 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.089,10-09-2024 12:01:14,Vizcom/Uploading by HS/9 Demo 4444/9.0.73 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.74,9.0.74 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.089,10-09-2024 12:01:17,Vizcom/Uploading by HS/9 Demo 4444/9.0.74 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.75,9.0.75 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.089,10-09-2024 12:01:19,Vizcom/Uploading by HS/9 Demo 4444/9.0.75 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.77,9.0.77 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.08,10-09-2024 12:01:21,Vizcom/Uploading by HS/9 Demo 4444/9.0.77 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.78,9.0.78 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.08,10-09-2024 12:01:23,Vizcom/Uploading by HS/9 Demo 4444/9.0.78 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.79,9.0.79 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.08,10-09-2024 12:01:25,Vizcom/Uploading by HS/9 Demo 4444/9.0.79 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.80,9.0.80 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.041,10-09-2024 12:01:25,Vizcom/Uploading by HS/9 Demo 4444/9.0.80 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.81,9.0.81 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.08,10-09-2024 12:01:27,Vizcom/Uploading by HS/9 Demo 4444/9.0.81 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.82,9.0.82 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.01,10-09-2024 12:01:28,Vizcom/Uploading by HS/9 Demo 4444/9.0.82 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Success
+15.4.0.83,1.2.3.2.5.0.1 1 Demo PDF File.pdf,0.007,10-09-2024 12:01:28,Vizcom/Uploading by HS/9 Demo 4444/1.2.3.2.5.0.1 1 Demo PDF File.pdf,Success
+15.4.0.85,1.2.3.0.4 DocullyVDR Documentation - Copy (2).pdf,0.168,10-09-2024 12:01:30,Vizcom/Uploading by HS/9 Demo 4444/1.2.3.0.4 DocullyVDR Documentation - Copy (2).pdf,Success
+15.4.0.86,1.2.3.0.19 t - Copy.png,0.005,10-09-2024 12:01:30,Vizcom/Uploading by HS/9 Demo 4444/1.2.3.0.19 t - Copy.png,Success
+15.4.0.87,1.2.3.0.20 updatefileflag.png,0.009,10-09-2024 12:01:30,Vizcom/Uploading by HS/9 Demo 4444/1.2.3.0.20 updatefileflag.png,Success
+15.4.0.89,one.xlsx,0.008,10-09-2024 12:01:30,Vizcom/Uploading by HS/9 Demo 4444/one.xlsx,Success
+15.4.0.90,14.4.0.89 one.xlsx,0.008,10-09-2024 12:01:30,Vizcom/Uploading by HS/9 Demo 4444/14.4.0.89 one.xlsx,Success
+15.5.0.1,10.0.1 - Copy (2).DS_Store,0.008,10-09-2024 12:01:30,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.1 - Copy (2).DS_Store,Success
+15.5.0.2,10.0.2 - Copy (3).DS_Store,0.008,10-09-2024 12:01:30,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.2 - Copy (3).DS_Store,Success
+15.5.0.3,10.0.3 - Copy (4).DS_Store,0.008,10-09-2024 12:01:30,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.3 - Copy (4).DS_Store,Success
+15.5.0.4,10.0.4 - Copy.DS_Store,0.008,10-09-2024 12:01:30,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.4 - Copy.DS_Store,Success
+15.5.0.5,10.0.5 .DS_Store,0.008,10-09-2024 12:01:30,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.5 .DS_Store,Success
+15.5.0.6,10.0.6 1.1.0.15 test file - Copy (2).pdf,0.51,10-09-2024 12:01:33,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.6 1.1.0.15 test file - Copy (2).pdf,Success
+15.5.0.7,10.0.7 1.1.0.15 test file - Copy (3).pdf,0.51,10-09-2024 12:01:36,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.7 1.1.0.15 test file - Copy (3).pdf,Success
+15.5.0.8,10.0.8 1.1.0.15 test file - Copy (4).pdf,0.51,10-09-2024 12:01:38,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.8 1.1.0.15 test file - Copy (4).pdf,Success
+15.5.0.9,10.0.9 1.1.0.15 test file - Copy.pdf,0.51,10-09-2024 12:01:41,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.9 1.1.0.15 test file - Copy.pdf,Success
+15.5.0.10,10.0.10 1.1.0.15 test file.pdf,0.51,10-09-2024 12:01:43,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.10 1.1.0.15 test file.pdf,Success
+15.5.0.11,10.0.11 Coffee Table - Copy (2).csv,0.08,10-09-2024 12:01:43,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.11 Coffee Table - Copy (2).csv,Success
+15.5.0.12,10.0.12 Coffee Table - Copy (3).csv,0.08,10-09-2024 12:01:43,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.12 Coffee Table - Copy (3).csv,Success
+15.5.0.13,10.0.13 Coffee Table - Copy (4).csv,0.08,10-09-2024 12:01:44,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.13 Coffee Table - Copy (4).csv,Success
+15.5.0.14,10.0.14 Coffee Table - Copy.csv,0.08,10-09-2024 12:01:44,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.14 Coffee Table - Copy.csv,Success
+15.5.0.15,10.0.15 Coffee Table.csv,0.08,10-09-2024 12:01:44,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.15 Coffee Table.csv,Success
+15.5.0.16,10.0.16 docullyvdr pricing plans aug 22 - Copy (2).pptx,0.041,10-09-2024 12:01:44,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.16 docullyvdr pricing plans aug 22 - Copy (2).pptx,Success
+15.5.0.17,10.0.17 docullyvdr pricing plans aug 22 - Copy (3).pptx,0.041,10-09-2024 12:01:45,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.17 docullyvdr pricing plans aug 22 - Copy (3).pptx,Success
+15.5.0.18,10.0.18 docullyvdr pricing plans aug 22 - Copy (4).pptx,0.041,10-09-2024 12:01:45,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.18 docullyvdr pricing plans aug 22 - Copy (4).pptx,Success
+15.5.0.19,10.0.19 docullyvdr pricing plans aug 22 - Copy.pptx,0.041,10-09-2024 12:01:46,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.19 docullyvdr pricing plans aug 22 - Copy.pptx,Success
+15.5.0.20,10.0.20 docullyvdr pricing plans aug 22.pptx,0.041,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.20 docullyvdr pricing plans aug 22.pptx,Success
+15.5.0.21,10.0.21 image - Copy (2).png,0.174,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.21 image - Copy (2).png,Success
+15.5.0.22,10.0.22 image - Copy (3).png,0.174,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.22 image - Copy (3).png,Success
+15.5.0.23,10.0.23 image - Copy (4).png,0.174,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.23 image - Copy (4).png,Success
+15.5.0.24,10.0.24 image - Copy.png,0.174,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.24 image - Copy.png,Success
+15.5.0.25,10.0.25 image (1) - Copy.png,0.175,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.25 image (1) - Copy.png,Success
+15.5.0.26,10.0.26 image (1).png,0.175,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.26 image (1).png,Success
+15.5.0.27,10.0.27 image (2) - Copy.png,0.175,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.27 image (2) - Copy.png,Success
+15.5.0.28,10.0.28 image (3) - Copy.png,0.175,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.28 image (3) - Copy.png,Success
+15.5.0.29,10.0.29 image (4) - Copy.png,0.175,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.29 image (4) - Copy.png,Success
+15.5.0.30,10.0.30 image.png,0.174,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.30 image.png,Success
+15.5.0.31,10.0.31 independence-day-2022 (1) - Copy.png,0.821,10-09-2024 12:01:47,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.31 independence-day-2022 (1) - Copy.png,Success
+15.5.0.32,10.0.32 independence-day-2022 (1).png,0.821,10-09-2024 12:01:48,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.32 independence-day-2022 (1).png,Success
+15.5.0.33,10.0.33 independence-day-2022 (2) - Copy.png,0.821,10-09-2024 12:01:48,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.33 independence-day-2022 (2) - Copy.png,Success
+15.5.0.34,10.0.34 independence-day-2022 (3) - Copy.png,0.821,10-09-2024 12:01:48,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.34 independence-day-2022 (3) - Copy.png,Success
+15.5.0.35,10.0.35 independence-day-2022 (4) - Copy.png,0.821,10-09-2024 12:01:48,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.35 independence-day-2022 (4) - Copy.png,Success
+15.5.0.36,10.0.36 Just-Learning - Copy (2).cer,0.002,10-09-2024 12:01:48,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.36 Just-Learning - Copy (2).cer,Success
+15.5.0.37,10.0.37 Just-Learning - Copy (3).cer,0.002,10-09-2024 12:01:48,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.37 Just-Learning - Copy (3).cer,Success
+15.5.0.38,10.0.38 Just-Learning - Copy (4).cer,0.002,10-09-2024 12:01:48,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.38 Just-Learning - Copy (4).cer,Success
+15.5.0.39,10.0.39 Just-Learning - Copy.cer,0.002,10-09-2024 12:01:48,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.39 Just-Learning - Copy.cer,Success
+15.5.0.40,10.0.40 Just-Learning.cer,0.002,10-09-2024 12:01:48,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.40 Just-Learning.cer,Success
+15.5.0.41,10.0.41 Mockups Mega Menu & Footer-20220809T051648Z-001.zip,70.053,10-09-2024 12:01:49,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.41 Mockups Mega Menu & Footer-20220809T051648Z-001.zip,Success
+15.5.0.42,10.0.42 Screenshot 1 - Copy (2).png,0.964,10-09-2024 12:01:50,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.42 Screenshot 1 - Copy (2).png,Success
+15.5.0.43,10.0.43 Screenshot 1 - Copy (3).png,0.964,10-09-2024 12:01:50,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.43 Screenshot 1 - Copy (3).png,Success
+15.5.0.44,10.0.44 Screenshot 1 - Copy (4).png,0.964,10-09-2024 12:01:50,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.44 Screenshot 1 - Copy (4).png,Success
+15.5.0.45,10.0.45 Screenshot 1 - Copy.png,0.964,10-09-2024 12:01:50,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.45 Screenshot 1 - Copy.png,Success
+15.5.0.46,10.0.46 Screenshot 1.png,0.964,10-09-2024 12:01:50,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.46 Screenshot 1.png,Success
+15.5.0.47,10.0.47 Screenshot 2 - Copy (2).png,0.823,10-09-2024 12:01:50,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.47 Screenshot 2 - Copy (2).png,Success
+15.5.0.48,10.0.48 Screenshot 2 - Copy (3).png,0.823,10-09-2024 12:01:50,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.48 Screenshot 2 - Copy (3).png,Success
+15.5.0.49,10.0.49 Screenshot 2 - Copy (4).png,0.823,10-09-2024 12:01:50,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.49 Screenshot 2 - Copy (4).png,Success
+15.5.0.50,10.0.50 Screenshot 2 - Copy.png,0.823,10-09-2024 12:01:50,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.50 Screenshot 2 - Copy.png,Success
+15.5.0.51,10.0.51 Screenshot 2.png,0.823,10-09-2024 12:01:51,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.51 Screenshot 2.png,Success
+15.5.0.52,10.0.52 Screenshot 2022-07-08 at 8.11.38 PM - Copy (2).png,1.01,10-09-2024 12:01:51,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.52 Screenshot 2022-07-08 at 8.11.38 PM - Copy (2).png,Success
+15.5.0.53,10.0.53 Screenshot 2022-07-08 at 8.11.38 PM - Copy (3).png,1.01,10-09-2024 12:01:51,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.53 Screenshot 2022-07-08 at 8.11.38 PM - Copy (3).png,Success
+15.5.0.54,10.0.54 Screenshot 2022-07-08 at 8.11.38 PM - Copy (4).png,1.01,10-09-2024 12:01:51,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.54 Screenshot 2022-07-08 at 8.11.38 PM - Copy (4).png,Success
+15.5.0.55,10.0.55 Screenshot 2022-07-08 at 8.11.38 PM - Copy.png,1.01,10-09-2024 12:01:51,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.55 Screenshot 2022-07-08 at 8.11.38 PM - Copy.png,Success
+15.5.0.56,10.0.56 Screenshot 2022-07-08 at 8.11.38 PM.png,1.01,10-09-2024 12:01:51,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.56 Screenshot 2022-07-08 at 8.11.38 PM.png,Success
+15.5.0.57,10.0.57 Screenshot 2022-07-11 at 3.04.24 PM - Copy (2).png,1.267,10-09-2024 12:01:51,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.57 Screenshot 2022-07-11 at 3.04.24 PM - Copy (2).png,Success
+15.5.0.58,10.0.58 Screenshot 2022-07-11 at 3.04.24 PM - Copy (3).png,1.267,10-09-2024 12:01:51,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.58 Screenshot 2022-07-11 at 3.04.24 PM - Copy (3).png,Success
+15.5.0.59,10.0.59 Screenshot 2022-07-11 at 3.04.24 PM - Copy (4).png,1.267,10-09-2024 12:01:51,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.59 Screenshot 2022-07-11 at 3.04.24 PM - Copy (4).png,Success
+15.5.0.60,10.0.60 Screenshot 2022-07-11 at 3.04.24 PM - Copy.png,1.267,10-09-2024 12:01:52,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.60 Screenshot 2022-07-11 at 3.04.24 PM - Copy.png,Success
+15.5.0.61,10.0.61 Screenshot 2022-07-11 at 3.04.24 PM.png,1.267,10-09-2024 12:01:52,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.61 Screenshot 2022-07-11 at 3.04.24 PM.png,Success
+15.5.0.62,10.0.62 Screenshot from 2022-07-07 20-22-42 - Copy (2).png,0.271,10-09-2024 12:01:52,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.62 Screenshot from 2022-07-07 20-22-42 - Copy (2).png,Success
+15.5.0.63,10.0.63 Screenshot from 2022-07-07 20-22-42 - Copy (3).png,0.271,10-09-2024 12:01:52,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.63 Screenshot from 2022-07-07 20-22-42 - Copy (3).png,Success
+15.5.0.64,10.0.64 Screenshot from 2022-07-07 20-22-42 - Copy (4).png,0.271,10-09-2024 12:01:52,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.64 Screenshot from 2022-07-07 20-22-42 - Copy (4).png,Success
+15.5.0.65,10.0.65 Screenshot from 2022-07-07 20-22-42 - Copy.png,0.271,10-09-2024 12:01:52,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.65 Screenshot from 2022-07-07 20-22-42 - Copy.png,Success
+15.5.0.66,10.0.66 Screenshot from 2022-07-07 20-22-42.png,0.271,10-09-2024 12:01:52,Vizcom/Uploading by HS/10 Demo 7777 copy/10.0.66 Screenshot from 2022-07-07 20-22-42.png,Success
+15.6.0.1,10.0.1 - Copy (2).DS_Store,0.008,10-09-2024 12:01:52,Vizcom/Uploading by HS/10 Demo 7777/10.0.1 - Copy (2).DS_Store,Success
+15.6.0.2,10.0.2 - Copy (3).DS_Store,0.008,10-09-2024 12:01:52,Vizcom/Uploading by HS/10 Demo 7777/10.0.2 - Copy (3).DS_Store,Success
+15.6.0.3,10.0.3 - Copy (4).DS_Store,0.008,10-09-2024 12:01:52,Vizcom/Uploading by HS/10 Demo 7777/10.0.3 - Copy (4).DS_Store,Success
+15.6.0.4,10.0.4 - Copy.DS_Store,0.008,10-09-2024 12:01:52,Vizcom/Uploading by HS/10 Demo 7777/10.0.4 - Copy.DS_Store,Success
+15.6.0.5,10.0.5 .DS_Store,0.008,10-09-2024 12:01:53,Vizcom/Uploading by HS/10 Demo 7777/10.0.5 .DS_Store,Success
+15.6.0.6,10.0.6 1.1.0.15 test file - Copy (2).pdf,0.51,10-09-2024 12:01:55,Vizcom/Uploading by HS/10 Demo 7777/10.0.6 1.1.0.15 test file - Copy (2).pdf,Success
+15.6.0.7,10.0.7 1.1.0.15 test file - Copy (3).pdf,0.51,10-09-2024 12:01:57,Vizcom/Uploading by HS/10 Demo 7777/10.0.7 1.1.0.15 test file - Copy (3).pdf,Success
+15.6.0.8,10.0.8 1.1.0.15 test file - Copy (4).pdf,0.51,10-09-2024 12:02:00,Vizcom/Uploading by HS/10 Demo 7777/10.0.8 1.1.0.15 test file - Copy (4).pdf,Success
+15.6.0.9,10.0.9 1.1.0.15 test file - Copy.pdf,0.51,10-09-2024 12:02:02,Vizcom/Uploading by HS/10 Demo 7777/10.0.9 1.1.0.15 test file - Copy.pdf,Success
+15.6.0.10,10.0.10 1.1.0.15 test file.pdf,0.51,10-09-2024 12:02:05,Vizcom/Uploading by HS/10 Demo 7777/10.0.10 1.1.0.15 test file.pdf,Success
+15.6.0.11,10.0.11 Coffee Table - Copy (2).csv,0.08,10-09-2024 12:02:05,Vizcom/Uploading by HS/10 Demo 7777/10.0.11 Coffee Table - Copy (2).csv,Success
+15.6.0.12,10.0.12 Coffee Table - Copy (3).csv,0.08,10-09-2024 12:02:05,Vizcom/Uploading by HS/10 Demo 7777/10.0.12 Coffee Table - Copy (3).csv,Success
+15.6.0.13,10.0.13 Coffee Table - Copy (4).csv,0.08,10-09-2024 12:02:05,Vizcom/Uploading by HS/10 Demo 7777/10.0.13 Coffee Table - Copy (4).csv,Success
+15.6.0.14,10.0.14 Coffee Table - Copy.csv,0.08,10-09-2024 12:02:05,Vizcom/Uploading by HS/10 Demo 7777/10.0.14 Coffee Table - Copy.csv,Success
+15.6.0.15,10.0.15 Coffee Table.csv,0.08,10-09-2024 12:02:05,Vizcom/Uploading by HS/10 Demo 7777/10.0.15 Coffee Table.csv,Success
+15.6.0.16,10.0.16 docullyvdr pricing plans aug 22 - Copy (2).pptx,0.041,10-09-2024 12:02:06,Vizcom/Uploading by HS/10 Demo 7777/10.0.16 docullyvdr pricing plans aug 22 - Copy (2).pptx,Success
+15.6.0.17,10.0.17 docullyvdr pricing plans aug 22 - Copy (3).pptx,0.041,10-09-2024 12:02:06,Vizcom/Uploading by HS/10 Demo 7777/10.0.17 docullyvdr pricing plans aug 22 - Copy (3).pptx,Success
+15.6.0.18,10.0.18 docullyvdr pricing plans aug 22 - Copy (4).pptx,0.041,10-09-2024 12:02:07,Vizcom/Uploading by HS/10 Demo 7777/10.0.18 docullyvdr pricing plans aug 22 - Copy (4).pptx,Success
+15.6.0.19,10.0.19 docullyvdr pricing plans aug 22 - Copy.pptx,0.041,10-09-2024 12:02:07,Vizcom/Uploading by HS/10 Demo 7777/10.0.19 docullyvdr pricing plans aug 22 - Copy.pptx,Success
+15.6.0.20,10.0.20 docullyvdr pricing plans aug 22.pptx,0.041,10-09-2024 12:02:08,Vizcom/Uploading by HS/10 Demo 7777/10.0.20 docullyvdr pricing plans aug 22.pptx,Success
+15.6.0.21,10.0.21 image - Copy (2).png,0.174,10-09-2024 12:02:08,Vizcom/Uploading by HS/10 Demo 7777/10.0.21 image - Copy (2).png,Success
+15.6.0.22,10.0.22 image - Copy (3).png,0.174,10-09-2024 12:02:08,Vizcom/Uploading by HS/10 Demo 7777/10.0.22 image - Copy (3).png,Success
+15.6.0.23,10.0.23 image - Copy (4).png,0.174,10-09-2024 12:02:08,Vizcom/Uploading by HS/10 Demo 7777/10.0.23 image - Copy (4).png,Success
+15.6.0.24,10.0.24 image - Copy.png,0.174,10-09-2024 12:02:08,Vizcom/Uploading by HS/10 Demo 7777/10.0.24 image - Copy.png,Success
+15.6.0.25,10.0.25 image (1) - Copy.png,0.175,10-09-2024 12:02:08,Vizcom/Uploading by HS/10 Demo 7777/10.0.25 image (1) - Copy.png,Success
+15.6.0.26,10.0.26 image (1).png,0.175,10-09-2024 12:02:08,Vizcom/Uploading by HS/10 Demo 7777/10.0.26 image (1).png,Success
+15.6.0.27,10.0.27 image (2) - Copy.png,0.175,10-09-2024 12:02:08,Vizcom/Uploading by HS/10 Demo 7777/10.0.27 image (2) - Copy.png,Success
+15.6.0.28,10.0.28 image (3) - Copy.png,0.175,10-09-2024 12:02:08,Vizcom/Uploading by HS/10 Demo 7777/10.0.28 image (3) - Copy.png,Success
+15.6.0.29,10.0.29 image (4) - Copy.png,0.175,10-09-2024 12:02:08,Vizcom/Uploading by HS/10 Demo 7777/10.0.29 image (4) - Copy.png,Success
+15.6.0.30,10.0.30 image.png,0.174,10-09-2024 12:02:09,Vizcom/Uploading by HS/10 Demo 7777/10.0.30 image.png,Success
+15.6.0.31,10.0.31 independence-day-2022 (1) - Copy.png,0.821,10-09-2024 12:02:09,Vizcom/Uploading by HS/10 Demo 7777/10.0.31 independence-day-2022 (1) - Copy.png,Success
+15.6.0.32,10.0.32 independence-day-2022 (1).png,0.821,10-09-2024 12:02:09,Vizcom/Uploading by HS/10 Demo 7777/10.0.32 independence-day-2022 (1).png,Success
+15.6.0.33,10.0.33 independence-day-2022 (2) - Copy.png,0.821,10-09-2024 12:02:09,Vizcom/Uploading by HS/10 Demo 7777/10.0.33 independence-day-2022 (2) - Copy.png,Success
+15.6.0.34,10.0.34 independence-day-2022 (3) - Copy.png,0.821,10-09-2024 12:02:09,Vizcom/Uploading by HS/10 Demo 7777/10.0.34 independence-day-2022 (3) - Copy.png,Success
+15.6.0.35,10.0.35 independence-day-2022 (4) - Copy.png,0.821,10-09-2024 12:02:09,Vizcom/Uploading by HS/10 Demo 7777/10.0.35 independence-day-2022 (4) - Copy.png,Success
+15.6.0.36,10.0.36 Just-Learning - Copy (2).cer,0.002,10-09-2024 12:02:09,Vizcom/Uploading by HS/10 Demo 7777/10.0.36 Just-Learning - Copy (2).cer,Success
+15.6.0.37,10.0.37 Just-Learning - Copy (3).cer,0.002,10-09-2024 12:02:09,Vizcom/Uploading by HS/10 Demo 7777/10.0.37 Just-Learning - Copy (3).cer,Success
+15.6.0.38,10.0.38 Just-Learning - Copy (4).cer,0.002,10-09-2024 12:02:09,Vizcom/Uploading by HS/10 Demo 7777/10.0.38 Just-Learning - Copy (4).cer,Success
+15.6.0.39,10.0.39 Just-Learning - Copy.cer,0.002,10-09-2024 12:02:09,Vizcom/Uploading by HS/10 Demo 7777/10.0.39 Just-Learning - Copy.cer,Success
+15.6.0.40,10.0.40 Just-Learning.cer,0.002,10-09-2024 12:02:10,Vizcom/Uploading by HS/10 Demo 7777/10.0.40 Just-Learning.cer,Success
+15.6.0.41,10.0.41 Mockups Mega Menu & Footer-20220809T051648Z-001.zip,70.053,10-09-2024 12:02:10,Vizcom/Uploading by HS/10 Demo 7777/10.0.41 Mockups Mega Menu & Footer-20220809T051648Z-001.zip,Success
+15.6.0.42,10.0.42 Screenshot 1 - Copy (2).png,0.964,10-09-2024 12:02:10,Vizcom/Uploading by HS/10 Demo 7777/10.0.42 Screenshot 1 - Copy (2).png,Success
+15.6.0.43,10.0.43 Screenshot 1 - Copy (3).png,0.964,10-09-2024 12:02:11,Vizcom/Uploading by HS/10 Demo 7777/10.0.43 Screenshot 1 - Copy (3).png,Success
+15.6.0.44,10.0.44 Screenshot 1 - Copy (4).png,0.964,10-09-2024 12:02:11,Vizcom/Uploading by HS/10 Demo 7777/10.0.44 Screenshot 1 - Copy (4).png,Success
+15.6.0.45,10.0.45 Screenshot 1 - Copy.png,0.964,10-09-2024 12:02:11,Vizcom/Uploading by HS/10 Demo 7777/10.0.45 Screenshot 1 - Copy.png,Success
+15.6.0.46,10.0.46 Screenshot 1.png,0.964,10-09-2024 12:02:11,Vizcom/Uploading by HS/10 Demo 7777/10.0.46 Screenshot 1.png,Success
+15.6.0.47,10.0.47 Screenshot 2 - Copy (2).png,0.823,10-09-2024 12:02:11,Vizcom/Uploading by HS/10 Demo 7777/10.0.47 Screenshot 2 - Copy (2).png,Success
+15.6.0.48,10.0.48 Screenshot 2 - Copy (3).png,0.823,10-09-2024 12:02:11,Vizcom/Uploading by HS/10 Demo 7777/10.0.48 Screenshot 2 - Copy (3).png,Success
+15.6.0.49,10.0.49 Screenshot 2 - Copy (4).png,0.823,10-09-2024 12:02:11,Vizcom/Uploading by HS/10 Demo 7777/10.0.49 Screenshot 2 - Copy (4).png,Success
+15.6.0.50,10.0.50 Screenshot 2 - Copy.png,0.823,10-09-2024 12:02:11,Vizcom/Uploading by HS/10 Demo 7777/10.0.50 Screenshot 2 - Copy.png,Success
+15.6.0.51,10.0.51 Screenshot 2.png,0.823,10-09-2024 12:02:11,Vizcom/Uploading by HS/10 Demo 7777/10.0.51 Screenshot 2.png,Success
+15.6.0.52,10.0.52 Screenshot 2022-07-08 at 8.11.38 PM - Copy (2).png,1.01,10-09-2024 12:02:12,Vizcom/Uploading by HS/10 Demo 7777/10.0.52 Screenshot 2022-07-08 at 8.11.38 PM - Copy (2).png,Success
+15.6.0.53,10.0.53 Screenshot 2022-07-08 at 8.11.38 PM - Copy (3).png,1.01,10-09-2024 12:02:12,Vizcom/Uploading by HS/10 Demo 7777/10.0.53 Screenshot 2022-07-08 at 8.11.38 PM - Copy (3).png,Success
+15.6.0.54,10.0.54 Screenshot 2022-07-08 at 8.11.38 PM - Copy (4).png,1.01,10-09-2024 12:02:12,Vizcom/Uploading by HS/10 Demo 7777/10.0.54 Screenshot 2022-07-08 at 8.11.38 PM - Copy (4).png,Success
+15.6.0.55,10.0.55 Screenshot 2022-07-08 at 8.11.38 PM - Copy.png,1.01,10-09-2024 12:02:12,Vizcom/Uploading by HS/10 Demo 7777/10.0.55 Screenshot 2022-07-08 at 8.11.38 PM - Copy.png,Success
+15.6.0.56,10.0.56 Screenshot 2022-07-08 at 8.11.38 PM.png,1.01,10-09-2024 12:02:12,Vizcom/Uploading by HS/10 Demo 7777/10.0.56 Screenshot 2022-07-08 at 8.11.38 PM.png,Success
+15.6.0.57,10.0.57 Screenshot 2022-07-11 at 3.04.24 PM - Copy (2).png,1.267,10-09-2024 12:02:12,Vizcom/Uploading by HS/10 Demo 7777/10.0.57 Screenshot 2022-07-11 at 3.04.24 PM - Copy (2).png,Success
+15.6.0.58,10.0.58 Screenshot 2022-07-11 at 3.04.24 PM - Copy (3).png,1.267,10-09-2024 12:02:12,Vizcom/Uploading by HS/10 Demo 7777/10.0.58 Screenshot 2022-07-11 at 3.04.24 PM - Copy (3).png,Success
+15.6.0.59,10.0.59 Screenshot 2022-07-11 at 3.04.24 PM - Copy (4).png,1.267,10-09-2024 12:02:12,Vizcom/Uploading by HS/10 Demo 7777/10.0.59 Screenshot 2022-07-11 at 3.04.24 PM - Copy (4).png,Success
+15.6.0.60,10.0.60 Screenshot 2022-07-11 at 3.04.24 PM - Copy.png,1.267,10-09-2024 12:02:12,Vizcom/Uploading by HS/10 Demo 7777/10.0.60 Screenshot 2022-07-11 at 3.04.24 PM - Copy.png,Success
+15.6.0.61,10.0.61 Screenshot 2022-07-11 at 3.04.24 PM.png,1.267,10-09-2024 12:02:13,Vizcom/Uploading by HS/10 Demo 7777/10.0.61 Screenshot 2022-07-11 at 3.04.24 PM.png,Success
+15.6.0.62,10.0.62 Screenshot from 2022-07-07 20-22-42 - Copy (2).png,0.271,10-09-2024 12:02:13,Vizcom/Uploading by HS/10 Demo 7777/10.0.62 Screenshot from 2022-07-07 20-22-42 - Copy (2).png,Success
+15.6.0.63,10.0.63 Screenshot from 2022-07-07 20-22-42 - Copy (3).png,0.271,10-09-2024 12:02:13,Vizcom/Uploading by HS/10 Demo 7777/10.0.63 Screenshot from 2022-07-07 20-22-42 - Copy (3).png,Success
+15.6.0.64,10.0.64 Screenshot from 2022-07-07 20-22-42 - Copy (4).png,0.271,10-09-2024 12:02:13,Vizcom/Uploading by HS/10 Demo 7777/10.0.64 Screenshot from 2022-07-07 20-22-42 - Copy (4).png,Success
+15.6.0.65,10.0.65 Screenshot from 2022-07-07 20-22-42 - Copy.png,0.271,10-09-2024 12:02:13,Vizcom/Uploading by HS/10 Demo 7777/10.0.65 Screenshot from 2022-07-07 20-22-42 - Copy.png,Success
+15.6.0.66,10.0.66 Screenshot from 2022-07-07 20-22-42.png,0.271,10-09-2024 12:02:13,Vizcom/Uploading by HS/10 Demo 7777/10.0.66 Screenshot from 2022-07-07 20-22-42.png,Success
+15.7.0.1,12.0.1 6.0.2file-sample_1MB_5459oQc - Copy (2).doc,0.981,10-09-2024 12:02:14,Vizcom/Uploading by HS/12 bulkuploadone/12.0.1 6.0.2file-sample_1MB_5459oQc - Copy (2).doc,Success
+15.7.0.3,12.0.3 6.0.2file-sample_1MB_5459oQc.doc,0.981,10-09-2024 12:02:15,Vizcom/Uploading by HS/12 bulkuploadone/12.0.3 6.0.2file-sample_1MB_5459oQc.doc,Success
+15.7.0.4,12.0.4 DocullyVDR Documentation - Copy (2).pdf,0.291,10-09-2024 12:02:16,Vizcom/Uploading by HS/12 bulkuploadone/12.0.4 DocullyVDR Documentation - Copy (2).pdf,Success
+15.7.0.5,12.0.5 DocullyVDR Documentation - Copy.pdf,0.291,10-09-2024 12:02:17,Vizcom/Uploading by HS/12 bulkuploadone/12.0.5 DocullyVDR Documentation - Copy.pdf,Success
+15.7.0.6,12.0.6 DocullyVDR Documentation.pdf,0.291,10-09-2024 12:02:18,Vizcom/Uploading by HS/12 bulkuploadone/12.0.6 DocullyVDR Documentation.pdf,Success
+15.7.0.7,12.0.7 New Microsoft Office Excel Worksheet - Copy (2).xlsx,0.008,10-09-2024 12:02:18,Vizcom/Uploading by HS/12 bulkuploadone/12.0.7 New Microsoft Office Excel Worksheet - Copy (2).xlsx,Success
+15.9.0.1,43.0.1 1 Demo PDF.pdf,0.022,10-09-2024 12:02:21,Vizcom/Uploading by HS/aaa/43.0.1 1 Demo PDF.pdf,Success
+15.9.0.2,43.0.2 2 Demo Overview Report.csv,0.363,10-09-2024 12:02:21,Vizcom/Uploading by HS/aaa/43.0.2 2 Demo Overview Report.csv,Success
+15.9.0.3,43.0.3 3 Demo Microsoft Word Document.docx,0.032,10-09-2024 12:02:24,Vizcom/Uploading by HS/aaa/43.0.3 3 Demo Microsoft Word Document.docx,Success
+15.9.0.4,43.0.4 4 Demo Microsoft PowerPoint Presentation pdf.pdf,0.53,10-09-2024 12:02:24,Vizcom/Uploading by HS/aaa/43.0.4 4 Demo Microsoft PowerPoint Presentation pdf.pdf,Success
+15.9.0.5,43.0.5 4 Demo Microsoft PowerPoint Presentation.pptx,3.627,10-09-2024 12:02:24,Vizcom/Uploading by HS/aaa/43.0.5 4 Demo Microsoft PowerPoint Presentation.pptx,Success
+15.9.0.6,43.0.6 Lorem ipsum.pdf,0.084,10-09-2024 12:02:25,Vizcom/Uploading by HS/aaa/43.0.6 Lorem ipsum.pdf,Success
+1.0.1,17.3.0.6 43.0.6 Lorem ipsum.pdf,0.084,10-09-2024 11:40:24,Vizcom/clienttest1/17.3.0.6 43.0.6 Lorem ipsum.pdf,Fail
+1.1.1.0.1,1 Microsoft PowerPoint Presentation-Demo.pptx,0.075,10-09-2024 11:40:24,Vizcom/clienttest1/Sample files/26/1 Microsoft PowerPoint Presentation-Demo.pptx,Fail
+1.1.1.0.2,10 Excel . xlsx.xlsx,0.008,10-09-2024 11:40:24,Vizcom/clienttest1/Sample files/26/10 Excel . xlsx.xlsx,Fail
+1.1.1.0.3,11 IMAGE JPEG.jpg,0.007,10-09-2024 11:40:24,Vizcom/clienttest1/Sample files/26/11 IMAGE JPEG.jpg,Fail
+1.1.1.0.4,12 IMAGE PNG.jpg,0.009,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/12 IMAGE PNG.jpg,Fail
+1.1.1.0.5,13 Microsoft Word Document-Demo.docx,0.013,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/13 Microsoft Word Document-Demo.docx,Fail
+1.1.1.0.6,14 SP Docully- Activity by Files report - 2019-11-11 01-03-57.csv,0.001,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/14 SP Docully- Activity by Files report - 2019-11-11 01-03-57.csv,Fail
+1.1.1.0.7,15 SP Docully- Download Report - 2019-11-11 01-31-40 pm.csv,0.0,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/15 SP Docully- Download Report - 2019-11-11 01-31-40 pm.csv,Fail
+1.1.1.0.8,2 Text Document-Demo.txt,0.0,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/2 Text Document-Demo.txt,Fail
+1.1.1.0.10,4 3.0.7 DISCLAIMERS.docx,0.012,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/4 3.0.7 DISCLAIMERS.docx,Fail
+1.1.1.0.11,5 Demo PDF File.pdf,0.022,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/5 Demo PDF File.pdf,Fail
+1.1.1.0.12,6 DEMO XLS.xls,0.074,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/6 DEMO XLS.xls,Fail
+1.1.1.0.13,7 DEMO XLXS.xlsx,0.019,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/7 DEMO XLXS.xlsx,Fail
+1.1.1.0.14,8 excel . csv delimited.csv,0.0,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/8 excel . csv delimited.csv,Fail
+1.1.1.0.15,9 Excel . xls.xls,0.025,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/9 Excel . xls.xls,Fail
+1.1.1.0.16,SP Docully- Index Report - 2019-11-11 01-33-12 pm.csv,0.002,10-09-2024 11:40:25,Vizcom/clienttest1/Sample files/26/SP Docully- Index Report - 2019-11-11 01-33-12 pm.csv,Fail
+1.1.1.0.17,SP Docully- Overview report - 2019-11-11 01-02-03 pm.csv,0.001,10-09-2024 11:40:26,Vizcom/clienttest1/Sample files/26/SP Docully- Overview report - 2019-11-11 01-02-03 pm.csv,Fail
+1.1.1.0.18,SP Docully- Q_A Report -2019-11-11 01-31-03 pm.csv,0.0,10-09-2024 11:40:26,Vizcom/clienttest1/Sample files/26/SP Docully- Q_A Report -2019-11-11 01-31-03 pm.csv,Fail
+1.1.1.0.19,SP Docully- User Status Report - 2019-11-11 01-32-26 pm.csv,0.0,10-09-2024 11:40:26,Vizcom/clienttest1/Sample files/26/SP Docully- User Status Report - 2019-11-11 01-32-26 pm.csv,Fail
+1.1.1.0.20,SP Docully- Voting Report - 2019-11-11 01-34-01 pm.csv,0.0,10-09-2024 11:40:26,Vizcom/clienttest1/Sample files/26/SP Docully- Voting Report - 2019-11-11 01-34-01 pm.csv,Fail
+1.1.1.0.21,SP Docully-14  Activity By Date Report -2019-11-11 01-29-50 pm.csv,0.001,10-09-2024 11:40:26,Vizcom/clienttest1/Sample files/26/SP Docully-14  Activity By Date Report -2019-11-11 01-29-50 pm.csv,Fail
+1.0.6,._4.0.3_4.0.2_file-sample_1MB__(2).doc,0.004,10-09-2024 11:40:31,Vizcom/clienttest1/._4.0.3_4.0.2_file-sample_1MB__(2).doc,Fail
+1.0.7,._4.0.10_4.0.5_file_example_PNG_2500kB.jpg,0.004,10-09-2024 11:40:31,Vizcom/clienttest1/._4.0.10_4.0.5_file_example_PNG_2500kB.jpg,Fail
+1.0.8,._4.0.13_4.0.7_file_example_TIFF_10MB__(2).tiff,0.004,10-09-2024 11:40:31,Vizcom/clienttest1/._4.0.13_4.0.7_file_example_TIFF_10MB__(2).tiff,Fail
+1.0.9,._4.0.16_Docully-invoice__(8).pdf,0.004,10-09-2024 11:40:31,Vizcom/clienttest1/._4.0.16_Docully-invoice__(8).pdf,Fail
+1.0.10,._4.1_New__folder,0.004,10-09-2024 11:40:31,Vizcom/clienttest1/._4.1_New__folder,Fail
+1.0.11,._4.2_folderrr123,0.004,10-09-2024 11:40:31,Vizcom/clienttest1/._4.2_folderrr123,Fail
+1.0.12,.DS_Store,0.006,10-09-2024 11:40:31,Vizcom/clienttest1/.DS_Store,Fail
+1.0.13,4.0.1_4.0.1_file-example_PDF_1MB__(2).pdf,1.418,10-09-2024 11:40:31,Vizcom/clienttest1/4.0.1_4.0.1_file-example_PDF_1MB__(2).pdf,Fail
+1.0.14,4.0.2_4.0.1_file-example_PDF_1MB.pdf,1.418,10-09-2024 11:40:31,Vizcom/clienttest1/4.0.2_4.0.1_file-example_PDF_1MB.pdf,Fail
+1.0.15,4.0.3_4.0.2_file-sample_1MB__(2).doc,0.981,10-09-2024 11:40:31,Vizcom/clienttest1/4.0.3_4.0.2_file-sample_1MB__(2).doc,Fail
+1.0.16,4.0.4_4.0.2_file-sample_1MB.doc,0.981,10-09-2024 11:40:31,Vizcom/clienttest1/4.0.4_4.0.2_file-sample_1MB.doc,Fail
+1.0.17,4.0.5_4.0.3_file_example_JPG_1MB__(2).jpg,0.994,10-09-2024 11:40:31,Vizcom/clienttest1/4.0.5_4.0.3_file_example_JPG_1MB__(2).jpg,Fail
+1.0.18,4.0.6_4.0.3_file_example_JPG_1MB.jpg,0.994,10-09-2024 11:40:31,Vizcom/clienttest1/4.0.6_4.0.3_file_example_JPG_1MB.jpg,Fail
+1.0.19,4.0.7_4.0.4_file_example_ODS_5000__(2).ods,0.226,10-09-2024 11:40:31,Vizcom/clienttest1/4.0.7_4.0.4_file_example_ODS_5000__(2).ods,Fail
+1.0.20,4.0.8_4.0.4_file_example_ODS_5000.ods,0.226,10-09-2024 11:40:32,Vizcom/clienttest1/4.0.8_4.0.4_file_example_ODS_5000.ods,Fail
+1.0.21,4.0.10_4.0.5_file_example_PNG_2500kB.jpg,2.392,10-09-2024 11:40:32,Vizcom/clienttest1/4.0.10_4.0.5_file_example_PNG_2500kB.jpg,Fail
+1.0.22,4.0.9_4.0.5_file_example_PNG_2500kB__(2).jpg,2.392,10-09-2024 11:40:32,Vizcom/clienttest1/4.0.9_4.0.5_file_example_PNG_2500kB__(2).jpg,Fail
+1.0.23,4.0.11_4.0.6_file_example_PPT_1MB__(2).ppt,0.981,10-09-2024 11:40:32,Vizcom/clienttest1/4.0.11_4.0.6_file_example_PPT_1MB__(2).ppt,Fail
+1.0.24,4.0.12_4.0.6_file_example_PPT_1MB.ppt,0.981,10-09-2024 11:40:32,Vizcom/clienttest1/4.0.12_4.0.6_file_example_PPT_1MB.ppt,Fail
+1.0.25,4.0.14_4.0.7_file_example_TIFF_10MB.tiff,9.681,10-09-2024 11:40:32,Vizcom/clienttest1/4.0.14_4.0.7_file_example_TIFF_10MB.tiff,Fail
+2.0.1,4.0.13_4.0.7_file_example_TIFF_10MB__(2).tiff,9.681,10-09-2024 11:40:32,Vizcom/Sample folder/4.0.13_4.0.7_file_example_TIFF_10MB__(2).tiff,Fail
+2.1.0.1,download (2).jpg,0.006,10-09-2024 11:40:32,Vizcom/Sample folder/new2/download (2).jpg,Fail
+2.2.0.1,1 Demo PDF File (1).pdf,0.022,10-09-2024 11:40:32,Vizcom/Sample folder/bbb/1 Demo PDF File (1).pdf,Fail
+2.0.2,4.0.15_nature.jpg,0.255,10-09-2024 11:40:38,Vizcom/Sample folder/4.0.15_nature.jpg,Fail
+2.0.3,._4.1.0.4_4.0.2_file-sample_1MB.doc,0.004,10-09-2024 11:40:38,Vizcom/Sample folder/._4.1.0.4_4.0.2_file-sample_1MB.doc,Fail
+8.0.1,12.0.1 6.0.2file-sample_1MB_5459oQc - Copy (2).doc,0.981,10-09-2024 11:45:14,Vizcom/12 bulkuploadone/12.0.1 6.0.2file-sample_1MB_5459oQc - Copy (2).doc,Fail
+8.1.0.1,12.1.0.1 upload-25jan.zip,7.258,10-09-2024 11:45:14,Vizcom/12 bulkuploadone/12.1 New folder T/12.1.0.1 upload-25jan.zip,Fail
+8.0.2,12.0.2 6.0.2file-sample_1MB_5459oQc - Copy.doc,0.981,10-09-2024 11:45:24,Vizcom/12 bulkuploadone/12.0.2 6.0.2file-sample_1MB_5459oQc - Copy.doc,Fail
+8.0.3,12.0.3 6.0.2file-sample_1MB_5459oQc.doc,0.981,10-09-2024 11:45:24,Vizcom/12 bulkuploadone/12.0.3 6.0.2file-sample_1MB_5459oQc.doc,Fail
+8.0.4,12.0.4 DocullyVDR Documentation - Copy (2).pdf,0.291,10-09-2024 11:45:24,Vizcom/12 bulkuploadone/12.0.4 DocullyVDR Documentation - Copy (2).pdf,Fail
+8.0.5,12.0.5 DocullyVDR Documentation - Copy.pdf,0.291,10-09-2024 11:45:24,Vizcom/12 bulkuploadone/12.0.5 DocullyVDR Documentation - Copy.pdf,Fail
+8.0.6,12.0.6 DocullyVDR Documentation.pdf,0.291,10-09-2024 11:45:24,Vizcom/12 bulkuploadone/12.0.6 DocullyVDR Documentation.pdf,Fail
+8.0.7,12.0.7 New Microsoft Office Excel Worksheet - Copy (2).xlsx,0.008,10-09-2024 11:45:24,Vizcom/12 bulkuploadone/12.0.7 New Microsoft Office Excel Worksheet - Copy (2).xlsx,Fail
+8.0.8,12.0.8 New Microsoft Office Excel Worksheet - Copy (3).xlsx,0.008,10-09-2024 11:45:24,Vizcom/12 bulkuploadone/12.0.8 New Microsoft Office Excel Worksheet - Copy (3).xlsx,Fail
+8.0.9,12.0.9 New Microsoft Office Excel Worksheet - Copy (4).xlsx,0.008,10-09-2024 11:45:24,Vizcom/12 bulkuploadone/12.0.9 New Microsoft Office Excel Worksheet - Copy (4).xlsx,Fail
+8.0.10,12.0.10 New Microsoft Office Excel Worksheet - Copy.xlsx,0.008,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/12.0.10 New Microsoft Office Excel Worksheet - Copy.xlsx,Fail
+8.0.11,12.0.11 New Microsoft Office Excel Worksheet.xlsx,0.008,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/12.0.11 New Microsoft Office Excel Worksheet.xlsx,Fail
+8.0.12,12.0.12 New Microsoft Office PowerPoint Presentation - Copy (2).pptx,0.033,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/12.0.12 New Microsoft Office PowerPoint Presentation - Copy (2).pptx,Fail
+8.0.13,12.0.13 New Microsoft Office PowerPoint Presentation - Copy (3).pptx,0.033,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/12.0.13 New Microsoft Office PowerPoint Presentation - Copy (3).pptx,Fail
+8.0.14,12.0.14 New Microsoft Office PowerPoint Presentation - Copy.pptx,0.033,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/12.0.14 New Microsoft Office PowerPoint Presentation - Copy.pptx,Fail
+8.0.15,12.0.15 New Microsoft Office PowerPoint Presentation.pptx,0.033,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/12.0.15 New Microsoft Office PowerPoint Presentation.pptx,Fail
+8.0.16,12.0.16 t - Copy.png,0.005,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/12.0.16 t - Copy.png,Fail
+8.0.17,12.0.17 updatefileflag.png,0.009,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/12.0.17 updatefileflag.png,Fail
+8.0.18,12.0.18 upload-25jan.zip,7.258,10-09-2024 11:45:25,Vizcom/12 bulkuploadone/12.0.18 upload-25jan.zip,Fail
+9.1.1.1.0.49,4.1.0.9 2.2.1.0.9_ crosoft__Word__Document-Demo.docx,0.0,10-09-2024 11:45:40,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.1.0.9 2.2.1.0.9_ crosoft__Word__Document-Demo.docx,Fail
+9.1.1.1.0.76,4.2.0.27 1.0.14_CDMS__DEMO__PPT.pptx,0.035,10-09-2024 11:45:44,Vizcom/Uploading by Shakti/New folder (1)/New folder/New folder/4.2.0.27 1.0.14_CDMS__DEMO__PPT.pptx,Fail
+9.1.1.0.49,4.1.0.9 2.2.1.0.9_ crosoft__Word__Document-Demo.docx,0.0,10-09-2024 11:49:11,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.1.0.9 2.2.1.0.9_ crosoft__Word__Document-Demo.docx,Fail
+9.1.1.0.70,4.2.0.21 1.0.11_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,0.062,10-09-2024 11:49:13,Vizcom/Uploading by Shakti/New folder (1)/New folder/4.2.0.21 1.0.11_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,Fail
+9.1.0.37,4.0.15 2.2.0.14_Microsoft__office__word__.doc.doc,0.026,10-09-2024 11:53:06,Vizcom/Uploading by Shakti/New folder (1)/4.0.15 2.2.0.14_Microsoft__office__word__.doc.doc,Fail
+9.1.0.55,4.1.0.9 2.2.1.0.9_ crosoft__Word__Document-Demo.docx,0.0,10-09-2024 11:53:10,Vizcom/Uploading by Shakti/New folder (1)/4.1.0.9 2.2.1.0.9_ crosoft__Word__Document-Demo.docx,Fail
+9.3.1.0.1,1.0.10_word__with__hyper__link__(1).docx,0.012,10-09-2024 11:56:51,Vizcom/Uploading by Shakti/New folder/DFDFDFD/1.0.10_word__with__hyper__link__(1).docx,Fail
+9.0.4,3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,0.03,10-09-2024 11:59:26,Vizcom/Uploading by Shakti/3.1.1.0.8_Microsoft__Word__Document-Demo.pdf,Fail
+9.5.1.0.1,._4.2.1.0.1_1.0.1_bh__(2)__(copy).pptx,0.004,10-09-2024 11:59:26,Vizcom/Uploading by Shakti/2.1.2 4.2_folderrr123/2.1.2.1 4.2.1_sub__fold/._4.2.1.0.1_1.0.1_bh__(2)__(copy).pptx,Fail
+9.5.1.0.2,._4.2.1.0.2_1.0.3_bu__(copy).pptx,0.004,10-09-2024 11:59:26,Vizcom/Uploading by Shakti/2.1.2 4.2_folderrr123/2.1.2.1 4.2.1_sub__fold/._4.2.1.0.2_1.0.3_bu__(copy).pptx,Fail
+9.5.1.0.3,4.2.1.0.1_1.0.1_bh__(2)__(copy).pptx,0.25,10-09-2024 11:59:26,Vizcom/Uploading by Shakti/2.1.2 4.2_folderrr123/2.1.2.1 4.2.1_sub__fold/4.2.1.0.1_1.0.1_bh__(2)__(copy).pptx,Fail
+9.5.1.0.4,4.2.1.0.2_1.0.3_bu__(copy).pptx,0.25,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/2.1.2 4.2_folderrr123/2.1.2.1 4.2.1_sub__fold/4.2.1.0.2_1.0.3_bu__(copy).pptx,Fail
+9.5.0.1,._4.2.0.2_1.0.1_bh__(2).pptx,0.004,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/2.1.2 4.2_folderrr123/._4.2.0.2_1.0.1_bh__(2).pptx,Fail
+9.5.0.2,._4.2.1_sub__fold,0.004,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/2.1.2 4.2_folderrr123/._4.2.1_sub__fold,Fail
+9.5.0.3,4.2.0.1_1.0.3_bu.pptx,0.25,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/2.1.2 4.2_folderrr123/4.2.0.1_1.0.3_bu.pptx,Fail
+9.5.0.4,4.2.0.2_1.0.1_bh__(2).pptx,0.25,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/2.1.2 4.2_folderrr123/4.2.0.2_1.0.1_bh__(2).pptx,Fail
+9.0.5,4.0.15 2.2.0.14_Microsoft__office__word__.doc.doc,0.026,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/4.0.15 2.2.0.14_Microsoft__office__word__.doc.doc,Fail
+9.0.6,3.1.1.0.6_IMAGE__JPEG.jpg,0.007,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/3.1.1.0.6_IMAGE__JPEG.jpg,Fail
+9.0.7,4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,0.008,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/4.0.11 2.2.0.10_Excel__.__xlsx.xlsx,Fail
+9.0.8,4.0.13 2.2.0.12_jpeg__image.jpg,0.338,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/4.0.13 2.2.0.12_jpeg__image.jpg,Fail
+9.0.9,4.0.16 2.2.0.15_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,0.062,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/4.0.16 2.2.0.15_New__Microsoft__PowerPoint__Presentation__.__ppt.pptx,Fail
+9.0.10,3.0.9_sampleDocs__green__background____image..jpg,13.986,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/3.0.9_sampleDocs__green__background____image..jpg,Fail
+9.0.11,3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,0.032,10-09-2024 11:59:27,Vizcom/Uploading by Shakti/3.1.1.0.3_3__Microsoft__Excel__Worksheet-Demo.pdf,Fail
+9.0.12,4.0.10 2.2.0.9_Excel__.__xls.xls,0.025,10-09-2024 11:59:28,Vizcom/Uploading by Shakti/4.0.10 2.2.0.9_Excel__.__xls.xls,Fail
+9.0.13,4.0.24 2.2.0.23_zip_10MB.zip,10.185,10-09-2024 11:59:28,Vizcom/Uploading by Shakti/4.0.24 2.2.0.23_zip_10MB.zip,Fail
+9.0.14,4.0.22 2.2.0.21_test__disclaimer.pdf,0.032,10-09-2024 11:59:28,Vizcom/Uploading by Shakti/4.0.22 2.2.0.21_test__disclaimer.pdf,Fail
+15.1.0.1,4.0.1 sample (1) - Copy.pdf,0.003,10-09-2024 11:59:45,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.1 sample (1) - Copy.pdf,Fail
+15.1.0.2,4.0.2 sample (1).pdf,0.003,10-09-2024 11:59:45,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.2 sample (1).pdf,Fail
+15.1.0.3,4.0.3 sample (10) - Copy.pdf,0.003,10-09-2024 11:59:45,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.3 sample (10) - Copy.pdf,Fail
+15.1.0.4,4.0.4 sample (11) - Copy.pdf,0.003,10-09-2024 11:59:45,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.4 sample (11) - Copy.pdf,Fail
+15.1.0.5,4.0.5 sample (2) - Copy.pdf,0.003,10-09-2024 11:59:45,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.5 sample (2) - Copy.pdf,Fail
+15.1.0.6,4.0.6 sample (3) - Copy.pdf,0.003,10-09-2024 11:59:45,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.6 sample (3) - Copy.pdf,Fail
+15.1.0.7,4.0.7 sample (4) - Copy.pdf,0.003,10-09-2024 11:59:45,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.7 sample (4) - Copy.pdf,Fail
+15.1.0.8,4.0.8 sample (5) - Copy.pdf,0.003,10-09-2024 11:59:46,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.8 sample (5) - Copy.pdf,Fail
+15.1.0.9,4.0.9 sample (6) - Copy.pdf,0.003,10-09-2024 11:59:46,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.9 sample (6) - Copy.pdf,Fail
+15.1.0.10,4.0.10 sample (7) - Copy.pdf,0.003,10-09-2024 11:59:46,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.10 sample (7) - Copy.pdf,Fail
+15.1.0.11,4.0.11 sample (8) - Copy.pdf,0.003,10-09-2024 11:59:46,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.11 sample (8) - Copy.pdf,Fail
+15.1.0.12,4.0.12 sample (9) - Copy.pdf,0.003,10-09-2024 11:59:46,Vizcom/Uploading by HS/4 85585 qw- Great12qsdwsdesdfs1/4.0.12 sample (9) - Copy.pdf,Fail
+15.2.0.1,5.0.1 1 Microsoft PowerPoint Presentation-Demo.pptx,0.075,10-09-2024 11:59:46,Vizcom/Uploading by HS/5 Testing files/5.0.1 1 Microsoft PowerPoint Presentation-Demo.pptx,Fail
+15.2.0.2,5.0.2 3 Microsoft Excel Worksheet-Demo.csv,0.001,10-09-2024 11:59:46,Vizcom/Uploading by HS/5 Testing files/5.0.2 3 Microsoft Excel Worksheet-Demo.csv,Fail
+15.2.0.3,5.0.3 Demo PDF File.pdf,0.022,10-09-2024 11:59:46,Vizcom/Uploading by HS/5 Testing files/5.0.3 Demo PDF File.pdf,Fail
+15.2.0.4,5.0.4 Microsoft Word Document-Demo.docx,0.013,10-09-2024 11:59:46,Vizcom/Uploading by HS/5 Testing files/5.0.4 Microsoft Word Document-Demo.docx,Fail
+15.3.0.42,9.0.42 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.008,10-09-2024 12:00:05,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.42 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.3.0.64,9.0.64 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.008,10-09-2024 12:00:13,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.64 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.3.0.66,9.0.66 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.008,10-09-2024 12:00:14,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.66 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.3.0.71,9.0.71 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.008,10-09-2024 12:00:19,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.71 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.3.0.76,9.0.76 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.008,10-09-2024 12:00:29,Vizcom/Uploading by HS/9 Demo 4444 copy/9.0.76 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.4.0.42,9.0.42 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.008,10-09-2024 12:00:57,Vizcom/Uploading by HS/9 Demo 4444/9.0.42 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.4.0.46,9.0.46 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.01,10-09-2024 12:00:58,Vizcom/Uploading by HS/9 Demo 4444/9.0.46 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.4.0.51,9.0.51 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.823,10-09-2024 12:01:00,Vizcom/Uploading by HS/9 Demo 4444/9.0.51 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.4.0.64,9.0.64 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.008,10-09-2024 12:01:05,Vizcom/Uploading by HS/9 Demo 4444/9.0.64 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.4.0.65,9.0.65 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.271,10-09-2024 12:01:05,Vizcom/Uploading by HS/9 Demo 4444/9.0.65 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.4.0.66,9.0.66 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.008,10-09-2024 12:01:05,Vizcom/Uploading by HS/9 Demo 4444/9.0.66 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.4.0.67,9.0.67 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.271,10-09-2024 12:01:05,Vizcom/Uploading by HS/9 Demo 4444/9.0.67 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.4.0.68,9.0.68 New Microsoft PowerPoint Presentation (4) - Copy.pptx,1.267,10-09-2024 12:01:05,Vizcom/Uploading by HS/9 Demo 4444/9.0.68 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.4.0.71,9.0.71 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.008,10-09-2024 12:01:09,Vizcom/Uploading by HS/9 Demo 4444/9.0.71 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.4.0.76,9.0.76 New Microsoft PowerPoint Presentation (4) - Copy.pptx,0.008,10-09-2024 12:01:19,Vizcom/Uploading by HS/9 Demo 4444/9.0.76 New Microsoft PowerPoint Presentation (4) - Copy.pptx,Fail
+15.4.0.84,1.2.3.2.5.0.2 2 Microsoft Word Document-Demo.docx,0.013,10-09-2024 12:01:28,Vizcom/Uploading by HS/9 Demo 4444/1.2.3.2.5.0.2 2 Microsoft Word Document-Demo.docx,Fail
+15.4.0.88,four.doc,0.981,10-09-2024 12:01:30,Vizcom/Uploading by HS/9 Demo 4444/four.doc,Fail
+15.4.0.91,two.pptx,0.033,10-09-2024 12:01:30,Vizcom/Uploading by HS/9 Demo 4444/two.pptx,Fail
+15.7.0.2,12.0.2 6.0.2file-sample_1MB_5459oQc - Copy.doc,0.981,10-09-2024 12:02:14,Vizcom/Uploading by HS/12 bulkuploadone/12.0.2 6.0.2file-sample_1MB_5459oQc - Copy.doc,Fail
+15.8.0.1,Alternative Therapies.png,0.02,10-09-2024 12:02:18,Vizcom/Uploading by HS/AXAT/Alternative Therapies.png,Fail
+15.8.0.2,Cardiovascular.png,0.032,10-09-2024 12:02:18,Vizcom/Uploading by HS/AXAT/Cardiovascular.png,Fail
+15.8.0.3,Gynecology.png,0.012,10-09-2024 12:02:18,Vizcom/Uploading by HS/AXAT/Gynecology.png,Fail
+15.8.0.4,herbal-treatment.png,0.014,10-09-2024 12:02:18,Vizcom/Uploading by HS/AXAT/herbal-treatment.png,Fail
+15.8.0.5,hip-replacement.png,0.022,10-09-2024 12:02:18,Vizcom/Uploading by HS/AXAT/hip-replacement.png,Fail
+15.8.0.6,knee-replacement.png,0.019,10-09-2024 12:02:18,Vizcom/Uploading by HS/AXAT/knee-replacement.png,Fail
+15.8.0.7,oncology.png,0.014,10-09-2024 12:02:18,Vizcom/Uploading by HS/AXAT/oncology.png,Fail
+15.8.0.8,Organ Transplant.png,0.017,10-09-2024 12:02:18,Vizcom/Uploading by HS/AXAT/Organ Transplant.png,Fail
+15.8.0.9,wellness.png,0.02,10-09-2024 12:02:18,Vizcom/Uploading by HS/AXAT/wellness.png,Fail
+15.8.0.10,yoga.png,0.012,10-09-2024 12:02:18,Vizcom/Uploading by HS/AXAT/yoga.png,Fail
+15.8.0.11,avenue-815297_1280.jpg,0.449,10-09-2024 12:02:19,Vizcom/Uploading by HS/AXAT/avenue-815297_1280.jpg,Fail
+15.8.0.12,coca-cola-736967_640.jpg,0.179,10-09-2024 12:02:19,Vizcom/Uploading by HS/AXAT/coca-cola-736967_640.jpg,Fail
+15.8.0.13,flowers-276014_1280.jpg,0.353,10-09-2024 12:02:19,Vizcom/Uploading by HS/AXAT/flowers-276014_1280.jpg,Fail
+15.8.0.14,graffiti-508272_1280 (1).jpg,0.469,10-09-2024 12:02:19,Vizcom/Uploading by HS/AXAT/graffiti-508272_1280 (1).jpg,Fail
+15.8.0.15,graffiti-508272_1280.jpg,0.469,10-09-2024 12:02:19,Vizcom/Uploading by HS/AXAT/graffiti-508272_1280.jpg,Fail
+15.8.0.16,graffiti-623003_640.jpg,0.168,10-09-2024 12:02:19,Vizcom/Uploading by HS/AXAT/graffiti-623003_640.jpg,Fail
+15.8.0.17,graffiti-1224886_640.jpg,0.085,10-09-2024 12:02:19,Vizcom/Uploading by HS/AXAT/graffiti-1224886_640.jpg,Fail
+15.8.0.18,graffiti-3274744_640.jpg,0.133,10-09-2024 12:02:19,Vizcom/Uploading by HS/AXAT/graffiti-3274744_640.jpg,Fail
+15.8.0.19,graphics-603272_640.jpg,0.137,10-09-2024 12:02:19,Vizcom/Uploading by HS/AXAT/graphics-603272_640.jpg,Fail
+15.8.0.20,istockphoto-1072462590-1024x1024.jpg,0.111,10-09-2024 12:02:19,Vizcom/Uploading by HS/AXAT/istockphoto-1072462590-1024x1024.jpg,Fail
+15.8.0.21,istockphoto-1419410282-1024x1024.jpg,0.175,10-09-2024 12:02:19,Vizcom/Uploading by HS/AXAT/istockphoto-1419410282-1024x1024.jpg,Fail
+15.8.0.22,john-lennon-wall-2122078_640.jpg,0.145,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/john-lennon-wall-2122078_640.jpg,Fail
+15.8.0.23,mountain-landscape-2031539_1280.jpg,0.402,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/mountain-landscape-2031539_1280.jpg,Fail
+15.8.0.24,mountains-190055_1280.jpg,0.272,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/mountains-190055_1280.jpg,Fail
+15.8.0.25,nature-3082832_1280.jpg,0.256,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/nature-3082832_1280.jpg,Fail
+15.8.0.26,pexels-photo-674010.jpeg,0.053,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/pexels-photo-674010.jpeg,Fail
+15.8.0.27,road-1072823_1280.jpg,0.618,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/road-1072823_1280.jpg,Fail
+15.8.0.28,skull-and-crossbones-82148_640.jpg,0.124,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/skull-and-crossbones-82148_640.jpg,Fail
+15.8.0.29,street-art-1871506_640.jpg,0.071,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/street-art-1871506_640.jpg,Fail
+15.8.0.30,tree-736885_1280.jpg,0.177,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/tree-736885_1280.jpg,Fail
+15.8.0.31,43.0.1 1 Demo PDF.pdf,0.022,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/43.0.1 1 Demo PDF.pdf,Fail
+15.8.0.32,43.0.2 2 Demo Overview Report.csv,0.363,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/43.0.2 2 Demo Overview Report.csv,Fail
+15.8.0.33,43.0.3 3 Demo Microsoft Word Document.docx,0.032,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/43.0.3 3 Demo Microsoft Word Document.docx,Fail
+15.8.0.34,43.0.4 4 Demo Microsoft PowerPoint Presentation pdf.pdf,0.53,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/43.0.4 4 Demo Microsoft PowerPoint Presentation pdf.pdf,Fail
+15.8.0.35,43.0.5 4 Demo Microsoft PowerPoint Presentation.pptx,3.627,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/43.0.5 4 Demo Microsoft PowerPoint Presentation.pptx,Fail
+15.8.0.36,43.0.6 Lorem ipsum.pdf,0.084,10-09-2024 12:02:20,Vizcom/Uploading by HS/AXAT/43.0.6 Lorem ipsum.pdf,Fail
+15.10.0.1,4.2.0.1_1.0.3_bu.pptx,0.25,10-09-2024 12:02:25,Vizcom/Uploading by HS/2.1.2 4.2_folderrr123/4.2.0.1_1.0.3_bu.pptx,Fail

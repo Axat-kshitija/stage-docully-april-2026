@@ -1,0 +1,37 @@
+{% extends 'emailer/base/base.html' %}
+
+
+ {% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+
+Hi <b>{{ qna.user.first_name }}</b>,
+
+<p>You have received a reply on Project {{ qna.dataroom.dataroom_nameFront}} from {{admin_user.first_name}} {{admin_user.last_name}}<br>
+  <a href="https://services.docullyvdr.com/#/qa-questions/{{qna.id}}">CLICK HERE to see this question on Docully.</a><br>
+
+<p>If you need any help, please feel free to visit our <a href="https://docully.freshdesk.com/support/solutions">HelpDesk</a> or write to us at <a href="mailto:support@docullyvdr.com"> support@docullyvdr.com.</p><br>
+
+  <p>Thanks,</p>
+            <p><span class="context">Team Docully</span></p>
+
+            <div class="" style="text-align: center;">
+              <h4><b>Docully SaaS Technologies Co. LLC</h4></b>
+              <p><a href="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a></p>
+
+            </div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock %}

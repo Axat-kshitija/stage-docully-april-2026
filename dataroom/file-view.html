@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% load static %}
+  {% load data_doc_extras %}
+  {% load mathfilters %}
+  <link id="prt" name="prt" rel=alternate media=print href="something"/>
+
+  <title>DOCULLY</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <link rel="stylesheet" href="https://docullystorage.blob.core.windows.net/docullycontainer/css/cdr-style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+  <!-- <link rel="icon " type="image/x-icon " href="https://docullystorage.blob.core.windows.net/docullycontainer/images/favicon.ico"> -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+  <link href="https://docullystorage.blob.core.windows.net/docullycontainer/css/jquery-simpleTreeMenu.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css">
+<style type="text/css">
+  .fileview-action a{
+    color: #fff !important;
+    margin-bottom: 5px
+}
+.row{
+  flex-wrap: nowrap !important
+}
+/* stylelint-disable selector-max-class, selector-max-combinators, selector-max-compound-selectors, declaration-no-important, selector-no-qualifying-type, property-no-vendor-prefix */
+
+/* Template-specific stuff
+ *
+ * Customizations just for the template; these are not necessary for anything
+ * with disabling the responsiveness.
+ */
+
+/* Account for fixed navbar */
+/*body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}*/
+
+body,
+.navbar-fixed-top,
+.navbar-fixed-bottom {
+  min-width: 970px;
+}
+
+/* Don't let the lead text change font-size. */
+.lead {
+  font-size: 16px;
+}
+.title{
+
+}
+/* Finesse the page header spacing */
+.page-header {
+  margin-bottom: 30px;
+}
+.page-header .lead {
+  margin-bottom: 10px;
+}
+
+
+/* Non-responsive overrides
+ *
+ * Utilize the following CSS to disable the responsive-ness of the container,
+ * grid system, and navbar.
+ */
+
+/* Reset the container */
+.container {
+  width: 970px;
+  max-width: none !important;
+}
+
+/* Demonstrate the grids */
+.col-xs-4 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  background-color: rgba(86, 61, 124, .15);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86, 61, 124, .2);
+}
+
+.container .navbar-header,
+.container .navbar-collapse {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+/* Always float the navbar header */
+.navbar-header {
+  float: left;
+}
+#docs-viewer{
+  width: 100%;
+    height: 400px;
+}
+
+/* Undo the collapsing navbar */
+.navbar-collapse {
+  display: block !important;
+  height: auto !important;
+  padding-bottom: 0;
+  overflow: visible !important;
+  visibility: visible !important;
+  border-top: 0;
+}
+
+.navbar-toggle {
+  display: none;
+}
+
+.navbar-brand {
+  margin-left: -15px;
+}
+
+/* Always apply the floated nav */
+.navbar-nav {
+  float: left;
+  margin: 0;
+}
+.navbar-nav > li {
+  float: left;
+}
+.navbar-nav > li > a {
+  padding: 15px;
+}
+
+/* Redeclare since we override the float above */
+.navbar-nav.navbar-right {
+  float: right;
+}
+
+/* Undo custom dropdowns */
+.navbar .navbar-nav .open .dropdown-menu {
+  position: absolute;
+  float: left;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-width: 0 1px 1px;
+  border-radius: 0 0 4px 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+  color: #333;
+}
+.navbar .navbar-nav .open .dropdown-menu > li > a:hover,
+.navbar .navbar-nav .open .dropdown-menu > li > a:focus,
+.navbar .navbar-nav .open .dropdown-menu > .active > a,
+.navbar .navbar-nav .open .dropdown-menu > .active > a:hover,
+.navbar .navbar-nav .open .dropdown-menu > .active > a:focus {
+  color: #fff !important;
+  background-color: #428bca !important;
+}
+.navbar .navbar-nav .open .dropdown-menu > .disabled > a,
+.navbar .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+.navbar .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+  color: #999 !important;
+  background-color: transparent !important;
+}
+
+/* Undo form expansion */
+.navbar-form {
+  float: left;
+  width: auto;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+/* Copy-pasted from forms.less since we mixin the .form-inline styles. */
+.navbar-form .form-group {
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.navbar-form .form-control {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+}
+
+.navbar-form .form-control-static {
+  display: inline-block;
+}
+
+.navbar-form .input-group {
+  display: inline-table;
+  vertical-align: middle;
+}
+
+.navbar-form .input-group .input-group-addon,
+.navbar-form .input-group .input-group-btn,
+.navbar-form .input-group .form-control {
+  width: auto;
+}
+
+.navbar-form .input-group > .form-control {
+  width: 100%;
+}
+
+.navbar-form .control-label {
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.navbar-form .radio,
+.navbar-form .checkbox {
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.navbar-form .radio label,
+.navbar-form .checkbox label {
+  padding-left: 0;
+}
+
+.navbar-form .radio input[type="radio"],
+.navbar-form .checkbox input[type="checkbox"] {
+  position: relative;
+  margin-left: 0;
+}
+
+.navbar-form .has-feedback .form-control-feedback {
+  top: 0;
+}
+
+/* Undo inline form compaction on small screens */
+.form-inline .form-group {
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.form-inline .form-control {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+}
+
+.form-inline .form-control-static {
+  display: inline-block;
+}
+
+.form-inline .input-group {
+  display: inline-table;
+  vertical-align: middle;
+}
+.form-inline .input-group .input-group-addon,
+.form-inline .input-group .input-group-btn,
+.form-inline .input-group .form-control {
+  width: auto;
+}
+
+.form-inline .input-group > .form-control {
+  width: 100%;
+}
+
+.form-inline .control-label {
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.form-inline .radio,
+.form-inline .checkbox {
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+.form-inline .radio label,
+.form-inline .checkbox label {
+  padding-left: 0;
+}
+
+.form-inline .radio input[type="radio"],
+.form-inline .checkbox input[type="checkbox"] {
+  position: relative;
+  margin-left: 0;
+}
+
+.form-inline .has-feedback .form-control-feedback {
+  top: 0;
+}
+
+.wrapper{
+    position:relative;
+    z-index: 1;
+    display: inline-block;
+    width: 100%;
+    overflow: auto;
+}
+
+
+.hidelogo{
+    position: absolute;
+    width: 130px;
+    height: 20px;
+    background: #FFFFFF;
+    right: 0px;
+    bottom: 6px;
+    z-index:999;
+    display: block;
+    color: #fff;
+}
+
+.rightnewhidelogo{
+    position: absolute;
+    width: 120px;
+    height: 20px;
+    background: #444444;
+    bottom: 10px;
+    z-index:999;
+    display: block;
+    color: #fff;
+}
+
+.newhidelogo{
+    position: absolute;
+    width: 120px;
+    height: 20px;
+    background: #444444;
+    right: 2px;
+    bottom: 10px;
+    z-index:999;
+    display: block;
+    color: #fff;
+}
+.excelnewhidelogo{
+    position: absolute;
+    width: 100%;
+    height: 25px;
+    background: #4e4e4e;
+    bottom: 7px;
+    z-index:999;
+    display: block;
+    color: #fff;
+}
+.yt-cover{
+  position: absolute;
+  top: 0;
+  bottom:0;
+  right:0;
+  left:0;
+  z-index:1000;
+}
+#title{
+outline-color: #666365 !important;
+}
+.overlayc{
+  position: relative;
+}
+.toverlay{position: absolute; background: rgba(0,0,0,0); width: 100%; height: 93%;}
+.toverlay1{position: absolute; background: rgba(0,0,0,0); width: 99%; height: 83%;}
+.toverlay2{position: absolute; background: rgba(0,0,0,0); width: 93%; height: 93%;}
+</style>
+<script type="text/javascript">
+
+ 
+//Disable the Context Menu event.
+document.oncontextmenu = function () {
+    return false;
+};
+
+</script>
+</head>
+
+<body oncopy="return false" oncut="return false" onpaste="return false" onprint="return false">
+<div id="authorized" style="display:none;">
+<header class="topbar">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    <div class="cdr_branding">
+        <img src="https://docullystorage.blob.core.windows.net/docullycontainer/images/logo.png">
+    </div>
+      <button class="cdr-nm-btn back-bnt" onclick="window.location='{{frontend_url}}/#/folder_detail/{{folder.parent_folder_id}}/?dataroom={{folder.dataroom.id}}';">BACK</button>
+  </div>
+</header>
+
+<div class="container-fluid my-4">
+<div class="row">
+<div class="col-md-9">
+
+<div class="content-part mat-card">
+<div class="cdr-breadcrumb ng-star-inserted">
+  <b style="color: #6c757d !important">{{folder.dataroom.dataroom_name}} Dataroom</b>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{frontend_url}}/#/documents">All Documents</a></li>
+        {% for fldr in folder.parent_folders %}<li class="breadcrumb-item active"><a href="{{frontend_url}}/#/folder_detail/{{fldr.id}}" >{{ fldr.name}}</a></li>{% endfor %}
+        <li class="breadcrumb-item active"><a>{{ folder.name}}</a></li>
+    </ol><span style="flex: 1 1 0%; box-sizing: border-box;"></span>
+</div>
+
+<div class="fpc">
+<div class="fpc-header">
+  <h2><i class="fas fa-file file-viewer-icon"></i> {{ folder.name }}</h2>
+</div>
+</div>
+
+
+
+  {% if odf %}
+ <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+ </div>
+    {% if pdf %}
+<iframe id="custom-frame" style="overflow-x: auto;" class="iframe-style" src="{{path}}" onload="onloadIframe()">
+    {% else %}
+    png
+  <iframe id="custom-frame" class="iframe-style" src="{{path}}" onload="onloadIframe()">
+    {% endif %}
+  <p>Your browser does not support iframes.</p>
+</iframe>
+<!-- </div> -->
+
+<!--     <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+    <div class="wrapper">
+    <div class="overlayc">
+      <div class="toverlay1"></div>
+<iframe id="custom-frame" class="iframe-style" src="{{path}}" onload="onloadIframe()"></iframe>
+    </div>
+    </div> -->
+
+     <iframe id="print-frame" style="width:0;height:0;border:0; border:none;" ></iframe>
+   <!-- </div> -->
+    {% elif pptx %}
+    <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+    <div class="wrapper">
+    <div class="rightnewhidelogo"></div>
+    <div class="newhidelogo"></div>
+    <div class="overlayc">
+      <div class="toverlay"></div>
+      <iframe id="docs-viewer" width='933' height='465' oncontextmenu="return false" frameborder='0' allowfullscreen src='https://view.officeapps.live.com/op/embed.aspx?src={{path}}'>
+        
+      </iframe>
+    </div>
+    </div>
+     <iframe id="print-frame" style="width:0;height:0;border:0; border:none;" ></iframe>
+   </div>
+
+<!-- <div id='viewer' style='width: 1024px; height: 600px;'></div>
+ -->{% elif docs %}
+      <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+    <div class="wrapper">
+    <div class="hidelogo"></div>
+    <div class="overlayc">
+      <div class="toverlay2"></div>
+      <iframe id="docs-viewer" width='933' height='465' oncontextmenu="return false" frameborder='0' allowfullscreen src='https://view.officeapps.live.com/op/embed.aspx?src={{path}}'>
+        
+      </iframe>
+    </div>
+    </div>
+     <iframe id="print-frame" style="width:0;height:0;border:0; border:none;" ></iframe>
+   </div>
+    {% elif psd %}
+    <div>
+      This File is not supported!!
+    </div>
+<!-- <div id="dvContainer" style="width:1200px;height:1000px;"></div> -->
+{% elif csv %}
+<div>
+<div  class="iframe-style">
+<div class="csv-file-view">
+<table class="table table-hover  table-bordered" id="table-csv" width="100%"></table>
+</div>
+</div>
+</div>
+<iframe id="print-frame" style="width:0;height:0;border:0; border:none;" ></iframe>
+
+{% elif excel %}
+<div class="text-center">{{message}}</div>
+<div  class="iframe-style">
+    <div id="Excel-Tabs" class="tab"></div>
+    <div id="wrapper" class="tabcontent excel-table-d csv-file-view"></div>
+</div>
+<iframe id="print-frame" style="width:0;height:0;border:0; border:none;" ></iframe>
+<!-- end-----here -->
+<!-- <iframe id="custom-frame" class="iframe-style" src="https://view.officeapps.live.com/op/embed.aspx?src={{path}}" onload="onloadIframe()" >
+  <p>Your browser does not support iframes.</p>
+</iframe> -->
+<!--     <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+    <div class="wrapper">
+    <div class="excelnewhidelogo"></div>
+    <div class="overlayc">
+      <div class="toverlay1"></div>
+      <iframe id="docs-viewer" width='933' height='465' oncontextmenu="return false" frameborder='0' allowfullscreen src='https://view.officeapps.live.com/op/embed.aspx?src={{path}}'>
+        
+      </iframe>
+    </div>
+    </div>
+     <iframe id="print-frame" style="width:0;height:0;border:0; border:none;" ></iframe>
+   </div> -->
+{% else %}
+<!-- <div class="iframe-container" id="iframeContainer" ondrag="return false;" onpaste="return false;" oncopy="return false;" > -->
+  <!-- <div id="maps" onload="onloadIframe()"><img id="map" src="{{path}}"/></div> -->
+<!-- <iframe id="custom-frame" class="iframe-style" src="{{path}}" onload="onloadIframe()" > -->
+  <!-- <p>Your browser does not support iframes.</p> -->
+<!-- </iframe> -->
+<!-- </div> -->
+      <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+    <div class="wrapper">
+    <div class="hidelogo"></div>
+    <div class="overlayc">
+      <div class="toverlay2"></div>
+      <iframe id="custom-frame" class="iframe-style" src="{{path}}" onload="onloadIframe()" ></iframe>
+    </div>
+    </div>
+    </div>
+{% endif %}
+
+<div class="comment-box">
+  <div class="pro-info mb-5">
+    <!-- <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p> -->
+  </div>
+
+  <div class="row">
+     {% if dataroom_user_list.is_q_a_submitter_user %}
+    <div class="col-md-1">
+      <img class="img-fluid user-icon-pic" src="{{dataroom_user_list.member.avatar.url}}">
+    </div>
+
+    <div class="col-md-11 pl-0">
+
+       <div class="user-details">
+        <span class="orange">{{ user.first_name }} {{ user.last_name }}</span>
+      </div>
+
+        <div class="d-flex justify-content-end" >
+         <select class="form-control w-auto" name="category" id="category" >
+            <option value="">Select Category</option>
+            {% for category in category_list %}
+              <option value="{{ category.id }}">{{ category.categories_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+          <div class="d-flex align-items-start mt-4">
+            <textarea class="form-control" name="title" id="title" placeholder="Add your question here"></textarea>
+            <input type="hidden" id="fileId" value="{{folder.id}}">
+            <input type="hidden" id="dataroomId" value="{{folder.dataroom.id}}">
+            <input type="hidden" id="logdinId" value="{{login_user}}">
+            <button class="cdr-nm-btn" onclick="qna_comment()">Submit Question</button>
+          </div>
+
+
+      <div class="row mt-5" id="qna">
+
+          <p id="qna_q"></p>
+
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  <div id="the-div-that-should-be-refreshed" style="font-size: 14px">
+  {% for qna in qna_list %}
+      {% if qna.final == False %}
+        <div class="row mt-4">
+          <div class="col-md-1">
+            <img class="img-fluid user-icon-pic" src="{{qna.user.avatar}}">
+
+          </div>
+
+
+          <div class="col-md-11 pl-0" >
+           <div class="user-details">
+            <span class="orange"><b>{{ qna.user.first_name }}</b> <em class="dtime">{{qna.created_date}}</em></span>
+           </div>
+            <p>{{qna.question}}.</p>
+            {% if qna.reply %}
+              <button class="btn btn-primary"  id="reply_question_{{qna.id}}" onclick="reply_question({{qna.id}})">Reply</button>
+              <!-- <button onclick="reply_question()">reply</button> -->
+              <!-- <a class="reply-st mt-2"><i class="fas fa-reply"></i> reply</a> -->
+            {% endif %}
+            <div id="qna_answer_div_{{qna.id}}" class="qna_answer_div" style="display:none">
+              <textarea style="width:100%" name="qna_answer" id="qna_answer_{{qna.id}}"></textarea>
+              <input type="hidden" id="qna_answer_id_{{qna.id}}" value="{{qna.id}}">
+              <!-- <input type="hidden" id="dataroomId" value="{{folder.dataroom.id}}"> -->
+              <input type="hidden" id="logdinId" value="{{login_user}}">
+              <button class="cdr-nm-btn" style="margin-left: 0" onclick="close_qna_submit_div({{qna.id}})">Cancel</button>
+              <button style="margin-left: 0" class="cdr-nm-btn" onclick="qna_submit_answer({{qna.id}})">Submit Answer</button>
+            </div>
+          </div>
+        </div>
+        {% get_rate qna.id as result %}
+        {% if result %}
+          {% for qna in result %}
+            <div class="row mt-4" style="margin-left: 50px;">
+              <div class="col-md-1">
+                <img class="img-fluid user-icon-pic" src="{{qna.user.avatar.url}}">
+              </div>
+
+
+              <div class="col-md-11 pl-0" >
+               <div class="user-details">
+                <span class="orange"><b>{{ qna.user.first_name }} </b> <em class="dtime">{{qna.created_date}}</em></span>
+               </div>
+                <p>{{qna.answer}}.</p>
+                <!-- <a href="#" class="reply-st mt-2"><i class="fas fa-reply"></i> reply</a> -->
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+    <div class="content-part mat-card fpat mb-3">
+        <h4><i class="fas fa-file file-viewer-icon"></i> File Information</h4>
+
+        <div class="pnl-body">
+
+          <div class="file-details">
+            <p><b>Uploaded By:</b> <span>{{ folder.user.first_name}} {{ folder.user.last_name}}</span></p>
+            <p><b>Uploaded:</b> <span>{{folder.created_date}}</span></p>
+            <p><b>Size:</b> <span>{{ folder.file_size_mb }} MB</span></p>
+          </div>
+          <div class="action-btn-st mt-4 fileview-action">
+            {% if is_download %}
+            <!-- <a class="btn btn-primary" style="width: 100%" href="{{dpath}}" onclick="getDownload()" target="_self" download><i class="fas fa-download"></i> Download</a> -->
+            <a class="btn btn-primary" style="width: 100%" href="{% url 'download_files_key' user=user path=dpath %}" onclick="getDownload()" target="_self" download><i class="fas fa-download"></i> Download</a>
+           <!-- <a class="btn btn-primary" style="width: 100%"  href=""><i class="fas fa-download"></i> Download</a> -->
+           <!-- <iframe id="my_frame" style="display:none;"></iframe> -->
+           <!-- <input type="hidden" name="file-download" id="file-download" value="{{dpath}}"> -->
+           <!-- <iframe style="display:none;" name="hiddenIframe" id="hiddenIframe"></iframe> -->
+
+           <!-- <input type="button" class="downloadButton" value="download" /> -->
+            <!-- <a href="{{dpath}}" class="downloadLink">Download</a> -->
+            {% endif %}
+            {% if is_download is False and is_shortcut is True %}
+            <a class="btn btn-primary" style="width: 100%" onclick="getShortcut('{{folder.name}}')">
+              <i class="fas fa-external-link-alt"></i> Doculink DRM
+            </a>
+              <!-- <a class="btn btn-primary" style="width: 100%" href="https://docullystorage.blob.core.windows.net/quickstartblobs/219_13663.txt" target="_self" download><i class="fas fa-download"></i> Download</a> -->
+
+
+            {% endif %}
+            <!-- <a id="upload_file"><i class="fas fa-upload" style="color: #007bff;"></i></a> -->
+            <input type="file" id="upload_file1" style="display: none;" /><!-- onClick="printChart()" -->
+            {% if is_print %}<br>
+            <a class="btn btn-primary" style="width: 100%" onClick="printChart()" ><i class="far fa-save"></i> Print</a>
+            <!-- <a class="btn btn-primary" style="width: 100%" value="print this page" onClick="window.print()" ><i class="far fa-save"></i> Print</a> -->
+            {% endif %}
+            <!-- <a href="{{path}}" onClick="CallPrint()"><i class="far fa-save"></i></a> -->
+          </div>
+        </div>
+
+    </div>
+<!--
+<div class="content-part mat-card mb-3">
+
+         <ul id="root" class="file-tree-view"></ul>
+</div> -->
+{% if user.is_superadmin or user.is_admin %}
+  <div class="content-part mat-card fpat" style="overflow: scroll;overflow-x: hidden;height: 600px">
+    <h4>Activity Tracker</h4>
+    <div class="mat-list-item">
+      {% for activity in activity_tracker %}
+      {% if activity.event == 'file view' %}
+      <div class="mat-list-text bdr-btm mlcprev">
+        <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} viewed the file: {{activity.folder.name}}</h6>
+        <span style="font-size: 14px;">{{activity.created_date}}</span>
+      </div>
+      {% endif %}
+      {% if activity.event == 'file download' %}
+      <div class="mat-list-text bdr-btm mlcprev">
+        <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} downloaded the file: {{activity.folder.name}}</h6>
+        <span>{{activity.created_date}}</span>
+      </div>
+<!--       </div>req.onload = function(e) {
+        //                 var data = new Uint8Array(req.response);
+        //                 wb = XLSX.read(data,{type:'array'});
+        //                 for (w in wb.SheetNames){
+        //                   htmlstr = XLSX.write(wb,{sheet:wb.SheetNames[w],type:'binary',bookType:'html'});
+        //                   var sheet = '<button class="tablinks" id="tab'+w+'" onclick="GetClicked('+w+')">'+wb.SheetNames[w]+'</button>'
+        //                   $("#Excel-Tabs").append(sheet);
+        //                   $("#wrapper")[0].innerHTML = htmlstr;
+        //         }
+        //         var wbs = wb.SheetNames.length;
+        //         $('#tab'+(wbs-1)).addClass('highlight')
+        //         }
+        // req.send(); -->
+      {% endif %}
+      {% if activity.event == 'file print' %}
+      <div class="mat-list-text bdr-btm mlcprev">
+        <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} printed the file: {{activity.folder.name}}</h6>
+        <span>{{activity.created_date}}</span>
+      </div>
+      {% endif %}
+      {% endfor %}
+
+
+
+    </div>
+  </div>
+{% endif %}
+</div>
+
+</div>
+</div>
+
+
+
+</div>
+<div id="unauthorized" style="display:none;">
+  You are Unauthorized to access this page without login. <a href="{{frontend_url}}/#/?returnUrl={{url}}">Login to continue. </a>
+</div>
+
+<div id="snackbar">Question submitted successfully. </div>
+<div id="error">Please Select Category.</div>
+
+</body>
+</html>
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script lang="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.0/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+  <!-- <script src="https://appsforoffice.microsoft.com/lib/1/hosted/Office.js" type="text/javascript"></script> -->
+  <!-- <script src='/static/lib/html5/external/jquery-3.2.1.min.js'></script>
+  <script src='/static/lib/WebViewer.min.js'></script> -->
+  <script src="https://docullystorage.blob.core.windows.net/docullycontainer/js/jquery-simpleTreeMenu.js"></script>
+  <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+
+
+
+<script type="text/javascript">
+
+function test(){
+  var iframe = document.getElementById('custom-frame');
+      var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+      // Check if loading is complete
+      if (  iframeDoc.readyState  == 'complete' ) {
+        alert()
+      }
+}
+
+  function onloadIframe(){
+      // var iframeBody = $("#custom-frame").contents().find("body");
+      // var styleTag = iframeBody.append($('#maps'));
+      document.getElementsByClassName('custom-frame').contentDocument.body.setAttribute("ondragstart","return false;");
+
+document.getElementsByClassName('custom-frame').contentDocument.body.setAttribute("oncopy","return false;");
+
+
+document.getElementsByClassName('custom-frame').contentDocument.body.setAttribute("onpaste","return false;");
+  }
+
+  function zoomin() {
+  var myImg = document.getElementById("custom-frame");
+  var innerDoc = myImg.contentDocument || myImg.contentWindow.document;
+  var img = innerDoc.getElementById('map')
+  var currWidth = img.clientWidth;
+  if (currWidth == 2500) return false;
+  else {
+    img.style.width = (currWidth + 100) + "px";
+  }
+}
+
+function zoomout() {
+  var myImg = document.getElementById("custom-frame");
+  var innerDoc = myImg.contentDocument || myImg.contentWindow.document;
+  var img = innerDoc.getElementById('map')
+  var currWidth = img.clientWidth;
+  if (currWidth == 100) return false;
+  else {
+    img.style.width = (currWidth - 100) + "px";
+  }
+}
+  // var viewerElement = document.getElementById('viewer');
+  // var  pathsw = 'http://{{path}}';
+  // // debugger;
+  // var myWebViewer = new PDFTron.WebViewer({
+  //   path: '/static/lib',
+  //   l: 'demo:achita.z@axat-tech.com:7560753d016c7fd14dcf7f4ed388ce2c469d07ee6d068c0cef', //replace with your free trial license key from https://www.pdftron.com/form/download-trial
+  //   initialDoc: pathsw, // replace with your own PDF file or continue to integration guide for setting up document loading using relative paths on your server
+  //   pdftronServer: 'http://localhost:8090/' // remove option to run client-side only, or replace later with your own server
+  // }, viewerElement);
+var viewingSessionId;
+       var viewerControl;
+function populateUL(ul) {
+    // Register the given UL element as the root in a new data structure
+    // var data = '{{all_folders}}'
+
+}
+function close_qna_submit_div(qna_id){
+      $("#qna_answer_div_"+qna_id).hide();
+      $("#reply_question_"+qna_id).show();
+}
+
+$(document).ready(function() {
+
+  var x = document.cookie;
+  var name = 'token'
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    var last = ca[ca.length-1]
+    // var value = "; " + document.cookie;
+    // var parts = value.split("; " + name + "=");
+    for (i = 0; i < ca.length; i++) {
+      token  = ca[i].split('=')
+      if(token[0] == ' token'){
+        $('#authorized').show()
+        $('#unauthorized').hide()
+        document.cookie = "url="+'';
+        break;
+      }else{
+        $('#unauthorized').show();
+        $('#authorized').hide()
+      }
+    }
+
+
+  // debugger;
+  // window.onfocus=function(){ window.close();}
+
+  // ul = $("#root")
+  // var hash = {
+  //       "": { ul: ul }
+  //   };
+  //   var data = '{{ all_folders | escapejs }}';
+  //   data = data.replace(/'/g, '"')
+  //   data = JSON.parse(data);
+  //   // Key the objects by their id, and create individual LI elements for them,
+  //   // and an empty UL container for their potential child elements
+  //   data.forEach(function (o) {
+  //       var ul = $("<ul>");
+  //       hash[o.id] = {
+  //           ul: ul,
+  //           li: $("<li>").text(o.name).append(ul)
+  //       };
+  //   });
+  //   // Append each LI element to the correct parent UL element
+  //   data.forEach(function (o) {
+  //       hash[o.parent_folder_id].ul.append(hash[o.id].li);
+  //   });
+
+
+
+
+
+
+  var iframeEl = $('iframe').contents().get(0);
+
+  $(iframeEl).bind('contextmenu', function(e) {
+    return false;
+});
+
+
+
+        // debugger;
+         if('{{docs}}'=='True'){
+          debugger;
+          var fileArray = "{{path}}".split("/");
+          fileArray[fileArray.length-1] = fileArray[fileArray.length-1].replace("#toolbar=0","");
+          if (fileArray[fileArray.length-1].endsWith('.docx')){
+            var myFrame = $("#display-frame").contents().find('body');
+            
+          }
+       }else if('{{pptx}}' == 'True'){
+            var fileArray = "{{path}}".split("/");
+            fileArray[fileArray.length-1] = fileArray[fileArray.length-1].replace("#toolbar=0","");
+            console.log("pptx====>",fileArray);
+            var request = new XMLHttpRequest();
+            request.open('GET', '{{path}}',true);
+            request.responseType = "text";
+            request.send(null);
+            request.onload = function (){
+              if (request.status == 200){
+                  console.log("enter the function =====>");
+                  console.log("text ===>",request.responseText);
+                  if (fileArray[fileArray.length-1].endsWith('.pptx')){
+                    var myFrame = $("#display-frame").contents().find('body');
+                    // myFrame.html(request.responseText);
+                }                
+              }
+          }
+
+        }else if('{{csv}}' == 'True'){
+        // debugger;
+        function arrayToTable(tableData) {
+        var table = $('#table-csv');
+        // debugger;
+        $(tableData).each(function (i, rowData) {
+            var row = $('<tr></tr>');
+            $(rowData).each(function (j, cellData) {
+                row.append($('<td>'+cellData+'</td>'));
+            });
+            table.append(row);
+        });
+        return table;
+    }
+    $.ajax({
+        type: "GET",
+        url: "{{path}}",
+        success: function (data) {
+            $('.csv-file-view').append(arrayToTable(Papa.parse(data).data));
+        }
+    });
+       }else if ('{{excel}}' == 'True'){
+        var req = new XMLHttpRequest();
+        req.open("GET", '{{path}}', true);
+        req.responseType = "arraybuffer";
+        req.onload = function(e) {
+        var data = new Uint8Array(req.response);
+        console.log("data ===>",data);
+        console.log("new_path ===>{{path}}");
+        wb = XLSX.read(data,{type:'array'});
+        console.log("data ====>",wb);
+        for (w in wb.SheetNames){
+          console.log("w ==>",w);
+          htmlstr = XLSX.write(wb,{sheet:wb.SheetNames[w],type:'binary',bookType:'html'});
+          var sheet = '<button class="tablinks" id="tab'+w+'" onclick="GetClicked('+w+')">'+wb.SheetNames[w]+'</button>'
+          $("#Excel-Tabs").append(sheet);
+          console.log("htmlstr ======>",htmlstr);
+          $("#wrapper")[0].innerHTML = htmlstr;
+        }
+        var wbs = wb.SheetNames.length;
+        $('#tab'+(wbs-1)).addClass('highlight')
+        }
+        req.send();
+        }
+
+// tree simpleTreeMenu
+
+  // $('#root').simpleTreeMenu();
+
+// document.getElementById('upload_file').onclick = function() {document.getElementById('upload_file1').click();
+// };
+
+$('input[type=file]').change(function (e) {
+    var data = new FormData();
+    $.each($('#upload_file1')[0].files, function(i, file
+      ) {
+        data.append('file0', file);
+    });
+    $.ajax({
+    url: '/upload_file_version/{{folder.id}}/',
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'POST',
+    type: 'POST', // For jQuery < 1.9
+    success: function(data){
+      // debugger;
+        // alert(data);
+        location.reload();
+    }
+});
+    // debugger;
+
+});
+
+// $('#jstree').jstree();
+});
+
+function showToast() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+
+function errorShowToast() {
+  console.log(23232);
+  var x = document.getElementById("error");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+
+function printChart(){
+   // let token= localStorage.getItem('token')
+  console.log("hit the function of printChart ========>","{{path}}");
+  $.ajax({
+    url: '/get_print_download_logs/{{folder.id}}/?type=print&user={{login_user}}',
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'GET',
+    type: 'GET', // For jQuery < 1.9
+    // headers: {"Authorization": 'Token '+localStorage.getItem('token')},
+    success: function(data){
+      console.log("successfully======>");
+        // alert(data);
+        // location.reload();
+      //   var myParameters = window.location.search;// Get the parameters from the current page
+      // document.querySelector('iframe').contentWindow.print()
+      // var URL = "{{dpath}}";
+
+      // var W = window.open(URL);
+
+      // W.window.print();
+      var fileArray = "{{path}}".split("/");
+      console.log("pdf_file===>",fileArray[fileArray.length-1]);
+      fileArray[fileArray.length-1] = fileArray[fileArray.length-1].replace("#toolbar=0","");
+      console.log("end_file ==>",fileArray[fileArray.length-1]);
+      if (fileArray[fileArray.length-1].endsWith('.pdf')){
+          console.log("path_enter_the_condition===>")
+          printJS({printable:'{{path}}',  showModal:true})
+      }
+      else if (fileArray[fileArray.length-1].endsWith('.xlsx')){
+        
+        debugger;
+        console.log("end condition =======>");
+        var myParameters = window.location.search;// Get the parameters from the current page
+        console.log("here reached ===>");
+        var request = new XMLHttpRequest();
+        request.open('GET', '{{path}}',true);
+        request.responseType = "arraybuffer";
+        request.send(null);
+        request.onload = function (){
+          if (request.status == 200){
+            var type = request.getResponseHeader('Content-Type');
+            if (type.indexOf("arraybuffer") !== 1){
+              console.log("enter the function =====>",request.response);
+              var data = new Uint8Array(request.response);
+              wb = XLSX.read(data,{type:'array'});
+              var a = JSON.stringify(wb['Strings']);
+              var frm = document.getElementById('print-frame').contentWindow;
+              var myFrame = $("#print-frame").contents().find('body');
+              myFrame.html(a);
+              frm.focus();
+              setTimeout(function (){ frm.print();}, 500);
+            }
+          }
+        }
+      }
+      else if (fileArray[fileArray.length-1].endsWith('.docx')){
+        var myParameters = window.location.search;// Get the parameters from the current page
+        var frm = document.getElementById('print-frame').contentWindow;
+        var myFrame = $("#print-frame").contents().find('body');
+        myFrame.html("{{docx_text}}");
+        frm.focus();
+        setTimeout(function (){ frm.print();}, 500);
+      }
+      else{
+        var request = new XMLHttpRequest();
+        request.open('GET', '{{path}}',true);
+        request.responseType = "text";
+        request.send(null);
+        request.onload = function (){
+          if (request.status == 200){
+            var type = request.getResponseHeader('Content-Type');
+            if (type.indexOf("text") !== 1){
+              console.log("enter the function =====>");
+              var frm = document.getElementById('print-frame').contentWindow;
+              var myFrame = $("#print-frame").contents().find('body');
+              myFrame.html(request.responseText);
+              frm.focus();
+              setTimeout(function (){ frm.print();}, 500);
+            }
+          }
+        }
+      }
+    }
+  });
+  // setTimeout(function () { window.print(); }, 500);
+}
+
+function reply_question(id) {
+  // debugger;
+  $(".qna_answer_div").hide();
+  $("#qna_answer_div_"+id).show();
+  $("#reply_question_"+id).hide();
+  // $("#hide").click(function(){
+
+  //   });
+}
+
+function qna_submit_answer(id){
+  // debugger;
+  var qna_answer = document.getElementById("qna_answer_"+id).value;
+  var qna_answer_id = document.getElementById("qna_answer_id_"+id).value;
+  var login_user_id = document.getElementById("logdinId").value;
+  qna_rply(qna_answer, qna_answer_id, login_user_id)
+  $("#reply_question_"+id).show();
+}
+
+function qna_rply(qna_answer, qna_answer_id, login_user_id) {
+  // body...
+  $.ajax({
+    type: "POST",
+    url: "/file_comment_reply/",
+    data:{
+      'qna_answer': qna_answer,
+      'qna_answer_id': qna_answer_id,
+      'login_user_id': login_user_id,
+      'processData': false,
+      'contentType': false,
+      'csrfmiddlewaretoken': '{{ csrf_token }}',
+    },
+    dataType: 'json',
+    success: function(data){
+      // debugger;
+      location.reload();
+
+    },
+    error:function(data){
+      // debugger
+      alert(data);
+      console.log(error)
+    }
+  });
+}
+var originalPrompt = window.prompt;
+// Whatever code is on your page
+function prompt(s) { window.status = s }
+function qna_comment() {
+  // debugger;
+  var category = document.getElementById("category");
+  var que_title = document.getElementById("title");
+  if (category.value != "" || que_title.value != ""){
+    var category_id = category.options[category.selectedIndex].value;
+    var que_title = document.getElementById("title").value;
+    var file_id = document.getElementById("fileId").value;
+    var dataroom_id = document.getElementById("dataroomId").value;
+    var login_user_id = document.getElementById("logdinId").value;
+    generate_code(category_id, que_title, file_id, dataroom_id, login_user_id)
+  }else{
+   alert("Please enter proper details with category and question");
+  }
+
+
+}
+
+function generate_code(category_id, que_title, file_id, dataroom_id, login_user_id) {
+  //do something
+  var hello = '{{qna_list}}'
+  $.ajax({
+    type: "POST",
+    url: "/file_comment/",
+    data:{
+      'category_id': category_id,
+      'que_title': que_title,
+      'file_id': file_id,
+      'dataroom_id': dataroom_id,
+      'login_user_id': login_user_id,
+      'processData': false,
+      'contentType': false,
+      'csrfmiddlewaretoken': '{{ csrf_token }}',
+    },
+    dataType: 'json',
+    success: function(data){
+      showToast();
+
+      document.getElementById("category").value = "";
+      document.getElementById("title").value = "";
+      $("#qna_lists").hide();
+      // $("#qna_lists").html(data.qna_list);
+      var i;
+      // debugger;
+      // for (i = 0; i < data.qna_list.length; i++) {
+        txt += ""
+        // var toAdd = document.createDocumentFragment();
+        var newDiv = document.createElement("div");
+        newDiv.className = 'row mt-5';
+        var para = document.createElement("p");
+        var person = data.qna_list[0];
+        var qna_q_text = "";
+        var created_date = "";
+        var txt = "";
+        var name = "";
+        for (x in person) {
+            if (x == 'question') {
+              qna_q_text += person[x];
+            }
+
+            if (x == 'created_date') {
+                var selected_date = new Date(person[x])
+                created_date += selected_date;
+            }
+
+            if (x=='user'){
+                name = person[x]['first_name']+' '+person[x]['last_name'];
+            }
+
+            txt += person[x] + " ";
+        }
+
+        txt += "";
+        var imgDiv = document.createElement("div");
+        imgDiv.className = 'col-md-1';
+        newDiv.appendChild(imgDiv);
+
+        var dataDiv = document.createElement("div");
+        dataDiv.className = 'col-md-11 pl-0';
+        newDiv.appendChild(dataDiv);
+
+        var userDiv = document.createElement("div");
+        userDiv.className = 'user-details';
+        dataDiv.appendChild(userDiv);
+
+        var spanDiv = document.createElement("span");
+        spanDiv.className = 'orange';
+        userDiv.appendChild(spanDiv);
+
+        var span_node = document.createTextNode(name);
+        var bold = document.createElement("b");
+        bold.appendChild(span_node);
+        spanDiv.appendChild(bold);
+
+        var em_node = document.createTextNode(created_date);
+        var em = document.createElement("em");
+        em.appendChild(em_node);
+        spanDiv.appendChild(em);
+
+        var node = document.createTextNode(qna_q_text);
+        node.className = 'list-group-item list-group-item-success';
+        para.appendChild(node);
+        dataDiv.appendChild(para);
+
+        var ancorDiv = document.createElement("a");
+        ancorDiv.className = 'reply-st mt-2';
+        dataDiv.appendChild(ancorDiv);
+
+        var iDiv = document.createElement("i");
+        iDiv.className = 'reply-st mt-2';
+        ancorDiv.appendChild(iDiv);
+
+        var newImages = document.createElement("img");
+        newImages.setAttribute('src', person['user']['avatar']);
+        newImages.setAttribute('alt', '');
+        newImages.setAttribute('height', '1px');
+        newImages.setAttribute('width', '1px');
+        imgDiv.appendChild(newImages);
+
+
+        var element = document.getElementById("qna_q");
+        element.appendChild(newDiv);
+
+      // }
+
+
+    },
+    error:function(data){
+      // debugger
+      errorShowToast();
+      console.log(error)
+    }
+  });
+}
+
+
+function GetClicked(i){
+  // debugger;
+  var sheet = wb.SheetNames[i];
+  htmlstr = XLSX.write(wb,{sheet:sheet,type:'binary',bookType:'html'});
+  $("#wrapper")[0].innerHTML = htmlstr
+  var j=0;
+  for (j = 0; j < wb.SheetNames.length; j++) {
+  if (i==j){
+    $("#tab"+j).addClass('highlight')
+  }else{
+    $("#tab"+j).removeClass('highlight');
+  }
+}
+
+
+  // debugger;
+}
+
+
+function getDownload(){
+  $.ajax({
+    url: '/get_print_download_logs/{{folder.id}}/?type=download&user={{login_user}}',
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'GET',
+    type: 'GET', // For jQuery < 1.9
+    success: function(data){
+      debugger;
+      console.log("today_data ===>",data)
+
+    }
+  });
+}
+
+function getShortcut(name){
+
+//   console.log(name);
+//   var a = window.document.createElement('a');
+//   a.href = window.URL.createObjectURL(new Blob(['[InternetShortcut]\r\nURL='+window.location.href], {type:'application/internet-shortcut'
+// }));
+//   a.download = name.split(".")[0]+'.url';
+
+//   // Append anchor to body.
+//   document.body.appendChild(a);
+//   a.click();
+
+//   // Remove anchor from body
+//   document.body.removeChild(a);
+var token = getCookie('token');
+
+$.ajax({
+    url: '/short_cut_icon/{{folder.id}}/?type=type=download',
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'POST',
+    type: 'POST', // For jQuery < 1.9
+    headers: {"Authorization": 'Token '+token},
+    success: function(res){
+      console.log("successfully");
+      console.log("response",res);
+      console.log("response",res.text);
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(res.text));
+      element.setAttribute('download', res.path);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+    }
+  });
+
+}
+
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+</script>

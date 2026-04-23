@@ -1,0 +1,12 @@
+This Bulk Download report is of Praful N (praful.n@axat-tech.com) from _______Dataroom testttt3245
+Index,Name,Size(in MB),Date Time,Path,Download Status
+1.1.0.1,Oly.png,0.792,12-09-2024 14:16:48,testttt3245/test/first/Oly.png,Success
+1.1.0.2,shape.png,0.002,12-09-2024 14:16:48,testttt3245/test/first/shape.png,Success
+1.1.0.3,unnamed.png,0.103,12-09-2024 14:16:48,testttt3245/test/first/unnamed.png,Success
+1.1.0.4,unnamed.png,0.103,12-09-2024 14:16:48,testttt3245/test/first/unnamed.png,Success
+1.1.0.5,Issues revised on 23 Aug.xlsx,0.06,12-09-2024 14:16:50,testttt3245/test/first/Issues revised on 23 Aug.xlsx,Success
+1.1.0.7,3.png,6.187,12-09-2024 14:16:50,testttt3245/test/first/3.png,Success
+1.1.0.8,49.0.21Sample ppt file.pptx,0.059,12-09-2024 14:16:50,testttt3245/test/first/49.0.21Sample ppt file.pptx,Success
+1.1.0.9,test.pdf,0.022,12-09-2024 14:16:51,testttt3245/test/first/test.pdf,Success
+1.1.0.11,file-sample_500kB (1).docx,0.526,12-09-2024 14:16:52,testttt3245/test/first/file-sample_500kB (1).docx,Success
+1.1.0.10,file-sample_1MB.docx,0.979,12-09-2024 14:16:51,testttt3245/test/first/file-sample_1MB.docx,Fail

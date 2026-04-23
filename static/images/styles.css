@@ -1,0 +1,418 @@
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+
+/*Materials style */
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/*bootstrap style */
+
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+
+/*animation css*/
+
+@import "../src/assets/css/animate.css";
+
+/*fonts style */
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700');
+
+/*materials css*/
+
+body {
+    font-size: 0.875rem;
+}
+
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+b,
+strong {
+    font-family: 'Poppins', sans-serif!important;
+}
+
+.mat-card {
+    padding: 20px!important;
+    font-family: 'Poppins', sans-serif!important;
+}
+
+.mat-card.p-0 {
+    padding: 0!important
+}
+
+a:hover {
+    color: #3352ea;
+    text-decoration: none;
+}
+
+.btn-default {
+    color: #fff;
+    background: #3352ea;
+    cursor: pointer;
+}
+
+.rounded.mb-10 {
+    margin-bottom: 10px;
+}
+
+.rounded.mb-30 {
+    margin-bottom: 15px;
+}
+
+button,
+button:active,
+button:focus,
+button:hover {
+    outline: none;
+}
+
+button {
+    background: transparent;
+    border: transparent;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif!important;
+}
+
+input {
+    border: 1px solid #d6e2e8;
+    min-height: 35px;
+    line-height: 35px;
+    padding: 0 10px;
+    color: #5a5858;
+    font-family: 'Poppins', sans-serif!important;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.mat-toolbar.cdr-toolbar {
+    background: transparent;
+    border-bottom: 1px solid #ddd;
+    min-height: 50px;
+}
+
+.mat-toolbar.cdr-toolbar .mat-toolbar-row {
+    min-height: 50px;
+    height: auto;
+}
+
+.cdr-toolbar span {
+    font-size: 18px;
+    font-weight: normal;
+    color: #5a5858;
+}
+
+.cdr-toolbar.ad-t-bg {
+    background: #fbfbfb;
+    border-radius: 4px 4px 0 0;
+}
+
+button.ico-bnt.mat-button {
+    min-width: auto;
+    line-height: normal;
+    padding: 0;
+    width: 35px;
+    height: 35px;
+}
+
+
+/*cdr table style*/
+
+.cdr-table {
+    display: flex
+}
+
+.cdr-table .table thead th {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374767;
+}
+
+.cdr-table table tr th,
+.cdr-table table tr td {
+    border-bottom: 1px solid #eaeef3;
+    padding: 9px 20px;
+    vertical-align: middle;
+}
+
+.cdr-table table tr td:nth-child(2) {
+    text-align: right
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+
+/*custome-width*/
+
+.w-10 {
+    width: 20%;
+}
+
+
+/*--------------page popup style--------------*/
+
+.md-lf-rt .modal-dialog .modal-content {
+    border-radius: 0;
+    border: 0;
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.md-lf-rt.fade.left .modal-dialog,
+.md-lf-rt.fade.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+}
+
+.md-lf-rt.fade.left .modal-content,
+.md-lf-rt.fade.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.md-lf-rt.fade.left .modal-body,
+.md-lf-rt.fade.right .modal-body {
+    padding: 15px 15px 40px;
+}
+
+.md-lf-rt.fade.left .modal-dialog {
+    left: -10px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+}
+
+.md-lf-rt.left.fade.show .modal-dialog {
+    left: 0;
+}
+
+
+/*Right*/
+
+.md-lf-rt.fade.right .modal-dialog {
+    right: -350px;
+    -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
+}
+
+.md-lf-rt.right.fade.show .modal-dialog {
+    right: 0;
+}
+
+.mat-toolbar.topbar .mat-toolbar-row {
+    height: 64px
+}
+
+.mat-toolbar.topbar {
+    background: #fff;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.cdr_branding {
+    display: flex
+}
+
+.cdr_branding img {
+    width: 100px;
+    height: 100%;
+    padding: 5px;
+}
+
+.cdr-topToolbar {
+    margin-left: auto!important;
+}
+
+@media only screen and (max-width:910px) {
+    .cdr-table table tr td:nth-child(2) {
+        text-align: center
+    }
+    .cdr-table table tr td:nth-child(2) .action-btn {
+        display: inline-block
+    }
+}
+
+.ng-valid[required],
+.ng-valid.required {
+    border-left: 5px solid #42A948;
+    /* green */
+}
+
+.ng-invalid:not(form) {
+    border-left: 5px solid #a94442;
+    /* red */
+}
+
+.dataroom-lp-name {
+    line-height: 16px;
+    white-space: normal;
+    width: 82%;
+    word-wrap: break-word;
+}
+
+.mat-card.default {
+    padding: 0;
+}
+
+.mat-card.default .mat-card-title {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    line-height: 1;
+    font-weight: 400;
+}
+
+.mat-card-title {
+    font-size: 20px;
+}
+
+.mat-card .mat-card-title .mat-divider {
+    margin-left: 0;
+    margin-right: 0;
+    border-top-color: rgba(0, 0, 0, .04);
+}
+
+.mat-divider {
+    display: block;
+    border-top-style: solid;
+    border-top-width: 1px;
+    margin: 0;
+}
+
+.mat-card.p-0 .mat-card-title .card-title-text {
+    padding: 1rem;
+}
+
+.tabupperL a {
+    font-size: 16px;
+    color: #5a5858;
+    text-align: center;
+    border-bottom: 2px solid #fff;
+    padding: 15px 0 10px 0;
+    font-weight: 400;
+}
+
+.tabupperL a:hover {
+    color: #3352ea;
+    border-bottom: 2px solid #3352ea;
+}
+
+.tabupperL a.active {
+    color: #3352ea;
+    border-bottom: 2px solid #3352ea;
+}
+
+.tabroundL {
+    padding: 10px
+}
+
+.mat-tab-group.tabTopLevel .mat-tab-label {
+    font-size: 16px
+}
+
+.mat-tab-group.tabBottomLevel .mat-tab-label {
+    font-size: 14px
+}
+
+.mat-tab-group.tabBottomLevel .mat-tab-label.mat-tab-label-active {
+    color: #fff;
+    background-color: #3f51b5;
+    opacity: 1
+}
+
+.mat-tab-group.tabBottomLevel .mat-tab-body-wrapper {
+    padding: 0 15px
+}
+
+.mat-tab-group.tabBottomLevel {
+    /* margin: 0 20px; */
+}
+
+.mat-tab-group.tabBottomLevel .mat-tab-label {
+    background: #b3b3b3;
+    border-radius: 2px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.mat-tab-group.tabBottomLevel .mat-tab-header {
+    margin: 20px 0;
+    border: 0 none
+}
+
+.mat-tab-group.tabBottomLevel .mat-ink-bar {
+    height: 40px;
+    z-index: -1;
+    border-radius: 2px;
+    color: #fff
+}
+
+
+/* .tabroundL button {
+    margin: 0 5px;
+} */
+
+.radius18 {
+    border-radius: 18px !important
+}
+
+.bdrgrey {
+    border: 1px solid #b3b3b3 !important;
+    overflow: hidden
+}
+
+.tabroundL .mat-raised-button.mat-primary {
+    border-radius: 2px !important
+}
+
+.mat-raised-button.mat-grey {
+    background-color: #b3b3b3;
+    color: #fff
+}
+
+.mat-raised-button.mat-lightgrey {
+    background-color: #f5f5f5;
+}
+
+.tbldata .table th,
+.tbldata .table td {
+    padding: 0.7rem 0.4rem;
+    font-size: 14px;
+}
+
+.tbldata .table th {
+    background: #f5f5f5;
+    font-weight: 500;
+    color: #313131
+}
+
+.tbldata .table td {
+    color: #525252
+}
+
+.btnarea {
+    margin: 20px 0;
+}
+
+.cdr-textfile {
+    width: 100%;
+}
+
+.active-ctl {
+    color: blue;
+    background: blue;
+}

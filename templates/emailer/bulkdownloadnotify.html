@@ -1,0 +1,74 @@
+
+{% extends 'emailer/base/base.html' %}
+
+
+ {% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+					<h2 style="color:rgb(38,45,51)">Hello {{user}},</h2>
+
+					<p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">Your permitted files are ready to be downloaded from Project {{Dataroomname}} on DocullyVDR.<br>
+						Kindly login to your data room and visit the My Downloads section in the Documents to Download the files.<br>
+						You will be able to download these files today till 11:59 PM Gulf Standard Time.<br><br>
+
+
+			
+			
+					<p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">If you need any help, please feel free to visit our <a href="mailto:support@docullyvdr.com" style="color:#0cd3f1;">{{site_setting.support_email_id}}</a>or write to us at <a href="mailto:support@docullyvdr.com" style="color:#0cd3f1;">support@docullyvdr.com</a></p>
+
+				  <p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">Thanks,</p>
+            <p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;"><span class="context">DocullyVDR Team</span></p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(251, 220, 0)">Docully SaaS Technologies Co. LLC</h4>
+              <p style="color:rgb(0, 89, 251)"><a href="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a></p>
+
+            </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+<!--  <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+					<p><strong style=" font-weight: 600; color: #4e6e7f; font-size: 16px;">Hi,</strong></p>
+					<p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">{{ user.first_name }} have placed request for Delete <b>{{dataroom.dataroom_name}}</b> Dataroom. </p>
+					<p>Please find the below details:</p>
+					<p>1. Dataroom Name: {{dataroom.dataroom_name}}</p>
+					<p>2. Dataroom Id: {{dataroom.id}}</p>
+					<p>3. Requester Name: {{user.first_name}} {{user.last_name}}</p>
+					<p>4. Requester Mail Id: {{user.email}}</p>
+			
+			<tr>
+				<td style="padding-left: 20px; padding-right: 20px; padding-top:15px; padding-bottom:15px">
+					<span style="color: #1059ff; word-break: break-all; font-size: 12px;">{{link}}</span>
+				</td>
+			</tr>
+			
+			
+					<p>If you have any query regarding your account, please contact us at  <a href="mailto:support@axatcloud.com" style="color:#0cd3f1;">{{site_setting.support_email_id}}</a></p>
+					<p>You can always call us at  <strong style="color: #0cd3f1">{{site_setting.phone_no}}</strong> if you have any questions.</a></p>
+			
+				
+					<p style="font-weight: 600; padding:15px 0 0;  margin: 0 0 5px; border-top:1px solid #f1f1f1;">Best regards,</p>
+					<p style="padding: 0; margin: 0 0 5px; color: #7a7a7a">Your ConfiexDataroom Team</p>
+					<p style="padding: 0; margin: 0;"><a href="{{site_setting.domain_name}}" target="_blank" style="color:#0cd3f1;">{{site_setting.domain_name}}</a></p>
+				
+            </div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>   -->  
+
+{% endblock %}

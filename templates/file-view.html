@@ -1,0 +1,3681 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% load static %}
+  {% load data_doc_extras %}
+  {% load mathfilters %}
+  <link id="prt" name="prt" rel=alternate media=print href="something"/>
+
+  <title>DOCULLYVDR</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=11" />
+
+  <script src="https://services.docullyvdr.com/assets/js/index.js"></script>
+  <script src="https://unpkg.com/pdfjs-dist@2.0.489/build/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.min.js"></script>
+ 
+  <link rel="stylesheet" href="https://services.docullyvdr.com/assets/css/cdr-styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+  <link rel="icon " type="image/x-icon " href="https://docullystorage.blob.core.windows.net/docullycontainer/assets/images/DocullyVDR_LOGO.png">
+  <script src="https://unpkg.com/pdfjs-dist@2.0.489/build/pdf.min.js"></script>
+  <script src="https://npmcdn.com/pdfjs-dist/web/pdf_viewer.js"></script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+  <link href="https://services.docullyvdr.com/assets/css/angular-tree-component.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css">
+<style type="text/css">
+    .backimg{
+    background-image:url("http://20.198.98.31:8000/projectName/watermark/{{folder.dataroom.id}}.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+  }
+  .topmenuhamberger
+  {
+    position: relative;
+    /* float: right;
+    right: 23%; */
+  }
+  .allbuttonsblack .btn
+  {
+    color: black;
+    background-color: white!important;
+    border-color: #ced4da!important;
+  }
+  .spanHover:hover,.spanHover .btn:hover,.spanHover .btn-primary:hover,.allbuttonsblack .btn:hover
+  {
+    background-color: #cbb26a!important;
+    border-color: #cbb26a!important;
+  }
+  .spanHover .btn-primary
+  {
+    width: 100%!important;
+  }
+  .spanHover .btn-primary:hover,.allbuttonsblack .btn:hover
+  {
+    color: white!important;
+  }
+  .fileview-action a{
+    color: #fff !important;
+    margin-bottom: 5px
+}
+.content-part{
+  background-color: #fff;
+}
+html { 
+			overflow-y: hidden; 
+		} 
+    .printbreak {
+page-break-before: always;
+}
+	
+    #pdf-viewer {
+        width: 100%;
+        height: 600px;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.1);
+        overflow: auto;
+      }
+
+      .pdf-page-canvas {
+        display: block;
+        margin: 5px auto;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+      }
+	
+ 
+		
+.divclass{
+
+background-color: rgba(0,0,0,0.2); /* Black background with opacity */
+z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+overflow-y:scroll;
+overflow-x: hidden;
+width:72vw;
+height:800px;
+
+}
+#loading-image{
+z-index: 1000;
+background-color: rgba(0,0,0,0.2);
+}
+    
+@media only screen and (min-width: 1200px) {
+.marginRight{
+  margin-right:5px;
+}
+}
+		iframe { 
+			display: block; 
+			border: none; 
+overflow:hidden;
+pointer-events:none;
+width:72vw;
+height:400vh
+				} 
+
+.part1{
+  padding:10px !important;
+ 
+}
+.partRight{
+  padding-right: 10px;
+}
+.row{
+  flex-wrap: nowrap !important
+}
+.borderTab{
+  padding:10px
+}
+body,
+.navbar-fixed-top,
+.navbar-fixed-bottom {
+  min-width: 970px;
+}
+
+/* Don't let the lead text change font-size. */
+.lead {
+  font-size: 16px;
+}
+.container-data{
+  position: relative;
+  height:320px
+}
+.center-data {
+  margin: 0;
+        position: absolute;
+        padding-top: 20px;
+        left: 45%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+     }
+
+.hide{
+  display: none;
+}
+.currentcolor{
+  background-color: rgba(0,0,0,0.5);
+}
+#fader {
+  opacity: 0.5;
+  background: black;
+  position: fixed;
+  top: 0;
+  background-image: url("https://services.docullyvdr.com/assets/images/loader.gif");
+  background-position: center;
+  background-size: auto auto;
+  background-repeat: no-repeat;
+  z-index: 10000;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+}
+/* Finesse the page header spacing */
+.page-header {
+  margin-bottom: 30px;
+}
+.page-header .lead {
+  margin-bottom: 10px;
+}
+.csv-file-view{
+  overflow: auto;
+  height:800px;
+}
+.table{
+  border: 1px outset #dee2e6;
+  padding: 1px 
+ 
+}
+.tableborder{
+  border:1px solid #dee2e6;
+  }
+.marg0{
+  margin-right:0px !important;
+  margin-left: 0px !important;
+}
+/* Non-responsive overrides
+ *
+ * Utilize the following CSS to disable the responsive-ness of the container,
+ * grid system, and navbar.
+ */
+
+/* Reset the container */
+.container {
+  width: 970px;
+  max-width: none !important;
+}
+
+/* Demonstrate the grids */
+.col-xs-4 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  background-color: rgba(86, 61, 124, .15);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86, 61, 124, .2);
+}
+.center{
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+.container .navbar-header,
+.container .navbar-collapse {
+  margin-right: 0;
+  margin-left: 0;
+}
+/* Always float the navbar header */
+.navbar-header {
+  float: left;
+}
+#docs-viewer{
+  width: 100%;
+    height: 400px;
+}
+/* Undo the collapsing navbar */
+.navbar-collapse {
+  display: block !important;
+  height: auto !important;
+  padding-bottom: 0;
+  overflow: visible !important;
+  visibility: visible !important;
+  border-top: 0;
+}
+
+.navbar-toggle {
+  display: none;
+}
+
+
+.navbar-brand {
+  margin-left: -15px;
+}
+
+/* Always apply the floated nav */
+.navbar-nav {
+  float: left;
+  margin: 0;
+}
+.navbar-nav > li {
+  float: left;
+}
+.navbar-nav > li > a {
+  padding: 15px;
+}
+
+/* Redeclare since we override the float above */
+.navbar-nav.navbar-right {
+  float: right;
+}
+
+/* Undo custom dropdowns */
+.navbar .navbar-nav .open .dropdown-menu {
+  position: absolute;
+  float: left;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-width: 0 1px 1px;
+  border-radius: 0 0 4px 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+  color: #333;
+}
+.navbar .navbar-nav .open .dropdown-menu > li > a:hover,
+.navbar .navbar-nav .open .dropdown-menu > li > a:focus,
+.navbar .navbar-nav .open .dropdown-menu > .active > a,
+.navbar .navbar-nav .open .dropdown-menu > .active > a:hover,
+.navbar .navbar-nav .open .dropdown-menu > .active > a:focus {
+  color: #fff !important;
+  background-color: #428bca !important;
+}
+.navbar .navbar-nav .open .dropdown-menu > .disabled > a,
+.navbar .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+.navbar .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+  color: #999 !important;
+  background-color: transparent !important;
+}
+/* Undo form expansion */
+.navbar-form {
+  float: left;
+  width: auto;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* Copy-pasted from forms.less since we mixin the .form-inline styles. */
+.navbar-form .form-group {
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.navbar-form .form-control {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+}
+
+.navbar-form .form-control-static {
+  display: inline-block;
+}
+
+.navbar-form .input-group {
+  display: inline-table;
+  vertical-align: middle;
+}
+
+.navbar-form .input-group .input-group-addon,
+.navbar-form .input-group .input-group-btn,
+.navbar-form .input-group .form-control {
+  width: auto;
+}
+.PointerEvents{
+  overflow: hidden;
+  pointer-events: none;
+ 
+}
+.allowScroll{
+  overflow-y: auto;
+
+ 
+}
+.navbar-form .input-group > .form-control {
+  width: 100%;
+}
+
+.navbar-form .control-label {
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.navbar-form .radio,
+.navbar-form .checkbox {
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.navbar-form .radio label,
+.navbar-form .checkbox label {
+  padding-left: 0;
+}
+.excel-file-view{
+  height:800px;
+  }
+ .padTop{
+   padding-top:1px;
+ }
+.navbar-form .radio input[type="radio"],
+.navbar-form .checkbox input[type="checkbox"] {
+  position: relative;
+  margin-left: 0;
+}
+
+.navbar-form .has-feedback .form-control-feedback {
+  top: 0;
+}
+
+/* Undo inline form compaction on small screens */
+.form-inline .form-group {
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.form-inline .form-control {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+}
+
+.form-inline .form-control-static {
+  display: inline-block;
+}
+
+.form-inline .input-group {
+  display: inline-table;
+  vertical-align: middle;
+}
+.form-inline .input-group .input-group-addon,
+.form-inline .input-group .input-group-btn,
+.form-inline .input-group .form-control {
+  width: auto;
+}
+
+.form-inline .input-group > .form-control {
+  width: 100%;
+}
+
+.form-inline .control-label {
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.form-inline .radio,
+.form-inline .checkbox {
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+.form-inline .radio label,
+.form-inline .checkbox label {
+  padding-left: 0;
+}
+
+.form-inline .radio input[type="radio"],
+.form-inline .checkbox input[type="checkbox"] {
+  position: relative;
+  margin-left: 0;
+}
+
+.form-inline .has-feedback .form-control-feedback {
+  top: 0;
+}
+
+.wrapper{
+    position:relative;
+    z-index: 1;
+    display: inline-block;
+    overflow: auto;
+    width: 100%;
+ }
+
+
+.hidelogo{
+    position: absolute;
+    width: 130px;
+    height: 20px;
+    background: #FFFFFF;
+    right: 0px;
+    bottom: 6px;
+    z-index:999;
+    display: block;
+    color: #fff;
+}
+
+.rightnewhidelogo{
+    position: absolute;
+    width: 120px;
+    height: 20px;
+    background: #444444;
+    bottom: 10px;
+    z-index:999;
+    display: block;
+    color: #fff;
+}
+
+#title{
+color:grey !important;
+}
+
+.newhidelogo{
+    position: absolute;
+    width: 120px;
+    height: 20px;
+    background: #444444;
+    right: 2px;
+    bottom: 10px;
+    z-index:999;
+    display: block;
+    color: #fff;
+}
+.excelnewhidelogo{
+    position: absolute;
+    width: 100%;
+    height: 25px;
+    background: #4e4e4e;
+    bottom: 7px;
+    z-index:999;
+    display: block;
+    color: #fff;
+}
+.yt-cover{
+  position: absolute;
+  top: 0;
+  bottom:0;
+  right:0;
+  left:0;
+  z-index:1000;
+}
+.cdr-btn{
+  padding:5px !important;
+}
+.overlayc{
+  position: relative;
+}
+.part20{
+  padding: 20px;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.backColor{
+background-color: #000000;
+}
+.toverlay{position: absolute; background: rgba(0,0,0,0); width: 100%; height: 93%;}
+.toverlay1{position: absolute; background: rgba(0,0,0,0); width: 99%; height: 83%;}
+.toverlay2{position: absolute; background: rgba(0,0,0,0); width: 93%; height: 93%;}
+.toverlay3{position: relative;
+background: rgba(0,0,0,0);height: 600px;top: 50%;transform: translate(0, 20%);}
+.toverlay4{position: relative;
+height: 600px;}
+.toverlay5{position: relative; background: rgba(0,0,0,0); width: 93%; height: 93%;}
+
+
+        body {
+            
+/*            display: flex;*/
+            
+            transition: filter 0.5s;
+            /* Smooth transition for the blur effect */
+        }
+
+        body.blur {
+            filter: blur(5px);
+        }
+
+        
+        @media print {
+  body {
+    visibility: hidden;
+    display: none;
+  }
+}
+</style>
+
+</head>
+
+
+<body style=""> 
+<!--  value of delete {{ is_deleted_permanent  }}-->
+  {% if is_deleted_permanent is True %}
+  <div id="is_deleted_permanent">  
+    <header class="topbar">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <div class="cdr_branding">
+          <img src="https://docullystorage.blob.core.windows.net/docullycontainer/assets/images/DocullyVDR_LOGO.png">
+      </div>
+      <a  mat-raised-button class="cdr-btn big-btn blue-btn" href="https://stage.docullyvdr.com/#/folder_detail/{{folder.parent_folder_id}}/?dataroom={{folder.dataroom.id}}">Back</a>
+        <!-- <button class="cdr-btn big-btn blue-btn mat-raised-button ng-star-inserted" onclick="window.location='https://services.docullyvdr.com//#/folder_detail/{{folder.parent_folder_id}}/?dataroom={{folder.dataroom.id}}';">BACK</button> -->
+    </div>
+  </header>
+  <div class="container-fluid my-4">  
+    <div class="row" style="display: flex;
+    align-items: center;
+    justify-content: center;
+  ">
+      <div class="col-md-10" >
+      
+      <div class="content-part mat-card">
+      <div class="cdr-breadcrumb ng-star-inserted">
+        <b style="color: #6c757d !important">{{folder.dataroom.dataroom_nameFront}} Dataroom</b>
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="https://stage.docullyvdr.com/#/documents">All Documents</a></li>
+              {% for fldr in folder.parent_folders %}<li class="breadcrumb-item active"><a href="https://stage.docullyvdr.com/#/folder_detail/{{fldr.id}}" >{{ fldr.name}}</a></li>{% endfor %}
+              <li class="breadcrumb-item active"><a>{{index}}{{ folder.name}}</a></li>
+          </ol>
+      </div>
+        
+      <div class="fpc">
+        <div class="fpc-header">
+          <h2 id="file-name"><i class="fas fa-file file-viewer-icon"></i> {{index}}{{ folder.name }}</h2>
+        </div>
+        </div>
+      
+      
+
+  
+  <div class="row" style="display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 600px;
+">
+   
+      
+    <h5>Requested file is no longer available in dataroom for view</h5>
+    
+      </div>
+      </div>
+</div>
+</div>
+</div>
+<footer class="content-footer">
+  <div class="footer">
+      <div class="copyright">
+          <span>&copy; 2024 DOCULLYVDR. All rights reserved.</span>
+          <span class="go-right">
+                      <!-- <a href="">Blog</a>
+                      <a href="">Security</a>
+                      <a href="">Legal Support (022) 4010-4011</a> -->
+                      <a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a>
+                  </span>
+      </div>
+  </div>
+</footer>
+</div>
+
+
+       {% else %}
+       <body  oncontextmenu="return false" oncopy="return false"  oncut="return false" onpaste="return false" onprint="return false">
+        <div id="fader"></div>
+        <header class="topbar">
+          <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="cdr_branding">
+                <img src="https://docullystorage.blob.core.windows.net/docullycontainer/media/images/dataroom-icon.png">
+            </div>
+            <div class="container-fluid d-flex justify-content-end">
+            {% if excel or csv %}
+            <button mat-raised-button class="cdr-btn big-btn blue-btn" style="margin-right: 17px;border: none;" onclick="open_excel_viewer({{ folder.id}})" >Excel viewer </button>
+            {% endif %}
+            <br>
+            <a  mat-raised-button class="cdr-btn big-btn blue-btn" href="https://stage.docullyvdr.com/#/folder_detail/{{folder.parent_folder_id}}/?dataroom={{folder.dataroom.id}}">Back</a>
+          </div>
+              <!-- <button class="cdr-btn big-btn blue-btn mat-raised-button ng-star-inserted" onclick="window.location='https://services.docullyvdr.com//#/folder_detail/{{folder.parent_folder_id}}/?dataroom={{folder.dataroom.id}}';">BACK</button> -->
+          </div>
+        </header>
+    
+        <div id="authorized" style="display:none;">
+      
+      <!-- <button onclick="increaseScale()">Increase Scale</button> -->
+      <div class="container-fluid my-4">
+        <!-- <div class="topmenuhamberger mb-2" id="longMenuHide"><span style="color: #cbb26a;"><i class="fa fa-bars" style="font-size:25px" onclick="hideMenu()"></i> </span></div>
+        <div class="topmenuhamberger mb-2" id="shortMenuHide" style="display: none;"><span style="color: #cbb26a;"><i class="fa fa-bars" style="font-size:25px" onclick="unhideMenu()"></i>  </span></div> -->
+        <div class="row col-md-12" style="padding-right: 0px!important;">
+          <div class="col-md-9" id="documentIDMenu">
+            <div id="group-list"></div>
+         
+          <div class="content-part mat-card">
+          <div class="cdr-breadcrumb ng-star-inserted">
+            <b style="color: #6c757d !important">{{folder.dataroom.dataroom_nameFront}} Dataroom</b>
+              <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="https://stage.docullyvdr.com/#/documents">All Documents</a></li>
+                  {% for fldr in folder.parent_folders %}<li class="breadcrumb-item active"><a href="https://stage.docullyvdr.com/#/folder_detail/{{fldr.id}}" >{{ fldr.name}}</a></li>{% endfor %}
+                  <li class="breadcrumb-item active"><a>{{index}}{{ folder.name}}</a></li>
+              </ol>
+          </div>
+            
+          <div class="fpc">
+            <div class="fpc-header">
+              <h2 id="file-name"><i class="fas fa-file file-viewer-icon"></i> {{index}}{{ folder.name }}</h2>
+            </div>
+            </div>
+          
+          {% if error1 %}
+          <div style="align-items: center;
+          justify-content: center;
+          overflow: auto;
+          height:600px;
+         
+          ">
+          <div style="position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+         ">  
+        <i class="fas fa-exclamation-triangle" style="font-size: 40px;color:#F7BD33;display: flex;align-items: center;
+          justify-content: center;
+       
+          overflow: auto"></i><br> 
+      
+          <div class="iframe-container" id="iframeContainer" style="display: flex;align-items: center;
+          justify-content: center;
+          overflow: auto;
+          text-align: center;
+          "
+         onpaste="return false;" oncopy="return false;">
+         Sorry Some Technical issue occured. Please Try Again.
+         
+        </div>
+       </div>
+         </div>
+         {% elif view_count_limit %}
+          <div style="align-items: center;
+          justify-content: center;
+          overflow: auto;
+          height:600px;
+         
+          ">
+          <div style="position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+         ">  
+        <i class="fas fa-exclamation-triangle" style="font-size: 40px;color:#F7BD33;display: flex;align-items: center;
+          justify-content: center;
+       
+          overflow: auto"></i><br> 
+      
+          <div class="iframe-container" id="iframeContainer" style="display: flex;align-items: center;
+          justify-content: center;
+          overflow: auto;
+          text-align: center;
+          "
+         onpaste="return false;" oncopy="return false;">
+         view limit is exceed.
+         
+        </div>
+       </div>
+         </div>
+          {% elif blob_not_found %}
+          <div style="align-items: center;
+          justify-content: center;
+          overflow: auto;
+          height:600px;
+         
+          ">
+          <div style="position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+         ">  
+        <i class="fas fa-exclamation-triangle" style="font-size: 40px;color:#F7BD33;display: flex;align-items: center;
+          justify-content: center;
+       
+          overflow: auto"></i><br> 
+      
+          <div class="iframe-container" id="iframeContainer" style="display: flex;align-items: center;
+          justify-content: center;
+          overflow: auto;
+          text-align: center;
+          "
+         onpaste="return false;" oncopy="return false;">
+         The file didn't upload properly. Try uploading it again.
+         
+        </div>
+       </div>
+         </div>
+         {% elif encrypted %}
+          <div style="align-items: center;
+          justify-content: center;
+          overflow: auto;
+          height:600px;
+         
+          ">
+          <div style="position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+         ">  
+        <i class="fas fa-exclamation-triangle" style="font-size: 40px;color:#F7BD33;display: flex;align-items: center;
+          justify-content: center;
+       
+          overflow: auto"></i><br> 
+      
+          <div class="iframe-container" id="iframeContainer" style="display: flex;align-items: center;
+          justify-content: center;
+          overflow: auto;
+          text-align: center;
+          "
+         onpaste="return false;" oncopy="return false;">
+         The document is protected by a password and is not supported on the platform. Reupload the document after removing the password protection to view it on the platform or the users will have to download the document and view it on their device.
+         
+        </div>
+       </div>
+         </div>
+           {% elif pdf %}
+           <script>
+//            url = "{{pathpptpdf | safe}}";
+//              //url="https://view.officeapps.live.com/op/embed.aspx?src=http://www.nwlink.com/~donclark/hrd/templates/presentations.ppt?&embedded=true"
+//              var thePdf = null;
+//              var scale = 1.0;
+//              console.warn(1)
+
+//              const ViewerCall = (scale) =>{
+              
+//              console.warn("viewwe is called with ",scale)
+       
+//              pdfjsLib.getDocument(url).promise.then(function (pdf) {
+//                thePdf = pdf;
+//                viewer = document.getElementById("pdf-viewer").innerHTML="";
+//                viewer = document.getElementById("pdf-viewer");
+       
+//                for (page = 1; page <= pdf.numPages; page++) {
+//                  canvas = document.createElement("canvas");
+//                  canvas.className = "pdf-page-canvas";
+//                  viewer.appendChild(canvas);
+//                  renderPage(page, canvas);
+//                }
+//              });
+       
+//             }
+//              function renderPage(pageNumber, canvas) {
+//                thePdf.getPage(pageNumber).then(function (page) {
+//                  viewport = page.getViewport(scale);
+//                  console.log('viewport-->',scale)
+//                  canvas.height = viewport.height;
+//                  canvas.width = viewport.width;
+//                  page.render({
+//                    canvasContext: canvas.getContext("2d"),
+//                    viewport: viewport,
+//                  });
+//                });
+//              }
+             
+//              ViewerCall(scale)
+//              const  increaseScale = () =>
+// {
+//   scale += 0.1;
+//   ViewerCall(scale);
+//   console.warn(scale)
+// }
+// const  decreaseScale = () =>
+// {
+//   if(scale>0)
+//   {
+//   scale -= 0.1;
+//   ViewerCall(scale);
+//   console.warn(scale)
+//   }
+// }
+
+          url = "{{pathpptpdf | safe}}";
+          let is_first_viewer = true;
+           var thePdf = null;
+             var scale = 1.0;
+             let count = null;
+             console.warn(1)
+
+             const ViewerCall = (scale) =>{
+              
+             console.warn("viewwe is called with ",scale)
+              
+             pdfjsLib.getDocument(url).promise.then(function (pdf) {
+               thePdf = pdf;
+               console.warn("viewwe is called with 1")
+               count = pdf.numPages
+               console.warn("viewwe is called with 2")
+               viewer = document.getElementById("pdf-viewer").innerHTML="";
+               console.warn("viewwe is called with 3")
+               viewer = document.getElementById("pdf-viewer");
+               console.warn("viewwe is called with 4")
+                
+               for (page = 1; page <= pdf.numPages; page++) {
+                 canvas = document.createElement("canvas");
+                 canvas.className = "pdf-page-canvas";
+                 viewer.appendChild(canvas);
+                 console.warn("viewwe is called with 5")
+                 renderPage(page, canvas);
+                 console.warn("viewwe is called with 6")
+               }
+             }).catch(function(error){
+              console.log('------------',error)
+              // window.location = "https://services.docullyvdr.com/noaccess_view/"; 
+              d=document.getElementById('pdf-viewer').innerHTML=''
+              d=document.getElementById('pdf-viewer').innerHTML=`<div style="align-items: center;
+          justify-content: center;
+          overflow: auto;
+          height:600px;
+         
+          ">
+          <div style="position: absolute;
+          top: 50%;
+          left:300px;
+         ">  
+        <i class="fas fa-exclamation-triangle" style="font-size: 40px;color:#F7BD33;display: flex;align-items: center;
+          justify-content: center;
+       
+          overflow: auto"></i><br> 
+      
+          <div class="iframe-container" id="iframeContainer" style="display: flex;align-items: center;
+          justify-content: center;
+          overflow: auto;
+          text-align: center;
+          "
+         onpaste="return false;" oncopy="return false;">
+         This file is corrupted and cannot be viewed in the browser. 
+         
+        </div>
+       </div>
+         </div>`
+             });
+       
+            }
+             function renderPage(pageNumber, canvas) {
+               thePdf.getPage(pageNumber).then(function (page) {
+                console.warn("viewwe is called with 7")
+                 viewport = page.getViewport(scale);
+                 console.warn("viewwe is called with 8")
+                 console.log('viewport-->',scale)
+                 canvas.height = viewport.height;
+                 canvas.width = viewport.width;
+                 page.render({
+                   canvasContext: canvas.getContext("2d"),
+                   viewport: viewport,
+                 }).promise.catch(function (reason) {
+                    console.log('stopped ' + reason);
+                    second_viewer()
+                  });
+               });
+             }
+             
+             ViewerCall(scale)
+
+             function second_viewer() {
+               // body...
+            console.log('--------------')
+            let pdfheight = count * 150
+            document.getElementById('pdf-viewer').innerHTML=""
+            document.getElementById('pdf-viewer').innerHTML=`<iframe id="pdfframe"
+           src="{{pathpptpdf | safe}}#toolbar=0&zoom=75" style="width:100% ;height:${pdfheight}vh" ></iframe>`
+           is_first_viewer=false;
+             }
+             
+const  increaseScale = () =>
+{
+  if(is_first_viewer){
+  scale += 0.1;
+  ViewerCall(scale);
+  console.warn(scale)
+    }
+    else{
+  var dd = document.getElementById('pdfframe').src;
+  let hh = document.getElementById('pdfframe').offsetHeight;
+      console.log('---------',dd)
+      console.log('---------222',hh)
+      for(let i=25;i<500;i++){
+        if(dd.includes(`zoom=${i}`)){
+          let count = i+25
+          aa=dd.replace(`zoom=${i}`, `zoom=${count}`);
+          console.log('-------',aa)
+          console.log('----',i)
+          document.getElementById('pdfframe').remove();
+          document.getElementById('pdf-viewer').innerHTML=`<iframe id="pdfframe"
+           src="${aa}" style="width:100%" ></iframe>`
+
+        } 
+        
+      }
+      }
+}
+const  decreaseScale = () =>
+{
+  if (is_first_viewer){
+     if(scale>0)
+  {
+  scale -= 0.1;
+  ViewerCall(scale);
+  console.warn(scale)
+  }
+  }
+  else{
+
+
+  var dd = document.getElementById('pdfframe').src;
+      console.log('---------',dd)
+      for(let i=500;i>25;i--){
+        
+        if(dd.includes(`zoom=${i}`)){
+        if (i>=25){
+          let count = i-25
+          aa=dd.replace(`zoom=${i}`, `zoom=${count}`);
+          console.log('-------',aa)
+          console.log('----',i)
+          document.getElementById('pdfframe').remove();
+          document.getElementById('pdf-viewer').innerHTML=`<iframe id="pdfframe"
+           src="${aa}" style="width:100%"></iframe>`
+        } 
+      }
+        
+      }
+      }
+ 
+}
+           </script>
+         
+         <body>
+           <!-- <div id="pdf-viewer"></div> -->
+
+           <div id="pdf-viewer">
+             <!-- <div class="wrapper" id="pdfwrapper"> -->
+        <!-- <iframe id="pdfframe" src="{{pathpptpdf | safe}}#toolbar=0&zoom=100" style="width:"></iframe> -->
+        <div class="embed-cover"></div>
+        <!-- </div> -->
+           </div>
+         </body>                
+         
+         <!-- <body>
+           <div id="pdf-viewer"></div>
+         </body>      -->           
+      
+              {% elif pdfprintwatermark is True %}
+               <script>
+               
+                url = "{{pathpptpdf | safe}}";
+                
+                var thePdf = null;
+                var scale = 1.5;
+                console.warn(3);
+                const ViewerCall = (scale) =>{
+              
+              console.warn("viewwe is called with ",scale)
+        
+              pdfjsLib.getDocument(url).promise.then(function (pdf) {
+                thePdf = pdf;
+                viewer = document.getElementById("pdf-viewer").innerHTML="";
+                viewer = document.getElementById("pdf-viewer");
+        
+                for (page = 1; page <= pdf.numPages; page++) {
+                  canvas = document.createElement("canvas");
+                  canvas.className = "pdf-page-canvas";
+                  viewer.appendChild(canvas);
+                  renderPage(page, canvas);
+                }
+              });
+        
+             }
+              function renderPage(pageNumber, canvas) {
+                thePdf.getPage(pageNumber).then(function (page) {
+                  viewport = page.getViewport(scale);
+                  console.log('viewport-->',scale)
+                  canvas.height = viewport.height;
+                  canvas.width = viewport.width;
+                  page.render({
+                    canvasContext: canvas.getContext("2d"),
+                    viewport: viewport,
+                  });
+                });
+              }
+              
+              ViewerCall(scale)
+              const  increaseScale = () =>
+ {
+   scale += 0.1;
+   ViewerCall(scale);
+   console.warn(scale)
+ }
+ const  decreaseScale = () =>
+ {
+   if(scale>0)
+   {
+   scale -= 0.1;
+   ViewerCall(scale);
+   console.warn(scale)
+   }
+ }
+              </script>
+         
+         <body>
+          <div id="pdf-viewer"></div>
+          </body>       
+                <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+                 <iframe id="print-frame" style="width:0;height:0;border:0; border:none;" ></iframe>
+             </div>
+          
+              {% elif pptx %}
+              <script>
+                url = "{{pathpptpdf | safe}}";
+                var thePdf = null;
+                var scale = 1.2;
+                console.warn(4);
+                const ViewerCall = (scale) =>{
+              
+              console.warn("viewwe is called with ",scale)
+        
+              pdfjsLib.getDocument(url).promise.then(function (pdf) {
+                thePdf = pdf;
+                viewer = document.getElementById("pdf-viewer").innerHTML="";
+                viewer = document.getElementById("pdf-viewer");
+        
+                for (page = 1; page <= pdf.numPages; page++) {
+                  canvas = document.createElement("canvas");
+                  canvas.className = "pdf-page-canvas";
+                  viewer.appendChild(canvas);
+                  renderPage(page, canvas);
+                }
+              });
+        
+             }
+              function renderPage(pageNumber, canvas) {
+                thePdf.getPage(pageNumber).then(function (page) {
+                  viewport = page.getViewport(scale);
+                  console.log('viewport-->',scale)
+                  canvas.height = viewport.height;
+                  canvas.width = viewport.width;
+                  page.render({
+                    canvasContext: canvas.getContext("2d"),
+                    viewport: viewport,
+                  });
+                });
+              }
+              
+              ViewerCall(scale)
+              const  increaseScale = () =>
+ {
+   scale += 0.1;
+   ViewerCall(scale);
+   console.warn(scale)
+ }
+ const  decreaseScale = () =>
+ {
+   if(scale>0)
+   {
+   scale -= 0.1;
+   ViewerCall(scale);
+   console.warn(scale)
+   }
+ }
+              </script>
+            
+            <body>
+              <div id="pdf-viewer"></div>
+            </body>         
+              <div class="iframe-container"  onload="onloadIframe()" id="iframeContainer"  oncontextmenu="return false" onkeydown="return false" onpaste="return false;" oncopy="return false;">
+               <iframe id="print-frame" style="width:0;height:0;border:0; border:none;" ></iframe>
+             </div>
+          
+             
+            
+    {% elif docs %}
+           <script>
+          //  url = "{{pathpptpdf | safe}}";
+            url="{{pathpptpdf | safe }}"
+            var thePdf = null;
+           
+            var thePdf = null;
+            var scale = 1.2;
+            console.warn(5);
+      
+            const ViewerCall = (scale) =>{
+              
+              console.warn("viewwe is called with ",scale)
+        
+              pdfjsLib.getDocument(url).promise.then(function (pdf) {
+                thePdf = pdf;
+                viewer = document.getElementById("pdf-viewer").innerHTML="";
+                viewer = document.getElementById("pdf-viewer");
+        
+                for (page = 1; page <= pdf.numPages; page++) {
+                  canvas = document.createElement("canvas");
+                  canvas.className = "pdf-page-canvas";
+                  viewer.appendChild(canvas);
+                  renderPage(page, canvas);
+                }
+              });
+        
+             }
+              function renderPage(pageNumber, canvas) {
+                thePdf.getPage(pageNumber).then(function (page) {
+                  viewport = page.getViewport(scale);
+                  console.log('viewport-->',scale)
+                  canvas.height = viewport.height;
+                  canvas.width = viewport.width;
+                  page.render({
+                    canvasContext: canvas.getContext("2d"),
+                    viewport: viewport,
+                  });
+                });
+              }
+              
+              ViewerCall(scale)
+              const  increaseScale = () =>
+ {
+   scale += 0.1;
+   ViewerCall(scale);
+   console.warn(scale)
+ }
+ const  decreaseScale = () =>
+ {
+   if(scale>0)
+   {
+   scale -= 0.1;
+   ViewerCall(scale);
+   console.warn(scale)
+   }
+ }
+          </script>
+          
+          <body>
+          <div id="pdf-viewer"></div>
+          </body>       
+                <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+                 <iframe id="print-frame" style="width:0;height:0;border:0; border:none;" ></iframe>
+             </div>
+              {% elif psd %}
+              <div>
+                This File is not supported!!
+              </div>
+          <!-- <div id="dvContainer" style="width:1200px;height:1000px;"></div> -->
+          {% elif csv %}
+          
+          <div>
+          <div  class="iframe-style wrapper  backimg">
+          <div class="csv-file-view">
+          <table class="table table-hover  table-bordered" id="table-csv"></table>
+          </div>
+          </div>
+          </div>
+          <iframe id="print-frame" style="width:0;height:0;" class="table-bordered" ></iframe>
+          
+
+          {% elif txt %}
+          <div class="iframe-container" id="iframeContainer" style="overflow: auto;" onpaste="return false;" oncopy="return false;">
+            <div class="wrapper padTop" >
+            <div class="borderTab excel-file-view">   
+            <div id="table-txt" class="tab"></div>
+            <div id="wrapper" class="tabcontent excel-table-d"></div>
+        </div>  
+          </div>
+        
+        
+     <iframe id="print-frame" style="width:0;height:0;border:0; border:none;" >
+
+    </iframe>
+        </div> 
+
+      
+        
+          {% elif excel %}
+            
+          <div class="text-center">{{message}}</div>
+            <div class="iframe-container  backimg" id="iframeContainer" style="background-color : transparent;overflow: auto;" onpaste="return false;" oncopy="return false;">
+              <div class="wrapper padTop" id="excel_head" >
+              <div class="borderTab excel-file-view">   
+              <div id="Excel-Tabs" class="tab"></div>
+              <div id="wrapper" class="tabcontent excel-table-d"></div>
+          </div>  
+            </div>
+          
+          
+       <iframe id="print-frame" style="width:100%;height:700px;border:0; border:none;" >
+
+      </iframe>
+          </div> 
+          <!-- end-----here -->
+          <!-- <iframe id="custom-frame" class="iframe-style" src="https://view.officeapps.live.com/op/embed.aspx?src={{path}}" onload="onloadIframe()" >
+            <p>Your browser does not support iframes.</p>
+          </iframe> -->
+          <!--     <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+              <div class="wrapper">
+              <div class="excelnewhidelogo"></div>
+              <div class="overlayc">
+                <div class="toverlay1"></div>
+                <iframe id="docs-viewer" width='933' height='800' oncontextmenu="return false" frameborder='0' allowfullscreen src='https://view.officeapps.live.com/op/embed.aspx?src={{path}}'>
+                  
+                </iframe>
+              </div>
+              </div>
+               <iframe id="print-frame" style="width:0;height:0;border:0; border:none;" ></iframe>
+             </div> -->
+             {% elif png %}
+             
+             <div class="iframe-container" id="iframeContainer" id="png" onpaste="return false;" oncopy="return false;">
+              <div class="wrapper">
+              <div class="overlayc">
+                <div class="toverlay3" id="pngframe">
+                  <img src="{{path | safe}}" style="height:auto;width:auto;max-width: 900px;"  onload="onloadImage()" id="pngSize" class="center"></img>
+                </div>
+                <!-- <iframe id="png-frame" class="iframe-style " name="png-frame" style="height:800px;width:100%;" src="{{path | safe}}" onload="onloadIframe()" ></iframe>
+           --->
+          </div>   </div>
+              </div>
+             
+              {% elif jpg %}
+              
+              <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+               <div class="wrapper">
+               <div class="overlayc">
+                 <div class="toverlay3" id="pngframe">
+                   <img src="{{path | safe}}" id="pngSize"  onload="onloadImage()" style="height:auto;width:auto;max-width: 900px;" class="center"></img>
+                 </div>
+                 <!-- <iframe id="png-frame" class="iframe-style " name="png-frame" style="height:800px;width:100%;" src="{{path | safe}}" onload="onloadIframe()" ></iframe>
+            --->
+           </div>   </div>
+               </div>
+               {% elif jpeg %}
+               <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+                <div class="wrapper">
+                <div class="overlayc">
+                  <div class="toverlay3" id="pngframe">
+                 
+                    <img src="{{path | safe}}" id="pngSize"  onload="onloadImage()" style="height:auto;width:auto;" class="center" ></img>
+                  </div>
+                  <!-- <iframe id="png-frame" class="iframe-style " name="png-frame" style="height:800px;width:100%;" src="{{path | safe}}" onload="onloadIframe()" ></iframe>
+             --->
+            </div>   </div>
+          </div>
+            
+                {% elif mp4 %}
+                <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+                  <div class="wrapper">
+                  <div class="overlayc">
+                    <div class="toverlay4 mp4">
+                      <video width="100%" height="auto" class="backColor" controls>
+                        <source src="{{path | safe}}" type="video/mp4">
+                      </video>
+                      
+                    </div>
+                    <!-- <iframe id="png-frame" class="iframe-style " name="png-frame" style="height:800px;width:100%;" src="{{path | safe}}" onload="onloadIframe()" ></iframe>
+               --->
+              </div>   </div>
+                  </div>
+          
+                  {% elif mp3 %}
+                  <div class="iframe-container" id="iframeContainer" onpaste="return false;" oncopy="return false;">
+                    <div class="wrapper">
+                    <div class="hidelogo"></div>
+                    <div class="overlayc">
+                      <div class="toverlay4 mp4">
+                        <video width="100%" height="auto" class="backColor" controls>
+                          <source src="{{path | safe}}" type="audio/mpeg">
+                        </video>
+                        
+                      </div>
+                      <!-- <iframe id="png-frame" class="iframe-style " name="png-frame" style="height:800px;width:100%;" src="{{path | safe}}" onload="onloadIframe()" ></iframe>
+                 --->
+                </div>   </div>
+                    </div>
+                 
+          
+          {% else %}
+          <div style="align-items: center;
+          justify-content: center;
+          overflow: auto;
+          height:600px;
+         
+          ">
+          <div style="position: absolute;
+          top: 50%;
+         ">  
+        <i class="fas fa-exclamation-triangle" style="font-size: 40px;color:#F7BD33;display: flex;align-items: center;
+          justify-content: center;
+       
+          overflow: auto"></i><br> 
+      
+          <div class="iframe-container" id="iframeContainer" style="display: flex;align-items: center;
+          justify-content: center;
+          overflow: auto;
+          text-align: center;
+          "
+         onpaste="return false;" oncopy="return false;">
+         This file format cannot be viewed in the browser. 
+         Please download the file to view it on your device. <br>
+         If you do not see the download option, please contact your project administrator to grant you the download rights for this file.
+        </div>
+       </div>
+         </div>
+        
+      {% endif %}
+
+          
+            
+          
+          </div>
+          <div class="comment-box" hidden>
+            
+            <div class="row marg0">
+              <!-- Commented For The Future Purpose Use -->
+              <!-- {% if dataroom_user_list.is_q_a_submitter_user %}
+           
+              <div class="mat-card content-part fpat mb-3 part1" style="width:100%" id='moveQuestionScroll'> 
+                <div class="part20">  
+                    <div class="col-md-1">
+                      <div class=" ng-star-inserted">
+                        <b style="color: #6c757d !important">Q&A</b>
+                      </div>      
+                   <br>      
+                    <img class="img-fluid user-icon-pic" src="{{dataroom_user_list.member.avatar.url}}," onerror="this.src='https://services.docullyvdr.com/assets/images/Profile.png'">
+                </div>
+            
+                <div class="col-md-11 pl-0">
+            
+                   <div class="user-details">
+                    <span class="orange">{{ user.first_name }} {{ user.last_name }}</span>
+                  </div>
+            
+                    <div class="d-flex justify-content-end" >
+                     <select class="form-control w-auto" name="category" id="category" >
+                        <option value="">Select Categories</option>
+                        {% for category in category_list %}
+                          <option value="{{ category.id }}">{{ category.categories_name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                      <div class="d-flex align-items-start mt-4">
+                        <textarea class="form-control" name="title" id="title" placeholder="Add your question here"></textarea>
+                        <input type="hidden" id="fileId" value="{{folder.id}}">
+                        <input type="hidden" id="dataroomId" value="{{folder.dataroom.id}}">
+                        <input type="hidden" id="logdinId" value="{{login_user}}">
+                        <button class="cdr-btn big-btn blue-btn mat-raised-button ng-star-inserted" onclick="qna_comment()">Submit Question</button>
+                      </div>
+            
+            
+                  <div class="row mt-5" id="qna">
+            
+                      <p id="qna_q"></p>
+            
+                  </div>
+                </div>
+              </div>
+             </div>
+              {% endif %} -->
+            </div>
+          
+          
+            <div class="row marg0 ">
+              {% if qna_list.length > 0 %}
+ 
+            <div id="the-div-that-should-be-refreshed" class="mat-card content-part fpat mb-3 part20" style="font-size: 14px;width: 100%;">
+            {% for qna in qna_list %}
+                {% if qna.final == False %}
+                  <div class="row">
+                    <div class="col-md-1">
+                      <img class="img-fluid user-icon-pic" src="{{qna.user.avatar}}">
+          
+                    </div>
+          
+          
+                    <div class="col-md-11 pl-0" >
+                     <div class="user-details">
+                      <span class="orange"><b>{{ qna.user.first_name }}</b> <em class="dtime">{{qna.created_date}}</em></span>
+                     </div>
+                      <p>{{qna.question}}.</p>
+                      {% if qna.reply %}
+                        <button class="btn btn-primary"  id="reply_question_{{qna.id}}" onclick="reply_question('{{qna.id}}')">Reply</button>
+                      {% endif %}
+                      <div id="qna_answer_div_{{qna.id}}" class="qna_answer_div" style="display:none">
+                        <textarea style="width:100%" name="qna_answer" id="qna_answer_{{qna.id}}"></textarea>
+                        <input type="hidden" id="qna_answer_id_{{qna.id}}" value="{{qna.id}}">
+                        <!-- <input type="hidden" id="dataroomId" value="{{folder.dataroom.id}}"> -->
+                        <input type="hidden" id="logdinId" value="{{login_user}}">
+                        <button class="cdr-nm-btn" style="margin-left: 0" onclick="close_qna_submit_div('{{qna.id}}')">Cancel</button>
+                        <button style="margin-left: 0" class="cdr-nm-btn" onclick="qna_submit_answer('{{qna.id}}')">Submit Answer</button>
+                      </div>
+                    </div>
+                  </div>
+                  {% get_rate qna.id as result %}
+                  {% if result %}
+                    {% for qna in result %}
+                      <div class="row mt-4" style="margin-left: 50px;">
+                        <div class="col-md-1">
+                          <img class="img-fluid user-icon-pic" src="{{qna.user.avatar.url}}" onerror="this.src='https://services.docullyvdr.com/assets/images/Profile.png'">
+                        </div>
+          
+          
+                        <div class="col-md-11 pl-0" >
+                         <div class="user-details">
+                          <span class="orange"><b>{{ qna.user.first_name }} </b> <em class="dtime">{{qna.created_date}}</em></span>
+                         </div>
+                          <p>{{qna.answer}}.</p>
+                          <!-- <a href="#" class="reply-st mt-2"><i class="fas fa-reply"></i> reply</a> -->
+                        </div>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </div>
+            {% endif %}
+          
+            </div>
+          
+          </div>
+          
+          </div>
+          <div class="col-md-1" id='shortMenu' style="display: none;">
+            <div class="topmenuhamberger mb-2" id="shortMenuHide"><span style="color: #cbb26a;"><i class="fas fa-compress" style="font-size:25px" onclick="unhideMenu()"></i>  </span></div>
+            <div class="col-md  p-0" style="height: 93%;">
+              <!-- <span style="color: #cbb26a;"><i class="fa fa-bars" style="font-size:25px" onclick="unhideMenu()"></i>  </span> -->
+              <div class="mt-2 d-flex allbuttonsblack " style="flex-direction: column;">
+                
+                {% if is_download %}
+                      
+                {% if is_irm_protected %}
+
+                <button
+                  class="btn btn-primary marginRight mt-3"
+                  style=""
+                  title="Download"
+                  onclick="getDownload1()"
+                  ><i class="fas fa-download"></i>
+              </button><br/><br/>
+              {% else %}
+                <button
+                  class="btn btn-primary marginRight mt-3"
+                  style=""
+                  title="Download"
+                  onclick="getDownload()"
+                  ><i class="fas fa-download"></i>
+              }
+              </button><br/><br/>
+                {% endif %}
+                {% else %}
+                <button
+                class="btn btn-primary marginRight mt-3"
+                title="Restricted"
+                style="background-color: #e5e5e5;color:gray !important"
+                disabled
+                
+                ><i class="fas fa-download"></i>
+              </button><br/><br/>
+              {% endif %}
+              {% if is_shortcut %}
+            
+                <button
+                  class="btn btn-primary marginRight mt-3"
+                  title="Download Shortcut"
+                  style=""
+                  id="shortcut"
+                  onclick="getShortcut('{{folder.name}}')"
+                >
+                  <i class="fas fa-external-link-alt"></i>
+            </button><br/><br/>
+                {% else %}
+                <button
+                class="btn btn-primary marginRight mt-3"
+                title="Restricted"
+                id="shortcut_disabled"
+                style="padding: 10px 16px!important;background-color: #e5e5e5;color:gray !important"
+                disabled
+                onclick="getShortcut('{{folder.name}}')"
+              >
+                <i class="fas fa-external-link-alt"></i>
+              </button><br/><br/>
+             {% endif %}
+    
+                <!-- <a class="btn btn-primary" style="width: 100%" href="https://docullystorage.blob.core.windows.net/quickstartblobs/219_13663.txt" target="_self" download><i class="fas fa-download"></i> Download</a> -->
+                {% if is_print %}
+                <!-- <a id="upload_file"><i class="fas fa-upload" style="color: #007bff;"></i></a> -->
+                <!-- <button class="btn btn-primary marginRight mt-3" id="print" style="font-size: 1rem!important;" title="Print" onClick="printChart()"
+                  ><i class="fa fa-print"></i
+                ></button><br/><br/>
+     -->
+                {% else %}
+                <!-- <button disabled class="btn btn-primary mt-3"  style="padding: 10px 16px!important;color:gray !important;background-color: #e5e5e5;"
+                title="Restricted" id="print_disabled" onClick="printChart()"
+                ><i class="fa fa-print"></i
+              ></button><br/><br/> -->
+              {% endif %}
+              </div>
+            </div>
+            {% if txtt %}
+            {% elif jpeg %}
+            {% elif jpg %}
+            {% elif zip %}
+            {% elif psd %}
+            {% elif png %}
+            {% elif xlsx %}
+            {% elif xls %}
+            {% elif csv %}
+            {% else %}
+            <div class="incredecrebtn">
+              <button onclick="increaseScale()" style="
+              width: 35px;
+              border-radius: 20px;
+              height: 35px;
+              position: absolute;
+              z-index: 22222;
+              left: -110px;
+              top: 5px;
+              text-align: center;
+              font-size: 12px;
+              font-weight: bold;
+              background: #cbb26a;
+              border-color: #cbb26a;
+              outline: none;
+              color: white;
+          ">A <sup style="font-size: 100%!important;">+</sup></button>
+              <button onclick="decreaseScale()" style="
+              width: 35px;
+              border-radius: 20px;
+              height: 35px;
+              position: absolute;
+              color: white;
+              z-index: 22222;
+              left: -65px;
+              top: 5px;
+              text-align: center;
+              font-size: 12px;
+              font-weight: bold;
+              background: #cbb26a;
+              border-color: #cbb26a;
+              outline: none;
+          ">A <sup style="font-size: 100%!important;">-</sup></button>
+            </div>
+            {% endif %}
+          </div>
+          
+          <div class="col-md-3 pr-0" id="hideIDMenu" style="display: block;">
+            <div class="topmenuhamberger mb-2" id="longMenuHide"><span style="color: #cbb26a;"><i class="fas fa-expand" style="font-size:25px" onclick="hideMenu()"></i> </span></div>
+            <div class="content-part mat-card fpat mb-3 part1 ">
+                <!-- <span style="color: white;background-color: #cbb26a;"><i class="fa fa-bars" style="font-size:25px" onclick="hideMenu()"></i> </span> -->
+                  <h4><i class="fas fa-file file-viewer-icon"></i> File Information </h4>
+          
+                  <div class="pnl-body">
+          
+                    <div class="file-details">
+                      
+
+                      <p><b>Uploaded By:</b> <span>{{ folder.user.first_name}} {{ folder.user.last_name}} </span></p>
+                      <p><b>Uploaded:</b> <span>{{fol_created_date}}</span></p>
+                      <p><b>Size:</b> <span>{{ folder.file_size_mb }} MB</span></p>
+                    </div>
+                    <div class="action-btn-st mt-4 fileview-action " style="display: flex;
+                    align-items: center;
+                    justify-content: space-around;
+                  ">
+                  {% if dataroom_user_list.is_q_a_submitter_user %}
+                <span style="    width: 25%;
+    border: 1px solid #ced4da;
+    text-align: center;background-color: #cbb26a!important;">     
+					  <a href="#moveQuestionScroll">
+					  <button
+                        class="btn btn-primary marginRight"
+                        style="border-color: #cbb26a !important;background: #cbb26a!important;"
+                        ><i class="fas fa-question"></i>
+                    </button></a>
+                  </span>
+                  
+                  {% endif %}
+                  
+                      {% if is_download %}
+                    <span style="    width: 25%;
+                    border: 1px solid #ced4da;
+                    text-align: center;" class="spanHover">
+                    {% if is_irm_protected %}
+                    <button
+                        class="btn btn-primary marginRight"
+                        style="border-color: white ;background: white;color: black;"
+                        title="Download"
+                        onclick="getDownload1()"
+                        ><i class="fas fa-download"></i>
+                    </button>
+                    {% else %}
+                      <button
+                        class="btn btn-primary marginRight"
+                        style="border-color: white ;background: white;color: black;"
+                        title="Download"
+                        onclick="getDownload()"
+                        ><i class="fas fa-download"></i>
+                    </button>
+                    {% endif %}
+                  </span>
+                      {% else %}
+                     <span style="    width: 25%;
+                     border: 1px solid #ced4da;background-color: gray!important;
+                     text-align: center;">
+                      <button
+                      class="btn btn-primary marginRight"
+                      title="Restricted"
+                      style="background-color: gray !important;color:white !important;border-color: gray!important;"
+                      disabled
+                      onclick="getDownload()"
+                      ><i class="fas fa-download"></i>
+                    </button>
+                  </span>
+                    {% endif %}
+                    {% if is_shortcut %}
+                  <span style="    width: 25%;
+                  border: 1px solid #ced4da;
+                  text-align: center;" class="spanHover">
+                      <button
+                        class="btn btn-primary marginRight"
+                        title="Download Shortcut"
+                        style="border-color: white ;background: white;color: black;"
+                        id="shortcut"
+                        onclick="getShortcut('{{folder.name}}')"
+                      >
+                        <i class="fas fa-external-link-alt"></i>
+                  </button>
+                </span>
+                      {% else %}
+                      <span style="    width: 25%;
+                      border: 1px solid #ced4da;background-color: gray!important;
+                      text-align: center;">
+                      <button
+                      class="btn btn-primary marginRight"
+                      title="Restricted"
+                      id="shortcut_disabled"
+                      style="background-color: gray!important;color:white !important;border-color: gray!important;"
+                      disabled
+                      onclick="getShortcut('{{folder.name}}')"
+                    >
+                      <i class="fas fa-external-link-alt"></i>
+                    </button>
+                  </span>
+                   {% endif %}
+          
+                      {% if is_print %}
+                      <!-- <span style="    width: 25%;
+                      border: 1px solid #ced4da;
+                      text-align: center;" class="spanHover">
+                      <button class="btn btn-primary marginRight" id="print" style="border-color: white ;background: white;color: black;" title="Print" onClick="printChart()"
+                        ><i class="fa fa-print"></i
+                      ></button>
+                    </span> -->
+                      {% else %}
+                      <!-- <span style="    width: 25%;
+                      border: 1px solid #ced4da;background-color: gray!important;background-color: gray!important;
+                      text-align: center;">
+                      <button disabled class="btn btn-primary "  style="color:white !important;background-color: gray!important;border-color: gray!important;"
+                      title="Restricted" id="print_disabled" onClick="printChart()"
+                      ><i class="fa fa-print"></i
+                    ></button>
+                  </span> -->
+                    {% endif %}
+          
+                      
+                    </div>
+                
+                   
+                  </div>
+          
+              </div>
+              {% if txtt %}
+            {% elif jpeg %}
+            {% elif jpg %}
+            {% elif zip %}
+            {% elif psd %}
+            {% elif png %}
+            {% elif xlsx %}
+            {% elif xls %}
+            {% elif csv %}
+              {% else %}
+              <div class="incredecrebtn">
+                <button onclick="increaseScale()" style="
+                width: 35px;
+                border-radius: 20px;
+                height: 35px;
+                position: absolute;
+                z-index: 22222;
+                left: -110px;
+                top: 5px;
+                text-align: center;
+                font-size: 12px;
+                font-weight: bold;
+                background: #cbb26a;
+                border-color: #cbb26a;
+                outline: none;
+                color: white;
+            ">A <sup style="font-size: 100%!important;">+</sup></button>
+                <button onclick="decreaseScale()" style="
+                width: 35px;
+                border-radius: 20px;
+                height: 35px;
+                position: absolute;
+                color: white;
+                z-index: 22222;
+                left: -65px;
+                top: 5px;
+                text-align: center;
+                font-size: 12px;
+                font-weight: bold;
+                background: #cbb26a;
+                border-color: #cbb26a;
+                outline: none;
+            ">A <sup style="font-size: 100%!important;">-</sup></button>
+              </div>
+              {% endif %}
+              <div class="row marg0">
+                {% if dataroom_user_list.is_q_a_submitter_user %}
+                {% if qa_submit_lite %}
+             
+                <div class="mat-card content-part fpat mb-3 part1" style="width:100%" id='moveQuestionScroll'> 
+                  <div class="part20">  
+                      <div class="">
+                        <div class=" ng-star-inserted" style="display:flex;justify-content: space-between;align-items: center;">
+                          <b style="color: #6c757d !important;margin-right: 15px;font-size: 20px;">Q&A</b>
+                          <div class="d-flex justify-content-end" >
+                            <select class="form-control w-auto" name="category" id="category" >
+                               <option value="">Select Categories</option>
+                               {% for category in category_list %}
+                                 <option value="{{ category.id }}">{{ category.categories_name }}</option>
+                               {% endfor %}
+                             </select>
+                           </div>
+                        </div>      
+                
+                  </div>
+              
+                  <div class="">
+              
+                    
+              
+                      <!-- <div class="d-flex justify-content-end" >
+                       <select class="form-control w-auto" name="category" id="category" >
+                          <option value="">Select Categories</option>
+                          {% for category in category_list %}
+                            <option value="{{ category.id }}">{{ category.categories_name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div> -->
+                        <div class="d-flex align-items-start mt-4">
+                          <textarea class="form-control" name="title" id="title" placeholder="Add your question here"></textarea>
+                          <input type="hidden" id="fileId" value="{{folder.id}}">
+                          <input type="hidden" id="dataroomId" value="{{folder.dataroom.id}}">
+                          <input type="hidden" id="logdinId" value="{{login_user}}">
+                        </div>
+                        <button class="cdr-btn big-btn blue-btn mat-raised-button ng-star-inserted" onclick="qna_comment()" style="padding:10px 34px !important;font-weight:bold!important;outline: none!important;border-color: #cbb26a!important;background-color: #cbb26a!important;width: 100%;margin-top: 20px;">Submit Question</button>
+              
+              
+                    
+                  </div>
+                </div>
+               </div>
+                {% endif %}
+                {% endif %}
+              </div>
+        
+          <style type="text/css">
+          
+          #show-download {
+              vertical-align: bottom;
+          }
+          
+          </style>
+          {% if member.is_end_user %}
+            <div class="content-part mat-card fpat1 mb-3"style="overflow-x: auto;height: auto; max-height:400px;padding-right:5px;">
+              <h4 class="bdr-btm" style="padding-bottom:10px">Activity Tracker</h4>
+              <div class="mat-list-item">
+            <div id="activity_tracker">   
+          </div>
+          {% endif %}
+          {% if member.is_dataroom_admin or member.is_la_user %}
+            <div class="content-part mat-card fpat1 mb-3"style="overflow-x: auto;height: auto; max-height:400px;padding-right:5px;">
+              <h4 class="bdr-btm" style="padding-bottom:10px">Activity Tracker</h4>
+              <div class="mat-list-item">
+          <div id="activity_tracker">   
+          </div>        
+          <div id="ios_activity_tracker" style="display: none;">
+              
+            {% for activity in activity_tracker %}
+            <div class="mat-list-item">
+
+              {% if activity.event == 'file view' %}
+              <div class="mat-list-text bdr-btm mlcprev">
+                <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} viewed the file: {{activity.folder.name}}</h6>
+                <span style="font-size: 14px;">{{activity.created_date}}</span>
+              </div>
+              {% endif %}
+              {% if activity.event == 'file download' %}
+              <div class="mat-list-text bdr-btm mlcprev">
+                <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} downloaded the file: {{activity.folder.name}}</h6>
+                <span>{{activity.created_date}}</span>
+              </div>
+              {% endif %}
+              {% if activity.event == 'file print' %}
+              <div class="mat-list-text bdr-btm mlcprev">
+                <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} printed the file: {{activity.folder.name}}</h6>
+                <span>{{activity.created_date}}</span>
+              </div>
+              {% endif %}
+            
+        
+              {% if activity.event == 'Move File' %}
+              <div class="mat-list-text bdr-btm mlcprev">
+                <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} moved the file: {{activity.folder.name}}</h6>
+                <span>{{activity.created_date}}</span>
+              </div>
+              {% endif %}
+              {% if activity.event == 'Copy File' %}
+              <div class="mat-list-text bdr-btm mlcprev">
+                <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} copied the file: {{activity.folder.name}}</h6>
+                <span>{{activity.created_date}}</span>
+              </div>
+              {% endif %}
+              {% if activity.event == 'Moved File' %}
+              <div class="mat-list-text bdr-btm mlcprev">
+                <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} moved the folder: {{activity.folder.name}}</h6>
+                <span>{{activity.created_date}}</span>
+              </div>
+              {% endif %}
+              {% if activity.event == 'Copy Folder' %}
+              <div class="mat-list-text bdr-btm mlcprev">
+                <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} copied the folder: {{activity.folder.name}}</h6>
+                <span>{{activity.created_date}}</span>
+              </div>
+              {% endif %}
+              {% if activity.event == 'delete' %}
+              <div class="mat-list-text bdr-btm mlcprev">
+                <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} deleted the file: {{activity.folder.name}}</h6>
+                <span>{{activity.created_date}}</span>
+              </div>
+              {% endif %}
+              {% if activity.event == 'drm download' %}
+              <div class="mat-list-text bdr-btm mlcprev">
+                <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} downloaded the Shortcut file: {{activity.folder.name}}</h6>
+                <span>{{activity.created_date}}</span>
+              </div>
+              {% endif %}
+              {% if activity.event == 'bulk_download' %}
+              <div class="mat-list-text bdr-btm mlcprev">
+                <h6 style="font-size: 14px; overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">{{activity.user.first_name}} {{activity.user.last_name}} bulk downloaded the zip file: {{activity.folder.name}}</h6>
+                <span>{{activity.created_date}}</span>
+              </div>
+              {% endif %}
+        
+            
+        
+            </div>
+            {% endfor %}
+        
+          </div>
+        
+         
+</div>
+              
+          
+          
+          
+              </div>
+            </div>
+          {% endif %}
+          </div>
+          
+          </div>
+          
+          </div>
+      </div>
+    
+<div id="unauthorized" style="display:none;">
+
+      <div class="container-fluid my-4 p-0">
+        
+        <div class="row" style="display: flex;
+        align-items: center;
+        justify-content: center;
+      ">
+          <div class="col-md-10" >
+          
+          <div class="content-part mat-card">
+          <div class="cdr-breadcrumb ng-star-inserted">
+            <b style="color: #6c757d !important">{{folder.dataroom.dataroom_nameFront}} Dataroom</b>
+              <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="https://stage.docullyvdr.com/#/documents">All Documents</a></li>
+                  {% for fldr in folder.parent_folders %}<li class="breadcrumb-item active"><a href="https://stage.docullyvdr.com/#/folder_detail/{{fldr.id}}" >{{ fldr.name}}</a></li>{% endfor %}
+                  <li class="breadcrumb-item active"><a>{{index}}{{ folder.name}}</a></li>
+              </ol>
+          </div>
+            
+          <div class="fpc">
+            <div class="fpc-header">
+              <h2 id="file-name"><i class="fas fa-file file-viewer-icon"></i> {{index}}{{ folder.name }}</h2>
+            </div>
+            </div>
+          
+          
+    
+      
+      <div class="row" style="display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 600px;
+    ">
+       
+          
+        You are Unauthorized to access this page without login. <a href="{{frontend_url}}/#/?returnUrl={{url}}">Login to continue. </a>
+      
+       
+          </div>
+          </div>
+    </div>
+    </div>
+    </div>
+  </div>
+      
+      <div id="snackbar" class="hide">Question submitted successfully. </div>
+      <div id="error" class="hide">Please Select Category.</div>
+      <footer class="content-footer">
+        <div class="footer">
+            <div class="copyright">
+                <span>&copy; 2022 DOCULLYVDR. All rights reserved.</span>
+                <span class="go-right">
+                            <!-- <a href="">Blog</a>
+                            <a href="">Security</a>
+                            <a href="">Legal Support (022) 4010-4011</a> -->
+                            <a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a>
+                        </span>
+            </div>
+        </div>
+      </footer>
+      
+      </body>
+       {% endif %}
+  
+ 
+</body>
+
+</html>
+
+   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script lang="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.0/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+  <!-- <script src="https://appsforoffice.microsoft.com/lib/1/hosted/Office.js" type="text/javascript"></script> -->
+  <!-- <script src='/static/lib/html5/external/jquery-3.2.1.min.js'></script>
+  <script src='/static/lib/WebViewer.min.js'></script> -->
+  <script src="https://docullystorage.blob.core.windows.net/docullycontainer/js/jquery-simpleTreeMenu.js?sv=2019-10-10&ss=bfqt&srt=sco&sp=rwdlacupx&se=4000-07-18T16:31:37Z&st=2020-07-18T08:31:37Z&spr=https&sig=aylrk2bVvDPXRyuw71YXS6fzG7chArJF%2F%2FYrX1lYrrE%3D"></script>
+  <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+
+
+
+<script type="text/javascript">
+  {% if is_blur %}
+    console.log('------inside')
+
+        document.addEventListener('mouseleave', function (event) {
+            // Add 'blur' class to body when cursor leaves the webpage
+            document.body.classList.add('blur');
+        });
+
+        document.addEventListener('mouseenter', function (event) {
+            // Remove 'blur' class from body when cursor enters the webpage
+            document.body.classList.remove('blur');
+        });
+
+  {% endif %}
+
+  {% if is_print %}
+
+  console.log('-ppppppppprintt')
+  {% else %}
+
+  $(document).on('keydown', function(e) {
+    if((e.ctrlKey || e.metaKey) && (e.key == "p" || e.charCode == 16 || e.charCode == 112 || e.keyCode == 80) ){
+        // alert("Please use the Print PDF button below for a better rendering on the document");
+        e.cancelBubble = true;
+        e.preventDefault();
+
+        e.stopImmediatePropagation();
+    }  
+});
+
+document.addEventListener('keyup', (e) => {
+    if (e.key == 'PrintScreen') {
+        navigator.clipboard.writeText('');
+        // alert('Screenshots disabled!');
+    }
+});
+
+{% endif %}
+//logout
+//   function idleTimer() {
+//     var t;
+//     window.onmousemove = resetTimer; // catches mouse movements
+//     window.onmousedown = resetTimer; // catches mouse movements
+//     window.onclick = resetTimer;     // catches mouse clicks
+//     window.onscroll = resetTimer;    // catches scrolling
+//     window.onkeypress = resetTimer;  //catches keyboard actions
+
+//     function logout() {
+//       window.location = "https://services.docullyvdr.com/#/login";  //Adapt to actual logout script
+//   //  inactivsession();
+//   callwatermarkdelete()
+//     }
+
+//    function reload() {
+//           window.location = self.location.href;  //Reloads the current page
+//    }
+
+//    function resetTimer() {
+//         clearTimeout(t);
+//         t = setTimeout(logout, 600000);  // time is in milliseconds (1000 is 1 second)
+//         t= setTimeout(reload, 600000);  // time is in milliseconds (1000 is 1 second)
+//     }
+// }
+// idleTimer();
+
+var inactivityTime = function () {
+    var time;
+    window.onload = resetTimer;
+    // DOM Events 
+    document.onmousemove = resetTimer;
+    document.onkeydown = resetTimer;
+
+    function logout() {
+        alert("You are now logged out.")
+        //location.href = 'logout.html'
+    }
+
+    function resetTimer() {
+        clearTimeout(time);
+        time = setTimeout(logout, 3000)
+        // 1000 milliseconds = 1 second
+    }
+    window.onload = ()=> {
+  inactivityTime();
+  console.log("Loaddeddd called funtion")
+}
+};
+
+
+function idleLogout() {
+  if (window.location.href.includes('/documents') || window.location.href.includes('/folder_detail')) {
+    return;
+  }
+  var t;
+  window.onload = resetTimer;
+  window.onmousemove = resetTimer;
+  window.onmousedown = resetTimer;  // catches touchscreen presses as well      
+  window.ontouchstart = resetTimer; // catches touchscreen swipes as well 
+  window.onclick = resetTimer;      // catches touchpad clicks as well
+  window.onkeydown = resetTimer;
+  window.addEventListener('scroll', resetTimer, true); // improved; see comments
+
+  function yourFunction() {
+    // alert('Logout')
+    // your function for too long inactivity goes here
+    console.log("check added");
+    localStorage.clear();
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("usertoken");
+
+    // window.location = "/#/";  
+    //Adapt to actual logout script
+    fetch('https://stage.docullyvdr.com/projectName/logout/').then(res=>{
+      console.log("Logout inactivity........")
+      window.location = "https://stage.docullyvdr.com/#/"; 
+    });
+  // const myJson = await response.json(); 
+  //extract JSON from the http response
+  console.warn("Logout API Called");
+  // do something with myJson
+
+    // window.location.reload();
+     //Adapt to actual logout script
+  }
+
+  function resetTimer() {
+    // console.log(t)
+    clearTimeout(t);
+    t = setTimeout(yourFunction, 1000 * 3600);  // time is in milliseconds
+  }
+}
+
+idleLogout();
+
+function test(){
+  var iframe = document.getElementById('custom-frame');
+      var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+      // Check if loading is complete
+      if (  iframeDoc.readyState  == 'complete' ) {
+       }
+}
+function onloadImage(){
+  var img = document.getElementById('pngSize'); 
+  
+  var width = img.naturalWidth;
+  
+  //var height = img.naturalHeight;
+   
+  if(width>600){
+    $("#pngframe").removeClass("toverlay3").addClass("toverlay5");
+  
+  
+  }
+   
+}
+function iframetest(){
+
+  window.addEventListener('load',function(){
+        initializeV();
+        function initializeV(){
+                //note: I can't use window.parent becuase the code snippet loads on a different frame than the parent page. See the other snippet for a practical example. This snippet is meant to merely illustrate the effect.
+                //1% of the parent viewport width (same as 1vw):
+            	var vw = window.innerWidth/100;
+                //1% of the viewport height (same as 1vh):
+            	var vh = window.innerHeight/100;
+        
+              //this is where the magic happens. Simply set width/height/whatever to a multiple of vw/vh and add 'px'. Dimensions must be in pixels since the vw/vh measurement is based on pixels.
+              document.getElementById('pointer').style.width = 30*vw+'px';
+              document.getElementById('pointer').style.height = 50*vh+'px';
+                //assign width and height to your v unit elements here
+        }
+        
+        window.addEventListener('resize',function(){
+              //when the browser window is resized; recalculate
+              initializeV();
+        });
+    });
+
+}
+function resizeIframe(obj) {
+jQuery(document).ready(function($) {
+        var frame = $('iframe', window.parent.document);
+        var height = jQuery("iframe").height();
+        var width = jQuery("iframe").width();
+      
+        frame.width(width);
+     // $("iframe").css({"height":(height/100)+"vh","width":(width/100)+"vw"})
+
+});
+}
+
+
+  function onloadIframe(){
+      var iframeBody = $("#custom-frame").contents().find("body");
+      var styleTag = iframeBody.append($('#maps'));
+document.getElementById('custom-frame').contentDocument.body.setAttribute("ondragstart","return false;");
+   
+document.getElementById('custom-frame').contentDocument.body.setAttribute("oncopy","return false;");
+document.getElementById("custom-frame").contentDocument.body.setAttribute('oncontextmenu','return false;');
+document.getElementById('custom-frame').contentDocument.body.setAttribute("onpaste","return false;");
+     
+}
+
+  function zoomin() {
+  var myImg = document.getElementById("custom-frame");
+  var innerDoc = myImg.contentDocument || myImg.contentWindow.document;
+  var img = innerDoc.getElementById('map')
+  var currWidth = img.clientWidth;
+  if (currWidth == 2500) return false;
+  else {
+    img.style.width = (currWidth + 100) + "px";
+  }
+}
+function callscript(){
+
+}
+function callwatermarkdelete(){
+ // document.getElementById("test").innerHTML="Goodbye!";
+  $.ajax({
+
+url:'/projectName/viewwatermarkdelete/',
+type: 'POST',
+data: JSON.stringify('{{pathpptpdf}}'),
+Accept : "application/json",
+contentType: "application/json",
+
+success:function(res){
+//alert("sucess");
+},
+error:function(res){
+    alert("Bad thing happend delete! " + res.statusText);
+}
+});
+// var conatiners1=document.getElementById('addwatermark');
+
+
+
+
+
+
+}
+
+function afterPrint(){
+  $.ajax({
+
+url:'/projectName/viewwatermarkdelete/',
+type: 'POST',
+data: JSON.stringify('{{pathpptpdf}}'),
+Accept : "application/json",
+contentType: "application/json",
+
+success:function(res){
+//alert(res);
+},
+error:function(res){
+    alert("Bad thing happend delete! " + res.statusText);
+}
+});
+
+$.ajax({
+
+url:'/projectName/pdfprintwatermarkk/{{folder.dataroom.id}}/{{user.id}}/?folder={{folder.id}}',
+type: 'GET',
+cache: false,
+    contentType: false,
+    processData: false,
+    method: 'GET',
+    type: 'GET', // For jQuery < 1.9
+   success:function(res){
+//alert("pdfprintwatermark");
+console.log("path_enter_the_condition===>","{{pathpptpdf | safe}}");
+          printJS({printable:res,  showModal:true})
+        //location.reload()
+},
+error:function(res){
+    alert("Bad thing happend pdfprintwatermarkk! " + res.statusText);
+}
+});
+
+        // callfileView()
+         }
+
+       
+function zoomout() {
+  var myImg = document.getElementById("custom-frame");
+  var innerDoc = myImg.contentDocument || myImg.contentWindow.document;
+  var img = innerDoc.getElementById('map')
+  var currWidth = img.clientWidth;
+  if (currWidth == 100) return false;
+  else {
+    img.style.width = (currWidth - 100) + "px";
+  }
+}
+  // var viewerElement = document.getElementById('viewer');
+  // var  pathsw = 'http://{{path}}';
+  // //
+  // var myWebViewer = new PDFTron.WebViewer({
+  //   path: '/static/lib',
+  //   l: 'demo:achita.z@axat-tech.com:7560753d016c7fd14dcf7f4ed388ce2c469d07ee6d068c0cef', //replace with your free trial license key from https://www.pdftron.com/form/download-trial
+  //   initialDoc: pathsw, // replace with your own PDF file or continue to integration guide for setting up document loading using relative paths on your server
+  //   pdftronServer: 'http://localhost:8090/' // remove option to run client-side only, or replace later with your own server
+  // }, viewerElement);
+var viewingSessionId;
+       var viewerControl;
+function populateUL(ul) {
+    // Register the given UL element as the root in a new data structure
+    // var data = '{{all_folders}}'
+
+}
+function close_qna_submit_div(qna_id){
+      $("#qna_answer_div_"+qna_id).hide();
+      $("#reply_question_"+qna_id).show();
+}
+
+
+if('{{pdfprintwatermark}}'=='True'){
+  function showADialog(e){
+    var confirmationMessage = 'Your message here';
+    //some of the older browsers require you to set the return value of the event
+    (e || window.event).returnValue = confirmationMessage;     // Gecko and Trident
+    return confirmationMessage;                                // Gecko and WebKit
+}
+window.addEventListener("beforeunload", function (e) {
+    // to do something (Remember, redirects or alerts are blocked here by most browsers):
+    callwatermarkdelete();    
+    // to show a dialog (uncomment to test):
+    return;
+
+   // return showADialog(e);  
+});
+
+
+}
+ 
+$(document).ready(function() {
+
+  function isIOSDevice(){
+   return !!navigator.platform && /iPad|iPhone|Mac|iPod/.test(navigator.platform);
+  }
+if(isIOSDevice()){
+  
+  $('#ios_activity_tracker').css("display", "block");
+  $('#activity_tracker').hide();
+
+   
+}
+else{
+  
+ 
+  $('#ios_activity_tracker').hide();
+  $('#activity_tracker').show();
+}
+isIOSDevice()
+
+  var img = document.getElementById('pngSize'); 
+  $(document).keydown(function(e){
+    if(e.which === 123){
+       return false;
+    }
+
+  
+});
+
+$("iframe").on("contextmenu", function (e) { return false; });
+
+
+var printtest="{{folder.name}}"
+      // var W = window.open(URL);
+    var ext = printtest.substring(printtest.lastIndexOf('.') + 1);
+  
+
+    if(ext=="pdf" || ext=="csv" || ext=="ppt" || ext=="pptx" || ext=="doc" || ext=="docs"  || ext=="docx"|| ext=="txt" || ext=="jpg" || ext=="jpeg" || ext=="png" || ext=="xlsx" || ext=="xls" || ext=="mp4" || ext=="mp3" ||ext=="gif"){
+     
+     $("#shortcut").show();
+     $("#print").show();
+     $("#print_disabled").show()
+     $("#shortcut_disabled").show()
+    }
+    else{
+      $('#is_deleted_permanent').hide()
+      $("#shortcut").hide();
+      $("#print").hide();
+      $("#print_disabled").hide()
+     $("#shortcut_disabled").hide()
+    
+     
+    
+    }
+var x = document.cookie;
+  var name = 'token'
+   
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    var last = ca[ca.length-1]
+  
+    // var value = "; " + document.cookie;
+    // var parts = value.split("; " + name + "=");
+  for (i = 0; i < ca.length; i++) {
+      token  = ca[i].split('=')
+      if(token[0] == ' token'){
+        $('#authorized').show()
+        $('#unauthorized').hide()
+        document.cookie = "url="+'';
+        break;
+      }else{
+        $('#unauthorized').show();
+        $('#authorized').hide()
+      }
+    }
+    var return_first;
+//  function callback(response) {
+ 
+//   return_first = response;
+//   //use return_first variable here
+//   return response;
+//  }
+// function watermakppdf(){
+//   $.ajax({
+// url:'/projectName/pdfprintwatermarkk/{{folder.dataroom.id}}/{{user.id}}/?folder={{folder.id}}',
+// type: 'GET',
+// cache: false,
+//     contentType: false,
+//     processData: false,
+//     method: 'GET',
+//     type: 'GET', // For jQuery < 1.9
+//    success:function(res){
+// alert("pdfprintwatermark");
+// var path=res; 
+// callback(path)
+//         //location.reload()
+// },
+// error:function(res){
+//     alert("Bad thing happend pdfprintwatermarkk! " + res.statusText);
+// }
+// });
+// }
+    
+    
+    
+    
+    
+    if("{{noaccess}}" == "False"){
+      $('#authorized').show()
+        $('#unauthorized').hide()
+        var tokens = getCookie('token');
+  
+// containers.innerHTML=""
+// $('#group-list').empty()     
+$.ajax({
+    url: "/projectName/get_files_updated/{{folder.id}}/?type=view",
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'GET',
+    type: 'GET', // For jQuery < 1.9
+    headers: {"Authorization": 'Token '+"{{basicdata}}"},
+     success: function(data){
+  
+    },
+    error:function(error){
+      // debugger
+      // alert('error', error)
+  }
+ 
+  })
+  }
+//   fetch('/projectName/viewwatermarkdelete/', {
+//     method: 'post',
+//     headers: {
+//       Authorization: tokens,
+//     },
+//     body: JSON.stringify('{{pathpptpdf}}')
+//   }).then(function(response) {
+//   // alert(JSON.stringify('{{pathpptpdf}}'))
+//    alert("success")
+  
+//     return response.json();
+//   })
+//   .catch(function(error) {
+//   console.log('Looks like there was a problem: \n', error);
+// });
+//alert('{{pathpptpdf}}')
+// $.ajax({
+
+// url:'/projectName/viewwatermarkdelete/',
+// type: 'POST',
+// data: JSON.stringify('{{pathpptpdf}}'),
+// Accept : "application/json",
+// contentType: "application/json",
+
+// success:function(res){
+// alert('{{pdfprintwatermark}}');
+// callfileView()
+// //location.reload()
+// },
+// error:function(res){
+//     alert("Bad thing happend! " + res.statusText);
+// }
+// });
+
+// var postData = '{{pathpptpdf}}';
+
+  
+
+
+    if("{{noaccess}}" == "True"){
+      $('#unauthorized').show();
+        $('#authorized').hide()
+      
+    }
+
+var iframeEl = $('iframe').contents().get(0);
+
+  $(iframeEl).bind('contextmenu', function(e) {
+    return false;
+});
+$('#iframeContainer').bind('contextmenu', function(e) {
+    return false;
+});
+var printtest1="{{folder.name}}"
+      // var W = window.open(URL);
+    var extss = printtest1.substring(printtest1.lastIndexOf('.') + 1);
+   
+$('#table-csv').parse({
+config: {
+delimiter: "",
+  header: false,
+  complete: arrayToTable
+},
+})
+
+        //
+         if('{{docs}}'=='True'){
+      
+          var fileArray = "{{path | safe}}".split("/");
+          fileArray[fileArray.length-1] = fileArray[fileArray.length-1].replace("#toolbar=0","");
+          if (fileArray[fileArray.length-1].endsWith('.docx')){
+            var myFrame = $("#display-frame").contents().find('body');
+          }
+          
+       }
+       else if('{{pptx}}' == 'True'){
+            var fileArray = "{{path | safe}}".split("/");
+            fileArray[fileArray.length-1] = fileArray[fileArray.length-1].replace("#toolbar=0","");
+            console.log("pptx====>",fileArray);
+            var request = new XMLHttpRequest();
+            request.open('GET', '{{path | safe}}',true);
+            req.responseType = "arraybuffer";
+        req.onload = function(e) {
+        var data = new Uint8Array(req.response);
+        console.log("data ===>",data);
+        console.log("new_path ===>{{path | safe}}");
+           if (request.status == 200){
+                  console.log("enter the function =====>");
+                  console.log("text ===>",request.responseText);
+                  var printtest="{{folder.name}}"
+      // var W = window.open(URL);
+    var ext = printtest.substring(printtest.lastIndexOf('.') + 1);
+
+                  if (ext=="pptx"){
+                    var myFrame = $("#display-frame").contents().find('body');
+                    // myFrame.html(request.responseText);
+                }                
+              }
+          }
+
+        }
+        else if('{{csv}}' == 'True'){
+        //
+function arrayToTable(results) {
+var table = "<table class='table'>";
+var data = results;
+	 console.log(results,"results")
+	for(i=0;i<data.length;i++){
+		table+= "<tr>";
+		var row = data[i];
+		var cells = row.join(",").split(",");
+		 
+		for(j=0;j<cells.length;j++){
+			table+= "<td>";
+			table+= cells[j];
+			table+= "</th>";
+		}
+		table+= "</tr>";
+	}
+	table+= "</table>";
+	$("#table-csv").html(table);
+ }
+
+    $.ajax({
+        type: "GET",
+        url: "{{path | safe}}",
+        success: function (data) {
+            $('.csv-file-view').append(arrayToTable(Papa.parse(data).data));
+        }
+    });
+       }
+        else if ('{{excel}}' == 'True'){
+       
+        var req = new XMLHttpRequest();
+        req.open("GET", '{{path | safe}}', true);
+        req.responseType = "arraybuffer";
+        req.onload = function(e) {
+        var data = new Uint8Array(req.response);
+        console.log("data ===>",data);
+        console.log("new_path ===>{{path | safe}}");
+        wb = XLSX.read(data,{type:'array'});
+        console.log("data ====>",wb);
+        for (w in wb.SheetNames){
+          console.log("w ==>",w);
+          htmlstr = XLSX.write(wb,{sheet:wb.SheetNames[w],type:'binary',bookType:'html'});
+          var sheet = '<button class="tablinks" id="tab'+w+'" onclick="GetClicked('+w+')">'+wb.SheetNames[w]+'</button>'
+          $("#Excel-Tabs").append(sheet);
+          console.log("htmlstr ======>",htmlstr);
+          $("#wrapper")[0].innerHTML = htmlstr;
+        $('table tr td').addClass('tableborder')
+      
+        }
+        var wbs = wb.SheetNames.length;
+        $('#tab'+(wbs-1)).addClass('highlight')
+        
+        }
+        req.send();
+        }
+      
+        else if(extss=='txt'){
+          jQuery.get("{{path|safe}}", function(data) {
+            $("#table-txt").html(data);
+
+          })
+        }
+        else{
+        var request = new XMLHttpRequest();
+        request.open('GET', '{{path | safe}}',true);
+        request.responseType = "text";
+        request.send(null);
+        request.onload = function (){
+          if (request.status == 200){
+            var type = request.getResponseHeader('Content-Type');
+            if (type.indexOf("text") !== 1){
+              console.log("enter the function doc =====>");
+            //   myFrame.html(request.responseText);
+            }
+          }
+        }
+      }
+    
+
+        
+// tree simpleTreeMenu
+
+  // $('#root').simpleTreeMenu();
+
+// document.getElementById('upload_file').onclick = function() {document.getElementById('upload_file1').click();
+// };
+
+$('input[type=file]').change(function (e) {
+    var data = new FormData();
+    $.each($('#upload_file1')[0].files, function(i, file
+      ) {
+        data.append('file0', file);
+    });
+    $.ajax({
+    url: '/upload_file_version/{{folder.id}}/',
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'POST',
+    type: 'POST', // For jQuery < 1.9
+    success: function(data){
+      //Are
+        // alert(data);
+        location.reload();
+    }
+});
+    //
+
+});
+
+// $('#jstree').jstree();
+});
+
+function injectJS(){    
+    var frame =  $('iframe');
+    var contents =  frame.contents();
+    var body = contents.find('body').attr("oncontextmenu", "return false");
+    var body = contents.find('body').append('<div>New Div</div>');    
+}
+
+function showToast() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("hide", "show"); }, 3000);
+}
+
+
+function errorShowToast() {
+  console.log(23232);
+  var x = document.getElementById("error");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("hide", "show"); }, 3000);
+}
+
+function goBack(){
+  window.history.back();
+
+}
+
+function ImgPrint() {
+            return "<html><head><script>function step1(){\n" +
+                    "setTimeout('step2()', 10);}\n" +
+                    "function step2(){window.print();window.close()}\n" +
+                    "</scri" + "pt></head><body onload='step1()'>\n" +
+                    "<img src='" + "{{path | safe}}" + "' class='center'/></body></html>";
+        }
+
+
+        function PPtPrint() {
+            return "<html><head><script>function step1(){\n" +
+                    "setTimeout('step2()', 10);}\n" +
+                    "function step2(){window.print();window.close()}\n" +
+                    "</scri" + "pt></head><body onload='step1()'>\n" +
+                    "<iframe src='" + "https://view.officeapps.live.com/op/embed.aspx?src={{pathen | safe}}" + "' width='933px' height='800px'></iframe></body></html>";
+        }
+//     function inactivsession(){
+//   var token = getCookie('token');
+// //     
+// //    
+//   $.ajax({
+//     url: "/projectName/inactivesessiondelete/",
+//     cache: false,
+//     contentType: false,
+//     processData: false,
+//     method: 'GET',
+//     type: 'GET', // For jQuery < 1.9
+//     headers: {"Authorization": 'Token '+token},
+//      success: function(data){
+//       console.log("successfully inactive======>",data);
+//         // alert(data);
+//         // location.reload();
+//       //   var myParameters = window.location.search;// Get the parameters from the current page
+//       // document.querySelector('iframe').contentWindow.print()
+//       // var URL = "{{dpath}}";
+//   // setTimeout(function () { window.print(); }, 500);
+//      }
+// });
+  
+// }
+
+function getErrorMessage(jqXHR, exception) {
+    var msg = '';
+    if (jqXHR.status === 0) {
+        msg = 'Not connect.\n Verify Network.';
+    } else if (jqXHR.status == 404) {
+        msg = 'Requested page not found. [404]';
+    } else if (jqXHR.status == 500) {
+        msg = 'Internal Server Error [500].';
+    } else if (exception === 'parsererror') {
+        msg = 'Requested JSON parse failed.';
+    } else if (exception === 'timeout') {
+        msg = 'Time out error.';
+    } else if (exception === 'abort') {
+        msg = 'Ajax request aborted.';
+    } else {
+        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+    }
+    // alert('msg', msg);
+}
+function printChart(){
+    fetch('/projectName/get_print_download_logs/{{folder.id}}/?type=print&user={{login_user}}')
+
+       $.ajax({
+    url: "{{path|safe}}",
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'GET',
+    type: 'GET', // For jQuery < 1.9
+    // headers: {"Authorization": 'Token '+localStorage.getItem('token')},
+    success: function(data){
+      console.log("successfully======>",data);
+        // alert(data);
+        // location.reload();
+      //   var myParameters = window.location.search;// Get the parameters from the current page
+      // document.querySelector('iframe').contentWindow.print()
+      // var URL = "{{dpath}}";
+       var printtest="{{folder.name}}"
+      // var W = window.open(URL);
+    var ext = printtest.substring(printtest.lastIndexOf('.') + 1);
+    //var ext1 = fileArray[fileArray.length-1].split('.').reverse()[0]
+// Splits by '.', reverse the array, and returns the first element
+
+// Another way: checking the type of the file
+      // W.window.print();
+      var fileArray = "{{pathpptpdf | safe}}".split("/");
+      console.log("pdf_file===>");
+      fileArray[fileArray.length-1] = fileArray[fileArray.length-1].replace("#toolbar=0","");
+      var fileArray = "{{pathpptpdf | safe}}".split(".");
+        
+     var ext2=fileArray[fileArray.length-1].split("?");
+     var ext3=ext2.shift(0);
+      if(ext == "pdf" || ext3=="pdf")
+        {  
+         
+         console.log("path_enter_the_condition===>","{{pathpptpdf | safe}}");
+          printJS({printable:'{{pathpptpdf | safe}}',  showModal:true})
+        
+          
+          
+          }
+      else if(ext == "png" || ext=="jpg" || ext=="jpeg" )
+        {   
+          Pagelink = "about:blank";
+            var pwa = window.open(Pagelink, "_new");
+            pwa.document.open();
+            pwa.document.write(ImgPrint("{{path | safe}}"));
+            pwa.document.close();
+        }
+    
+       
+        else if (ext== "txt"){
+          jQuery.get("{{path|safe}}", function(data) {
+            var frm = document.getElementById('print-frame').contentWindow;
+        var myFrame = $("#print-frame").contents().find('body');
+        
+          myFrame.html(data);
+          frm.focus();
+         setTimeout(function (){ frm.print();}, 500);
+             })
+      //   window.print();
+
+        }
+       else if ('{{excel}}' == 'True'){
+      
+        function arrayToTable1(results) {
+       
+   
+var table = "<table class='tableborder' border='1px' style='overflow:auto;padding: 3px;page-break-after:always;'>";
+var data = results;
+	 console.log(results,"Test")
+	for(i=0;i<data.length;i++){
+		table+= "<tr>";
+		var row = data[i];
+		var cells = row.join(",").split(",");
+		 
+		for(j=0;j<cells.length;j++){
+			table+= "<td style='padding: 3px;border:1px solid'>";
+			table+= cells[j];
+			table+= "</td>";
+		}
+		table+= "</tr>";
+	}
+	table+= "</table>";
+	         
+  var myFrame = $("#print-frame").contents().find('body');
+  
+   myFrame.innerHTML+=table
+   var frm = document.getElementById('print-frame').contentWindow;
+  $('print-frame').empty()
+  frm.document.writeln(table)
+  
+   
+  //myFrame.html(table);
+            }
+            var frm = document.getElementById('print-frame').contentWindow;
+  
+            frm.document.close();
+
+              frm.focus();
+              setTimeout(function (){ frm.print();}, 50000000000);
+           
+
+       
+        console.log("end condition =======>","excel");
+        var req = new XMLHttpRequest();
+        req.open("GET", '{{path | safe}}', true);
+        req.responseType = "arraybuffer";
+        req.onload = function(e) {
+        var data = new Uint8Array(req.response);
+        console.log("data ===>",data);
+        console.log("new_path ===>{{path | safe}}");
+        wb = XLSX.read(data,{type:'array'});
+        console.log("data ====>",wb);
+        htmlstr=[];
+        for (w in wb.SheetNames){
+          // console.log("w ==>",w);
+         htmlstr[w] = XLSX.write(wb,{sheet:wb.SheetNames[w],type:'binary',bookType:'html'});
+         // var myFrame = $("#print-frame").contents().find('body');
+        $('table tr td').addClass('tableborder')
+       
+       arrayToTable1(Papa.parse(htmlstr[w]).data);
+  
+       
+      
+    }
+       
+     
+    // var frm = document.getElementById('print-frame').contentWindow;
+   
+    //      frm.focus();
+    //      setTimeout(function (){ frm.print();}, 500);
+   
+     
+        
+    
+        
+        
+        
+      }
+         req.send();
+      
+       }
+      else if (ext=="docx"){
+       
+       
+        var myParameters = window.location.search;// Get the parameters from the current page
+        var frm = document.getElementById('print-frame').contentWindow;
+        var myFrame = $("#print-frame").contents().find('body');
+        myFrame.html("{{docx_text}}");
+       // alert("{{doc_text}}");
+        frm.focus();
+        setTimeout(function (){ frm.print();}, 500);
+      }
+
+else if(ext=="csv"){
+  
+console.log("test csv");
+function arrayToTable(results) {
+var table = "<table class='table' border='1' style='padding: 3px'>";
+var data = results;
+	 console.log(results,"Test")
+	for(i=0;i<data.length;i++){
+		table+= "<tr>";
+		var row = data[i];
+		var cells = row.join(",").split(",");
+		 
+		for(j=0;j<cells.length;j++){
+			table+= "<td>";
+			table+= cells[j];
+			table+= "</th>";
+		}
+		table+= "</tr>";
+	}
+	table+= "</table>";
+	$("#table-csv").html(table);
+           
+  var frm = document.getElementById('print-frame').contentWindow;
+  var myFrame = $("#print-frame").contents().find('body');
+          
+  myFrame.html(table);
+  console.log(table,"Test")
+              frm.focus();
+              setTimeout(function (){ frm.print();}, 500);
+            }
+
+
+    $.ajax({
+        type: "GET",
+        url: "{{path | safe}}",
+        success: function (data) {
+            $('#print-frame').append(arrayToTable(Papa.parse(data).data));
+           
+  
+           
+        }
+    });
+      }
+     
+     
+      else{
+        var request = new XMLHttpRequest();
+        request.open('GET', '{{path | safe}}',true);
+        request.responseType = "text";
+        request.send(null);
+        request.onload = function (){
+          if (request.status == 200){
+            var type = request.getResponseHeader('Content-Type');
+            if (type.indexOf("text") !== 1){
+              console.log("enter the function doc =====>");
+              var frm = document.getElementById('print-frame').contentWindow;
+              var myFrame = $("#print-frame").contents().find('body');
+              myFrame.html(request.responseText);
+              frm.focus();
+              setTimeout(function (){ frm.print();}, 500);
+            }
+          }
+        }
+      }
+    }
+     
+  });
+  // if('{{pdfprintwatermark}}'=='True'){
+  //   afterPrint()
+  
+  //       // callfileView()
+  //        }
+ 
+  // setTimeout(function () { window.print(); }, 500);
+}
+function reply_question(id) {
+  //
+  $(".qna_answer_div").hide();
+  $("#qna_answer_div_"+id).show();
+  $("#reply_question_"+id).hide();
+  // $("#hide").click(function(){
+
+  //   });
+}
+
+function qna_submit_answer(id){
+  //
+  var qna_answer = document.getElementById("qna_answer_"+id).value;
+  var qna_answer_id = document.getElementById("qna_answer_id_"+id).value;
+  var login_user_id = document.getElementById("logdinId").value;
+  qna_rply(qna_answer, qna_answer_id, login_user_id)
+  $("#reply_question_"+id).show();
+}
+
+function qna_rply(qna_answer, qna_answer_id, login_user_id) {
+  // body...
+  $.ajax({
+    type: "POST",
+    url: "/file_comment_reply/",
+    data:{
+      'qna_answer': qna_answer,
+      'qna_answer_id': qna_answer_id,
+      'login_user_id': login_user_id,
+      'processData': false,
+      'contentType': false,
+      'csrfmiddlewaretoken': '{{ csrf_token }}',
+    },
+    dataType: 'json',
+    success: function(data){
+      //
+      location.reload();
+
+    },
+    error:function(data){
+      // debugger
+      // alert('data', data);
+      console.log(error)
+    }
+  });
+}
+var originalPrompt = window.prompt;
+// Whatever code is on your page
+function prompt(s) { window.status = s }
+function qna_comment() {
+  //
+  var category = document.getElementById("category");
+  var que_title = document.getElementById("title");
+  if (category.value != "" && que_title.value != ""){
+    var category_id = category.options[category.selectedIndex].value;
+    var que_title = document.getElementById("title").value;
+    var file_id = document.getElementById("fileId").value;
+    var dataroom_id = document.getElementById("dataroomId").value;
+    var login_user_id = document.getElementById("logdinId").value;
+    generate_code(category_id, que_title, file_id, dataroom_id, login_user_id)
+  }else{
+   alert("Please enter proper details with category and question");
+  }
+
+
+}
+
+function generate_code(category_id, que_title, file_id, dataroom_id, login_user_id) {
+  //do something
+  var hello = '{{qna_list}}'
+  $.ajax({
+    type: "POST",
+    url: "/projectName/file_comment/",
+    data:{
+      'category_id': category_id,
+      'que_title': que_title,
+      'file_id': file_id,
+      'dataroom_id': dataroom_id,
+      'login_user_id': login_user_id,
+      'processData': false,
+      'contentType': false,
+      'csrfmiddlewaretoken': '{{ csrf_token }}',
+    },
+    dataType: 'json',
+    success: function(data){
+      showToast()
+      document.getElementById("category").value = "";
+      document.getElementById("title").value = "";
+      $("#qna_lists").hide();
+      // $("#qna_lists").html(data.qna_list);
+      var i;
+      //
+      // for (i = 0; i < data.qna_list.length; i++) {
+        txt += ""
+        // var toAdd = document.createDocumentFragment();
+        var newDiv = document.createElement("div");
+        newDiv.className = 'row mt-5';
+        var para = document.createElement("p");
+        var person = data.qna_list[0];
+        var qna_q_text = "";
+        var created_date = "";
+        var txt = "";
+        var name = "";
+        for (x in person) {
+            if (x == 'question') {
+              qna_q_text += person[x];
+            }
+
+            if (x == 'created_date') {
+                var selected_date = new Date(person[x])
+                created_date += selected_date;
+            }
+
+            if (x=='user'){
+                name = person[x]['first_name']+' '+person[x]['last_name'];
+            }
+
+            txt += person[x] + " ";
+        }
+
+        txt += "";
+        var imgDiv = document.createElement("div");
+        imgDiv.className = 'col-md-1';
+        newDiv.appendChild(imgDiv);
+
+        var dataDiv = document.createElement("div");
+        dataDiv.className = 'col-md-11 pl-0';
+        newDiv.appendChild(dataDiv);
+
+        var userDiv = document.createElement("div");
+        userDiv.className = 'user-details';
+        dataDiv.appendChild(userDiv);
+
+        var spanDiv = document.createElement("span");
+        spanDiv.className = 'orange';
+        userDiv.appendChild(spanDiv);
+
+        var span_node = document.createTextNode(name);
+        var bold = document.createElement("b");
+        bold.appendChild(span_node);
+        spanDiv.appendChild(bold);
+
+        var em_node = document.createTextNode(created_date);
+        var em = document.createElement("em");
+        em.appendChild(em_node);
+        spanDiv.appendChild(em);
+
+        var node = document.createTextNode(qna_q_text);
+        node.className = 'list-group-item list-group-item-success';
+        para.appendChild(node);
+        dataDiv.appendChild(para);
+
+        var ancorDiv = document.createElement("a");
+        ancorDiv.className = 'reply-st mt-2';
+        dataDiv.appendChild(ancorDiv);
+
+        var iDiv = document.createElement("i");
+        iDiv.className = 'reply-st mt-2';
+        ancorDiv.appendChild(iDiv);
+
+        var newImages = document.createElement("img");
+        newImages.setAttribute('src', person['user']['avatar']);
+        newImages.setAttribute('alt', '');
+        newImages.setAttribute('height', '1px');
+        newImages.setAttribute('width', '1px');
+        imgDiv.appendChild(newImages);
+
+
+        var element = document.getElementById("qna_q");
+        element.appendChild(newDiv);
+
+      // }
+
+
+    },
+    error:function(data){
+      // debugger
+      errorShowToast();
+      console.log(error)
+    }
+  });
+}
+
+function GetClicked(i){
+ 
+  var sheet = wb.SheetNames[i];
+  htmlstr = XLSX.write(wb,{sheet:sheet,type:'binary',bookType:'html'});
+  $("#wrapper")[0].innerHTML = htmlstr
+  var j=0;
+  for (j = 0; j < wb.SheetNames.length; j++) {
+  if (i==j){
+    $("#tab"+j).addClass('highlight')
+  //  $('table tr td').addClass('tableborder')
+
+  }else{
+    $("#tab"+j).removeClass('highlight');
+   // $('table tr td').addClass('tableborder')
+
+  }
+}
+
+
+  //
+}
+
+function showInfo(){
+
+}
+
+
+function getDownload1(){
+  // Step 1: Fetch data from the first URL
+fetch('/projectName/bulkdownloadstatuscreate_single_key/{{folder.dataroom.id}}/{{user.id}}')
+  .then(response => response.json())  // Assuming the response is in JSON format
+  .then(data => {
+    // Step 2: Extract the obj_id from the response data
+    const objId = data.obj_id;
+
+    // Step 3: Use the obj_id to construct the second URL and make the second fetch request
+    if (objId) {
+      fetch(`/projectName/bulkDownloadtwo_single_file_key/{{folder.id}}/{{folder.dataroom.id}}/{{user.id}}/${objId}`)
+        .then(response => {
+          // Step 4: Check if the response is successful (status 200)
+          if (response.ok) {
+            // If the response status is 200, redirect to /test URL
+            window.location.href = 'https://stage.docullyvdr.com/#/download-status-documents';  // Redirects to /test
+          } else {
+            console.error('Failed to fetch with status:', response.status);
+          }
+        })
+        .catch(error => {
+          console.error('Error in second request:', error);
+        });
+    } else {
+      console.error('No obj_id found in the response');
+    }
+  })
+  .catch(error => {
+    console.error('Error in first request:', error);
+  });
+
+}
+
+ 
+function getDownload(){
+  fetch('/projectName/download_files_key/{{user.id}}/{{pathdownload}}/')
+  .then(resp => resp.blob())
+  .then(blob => {
+    var folder_name="{{folder.name}}";
+    var fileExt = folder_name.split(".");
+    var typedata=blob.type;
+    if (blob.size == 0) {
+    alert("No File")  
+    $('#fader').hide();
+   
+        } else if (blob.size > 0 && typedata == "application/pdf") {
+          const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    
+    //this.msg = "Succesfully Downloaded";
+           
+    a.href = url;
+  
+          a.download = "{{index}}"+fileExt[0]+".pdf";
+    document.body.appendChild(a);
+     a.click();
+     $('#fader').hide();
+ //   console.log("{{folder.name}}");
+    window.URL.revokeObjectURL(url);
+ 
+        }
+        else{
+          const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    
+    //this.msg = "Succesfully Downloaded";
+           
+    a.href = url;
+  
+    a.download = "{{index}} {{folder.name}}";
+    document.body.appendChild(a);
+     a.click();
+     $('#fader').hide();
+ //   console.log("{{folder.name}}");
+    window.URL.revokeObjectURL(url);
+
+        }
+        
+    // the filename you want
+  })
+  .catch(() => alert('oh no!'));
+
+}
+
+function realTime(){
+    
+    var textArray = ['hello1',"goodevening2","bye3"]
+    var randomIndex = Math.floor(Math.random() * textArray.length); 
+    var randomElement = textArray[randomIndex];
+    var token = getCookie('token');
+  const containers = document.getElementById("activity_tracker");
+  // containers.innerHTML=""
+  // $('#group-list').empty()            
+  $.ajax({
+      url: "/projectName/files_activity/{{folder.dataroom.id}}/{{folder.id}}",
+      cache: false,
+      contentType: false,
+      processData: false,
+      method: 'GET',
+      type: 'GET', // For jQuery < 1.9
+      headers: {"Authorization": 'Token '+"{{basicdata}}"},
+       success: function(data){
+        $('#activity_tracker').empty()
+        console.log("it is hit every 2 seconds");
+  
+       for(let i=0;i<data.length;i++){
+      var activity=data[i];
+      var activity_event=data[i].event;
+      var event=activity_event.toString()
+      var messageblock='';
+      if(activity_event=='file view'){
+         messageblock=`
+                                
+      <div id="">           
+            <div class="mat-list-text bdr-btm mlcprev">
+              <h6 style="font-size: 14px; overflow-wrap: break-word;padding-top:5px; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">${activity.user.first_name} ${activity.user.last_name}  viewed the file: ${activity.folder.name}</h6>
+              <span style="font-size: 14px;">${activity.created_date}</span>
+            </div>
+            
+                   
+  </div>
+  
+            `
+  }
+  
+  if(activity_event=='file download'){
+    messageblock=`
+                                
+                                <div id="">           
+                                      <div class="mat-list-text bdr-btm mlcprev">
+                                        <h6 style="font-size: 14px; overflow-wrap: break-word;padding-top:5px; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">${activity.user.first_name} ${activity.user.last_name}  downloaded the file: ${activity.folder.name}</h6>
+                                        <span style="font-size: 14px;">${activity.created_date}</span>
+                                      </div>
+                                      
+                                             
+                            </div>
+                            
+  
+           
+      ` 
+                          }      
+  
+                          if(activity_event=='Move File'){
+    messageblock=`
+                                
+                                <div id="">           
+                                      <div class="mat-list-text bdr-btm mlcprev">
+                                        <h6 style="font-size: 14px; overflow-wrap: break-word;padding-top:5px; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">${activity.user.first_name} ${activity.user.last_name}  moved a file: ${activity.folder.name}</h6>
+                                        <span style="font-size: 14px;">${activity.created_date}</span>
+                                      </div>
+                                      
+                                             
+                            </div>
+                            
+  
+           
+      ` 
+                          }      
+   
+                          if(activity_event=='Copy File'){
+    messageblock=`
+                                
+                                <div id="">           
+                                      <div class="mat-list-text bdr-btm mlcprev">
+                                        <h6 style="font-size: 14px; overflow-wrap: break-word;padding-top:5px; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">${activity.user.first_name} ${activity.user.last_name}  copied the file: ${activity.folder.name}</h6>
+                                        <span style="font-size: 14px;">${activity.created_date}</span>
+                                      </div>
+                                      
+                                             
+                            </div>
+                            
+  
+           
+      ` 
+                          }      
+   
+         
+                          if(activity_event=='bulk_download'){
+    messageblock=`
+                                
+                                <div id="">           
+                                      <div class="mat-list-text bdr-btm mlcprev">
+                                        <h6 style="font-size: 14px; overflow-wrap: break-word;padding-top:5px; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">${activity.user.first_name} ${activity.user.last_name}  bulk downloaded the zip file: ${activity.folder.name}</h6>
+                                        <span style="font-size: 14px;">${activity.created_date}</span>
+                                      </div>
+                                      
+                                             
+                            </div>
+                            
+  
+           
+      ` 
+                          }      
+   
+  
+                          if(activity_event=='drm download'){
+    messageblock=`
+                                
+                                <div id="">           
+                                      <div class="mat-list-text bdr-btm mlcprev">
+                                        <h6 style="font-size: 14px; overflow-wrap: break-word;padding-top:5px; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">${activity.user.first_name} ${activity.user.last_name}  downloaded the Shortcut file: ${activity.folder.name}</h6>
+                                        <span style="font-size: 14px;">${activity.created_date}</span>
+                                      </div>
+                                      
+                                             
+                            </div>
+                            
+  
+           
+      ` 
+                          }      
+   
+                          if(activity_event=='Copy Folder'){
+    messageblock=`
+                                
+                                <div id="">           
+                                      <div class="mat-list-text bdr-btm mlcprev">
+                                        <h6 style="font-size: 14px; overflow-wrap: break-word;padding-top:5px; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">${activity.user.first_name} ${activity.user.last_name}  copied the folder: ${activity.folder.name}</h6>
+                                        <span style="font-size: 14px;">${activity.created_date}</span>
+                                      </div>
+                                      
+                                             
+                            </div>
+                            
+  
+           
+      ` 
+                          }      
+   
+                          if(activity_event=='Moved Folder'){
+    messageblock=`
+                                
+                                <div id="">           
+                                      <div class="mat-list-text bdr-btm mlcprev">
+                                        <h6 style="font-size: 14px; overflow-wrap: break-word;padding-top:5px; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">${activity.user.first_name} ${activity.user.last_name}  moved the folder: ${activity.folder.name}</h6>
+                                        <span style="font-size: 14px;">${activity.created_date}</span>
+                                      </div>
+                                      
+                                             
+                            </div>
+                            
+  
+           
+      ` 
+                          }      
+                          if(activity_event=='delete'){
+    messageblock=`
+                                
+                                <div id="">           
+                                      <div class="mat-list-text bdr-btm mlcprev">
+                                        <h6 style="font-size: 14px; overflow-wrap: break-word;padding-top:5px; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">${activity.user.first_name} ${activity.user.last_name}  deleted the file: ${activity.folder.name}</h6>
+                                        <span style="font-size: 14px;">${activity.created_date}</span>
+                                      </div>
+                                      
+                                             
+                            </div>
+                            
+  
+           
+      ` 
+                          }  
+                          
+                          if(activity_event=='file print'){
+    messageblock=`
+                                
+                                <div id="">           
+                                      <div class="mat-list-text bdr-btm mlcprev">
+                                        <h6 style="font-size: 14px; overflow-wrap: break-word;padding-top:5px; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word;">${activity.user.first_name} ${activity.user.last_name}  printed the file: ${activity.folder.name}</h6>
+                                        <span style="font-size: 14px;">${activity.created_date}</span>
+                                      </div>
+                                      
+                                             
+                            </div>
+                            
+  
+           
+      ` 
+                          }      
+   
+   
+                          document.getElementById("activity_tracker").innerHTML+=messageblock
+                  }
+        // location.reload();
+        //   var myParameters = window.location.search;// Get the parameters from the current page
+        // document.querySelector('iframe').contentWindow.print()
+        // var URL = "{{dpath}}";
+    // setTimeout(function () { window.print(); }, 500);
+       },
+  
+       error:function(error){
+        // debugger
+        console.log('error', error)
+        if(error.status == 401) {
+          // window.location.href = 'https://services.docullyvdr.com/'
+        }
+      }
+    
+      });
+  
+             
+  
+    }
+     realTime()
+       
+  // setInterval(realTime,2000)  
+  
+  // isIOSDevice()    
+          
+
+  
+
+
+
+function getShortcut(name){
+ 
+  $('#fader').show();
+
+var token = getCookie('token');
+
+
+$.ajax({
+    url: '/projectName/short_cut_icon/{{folder.id}}/?type=download',
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'POST',
+    type: 'POST', // For jQuery < 1.9
+    // headers: {"Authorization": 'Token '+token},
+    headers: {"Authorization": 'Token '+"{{basicdata}}"},
+    success: function(res){
+      console.log("successfully");
+      console.log("response",res);
+      console.log("response",res.text);
+      
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(res.text));
+      element.setAttribute('download', res.path);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+      $('#fader').hide();
+
+      var blob = new Blob([res.text], {
+          type: "data:text/plain;charset=utf-8," + encodeURIComponent(res.text),
+        });
+       
+    const url = window.URL.createObjectURL(blob);
+   
+      window.URL.revokeObjectURL(blob);
+
+   }
+  });
+
+  
+
+}
+
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function hideMenu()
+{
+  // console.log(event);
+  document.getElementById("hideIDMenu").style.display='none'
+  document.getElementById("documentIDMenu").classList.remove('col-md-9')
+  document.getElementById("documentIDMenu").classList.add('col-md-11')
+  document.getElementById("shortMenu").style.display='block'
+  document.getElementById("longMenuHide").style.display='none'
+  document.getElementById("shortMenuHide").style.display='block'
+  // document.getElementById("shortMenuHide").style.right='103px'
+  // this.scale = 1.9;
+
+}
+function unhideMenu()
+{
+  // console.log(event);
+  document.getElementById("hideIDMenu").style.display='block'
+  document.getElementById("shortMenu").style.display='none'
+  document.getElementById("shortMenuHide").style.display='none'
+  document.getElementById("documentIDMenu").classList.add('col-md-9')
+  document.getElementById("documentIDMenu").classList.remove('col-md-11')
+  document.getElementById("longMenuHide").style.display='block'
+  // this.scale = 1.5;
+}
+
+
+
+
+function open_excel_viewer(id){
+  console.log('-------------excel viewrr',id)
+  fetch(`/projectName/edit_excel_file/${id}/`)
+    .then(response => response.json())  // Assuming the response is in JSON format
+  .then(data => {
+    console.log('-----------------------',data)
+    console.log('-----------------------',data.url)
+    // document.getElementById('excel_head').style.display='none';
+    // document.getElementById('print-frame').src=data.url;
+    // document.getElementById('print-frame').style.pointerEvents="all"
+
+
+    window.open(data.url, '_blank');
+})
+  .catch(error => {
+    console.error('Error in first request:', error);
+  });
+}
+
+      
+
+
+
+
+</script>

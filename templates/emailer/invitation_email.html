@@ -1,0 +1,58 @@
+
+{% extends 'emailer/base/base.html' %}
+
+ {% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+					<h2 style="color:rgb(38,45,51)">Dear {{ user.first_name }}</h2>
+
+<!-- 					<p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">
+
+					Welcome to  {{site_setting.domain_name}}. <br/><br/>
+
+To make sure you have a great experience during your  <br/><br/>{{site_setting.domain_name}} account, <br/><br/>
+
+please check out our quick start guide for an overview of the {{site_setting.domain_name}} <br/><br/>
+
+platform or watch the product demo and training video. <br/><br/>
+
+Additional support resources can be found at our help center. <br/><br/>
+
+This is where you will find helpful onboarding tips, examples and best practices. <br/><br/>
+
+We’re excited to have you with us! <br/><br/> -->
+<p>You have been added to Project Name by  to review & collaborate on project documents.</p>
+<p>Click on the link below to login & access Project Project Name.</p>
+<p>Your user id - {{ user.email }}</p>
+<p>Password - If you are a first time user, you will receive your account activation link separately to verify your account and setup your secure password. If you are an existing user then use your existing password.</p>
+<p>If you have forgotten your password, click here to <a href="https://services.docullyvdr.com/#/forget">Reset Password</a></p>
+<p><a style="display:block;font-family:helvetica,arial;font-size:19px;align-content: center;" href="{{new_data.invitation_link}}">Access Project Project Name</a>
+					</p>
+<p>If you need any help, please feel free to visit our <a href="support@docullyvdr.com">HelpDesk</a> or write to us at support@docullyvdr.com.</p>
+
+
+					<!-- <p>If you have any query regarding your account, please contact us at  <a href="mailto:support@axatcloud.com" style="color:#0cd3f1;">{{site_setting.support_email_id}}</a></p>
+					<p>You can always call us at  <strong style="color: #0cd3f1">{{site_setting.phone_no}}</strong> if you have any questions.</a></p> -->
+
+<!-- 				  <p>Thanks,</p>
+            <p><span class="context">Team Docully</span></p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(0, 0, 0)">Docully Innovation Limited</h4>
+              <p style="color:rgb(0, 89, 251)">Office #9, Level 4, Gate District 5,<br>Dubai International Financial Center,<br>PO Box - Dubai, UAE.<br>Phone: +971504127097<br><a ref="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a href="support@docullyvdr.com">support@docullyvdr.com</a></p>
+                <p>You may setup your email preferences <a href="https://services.docullyvdr.com/#/user-personal-info">here</a> </p>
+            </div> -->
+            {% include "emailer/address.html" %}
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock context %}

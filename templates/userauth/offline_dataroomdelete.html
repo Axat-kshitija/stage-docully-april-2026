@@ -1,0 +1,57 @@
+{% extends 'emailer/base/base.html' %}
+
+
+ {% block context %}
+<style>
+
+ .button {
+  background-color: #008CBA; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+ /* Black */
+</style>
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+                            <p><strong style=" font-weight: 600; font-size: 16px;">Hello {{user}},</strong></p>
+                            <p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">
+                            	                           
+                                <br/>
+                                This is to alert you that Project {{projectname}}, the data room, data files, user logs & reports have been permanently deleted from our servers. None of this data can now be reinstated under any circumstances.<br/><br/>
+                                
+                                <ul>
+                                  <li>Data Room Name – {{projectname}}</li>
+                                </ul><br><br>     
+ <br>. Thank for your attention. For any queries, write to us at <a href="mailto:billing@docully.com">billing@docully.com</a><br><br>
+
+
+            <p>Thanks,</p>
+            <p>Accounts Receivable Team</p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(251, 220, 0)">Docully SaaS Technologies Co. LLC</h4>
+              <p style="color:rgb(0, 89, 251)"><a href="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a></p>
+
+            </div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock %}

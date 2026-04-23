@@ -1,0 +1,77 @@
+ {% extends 'emailer/base/base.html' %}
+
+
+{% block context %}
+<div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+            Dear Team,
+ 
+This email is to alert you that the total current data storage on your data room {{dataroom.dataroom_nameFront}}, has crossed {{percent}}% of the contracted storage.
+
+
+<b><<!-- hr>Please note:</b></hr>
+<ul>
+  <li>You can track your current data storage consumption in real time by visiting the Documents tab within your data room or by going to the reports section and click on usage report.</li>
+  <li>The fee for incremental data storage beyond your contracted data storage is USD 50 per GB per month. You may also consider removing some data from your data room and removing any documents from the trash folder.</li>
+  <li>If you foresee a higher usage, consider upgrading your plan with a higher included storage. To refer to different plan options, please visit our <a href="https://docully.com/#/pricing">Pricing</a> page. You can easily modify your subscription plan in the My Subscriptions tab from your dashboard.</li>
+</ul>
+<br> -->
+<!-- You can track your current data storage consumption in real time by visiting the Documents tab within your data room or by going to the reports section and click on usage report.
+The fee for incremental data storage beyond your contracted data storage is USD 50 per GB per month. You may also consider removing some data from your data room and removing any documents from the trash folder.
+If you foresee a higher usage, consider upgrading your plan with a higher included storage. To refer to different plan options, please visit our pricing page. You can easily modify your subscription plan in the My Subscriptions tab from your dashboard. -->
+
+
+<!-- 
+<p class="context" >
+<a href="https://services.docullyvdr.com">
+Login to Docully </a>
+</p>
+ <p>Your user id - {{user.email}}
+ <p>Password - If you are a first time user, you will receive your account activation link separately to verify your account and setup your secure password. If you are an existing user then use your existing password.</p>
+ <p>If you have forgotten your password, click <a href="https://services.docullyvdr.com/#/forget">here</a> to Reset Password </p>
+                <br> -->
+
+
+<!--             <p>Thanks,</p>
+            <p><span class="context">Team Docully</span></p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(0, 0, 0)">Docully Innovation Limited</h4>
+              <p style="color:rgb(0, 89, 251)">Office #9, Level 4, Gate District 5,<br>Dubai International Financial Center,<br>PO Box - Dubai, UAE.<br>Phone: +971504127097<br><a ref="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a ref="support@docullyvdr.com">support@docullyvdr.com</a></p>
+              <p>You may setup your email preferences <a href="https://services.docullyvdr.com/#/user-personal-info">here</a> (link to email preferences in profile settings)</p>
+
+            </div> -->
+<!-- <p>Login to <a href="https://services.docullyvdr.com/#/login">Docully</a></p>
+    <p>Your user id - {{ user_email }}</p>
+    <p>Password - Use your existing password. If you have forgotten your password, click here to <a href="https://services.docullyvdr.com/#/forget">Reset Password</a></p> -->
+    <p>If you need any help, please feel free to visit our <a href="https://docully.freshdesk.com/support/solutions">HelpDesk</a> or write to us at <a href="mailto:support@docullyvdr.com"> support@docullyvdr.com.</p>
+
+<div class="" style="text-align: center;">
+<h4"><b>Docully SaaS Technologies Co. LLC</h4></b>
+<p><a href="https://www.docully.com">www.docully.com</a> 
+  </p>
+
+<p>If you have received this email in error, please report it to 
+<a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a></p>
+
+
+
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+<!-- <p>Hii {{user.first_name}} {{ user.last_name}}</p>
+<p>{{dataroom.dataroom_name}} dataroom storage allocation is {{dataroom.dataroom_storage_allocated}} GB. Your storage level reached more than {{percent}} %</p>
+
+<p>Regards,</p>
+<p>CDR Team</p> -->
+
+{% endblock %}

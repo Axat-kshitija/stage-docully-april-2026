@@ -1,0 +1,46 @@
+{% extends 'emailer/base/base.html' %}
+
+
+ {% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+                            <p><strong style=" font-weight: 600; color: #4e6e7f; font-size: 16px;">Hi {{ user.first_name }},</strong></p>
+                            <p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">
+                            	                           
+                                <br/>
+                                You have been added to Project {{dataroom.dataroom_name}} by {{sender.first_name}} {{sender.last_name}} to review & collaborate on project documents.
+                                Click on the link below to login & access Project {{dataroom.dataroom_name}}. 
+                                <br/>
+                                <a style="display:block;font-family:helvetica,arial;font-size:19px;align-content:center;" href="{{new_data.invitation_link}}">Accept Invitation</a>
+                            </p>
+                      
+                         <p>If you have forgotten your password, click <a href="https://services.docullyvdr.com/#/forget">here</a> to Reset Password </p>
+                <br>
+                   
+                        <p>                            
+                            If you need any help, please feel free to visit our  <a href="mailto:support@axatcloud.com" style="color:#0cd3f1;">HelpDesk</a> or write to us at support@docully.com 
+                        </p>
+                    
+            <p>Thanks,</p>
+            <p><span class="context">Team Docully</span></p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(251, 220, 0)">Docully Innovation Limited</h4>
+              <p style="color:rgb(0, 89, 251)">Office #9, Level 4, Gate District 5,<br>Dubai International Financial Center,<br>PO Box - Dubai, UAE.<br>Phone: +971504127097<br><a ref="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a ref="support@docully.com">support@docully.com</a></p>
+
+            </div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock %}

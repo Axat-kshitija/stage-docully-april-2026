@@ -1,0 +1,63 @@
+{% extends 'emailer/base/base.html' %}
+
+ {% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">					
+
+
+        	<!-- <p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">{{ user.first_name }} have placed request for Archive <b>{{dataroom.dataroom_name}}</b> Dataroom. </p>
+					<p>Please find the below details:</p>
+					<p>1. Dataroom Name: {{dataroom.dataroom_name}}</p>
+					<p>2. Dataroom Id: {{dataroom.id}}</p>
+					<p>3. Requester Name: {{user.first_name}} {{user.last_name}}</p>
+					<p>4. Requester Mail Id: {{user.email}}</p> -->
+				
+
+		<!-- 	<tr>
+				<td style="padding-left: 20px; padding-right: 20px; padding-top:15px; padding-bottom:15px">
+					<span style="color: #1059ff; word-break: break-all; font-size: 12px;">{{link}}</span>
+				</td>
+			</tr> -->
+					<p>Dear Admin,</p>
+					<p>We have received a request to archive the data room for {{dataroom.dataroom_nameFront}}. A support ticket has been created and details of the same will be separately sent to you on your email. Our support team will be reviewing the request and will action it within 2 working days.</p>
+					<p>Please note:</p>
+					<ul>
+						<li>Once archived the members on the data room including the admins will not be able to access it.</li>
+						<li>Data content on the data room is not affected while on archive.</li>
+					</ul>
+					<!-- <p>If you need any help, please feel free to visit our <a href="support@docullyvdr.com">HelpDesk</a> or write to us at support@docullyvdr.com. </p> -->
+			
+					<!-- <p>If you have any query regarding your account, please contact us at  <a href="mailto:support@axatcloud.com" style="color:#0cd3f1;">{{site_setting.support_email_id}}</a></p>
+					<p>You can always call us at  <strong style="color: #0cd3f1">{{site_setting.phone_no}}</strong> if you have any questions.</a></p>
+				
+					<p style="font-weight: 600; padding:15px 0 0;  margin: 0 0 5px; border-top:1px solid #f1f1f1;">Best regards,</p>
+					<p style="padding: 0; margin: 0 0 5px; color: #7a7a7a">Your ConfiexDataroom Team</p>
+					<p style="padding: 0; margin: 0;"><a href="{{site_setting.domain_name}}" target="_blank" style="color:#0cd3f1;">{{site_setting.domain_name}}</a></p> -->
+					                        <p>If you need any help, please feel free to visit our <a href="support@docullyvdr.com">HelpDesk</a> or write to us at support@docullyvdr.com.</p>
+                    
+<!--             <p>Thanks,</p>
+            <p><span class="context">Team Docully</span></p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(0, 0, 0)">Docully Innovation Limited</h4>
+              <p style="color:rgb(0, 89, 251)">Office #9, Level 4, Gate District 5,<br>Dubai International Financial Center,<br>PO Box - Dubai, UAE.<br>Phone: +971504127097<br><a href="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a ref="support@docullyvdr.com">support@docullyvdr.com</a></p>
+                <p>You may setup your email preferences <a href="https://services.docullyvdr.com/#/user-personal-info">here</a> (link to email preferences in profile settings)</p>
+            </div> -->
+            {% include "emailer/address.html" %}
+
+               </div>
+				
+            </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock context %}

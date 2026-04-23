@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		DRM Access file
+	</title>
+</head>
+<body>
+	<form>
+	<input type="hidden" name="folder_id" id="folder_id" value="{{ folderid }}">
+	<input type="hidden" name="user_id" id="user_id" value="{{ userid }}">
+	<input type="email" name="email" id="email">
+	<input type="password" name="password" id="password">
+	<button type="button" id="submit-now">Submit</button>
+	<!-- <input type="submit" name="submit" id="submit-now" value="Submit" /> -->
+	</form>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+
+$('#submit-now').click(function(){
+	alert("function is clicked");
+	let folder_id_pass = $('#folder_id').val()
+	let user_id_pass = $('#user_id').val()
+	var token = '{{csrf_token}}';
+	$.ajax({
+		url : "{% url 'get_login_drm_access' %}",
+            headers: { "X-CSRFToken": token },
+            type: "POST",
+            data: {"email":$('#email').val(),
+                "user_id":$('#user_id').val(),
+                "folder_id":$('#folder_id').val(),
+                "password":$('#password').val()
+                },
+            dataType:"json",
+            success : function (data) {
+            	alert("here");
+            	let link = `https://services.docullyvdr.com/projectName/file-view/${folder_id_pass}/${user_id_pass}/`
+            	alert(link);
+            	// window.location.href = "https://services.docullyvdr.com/";
+            	window.location.href = link;
+            }
+	});
+});
+  
+</script>
+</html>

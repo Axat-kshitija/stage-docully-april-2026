@@ -1,0 +1,84 @@
+
+{% extends 'emailer/base/base.html' %}
+
+
+{% block context %}
+<div class="col-md-12" >
+<div class="email">
+<div class="content">
+    <p><strong style=" font-weight: 600; color: #4e6e7f; font-size: 16px;">Dear {{ user.first_name }} {{ user.last_name }},</strong></p>
+    <p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">
+    	                           
+        <br/>
+
+<!-- <tr>
+<td>
+<table cellspacing="0" cellpadding="0" style="width: 600px; margin: 0 auto; background: white" align="center">
+<tr>
+<th>
+<img  src="{{site_setting.domain_name}}static/images/cdr-logo.png" alt="Welcome to ConfiexDataroom" align="center">
+</th>
+</tr>
+
+<tr>
+<td style="padding-left: 20px; padding-right: 20px;">
+<p><strong style=" font-weight: 600; color: #4e6e7f; font-size: 16px;">Hello {{ user }},</strong></p>
+<p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;"> 
+Welcome to  ConfiexDataroom. <br/><br/>You have new update in <b>{{dataroom}}</b> dataroom.<br/><br/>To view in detail, <a>click here.</a><br/><br/>
+</p>
+</td>
+</tr>
+</table>
+</td>
+</tr> -->
+<!-- <h1>New documents uploaded in <b>{{dataroom}}</b> dataroom.</h1> -->
+<p>New documents have been uploaded on Project <b>{{dataroom}}</b> data room hosted on Docully by the project administrator/coordinator. </p>
+
+
+<table border="1">
+  <tr>
+    <th>S.No</th>
+    <th>Name of the document</th>
+    <!-- <th>Event</th> -->
+    <th>Action</th>
+  </tr>
+  {% for i in  upload_single_entry%}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ i.file_name }}</td>
+    <!-- <td>Upload</td> -->
+    <td><a href="https://services.docullyvdr.com/projectName/file-view/{{ i.folder_id }}/{{ user.id }}/">View</a></td>
+  </tr>
+  {% endfor %}
+  <tr>
+</table>
+<p>Total - {{ count }} Documents <a href="https://services.docullyvdr.com/#/documents">View all</a></p>
+
+<p>Login to Docully -<a href="https://services.docullyvdr.com/#/">Click here</a></p>
+<p>Your user id - {{ user.email }}</p>
+<p>Password - Use your existing password. If you have forgotten your password, click here to <a href="https://services.docullyvdr.com/#/forget">Reset Password</a></p>
+<p>If you need any help, please feel free to visit our <a href="https://docully.freshdesk.com/support/solutions">HelpDesk</a> or write to us at support@docullyvdr.com.</p>
+
+<!--             <p>Thanks,</p>
+<p><span class="context">Team Docully</span></p>
+
+<div class="" style="text-align: center;">
+<h4 style="color:rgb(0, 0, 0)">Docully Innovation Limited</h4>
+<p style="color:rgb(0, 89, 251)">Office #9, Level 4, Gate District 5,<br>Dubai International Financial Center,<br>PO Box - Dubai, UAE.<br>Phone: +971504127097<br><a ref="https://www.docully.com">www.docully.com</a> 
+</p>
+
+<p>If you have received this email in error, please report it to 
+<a ref="support@docullyvdr.com">support@docullyvdr.com</a></p>
+<p>You may setup your email preferences <a href="https://services.docullyvdr.com/#/user-personal-info">here</a> (link to email preferences in profile settings)</p>
+</div> -->
+{% include "emailer/address.html" %}
+
+</div>
+</div>
+
+</div>
+
+</div>
+</div>    
+
+{% endblock %}

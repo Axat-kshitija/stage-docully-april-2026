@@ -1,0 +1,48 @@
+{% extends 'emailer/base/base.html' %}
+
+
+ {% block context %}
+ <div class="col-md-12" >
+        <div class="email">
+        <div class="content">
+                            <p><strong style=" font-weight: 600; font-size: 16px;">Dear {{user}},</strong></p>
+                            <p style="margin-top: 5px; margin-bottom: 15px; font-size: 14px;">
+                            	                           
+                                <br/>
+                                This email is to notify you that we have received a subscription cancellation request for {{projectname}}. The subscription will be cancelled automatically at the end of your current billing month or as per the instructions in your cancellation request.:<br/><br/>
+                                Please note:</u></b><br>
+                                <ul>
+                                  <li>The access to the data and the data room will be restricted for you and your users at the end of the term.</li>
+                                  <li>The data and the data room will be permanently deleted within 15 Days.</li>
+                                  <li>Data and the data room once deleted cannot be reinstated.</li>
+                                </ul><br><br>
+                                <b><u>Login to Docully</u> - </b><a href="https://services.docullyvdr.com/">Click Here</a><br><br>
+
+                                <b>Your user id -</b> {{email}}<br/><br/>
+                                <b>Password -</b> Use your existing password. If you have forgotten your password, click here to <a href="https://services.docullyvdr.com/#/forget">Reset Password</a><br/><br/>                  
+                        <p>                            
+                            If you need any help, please feel free to visit our  <a href="mailto:support@axatcloud.com" style="color:#0cd3f1;">HelpDesk</a> or write to us at support@docullyvdr.com 
+                        </p>
+                    
+            <p>Thanks,</p>
+            <p><span class="context">Team Docully</span></p>
+
+            <div class="" style="text-align: center;">
+              <h4 style="color:rgb(251, 220, 0)">Docully SaaS Technologies Co. LLC</h4>
+              <p style="color:rgb(0, 89, 251)"><a href="https://www.docully.com">www.docully.com</a> 
+                  </p>
+
+              <p>If you have received this email in error, please report it to 
+                <a href="mailto:support@docullyvdr.com">support@docullyvdr.com</a></p>
+
+            </div>
+
+               </div>
+     </div>
+           
+       </div>
+       
+      </div>
+     </div>    
+
+{% endblock %}

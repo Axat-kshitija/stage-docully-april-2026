@@ -1,0 +1,153 @@
+Delivered-To: ameya@confiexdataroom.com
+Received: by 2002:ab4:1452:0:b0:36d:a0b2:47ea with SMTP id z18csp1186276vll;
+        Mon, 29 May 2023 04:18:44 -0700 (PDT)
+X-Received: by 2002:a92:d3d2:0:b0:328:6412:df0e with SMTP id c18-20020a92d3d2000000b003286412df0emr6424884ilh.29.1685359124514;
+        Mon, 29 May 2023 04:18:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1685359124; cv=none;
+        d=google.com; s=arc-20160816;
+        b=gaiqJXY/026pFVushEILurAwS5rZkRQ9Fo4EQXzzKMCFhV1sRKDeH/ijmacP56qC67
+         KXev/its/JaDFEXLfhWYj93FERygsEkQjY2IAiYjG4KNfixuearpGqQJY9phlL68KsHE
+         u8LRQFYIu/dnb+WtrNnk94GsUH/LnSATJG+Cx7cQ8BsmMyiNWZnXjiWepHI6Q2XJWFX8
+         eV/pDl4jINoDe/X9v95Dz1Bsx1/pl3c7z19ovHOwFR29OBoQ4z3KSjoRQnTWZJWC7eyR
+         akBQ1yjp5p+JN6cDnsxKoVd2M4RdkzU0k4eLoMQ7bd+GIxTXHePz1kP7pkR2zhPd/VRe
+         y/pg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:from:subject:date:message-id:mime-version:dkim-signature;
+        bh=OJpZBCx/qJ6dhy9GH5pEzFt1zPbvYbQ2QzJ2hDd+Zdg=;
+        b=NNLFfOoNLjh5AIx4WoC+VExo9NHq+BgHIHs9y5V0Q3fW3WOvV+6psWOSanx/J8qwUQ
+         W7HSFeWgBOUTrxwugaZ2WJN3fkyOV97x1NDxUEpeCjdo9fV2zrbmhG+kXHnRAAvMsNaG
+         Eg1LAUTsUrRL6Tiv4JD7z1HwUYNRV589CQkGWlNgVE+1IF11MUvjjdmxZhDjlOw8ZTeJ
+         oSP3dwpMbzAF67pkCuWzzPkC40uMXfVtAzEaxWwUjtDIhhvj6EiztrV+0/tCEmyPPlCN
+         w1ynguN+VyZZuJktxOlTTnCTT2Qo7CqS1dxG5O7uoiv56z8U1DE0seo3XYE7nOzAvkwU
+         WiYw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=Js9mGYXv;
+       spf=pass (google.com: domain of 3fip0zbckacunffu-sfdpsejoht-opsfqmzhpphmf.dpn@rtc-meetings-api.bounces.google.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=3FIp0ZBcKACUNFFU-SFDPSEJOHT-OPSFQMZHPPHMF.DPN@rtc-meetings-api.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Return-Path: <3FIp0ZBcKACUNFFU-SFDPSEJOHT-OPSFQMZHPPHMF.DPN@rtc-meetings-api.bounces.google.com>
+Received: from mail-sor-f69.google.com (mail-sor-f69.google.com. [209.85.220.69])
+        by mx.google.com with SMTPS id r4-20020a92d984000000b0033131689c35sor1213195iln.17.2023.05.29.04.18.44
+        for <ameya@confiexdataroom.com>
+        (Google Transport Security);
+        Mon, 29 May 2023 04:18:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3fip0zbckacunffu-sfdpsejoht-opsfqmzhpphmf.dpn@rtc-meetings-api.bounces.google.com designates 209.85.220.69 as permitted sender) client-ip=209.85.220.69;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=Js9mGYXv;
+       spf=pass (google.com: domain of 3fip0zbckacunffu-sfdpsejoht-opsfqmzhpphmf.dpn@rtc-meetings-api.bounces.google.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=3FIp0ZBcKACUNFFU-SFDPSEJOHT-OPSFQMZHPPHMF.DPN@rtc-meetings-api.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1685359124; x=1687951124;
+        h=to:from:subject:date:message-id:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=OJpZBCx/qJ6dhy9GH5pEzFt1zPbvYbQ2QzJ2hDd+Zdg=;
+        b=Js9mGYXvGVSmsoWNni30JcMJW1TorIvp4OB0ey7geMHyYMMFMQ1o7JfxiYgg3WevEv
+         YmIR3Vn0ows7ipujUQHUMNLwp3fHUkfZuJBVrz3vkqlMoltpxtWvs6S1st6HcSFOO8Gq
+         0RX2mc84VzAM3l49MPGpRQPb/U1gNVjhrICZCfYsE83ZszuE7xwjfxEtrVI5gF9ggaUr
+         XOeTPLoUr0HVWyxxrykLw4iLxxyprIFT339AXwDG/G2AM4lzG0HSevSaAMz9IzstNfIZ
+         Yra2SYL54C1yPQarrtpqii6nhshRA+e1jKdrfUbfqN7EU20sbleAPzNBVhoixsJY9hn4
+         6tMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685359124; x=1687951124;
+        h=to:from:subject:date:message-id:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OJpZBCx/qJ6dhy9GH5pEzFt1zPbvYbQ2QzJ2hDd+Zdg=;
+        b=k6qDtsRMhXO17qqjTC7IQ0fM0AkDzmRh46CD+KECzyPJOYGdyexlRog8572OKlGA8D
+         QSvi6LUiuorjiyyktyvrBg8oqTHHGg36TfCV0aodhpYF1Z7SrRDqEqLxNCspqknkwyLz
+         LFQ2F0HzNVqO5GU4Dwoy+Pw11jsyIKWRzBJzMrPCTDPR4wyg2uwAGhtsv1AaxoOocb3D
+         4tXAtWtMr68QO/pNckCx6FcL2Y0U25KzI+4MXh9TF9EK66WJwpISdXlWpdfDIn5reY6K
+         DkXJAzrZwUU4gr4IoK8khFm6U+KxwBbNu1xKgBRmy73JrJ0Q4AuPT6m6/6b+Yj1o/5+q
+         uspQ==
+X-Gm-Message-State: AC+VfDxO817kFaQopMgIenT/bbzt3t4tiNQQocvCXwz3gdWecxqopSEG
+	hYMpsyP0uncq28oZ+28zz+o/o8U=
+X-Google-Smtp-Source: ACHHUZ5BGIzggzcog0oqeTmWjN+LJuGT87aiCGl94HCX1m3ycI+jXTFgDhOWE9gBYN8y8EcC9fF+Pz0hQ6nGj9Ne
+MIME-Version: 1.0
+X-Received: by 2002:a92:d08b:0:b0:310:9fc1:a92b with SMTP id
+ h11-20020a92d08b000000b003109fc1a92bmr2657221ilh.0.1685359124216; Mon, 29 May
+ 2023 04:18:44 -0700 (PDT)
+X-No-Auto-Attachment: 1
+Message-ID: <000000000000eafd1905fcd33fe3@google.com>
+Date: Mon, 29 May 2023 11:18:44 +0000
+Subject: oob-icdt-snd (2023-05-29 16:32 GMT+5:30)
+From: meet-recordings-noreply@google.com
+To: ameya@confiexdataroom.com
+Content-Type: multipart/alternative; boundary="000000000000eafd0a05fcd33fe0"
+
+--000000000000eafd0a05fcd33fe0
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+
+The recording has been uploaded.
+
+
+oob-icdt-snd (2023-05-29 16:32 GMT+5:30)
+
+
+Open in Drive
+
+
+
+Google Drive: Have all your files within reach from any device.
+Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA
+You have received this email because a recording was initiated in Google  
+Meet.
+
+
+
+--000000000000eafd0a05fcd33fe0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div style=3D"width: 100%; padding: 24px 0 16px 0; background-color: #f5f5f=
+5; text-align: center;" dir=3D"ltr"><div style=3D"display: inline-block; wi=
+dth: 90%; max-width: 680px; min-width: 280px; font-family: Roboto,Arial,Hel=
+vetica,sans-serif; text-align: left;"><div style=3D"display: block; padding=
+: 0 2px;"><div style=3D"display: block; background: #fff; height: 2px;"></d=
+iv></div><div style=3D"border-left: 1px solid #f0f0f0; border-right: 1px so=
+lid #f0f0f0;"><div style=3D"padding: 24px 32px 24px 32px; background:#fff; =
+border-right: 1px solid #eaeaea; border-left: 1px solid #eaeaea;"><div styl=
+e=3D"font-size: 14px; line-height: 18px; color: #444">The recording has bee=
+n uploaded.</div><div style=3D"height: 10px"></div><div style=3D"font-size:=
+ 18px; display: table"><div style=3D"display: table-row; border-bottom: 4px=
+ solid #fff"><span style=3D"display: table-cell"><img src=3D"https://ssl.gs=
+tatic.com/docs/documents/share/images/services/video-5.png" style=3D"vertic=
+al-align:bottom;" alt=3D""></span><span style=3D"display: table-cell; paddi=
+ng-left: 12px; line-height: 24px;"><a href=3D"https://drive.google.com/open=
+?id=3D1KvDYZ84B4bFrPXwjvj4aqa7NOxWkTEMm" style=3D"color:#3367d6; text-decor=
+ation:none;" target=3D"_blank">oob-icdt-snd (2023-05-29 16:32 GMT+5:30)</a>=
+</span></div></div><div style=3D"height:16px"></div><a href=3D"https://driv=
+e.google.com/open?id=3D1KvDYZ84B4bFrPXwjvj4aqa7NOxWkTEMm" target=3D"_blank"=
+ style=3D"background-color: #4d90fe; border: 1px solid #3079ed; border-radi=
+us: 2px; color: white; display: inline-block; font-family: Roboto,Arial,Hel=
+vetica,sans-serif; font-size: 11px; font-weight: bold; height: 29px; line-h=
+eight: 29px; min-width: 54px; outline: 0; padding: 0 8px; text-align: cente=
+r; text-decoration: none">Open in Drive</a></div></div><table style=3D"widt=
+h: 100%; border-collapse: collapse;" role=3D"presentation"><tr><td style=3D=
+"padding: 0;"><table style=3D"border-collapse: collapse; width: 3px;" role=
+=3D"presentation"><tr height=3D"1"><td width=3D"1" bgcolor=3D"#f0f0f0" styl=
+e=3D"padding: 0;"></td><td width=3D"1" bgcolor=3D"#eaeaea" style=3D"padding=
+: 0;"></td><td width=3D"1" bgcolor=3D"#e5e5e5" style=3D"padding: 0;"></td><=
+/tr><tr height=3D"1"><td width=3D"1" bgcolor=3D"#f0f0f0" style=3D"padding: =
+0;"></td><td width=3D"1" bgcolor=3D"#eaeaea" style=3D"padding: 0;"></td><td=
+ width=3D"1" bgcolor=3D"#eaeaea" style=3D"padding: 0;"></td></tr><tr height=
+=3D"1"><td width=3D"1" bgcolor=3D"#f5f5f5" style=3D"padding: 0;"></td><td w=
+idth=3D"1" bgcolor=3D"#f0f0f0" style=3D"padding: 0;"></td><td width=3D"1" b=
+gcolor=3D"#f0f0f0" style=3D"padding: 0;"></td></tr></table></td><td style=
+=3D"width: 100%; padding: 0;"><div style=3D"height: 1px; width: auto; borde=
+r-top: 1px solid #ddd; background:#eaeaea; border-bottom: 1px solid #f0f0f0=
+;"></div></td><td style=3D"padding: 0;"><table style=3D"border-collapse: co=
+llapse; width: 3px;" role=3D"presentation"><tr height=3D"1"><td width=3D"1"=
+ bgcolor=3D"#e5e5e5" style=3D"padding: 0;"></td><td width=3D"1" bgcolor=3D"=
+#eaeaea" style=3D"padding: 0;"></td><td width=3D"1" bgcolor=3D"#f0f0f0" sty=
+le=3D"padding: 0;"></td></tr><tr height=3D"1"><td width=3D"1" bgcolor=3D"#e=
+aeaea" style=3D"padding: 0;"></td><td width=3D"1" bgcolor=3D"#eaeaea" style=
+=3D"padding: 0;"></td><td width=3D"1" bgcolor=3D"#f0f0f0" style=3D"padding:=
+ 0;"></td></tr><tr height=3D"1"><td width=3D"1" bgcolor=3D"#f0f0f0" style=
+=3D"padding: 0;"></td><td width=3D"1" bgcolor=3D"#f0f0f0" style=3D"padding:=
+ 0;"></td><td width=3D"1" bgcolor=3D"#f5f5f5" style=3D"padding: 0;"></td></=
+tr></table></td></tr></table><table style=3D"padding: 14px 10px 0 10px;" ro=
+le=3D"presentation"><tr><td style=3D"width: 100%; font-size: 11px; font-fam=
+ily: Roboto,Arial,Helvetica,sans-serif; color: #646464; line-height: 20px; =
+min-height: 40px; vertical-align: middle;">Google Drive: Have all your file=
+s within reach from any device.<br>Google LLC, 1600 Amphitheatre Parkway, M=
+ountain View, CA 94043, USA<br>You have received this email because a recor=
+ding was initiated in Google Meet.</td></tr></table></div></div>
+--000000000000eafd0a05fcd33fe0--
